@@ -1,448 +1,430 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name | Premium Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Link Ecosystem</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="Your_Favicon_Link">
+        /* Premium Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.03) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 30%),
+                        repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 10px);
+            animation: backgroundMove 20s linear infinite;
+        }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+        @keyframes backgroundMove {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
 
-html, body {
-  min-height: 100%;
-  font-family: "Inter", sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  overflow-x: hidden;
-  position: relative;
-}
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,215,0,0.1), transparent 70%);
+            filter: blur(60px);
+            z-index: 0;
+            animation: float 15s infinite ease-in-out;
+        }
 
-/* Premium Animated Background */
-body::before {
-  content: '';
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15) 0%, transparent 50%),
-              radial-gradient(circle at 70% 70%, rgba(255,255,255,0.1) 0%, transparent 50%),
-              repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 4px);
-  animation: shimmer 20s linear infinite;
-  z-index: 0;
-}
+        .orb-1 {
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle at 30% 30%, rgba(255,215,0,0.15), transparent 70%);
+        }
 
-@keyframes shimmer {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+        .orb-2 {
+            bottom: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle at 70% 70%, rgba(255,255,255,0.1), transparent 70%);
+            animation-delay: -5s;
+        }
 
-/* Floating Particles */
-.particles {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-}
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
 
-.particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 50%;
-  animation: float 8s infinite;
-}
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 90%;
+            max-width: 420px;
+            padding: 30px 20px;
+        }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-  50% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
-}
+        /* Glass Card */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 40px;
+            padding: 30px 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4),
+                        0 0 0 1px rgba(255,215,0,0.1) inset,
+                        0 0 30px rgba(255,215,0,0.2);
+        }
 
-/* Generate particles */
-.particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { top: 60%; left: 80%; animation-delay: 2s; width: 8px; height: 8px; }
-.particle:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; width: 4px; height: 4px; }
-.particle:nth-child(4) { top: 30%; left: 70%; animation-delay: 1s; width: 7px; height: 7px; }
-.particle:nth-child(5) { top: 70%; left: 40%; animation-delay: 3s; width: 5px; height: 5px; }
+        /* Profile Section */
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
 
-.wrapper {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-  z-index: 2;
-  padding: 20px;
-}
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid rgba(255,215,0,0.5);
+            padding: 5px;
+            background: rgba(255,215,0,0.1);
+            margin: 0 auto 15px;
+            position: relative;
+            animation: profileGlow 3s infinite;
+        }
 
-/* Glass Container */
-.container {
-  width: 100%;
-  max-width: 420px;
-  padding: 24px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  animation: slideUp 0.8s ease-out;
-}
+        @keyframes profileGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+            50% { box-shadow: 0 0 40px rgba(255,215,0,0.6); }
+        }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #000;
+        }
 
-/* Premium Profile Section */
-.profile {
-  position: relative;
-  margin-bottom: 8px;
-}
+        /* Premium Badge */
+        .vip-badge {
+            position: absolute;
+            top: 85px;
+            right: 50%;
+            transform: translateX(40px);
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 30px;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(255,215,0,0.4);
+            border: 1px solid rgba(255,255,255,0.3);
+            animation: badgePulse 2s infinite;
+        }
 
-.profile img {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.5) inset;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+        @keyframes badgePulse {
+            0%, 100% { transform: translateX(40px) scale(1); }
+            50% { transform: translateX(40px) scale(1.05); }
+        }
 
-.profile img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.6) inset;
-}
+        /* Name & Title */
+        .name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(255,215,0,0.3);
+            letter-spacing: -0.5px;
+        }
 
-/* Premium Badge */
-.premium-badge {
-  position: absolute;
-  bottom: 5px;
-  right: 50%;
-  transform: translateX(30px);
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #000;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
-  backdrop-filter: blur(4px);
-  letter-spacing: 0.5px;
-  animation: pulse 2s infinite;
-}
+        .title {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
 
-@keyframes pulse {
-  0%, 100% { transform: translateX(30px) scale(1); opacity: 1; }
-  50% { transform: translateX(30px) scale(1.05); opacity: 0.9; }
-}
+        /* Economy Stats - Premium Vibe */
+        .economy-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+            background: rgba(255,215,0,0.05);
+            border-radius: 30px;
+            padding: 15px;
+            border: 1px solid rgba(255,215,0,0.1);
+        }
 
-/* Text Styles */
-.name {
-  font-size: 22px;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
-}
+        .stat-item {
+            text-align: center;
+        }
 
-.title {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 400;
-  margin-bottom: 16px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-}
+        .stat-value {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
 
-/* Economy Stats */
-.stats {
-  display: flex;
-  justify-content: space-around;
-  margin: 16px 0 8px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
+        .stat-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-.stat-item {
-  text-align: center;
-}
+        /* Premium Buttons */
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
 
-.stat-value {
-  display: block;
-  font-size: 20px;
-  font-weight: 700;
-  color: white;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 30px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-.stat-label {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
+        .btn-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-/* Premium Buttons */
-.btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 16px;
-  text-decoration: none;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  font-size: 14px;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-}
+        .btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
 
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
+        .btn span {
+            font-size: 14px;
+        }
 
-.btn:hover::before {
-  left: 100%;
-}
+        .btn-right {
+            font-size: 12px;
+            color: #FFD700;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
 
-.btn img {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1);
-  transition: transform 0.3s ease;
-}
+        .btn:hover {
+            background: rgba(255,215,0,0.1);
+            border-color: rgba(255,215,0,0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,215,0,0.2);
+        }
 
-.btn:hover {
-  transform: translateY(-3px) scale(1.02);
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
-}
+        .btn:hover .btn-right {
+            opacity: 1;
+            transform: translateX(0);
+        }
 
-.btn:hover img {
-  transform: scale(1.1);
-}
+        .btn:hover img {
+            transform: scale(1.1);
+        }
 
-/* Premium Badge on Buttons */
-.btn.premium {
-  background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,165,0,0.2));
-  border-color: rgba(255,215,0,0.3);
-}
+        /* Premium Button Variant */
+        .btn-premium {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.05));
+            border-color: rgba(255,215,0,0.3);
+        }
 
-.btn.premium::after {
-  content: '⭐';
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 14px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
+        .btn-premium::before {
+            content: '⭐';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 16px;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
 
-/* Footer */
-.footer {
-  margin-top: 24px;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.6);
-  text-align: center;
-  padding: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;
-  max-width: 420px;
-  backdrop-filter: blur(5px);
-  border-radius: 16px;
-}
+        /* Footer */
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 12px;
+            letter-spacing: 1px;
+            position: relative;
+        }
 
-.footer br {
-  display: none;
-}
+        .footer::before,
+        .footer::after {
+            content: '✦';
+            margin: 0 10px;
+            color: #FFD700;
+            opacity: 0.5;
+        }
 
-.footer::before {
-  content: '⚡';
-  margin-right: 6px;
-  opacity: 0.7;
-}
-
-.footer::after {
-  content: '⚡';
-  margin-left: 6px;
-  opacity: 0.7;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .container {
-    padding: 20px;
-    border-radius: 24px;
-  }
-  
-  .btn {
-    padding: 12px 14px;
-  }
-  
-  .premium-badge {
-    font-size: 10px;
-    padding: 3px 10px;
-  }
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.05);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.3);
-}
-</style>
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .glass-card {
+                padding: 20px 15px;
+            }
+            
+            .name {
+                font-size: 24px;
+            }
+            
+            .btn {
+                padding: 14px 18px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-<!-- Animated Particles -->
-<div class="particles">
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-  <div class="particle"></div>
-</div>
+    <div class="container">
+        <div class="glass-card">
+            <!-- Profile Section -->
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="https://via.placeholder.com/200/1a1a1a/ffd700?text=VIP" alt="Profile">
+                </div>
+                <div class="vip-badge">ECONOMY VIP</div>
+                <h1 class="name">Your_Name</h1>
+                <p class="title">Digital Economy Curator</p>
+            </div>
 
-<div class="wrapper">
-  <div class="container">
+            <!-- Economy Stats -->
+            <div class="economy-stats">
+                <div class="stat-item">
+                    <span class="stat-value">$12.5K</span>
+                    <span class="stat-label">Value</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">2.8K</span>
+                    <span class="stat-label">Holders</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">48%</span>
+                    <span class="stat-label">Growth</span>
+                </div>
+            </div>
 
-    <div class="profile">
-      <img src="Your_Profile_Picture_Link" alt="Profile Picture">
-      <div class="premium-badge">PREMIUM</div>
+            <!-- Premium Links -->
+            <div class="links">
+                <!-- Facebook Premium -->
+                <a href="#" class="btn btn-premium">
+                    <div class="btn-left">
+                        <img src="https://cdn.simpleicons.org/facebook/white" alt="FB">
+                        <span>Facebook Economy</span>
+                    </div>
+                    <div class="btn-right">→ Join</div>
+                </a>
+
+                <!-- Instagram -->
+                <a href="#" class="btn">
+                    <div class="btn-left">
+                        <img src="https://cdn.simpleicons.org/instagram/white" alt="IG">
+                        <span>Visual Portfolio</span>
+                    </div>
+                    <div class="btn-right">→ View</div>
+                </a>
+
+                <!-- WhatsApp Business -->
+                <a href="#" class="btn btn-premium">
+                    <div class="btn-left">
+                        <img src="https://cdn.simpleicons.org/whatsapp/white" alt="WA">
+                        <span>Business Connect</span>
+                    </div>
+                    <div class="btn-right">→ Chat</div>
+                </a>
+
+                <!-- Telegram Channel -->
+                <a href="#" class="btn">
+                    <div class="btn-left">
+                        <img src="https://cdn.simpleicons.org/telegram/white" alt="TG">
+                        <span>News Channel</span>
+                    </div>
+                    <div class="btn-right">→ Subscribe</div>
+                </a>
+
+                <!-- Discord Community -->
+                <a href="#" class="btn btn-premium">
+                    <div class="btn-left">
+                        <img src="https://cdn.simpleicons.org/discord/white" alt="DC">
+                        <span>Premium Discord</span>
+                    </div>
+                    <div class="btn-right">→ Join</div>
+                </a>
+
+                <!-- Portfolio -->
+                <a href="#" class="btn">
+                    <div class="btn-left">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Portfolio" style="filter: brightness(0) invert(1);">
+                        <span>Digital Portfolio</span>
+                    </div>
+                    <div class="btn-right">→ Explore</div>
+                </a>
+
+                <!-- Call to Action -->
+                <a href="#" class="btn">
+                    <div class="btn-left">
+                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call" style="filter: brightness(0) invert(1);">
+                        <span>VIP Hotline</span>
+                    </div>
+                    <div class="btn-right">→ Call</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            2026 • PREMIUM ECONOMY • EXCLUSIVE
+        </div>
     </div>
-
-    <div class="name">Your_Name</div>
-    <div class="title">Digital Creator & Entrepreneur</div>
-
-    <!-- Economy Stats Section -->
-    <div class="stats">
-      <div class="stat-item">
-        <span class="stat-value">12.5K</span>
-        <span class="stat-label">Followers</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">2.8K</span>
-        <span class="stat-label">Engagement</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">458</span>
-        <span class="stat-label">Projects</span>
-      </div>
-    </div>
-
-    <a class="btn premium" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/facebook/white" alt="Facebook Logo">
-      Facebook Community
-    </a>
-
-    <a class="btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/facebook/white" alt="Facebook Logo">
-      Official Page
-    </a>
-
-    <a class="btn" href="https://www.instagram.com/your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/instagram/white" alt="Instagram Logo">
-      Visual Diary
-    </a>
-
-    <a class="btn premium" href="https://wa.me/8801234567890" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/whatsapp/white" alt="WhatsApp Logo">
-      Direct Connect
-    </a>
-
-    <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/tiktok/white" alt="TikTok Logo">
-      TikTok Studio
-    </a>
-
-    <a class="btn" href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/telegram/white" alt="Telegram Logo">
-      Telegram Channel
-    </a>
-
-    <a class="btn" href="https://x.com/your_username" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/x/white" alt="Twitter (X) Logo">
-      X Updates
-    </a>
-
-    <a class="btn premium" href="https://discord.gg/your_invite_link" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/discord/white" alt="Discord Logo">
-      Premium Discord
-    </a>
-
-    <a class="btn" href="tel:01234567890">
-      <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone Logo" style="filter: brightness(0) invert(1);">
-      VIP Hotline
-    </a>
-
-    <a class="btn" href="#" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn.simpleicons.org/aboutdotme/white" alt="About Logo">
-      The Journey
-    </a>
-
-    <a class="btn premium" href="#" target="_blank" rel="noopener noreferrer">
-      <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website Logo" style="filter: brightness(0) invert(1);">
-      Portfolio → 
-    </a>
-
-  </div>
-
-  <div class="footer">
-    © 2026 • Your_Name • Premium Ecosystem
-  </div>
-</div>
-
 </body>
 </html>
