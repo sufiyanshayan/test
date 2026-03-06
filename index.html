@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE NOBLE ECONOMY | Your_Name</title>
+    <title>ÆSTHETIC ECONOMY | Your_Name</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Josefin+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -16,8 +16,8 @@
         }
 
         body {
-            font-family: 'Josefin Sans', sans-serif;
-            background: #0B0C10;
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0A0A0F;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -26,49 +26,42 @@
             overflow-x: hidden;
         }
 
-        /* Unique Textured Background */
+        /* Holographic Background */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(165deg, rgba(200, 168, 98, 0.02) 0%, transparent 30%),
-                linear-gradient(345deg, rgba(200, 168, 98, 0.02) 0%, transparent 30%),
-                repeating-radial-gradient(circle at 30% 40%, rgba(200, 168, 98, 0.03) 0px, transparent 2px, transparent 10px);
-            pointer-events: none;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(100, 149, 237, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(72, 209, 204, 0.1) 0%, transparent 50%);
+            filter: blur(40px);
+            animation: hologram 20s ease-in-out infinite alternate;
         }
 
-        /* Floating Marble Orbs */
-        .marble {
+        @keyframes hologram {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* Floating Grid Lines */
+        .grid-lines {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(70px);
-            z-index: 0;
-            mix-blend-mode: screen;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(147, 112, 219, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(100, 149, 237, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            animation: gridMove 30s linear infinite;
         }
 
-        .marble-1 {
-            top: -200px;
-            left: -100px;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(200, 168, 98, 0.15), rgba(139, 115, 65, 0.05));
-            animation: marbleFloat 25s infinite alternate;
-        }
-
-        .marble-2 {
-            bottom: -200px;
-            right: -100px;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(220, 190, 120, 0.12), rgba(100, 80, 50, 0.03));
-            animation: marbleFloat 30s infinite alternate-reverse;
-        }
-
-        @keyframes marbleFloat {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(100px, -100px) scale(1.2); }
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, 20px); }
         }
 
         /* Main Container */
@@ -76,449 +69,420 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 520px;
-            padding: 20px;
-            margin: 20px auto;
+            max-width: 540px;
+            padding: 15px;
+            margin: 15px auto;
         }
 
-        /* Unique Architectural Card */
-        .arch-card {
-            background: rgba(16, 18, 22, 0.9);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(200, 168, 98, 0.25);
-            border-radius: 80px 80px 80px 80px / 60px 60px 60px 60px;
-            padding: 50px 30px;
+        /* Holographic Card */
+        .holo-card {
+            background: rgba(20, 22, 30, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 40px 25px;
             box-shadow: 
-                0 50px 100px rgba(0,0,0,0.7),
-                0 0 0 1px rgba(200, 168, 98, 0.2) inset,
-                0 0 70px rgba(200, 168, 98, 0.15);
+                0 40px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(147, 112, 219, 0.2) inset,
+                0 0 60px rgba(100, 149, 237, 0.3);
             position: relative;
+            overflow: hidden;
         }
 
-        /* Architectural Corners */
-        .arch-card::before {
-            content: '◈';
+        /* Iridescent Overlay */
+        .holo-card::after {
+            content: '';
             position: absolute;
-            top: 20px;
-            left: 30px;
-            color: rgba(200, 168, 98, 0.3);
-            font-size: 24px;
-            transform: rotate(15deg);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                transparent 0deg,
+                rgba(147, 112, 219, 0.1) 60deg,
+                rgba(100, 149, 237, 0.1) 120deg,
+                rgba(255, 105, 180, 0.1) 180deg,
+                rgba(72, 209, 204, 0.1) 240deg,
+                transparent 300deg
+            );
+            animation: iridescent 15s linear infinite;
+            pointer-events: none;
         }
 
-        .arch-card::after {
-            content: '◈';
-            position: absolute;
-            bottom: 20px;
-            right: 30px;
-            color: rgba(200, 168, 98, 0.3);
-            font-size: 24px;
-            transform: rotate(-15deg);
+        @keyframes iridescent {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Noble Profile Section */
-        .noble-profile {
+        /* Profile Section */
+        .profile-nexus {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             position: relative;
         }
 
-        /* Unique Portrait Frame */
-        .portrait-vault {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto 30px;
+        /* Cyber Frame */
+        .cyber-frame {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
             position: relative;
             cursor: pointer;
         }
 
-        /* Geometric Frame Design */
-        .geo-frame-1 {
+        /* Neon Ring */
+        .neon-ring {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: #9370DB;
+            border-bottom-color: #40E0D0;
+            animation: neonRotate 3s linear infinite;
+            filter: drop-shadow(0 0 10px #9370DB);
+        }
+
+        .neon-ring-2 {
             position: absolute;
             top: -15px;
             left: -15px;
             right: -15px;
             bottom: -15px;
-            border: 2px solid rgba(200, 168, 98, 0.4);
-            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
-            animation: morphFrame 12s ease-in-out infinite;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-left-color: #FF69B4;
+            border-right-color: #6495ED;
+            animation: neonRotate 4s linear infinite reverse;
+            filter: drop-shadow(0 0 10px #FF69B4);
         }
 
-        .geo-frame-2 {
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            border: 1px dashed rgba(200, 168, 98, 0.3);
-            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
-            animation: morphFrame 15s ease-in-out infinite reverse;
+        @keyframes neonRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @keyframes morphFrame {
-            0%, 100% { border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%; }
-            33% { border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%; }
-            66% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
-        }
-
-        .portrait-vault img {
+        .cyber-frame img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #1E1F25;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
             position: relative;
             z-index: 5;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s ease;
         }
 
-        .portrait-vault:hover img {
-            transform: scale(1.08) rotate(5deg);
-            border-color: #C8A862;
+        .cyber-frame:hover img {
+            transform: scale(1.05) rotate(3deg);
+            border-color: rgba(147, 112, 219, 0.5);
         }
 
-        /* Unique Noble Badge */
-        .noble-seal {
+        /* Holographic Badge */
+        .hologram-badge {
             position: absolute;
             bottom: -10px;
             right: 50%;
-            transform: translateX(65px);
-            background: #1E1F25;
-            color: #C8A862;
-            font-family: 'Libre Baskerville', serif;
+            transform: translateX(60px);
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.9), rgba(100, 149, 237, 0.9));
+            color: white;
+            font-family: 'Syne', sans-serif;
             font-size: 13px;
-            font-weight: 400;
-            padding: 10px 28px;
-            border-radius: 40px;
-            letter-spacing: 3px;
-            border: 1px solid #C8A862;
-            box-shadow: 0 10px 30px rgba(200, 168, 98, 0.2);
+            font-weight: 600;
+            padding: 8px 28px;
+            border-radius: 50px;
+            letter-spacing: 2px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(147, 112, 219, 0.6);
             white-space: nowrap;
             z-index: 20;
-            backdrop-filter: blur(5px);
+            animation: badgeFloat 3s ease-in-out infinite;
         }
 
-        .noble-seal span {
-            margin: 0 5px;
-            font-size: 16px;
+        @keyframes badgeFloat {
+            0%, 100% { transform: translateX(60px) translateY(0); }
+            50% { transform: translateX(60px) translateY(-5px); }
         }
 
-        /* Name with Unique Typography */
-        .noble-name {
-            font-family: 'Libre Baskerville', serif;
-            font-size: 38px;
-            font-weight: 700;
-            color: #C8A862;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-            position: relative;
-            display: inline-block;
+        /* Glitch Name */
+        .glitch-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 8px;
+            text-shadow: 
+                3px 3px 0 #9370DB,
+                -3px -3px 0 #40E0D0;
+            animation: glitch 4s infinite;
+            letter-spacing: -1px;
         }
 
-        .noble-name .small-crown {
-            font-size: 24px;
-            opacity: 0.5;
-            margin: 0 8px;
+        @keyframes glitch {
+            0%, 100% { text-shadow: 3px 3px 0 #9370DB, -3px -3px 0 #40E0D0; }
+            25% { text-shadow: -3px 3px 0 #FF69B4, 3px -3px 0 #6495ED; }
+            50% { text-shadow: 3px -3px 0 #9370DB, -3px 3px 0 #40E0D0; }
+            75% { text-shadow: -3px -3px 0 #FF69B4, 3px 3px 0 #6495ED; }
         }
 
-        .noble-epithet {
-            font-size: 12px;
-            color: #8A8A8A;
+        .neon-title {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
             letter-spacing: 6px;
             text-transform: uppercase;
             margin-bottom: 30px;
             font-weight: 300;
-            word-spacing: 4px;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
         }
 
-        /* Unique Economy Metrics */
-        .economy-altar {
+        /* Cyber Economy Stats */
+        .cyber-stats {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 45px;
-            padding: 15px 20px;
-            background: rgba(200, 168, 98, 0.03);
-            border-radius: 100px;
-            border: 1px solid rgba(200, 168, 98, 0.15);
+            gap: 12px;
+            margin-bottom: 40px;
+            padding: 20px 15px;
+            background: rgba(20, 22, 30, 0.5);
+            border: 1px solid rgba(147, 112, 219, 0.3);
+            border-radius: 30px;
             position: relative;
             overflow: hidden;
         }
 
-        .economy-altar::before {
+        .stat-cell {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .stat-glow {
+            color: #9370DB;
+            font-size: 22px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 8px #9370DB);
+        }
+
+        .stat-digit {
+            display: block;
+            font-family: 'Syne', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #9370DB, #40E0D0, #FF69B4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Button Grid */
+        .nexus-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 35px;
+        }
+
+        /* Holographic Buttons */
+        .nexus-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 25px;
+            background: rgba(30, 32, 40, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Neon Hover Effect */
+        .nexus-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(200, 168, 98, 0.05), transparent);
-            animation: lightBeam 6s infinite;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(147, 112, 219, 0.3),
+                rgba(100, 149, 237, 0.3),
+                rgba(255, 105, 180, 0.3),
+                transparent);
+            transition: left 0.6s ease;
         }
 
-        @keyframes lightBeam {
-            0% { left: -100%; }
-            30% { left: 100%; }
-            100% { left: 100%; }
+        .nexus-btn:hover::before {
+            left: 100%;
         }
 
-        .offering {
-            text-align: center;
-            flex: 1;
-            position: relative;
-        }
-
-        .offering-symbol {
-            color: #C8A862;
-            font-size: 18px;
-            margin-bottom: 8px;
-            opacity: 0.8;
-        }
-
-        .offering-value {
-            display: block;
-            font-family: 'Libre Baskerville', serif;
-            font-size: 26px;
-            font-weight: 700;
-            color: #C8A862;
-            margin-bottom: 4px;
-            line-height: 1;
-        }
-
-        .offering-label {
-            font-size: 9px;
-            color: #6A6A6A;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Unique Button Grid */
-        .heritage-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-bottom: 40px;
-        }
-
-        /* Architectural Buttons */
-        .heritage-btn {
+        .btn-core {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 18px 30px;
-            background: rgba(25, 28, 33, 0.8);
-            border: 1px solid rgba(200, 168, 98, 0.2);
-            border-radius: 50px;
-            color: #fff;
-            text-decoration: none;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            gap: 18px;
             position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
+            z-index: 2;
         }
 
-        /* Button Top Accent */
-        .heritage-btn::before {
-            content: '';
+        /* All Original Logos */
+        .btn-core img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            transition: all 0.4s ease;
+        }
+
+        .btn-core span {
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-metric {
+            color: #9370DB;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateX(-15px);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 2;
+            font-weight: 500;
+            text-shadow: 0 0 10px #9370DB;
+        }
+
+        .nexus-btn:hover {
+            background: rgba(40, 42, 50, 0.8);
+            border-color: rgba(147, 112, 219, 0.4);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(147, 112, 219, 0.3);
+            padding-left: 35px;
+            padding-right: 35px;
+        }
+
+        .nexus-btn:hover .btn-core img {
+            transform: scale(1.15) rotate(5deg);
+            filter: drop-shadow(0 0 10px #9370DB);
+        }
+
+        .nexus-btn:hover .btn-core span {
+            color: white;
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.8);
+        }
+
+        .nexus-btn:hover .btn-metric {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Variant Buttons - Every 2nd button gets gradient border */
+        .variant-btn {
+            border: 1px solid transparent;
+            background: linear-gradient(rgba(30, 32, 40, 0.7), rgba(30, 32, 40, 0.7)) padding-box,
+                        linear-gradient(135deg, #9370DB, #40E0D0, #FF69B4) border-box;
+        }
+
+        /* Cyber Footer */
+        .cyber-footer {
+            margin-top: 25px;
+            text-align: center;
+            position: relative;
+            padding: 20px 0 5px;
+        }
+
+        .footer-beam {
             position: absolute;
             top: 0;
             left: 10%;
             width: 80%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, #C8A862, transparent);
-            transform: scaleX(0);
-            transition: transform 0.5s ease;
+            background: linear-gradient(90deg, transparent, #9370DB, #40E0D0, #FF69B4, transparent);
         }
 
-        .heritage-btn:hover::before {
-            transform: scaleX(1);
+        .footer-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 3px;
+            line-height: 1.8;
         }
 
-        /* Button Bottom Accent */
-        .heritage-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 10%;
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #C8A862, transparent);
-            transform: scaleX(0);
-            transition: transform 0.5s ease 0.1s;
-        }
-
-        .heritage-btn:hover::after {
-            transform: scaleX(1);
-        }
-
-        .btn-asset {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Original Logo Container - Exactly as before */
-        .btn-asset img {
-            width: 22px;
-            height: 22px;
-            filter: brightness(0) invert(1);
-            transition: all 0.4s ease;
-            object-fit: contain;
-        }
-
-        .btn-asset span {
-            font-size: 15px;
-            font-weight: 400;
-            color: #E0E0E0;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-value {
-            color: #C8A862;
-            font-size: 14px;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.5s ease;
-            position: relative;
-            z-index: 2;
-            font-family: 'Libre Baskerville', serif;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .heritage-btn:hover {
-            background: rgba(200, 168, 98, 0.08);
-            border-color: rgba(200, 168, 98, 0.5);
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.6),
-                0 0 30px rgba(200, 168, 98, 0.2);
-            padding-left: 40px;
-            padding-right: 40px;
-        }
-
-        .heritage-btn:hover .btn-asset img {
-            transform: scale(1.15) rotate(3deg);
-            filter: brightness(1) sepia(1) saturate(5) hue-rotate(350deg);
-        }
-
-        .heritage-btn:hover .btn-asset span {
-            color: #C8A862;
-            letter-spacing: 1px;
-        }
-
-        .heritage-btn:hover .btn-value {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Exclusive Button Variant - Alternating Pattern */
-        .exclusive-btn {
-            background: rgba(30, 33, 38, 0.9);
-            border-color: rgba(200, 168, 98, 0.3);
-            border-width: 1.5px;
-        }
-
-        .exclusive-btn .btn-asset span {
-            font-weight: 500;
-        }
-
-        .exclusive-btn .btn-value {
-            font-size: 15px;
-        }
-
-        /* Unique Footer Design */
-        .legacy-footer {
-            margin-top: 30px;
-            text-align: center;
-            padding: 25px 0 5px;
-            border-top: 1px solid rgba(200, 168, 98, 0.15);
-            position: relative;
-        }
-
-        .legacy-symbols {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #0B0C10;
-            padding: 0 25px;
-            color: #C8A862;
-            font-size: 22px;
-            letter-spacing: 15px;
-        }
-
-        .legacy-symbols span {
-            opacity: 0.5;
-            font-size: 18px;
-        }
-
-        .legacy-text {
-            font-family: 'Libre Baskerville', serif;
-            font-size: 13px;
-            color: #6A6A6A;
-            letter-spacing: 2px;
-            line-height: 2;
-        }
-
-        .legacy-text .legacy-name {
-            color: #C8A862;
+        .footer-text strong {
+            background: linear-gradient(135deg, #9370DB, #40E0D0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-weight: 700;
             margin: 0 5px;
         }
 
-        .legacy-seal {
-            color: #C8A862;
+        .footer-glitch {
             font-size: 10px;
-            letter-spacing: 5px;
-            margin-top: 15px;
-            opacity: 0.6;
-            word-spacing: 10px;
+            letter-spacing: 6px;
+            margin-top: 12px;
+            color: rgba(147, 112, 219, 0.5);
+            text-transform: uppercase;
+            animation: footerGlitch 3s infinite;
+        }
+
+        @keyframes footerGlitch {
+            0%, 100% { opacity: 0.5; letter-spacing: 6px; }
+            50% { opacity: 1; letter-spacing: 8px; }
         }
 
         /* Responsive */
         @media (max-width: 480px) {
-            .arch-card {
-                padding: 40px 20px;
-                border-radius: 60px;
+            .holo-card {
+                padding: 35px 18px;
             }
             
-            .noble-name {
-                font-size: 32px;
+            .glitch-name {
+                font-size: 36px;
             }
             
-            .noble-name .small-crown {
-                font-size: 20px;
-                margin: 0 4px;
-            }
-            
-            .noble-seal {
+            .hologram-badge {
                 font-size: 11px;
-                padding: 8px 20px;
+                padding: 6px 20px;
                 transform: translateX(50px);
             }
             
-            .btn-asset {
-                gap: 15px;
+            .hologram-badge {
+                transform: translateX(50px);
             }
             
-            .btn-asset span {
+            @keyframes badgeFloat {
+                0%, 100% { transform: translateX(50px) translateY(0); }
+                50% { transform: translateX(50px) translateY(-5px); }
+            }
+            
+            .btn-core span {
                 font-size: 14px;
             }
             
-            .heritage-btn {
-                padding: 16px 25px;
+            .btn-core img {
+                width: 22px;
+                height: 22px;
             }
             
-            .offering-value {
-                font-size: 22px;
+            .stat-digit {
+                font-size: 24px;
             }
         }
 
@@ -526,170 +490,159 @@
         html {
             scroll-behavior: smooth;
         }
-
-        /* Custom Selection */
-        ::selection {
-            background: #C8A862;
-            color: #0B0C10;
-        }
     </style>
 </head>
 <body>
-    <!-- Marble Orbs -->
-    <div class="marble marble-1"></div>
-    <div class="marble marble-2"></div>
+    <!-- Grid Lines -->
+    <div class="grid-lines"></div>
 
     <div class="container">
-        <div class="arch-card">
-            <!-- Noble Profile with Geometric Frame -->
-            <div class="noble-profile">
-                <div class="portrait-vault">
-                    <div class="geo-frame-1"></div>
-                    <div class="geo-frame-2"></div>
-                    <img src="Your_Profile_Picture_Link" alt="Noble Profile">
+        <div class="holo-card">
+            <!-- Profile with Cyber Frame -->
+            <div class="profile-nexus">
+                <div class="cyber-frame">
+                    <div class="neon-ring"></div>
+                    <div class="neon-ring-2"></div>
+                    <img src="Your_Profile_Picture_Link" alt="Profile">
                 </div>
-                <div class="noble-seal">
-                    <span>⬩</span> NOBLE ECONOMY <span>⬩</span>
+                <div class="hologram-badge">
+                    ⚡ ÆCONomy ⚡
                 </div>
-                <h1 class="noble-name">
-                    <span class="small-crown">⬩</span> Your_Name <span class="small-crown">⬩</span>
-                </h1>
-                <div class="noble-epithet">GUARDIAN OF DIGITAL WEALTH</div>
+                <h1 class="glitch-name">Your_Name</h1>
+                <div class="neon-title">DIGITAL ÆSTHETE</div>
             </div>
 
-            <!-- Economy Altar -->
-            <div class="economy-altar">
-                <div class="offering">
-                    <div class="offering-symbol">◈</div>
-                    <span class="offering-value">$89.4K</span>
-                    <span class="offering-label">TREASURY</span>
+            <!-- Cyber Stats -->
+            <div class="cyber-stats">
+                <div class="stat-cell">
+                    <div class="stat-glow">⚡</div>
+                    <span class="stat-digit">$94.2K</span>
+                    <span class="stat-desc">VALUE</span>
                 </div>
-                <div class="offering">
-                    <div class="offering-symbol">⬩</div>
-                    <span class="offering-value">23.6K</span>
-                    <span class="offering-label">HOLDINGS</span>
+                <div class="stat-cell">
+                    <div class="stat-glow">◈</div>
+                    <span class="stat-digit">31.7K</span>
+                    <span class="stat-desc">SHARES</span>
                 </div>
-                <div class="offering">
-                    <div class="offering-symbol">◊</div>
-                    <span class="offering-value">178%</span>
-                    <span class="offering-label">YIELD</span>
+                <div class="stat-cell">
+                    <div class="stat-glow">⟁</div>
+                    <span class="stat-digit">243%</span>
+                    <span class="stat-desc">RETURN</span>
                 </div>
             </div>
 
-            <!-- Heritage Grid - All 11 Original Buttons with Correct Logos -->
-            <div class="heritage-grid">
-                <!-- 1. Facebook - Original Logo -->
-                <a class="heritage-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-asset">
+            <!-- All 11 Original Buttons with Correct Logos -->
+            <div class="nexus-grid">
+                <!-- 1. Facebook -->
+                <a class="nexus-btn" href="https://www.facebook.com/your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook">
                         <span>Facebook</span>
                     </div>
-                    <div class="btn-value">◈ 12.5K</div>
+                    <div class="btn-metric">⚡ 14.2K</div>
                 </a>
 
-                <!-- 2. Facebook Page - Original Logo -->
-                <a class="heritage-btn exclusive-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-asset">
+                <!-- 2. Facebook Page (Variant) -->
+                <a class="nexus-btn variant-btn" href="https://www.facebook.com/your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook Page">
                         <span>Facebook Page</span>
                     </div>
-                    <div class="btn-value">⬩ 8.2K</div>
+                    <div class="btn-metric">◈ 9.8K</div>
                 </a>
 
-                <!-- 3. Instagram - Original Logo -->
-                <a class="heritage-btn" href="https://www.instagram.com/your_username" target="_blank">
-                    <div class="btn-asset">
+                <!-- 3. Instagram -->
+                <a class="nexus-btn" href="https://www.instagram.com/your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
                         <span>Instagram</span>
                     </div>
-                    <div class="btn-value">◈ 45.3K</div>
+                    <div class="btn-metric">⚡ 52.1K</div>
                 </a>
 
-                <!-- 4. WhatsApp - Original Logo -->
-                <a class="heritage-btn exclusive-btn" href="https://wa.me/8801234567890" target="_blank">
-                    <div class="btn-asset">
+                <!-- 4. WhatsApp (Variant) -->
+                <a class="nexus-btn variant-btn" href="https://wa.me/8801234567890" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp">
                         <span>WhatsApp</span>
                     </div>
-                    <div class="btn-value">⬩ 3.1K</div>
+                    <div class="btn-metric">◈ 4.3K</div>
                 </a>
 
-                <!-- 5. TikTok - Original Logo -->
-                <a class="heritage-btn" href="https://www.tiktok.com/@your_username" target="_blank">
-                    <div class="btn-asset">
+                <!-- 5. TikTok -->
+                <a class="nexus-btn" href="https://www.tiktok.com/@your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok">
                         <span>TikTok</span>
                     </div>
-                    <div class="btn-value">◈ 67.8K</div>
+                    <div class="btn-metric">⚡ 78.9K</div>
                 </a>
 
-                <!-- 6. Telegram - Original Logo -->
-                <a class="heritage-btn exclusive-btn" href="https://t.me/your_username" target="_blank">
-                    <div class="btn-asset">
+                <!-- 6. Telegram (Variant) -->
+                <a class="nexus-btn variant-btn" href="https://t.me/your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
                         <span>Telegram</span>
                     </div>
-                    <div class="btn-value">⬩ 5.4K</div>
+                    <div class="btn-metric">◈ 6.7K</div>
                 </a>
 
-                <!-- 7. Twitter (X) - Original Logo -->
-                <a class="heritage-btn" href="https://x.com/your_username" target="_blank">
-                    <div class="btn-asset">
+                <!-- 7. Twitter (X) -->
+                <a class="nexus-btn" href="https://x.com/your_username" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="X">
                         <span>Twitter (X)</span>
                     </div>
-                    <div class="btn-value">◈ 21.7K</div>
+                    <div class="btn-metric">⚡ 27.3K</div>
                 </a>
 
-                <!-- 8. Discord - Original Logo -->
-                <a class="heritage-btn exclusive-btn" href="https://discord.gg/your_invite_link" target="_blank">
-                    <div class="btn-asset">
+                <!-- 8. Discord (Variant) -->
+                <a class="nexus-btn variant-btn" href="https://discord.gg/your_invite_link" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
                         <span>Discord</span>
                     </div>
-                    <div class="btn-value">⬩ 2.9K</div>
+                    <div class="btn-metric">◈ 3.8K</div>
                 </a>
 
-                <!-- 9. Call Me - Original Icon -->
-                <a class="heritage-btn" href="tel:01234567890">
-                    <div class="btn-asset">
+                <!-- 9. Call Me -->
+                <a class="nexus-btn" href="tel:01234567890">
+                    <div class="btn-core">
                         <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone" style="filter: brightness(0) invert(1);">
                         <span>Call Me</span>
                     </div>
-                    <div class="btn-value">◈ 24/7</div>
+                    <div class="btn-metric">⚡ 24/7</div>
                 </a>
 
-                <!-- 10. About Me - Original Icon -->
-                <a class="heritage-btn exclusive-btn" href="#" target="_blank">
-                    <div class="btn-asset">
+                <!-- 10. About Me (Variant) -->
+                <a class="nexus-btn variant-btn" href="#" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn.simpleicons.org/aboutdotme/FFFFFF" alt="About Me">
                         <span>About Me</span>
                     </div>
-                    <div class="btn-value">⬩ BIO</div>
+                    <div class="btn-metric">◈ BIO</div>
                 </a>
 
-                <!-- 11. My Website - Original Icon -->
-                <a class="heritage-btn" href="#" target="_blank">
-                    <div class="btn-asset">
+                <!-- 11. My Website -->
+                <a class="nexus-btn" href="#" target="_blank">
+                    <div class="btn-core">
                         <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: brightness(0) invert(1);">
                         <span>My Website</span>
                     </div>
-                    <div class="btn-value">◈ .com</div>
+                    <div class="btn-metric">⚡ .io</div>
                 </a>
             </div>
 
-            <!-- Legacy Footer -->
-            <div class="legacy-footer">
-                <div class="legacy-symbols">
-                    <span>◈</span> ⬩ <span>◊</span>
-                </div>
-                <div class="legacy-text">
+            <!-- Cyber Footer -->
+            <div class="cyber-footer">
+                <div class="footer-beam"></div>
+                <div class="footer-text">
                     COPYRIGHT © 2026 <br>
-                    <span class="legacy-name">◈ YOUR_NAME ◈</span> <br>
+                    <strong>⌘ Your_Name ⌘</strong> <br>
                     ALL RIGHTS RESERVED
                 </div>
-                <div class="legacy-seal">
-                    NOBLE ECONOMY ⬩ HERITAGE EDITION
+                <div class="footer-glitch">
+                    ÆSTHETIC ECONOMY // NEXUS
                 </div>
             </div>
         </div>
