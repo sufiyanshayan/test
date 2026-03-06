@@ -3,21 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÆSTHETIC ECONOMY | Your_Name</title>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
-    
+    <title>ART DECO | Your_Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: #0A0A0F;
+            background: #1A120B;
+            font-family: 'Marcellus', serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,626 +17,194 @@
             position: relative;
             overflow-x: hidden;
         }
-
-        /* Holographic Background */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(147, 112, 219, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(100, 149, 237, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 60% 20%, rgba(72, 209, 204, 0.1) 0%, transparent 50%);
-            filter: blur(40px);
-            animation: hologram 20s ease-in-out infinite alternate;
+                repeating-linear-gradient(45deg, rgba(193, 154, 107, 0.03) 0px, rgba(193, 154, 107, 0.03) 20px, transparent 20px, transparent 40px),
+                radial-gradient(circle at 50% 50%, #2C1E12 0%, #1A120B 100%);
         }
-
-        @keyframes hologram {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
-
-        /* Floating Grid Lines */
-        .grid-lines {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(147, 112, 219, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 149, 237, 0.05) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: 1;
-            animation: gridMove 30s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(20px, 20px); }
-        }
-
-        /* Main Container */
-        .container {
+        .container { max-width: 500px; width: 100%; padding: 20px; position: relative; z-index: 2; }
+        
+        /* Art Deco Card */
+        .artdeco-card {
+            background: #2C1E12;
+            border: 3px solid #C19A6B;
+            padding: 50px 30px;
             position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 540px;
-            padding: 15px;
-            margin: 15px auto;
+            box-shadow: 20px 20px 40px rgba(0,0,0,0.6), 0 0 0 2px #8B6B4D inset;
         }
-
-        /* Holographic Card */
-        .holo-card {
-            background: rgba(20, 22, 30, 0.7);
-            backdrop-filter: blur(25px) saturate(180%);
-            -webkit-backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            padding: 40px 25px;
-            box-shadow: 
-                0 40px 80px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(147, 112, 219, 0.2) inset,
-                0 0 60px rgba(100, 149, 237, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Iridescent Overlay */
-        .holo-card::after {
-            content: '';
+        .artdeco-card::before {
+            content: '◈◈◈';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(
-                from 0deg at 50% 50%,
-                transparent 0deg,
-                rgba(147, 112, 219, 0.1) 60deg,
-                rgba(100, 149, 237, 0.1) 120deg,
-                rgba(255, 105, 180, 0.1) 180deg,
-                rgba(72, 209, 204, 0.1) 240deg,
-                transparent 300deg
-            );
-            animation: iridescent 15s linear infinite;
-            pointer-events: none;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #C19A6B;
+            font-size: 24px;
+            letter-spacing: 15px;
+        }
+        .artdeco-card::after {
+            content: '◈◈◈';
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #C19A6B;
+            font-size: 24px;
+            letter-spacing: 15px;
         }
 
-        @keyframes iridescent {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Profile Section */
-        .profile-nexus {
+        /* Profile */
+        .profile-art {
             text-align: center;
-            margin-bottom: 35px;
-            position: relative;
+            margin-bottom: 40px;
         }
-
-        /* Cyber Frame */
-        .cyber-frame {
-            width: 140px;
-            height: 140px;
+        .portrait {
+            width: 150px;
+            height: 150px;
             margin: 0 auto 25px;
-            position: relative;
-            cursor: pointer;
+            border: 8px double #C19A6B;
+            border-radius: 0;
+            transform: rotate(45deg);
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(193, 154, 107, 0.3);
         }
-
-        /* Neon Ring */
-        .neon-ring {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            border-top-color: #9370DB;
-            border-bottom-color: #40E0D0;
-            animation: neonRotate 3s linear infinite;
-            filter: drop-shadow(0 0 10px #9370DB);
-        }
-
-        .neon-ring-2 {
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            right: -15px;
-            bottom: -15px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            border-left-color: #FF69B4;
-            border-right-color: #6495ED;
-            animation: neonRotate 4s linear infinite reverse;
-            filter: drop-shadow(0 0 10px #FF69B4);
-        }
-
-        @keyframes neonRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .cyber-frame img {
+        .portrait img {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            position: relative;
-            z-index: 5;
-            transition: all 0.5s ease;
+            transform: rotate(-45deg) scale(1.2);
+            border: none;
         }
-
-        .cyber-frame:hover img {
-            transform: scale(1.05) rotate(3deg);
-            border-color: rgba(147, 112, 219, 0.5);
-        }
-
-        /* Holographic Badge */
-        .hologram-badge {
-            position: absolute;
-            bottom: -10px;
-            right: 50%;
-            transform: translateX(60px);
-            background: linear-gradient(135deg, rgba(147, 112, 219, 0.9), rgba(100, 149, 237, 0.9));
-            color: white;
-            font-family: 'Syne', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 8px 28px;
-            border-radius: 50px;
-            letter-spacing: 2px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 30px rgba(147, 112, 219, 0.6);
-            white-space: nowrap;
-            z-index: 20;
-            animation: badgeFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes badgeFloat {
-            0%, 100% { transform: translateX(60px) translateY(0); }
-            50% { transform: translateX(60px) translateY(-5px); }
-        }
-
-        /* Glitch Name */
-        .glitch-name {
-            font-family: 'Syne', sans-serif;
+        .name-art {
+            font-family: 'Cinzel', serif;
             font-size: 42px;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 8px;
-            text-shadow: 
-                3px 3px 0 #9370DB,
-                -3px -3px 0 #40E0D0;
-            animation: glitch 4s infinite;
-            letter-spacing: -1px;
+            color: #C19A6B;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 4px 4px 0 #3D2B1C;
         }
-
-        @keyframes glitch {
-            0%, 100% { text-shadow: 3px 3px 0 #9370DB, -3px -3px 0 #40E0D0; }
-            25% { text-shadow: -3px 3px 0 #FF69B4, 3px -3px 0 #6495ED; }
-            50% { text-shadow: 3px -3px 0 #9370DB, -3px 3px 0 #40E0D0; }
-            75% { text-shadow: -3px -3px 0 #FF69B4, 3px 3px 0 #6495ED; }
-        }
-
-        .neon-title {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+        .title-art {
+            color: #B8A28C;
+            font-size: 14px;
             letter-spacing: 6px;
             text-transform: uppercase;
-            margin-bottom: 30px;
-            font-weight: 300;
-            text-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
         }
 
-        /* Cyber Economy Stats */
-        .cyber-stats {
+        /* Stats */
+        .stat-block {
             display: flex;
             justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 40px;
-            padding: 20px 15px;
-            background: rgba(20, 22, 30, 0.5);
-            border: 1px solid rgba(147, 112, 219, 0.3);
-            border-radius: 30px;
-            position: relative;
-            overflow: hidden;
+            margin: 30px 0;
+            border-top: 2px solid #C19A6B;
+            border-bottom: 2px solid #C19A6B;
+            padding: 20px 0;
         }
-
-        .stat-cell {
+        .stat-item {
             text-align: center;
             flex: 1;
-            position: relative;
+            border-right: 1px solid #C19A6B;
         }
-
-        .stat-glow {
-            color: #9370DB;
-            font-size: 22px;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 8px #9370DB);
-        }
-
-        .stat-digit {
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            color: #C19A6B;
             display: block;
-            font-family: 'Syne', sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #9370DB, #40E0D0, #FF69B4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
-            line-height: 1;
         }
-
-        .stat-desc {
-            font-size: 9px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
+        .stat-label {
+            color: #B8A28C;
+            font-size: 10px;
             letter-spacing: 2px;
         }
 
-        /* Button Grid */
-        .nexus-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            margin-bottom: 35px;
-        }
-
-        /* Holographic Buttons */
-        .nexus-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* Buttons */
+        .art-btn {
+            display: block;
+            margin: 15px 0;
             padding: 18px 25px;
-            background: rgba(30, 32, 40, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 50px;
-            color: white;
+            background: transparent;
+            border: 2px solid #C19A6B;
+            color: #C19A6B;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             position: relative;
+            transition: all 0.3s;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
-
-        /* Neon Hover Effect */
-        .nexus-btn::before {
+        .art-btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(147, 112, 219, 0.3),
-                rgba(100, 149, 237, 0.3),
-                rgba(255, 105, 180, 0.3),
-                transparent);
-            transition: left 0.6s ease;
+            background: #C19A6B;
+            transition: left 0.4s;
+            z-index: 0;
         }
-
-        .nexus-btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-core {
+        .art-btn:hover::before { left: 0; }
+        .art-btn span {
+            position: relative;
+            z-index: 2;
             display: flex;
             align-items: center;
-            gap: 18px;
-            position: relative;
-            z-index: 2;
+            justify-content: space-between;
+        }
+        .art-btn:hover span { color: #1A120B; }
+        .art-btn img { 
+            width: 22px; 
+            height: 22px; 
+            filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);
         }
 
-        /* All Original Logos */
-        .btn-core img {
-            width: 24px;
-            height: 24px;
-            filter: brightness(0) invert(1);
-            transition: all 0.4s ease;
-        }
-
-        .btn-core span {
-            font-size: 15px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.5px;
-        }
-
-        .btn-metric {
-            color: #9370DB;
-            font-size: 14px;
-            opacity: 0;
-            transform: translateX(-15px);
-            transition: all 0.4s ease;
-            position: relative;
-            z-index: 2;
-            font-weight: 500;
-            text-shadow: 0 0 10px #9370DB;
-        }
-
-        .nexus-btn:hover {
-            background: rgba(40, 42, 50, 0.8);
-            border-color: rgba(147, 112, 219, 0.4);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.6),
-                0 0 30px rgba(147, 112, 219, 0.3);
-            padding-left: 35px;
-            padding-right: 35px;
-        }
-
-        .nexus-btn:hover .btn-core img {
-            transform: scale(1.15) rotate(5deg);
-            filter: drop-shadow(0 0 10px #9370DB);
-        }
-
-        .nexus-btn:hover .btn-core span {
-            color: white;
-            text-shadow: 0 0 10px rgba(147, 112, 219, 0.8);
-        }
-
-        .nexus-btn:hover .btn-metric {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        /* Variant Buttons - Every 2nd button gets gradient border */
-        .variant-btn {
-            border: 1px solid transparent;
-            background: linear-gradient(rgba(30, 32, 40, 0.7), rgba(30, 32, 40, 0.7)) padding-box,
-                        linear-gradient(135deg, #9370DB, #40E0D0, #FF69B4) border-box;
-        }
-
-        /* Cyber Footer */
-        .cyber-footer {
-            margin-top: 25px;
+        .footer-art {
             text-align: center;
-            position: relative;
-            padding: 20px 0 5px;
-        }
-
-        .footer-beam {
-            position: absolute;
-            top: 0;
-            left: 10%;
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #9370DB, #40E0D0, #FF69B4, transparent);
-        }
-
-        .footer-text {
+            margin-top: 30px;
+            color: #B8A28C;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 3px;
-            line-height: 1.8;
-        }
-
-        .footer-text strong {
-            background: linear-gradient(135deg, #9370DB, #40E0D0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            margin: 0 5px;
-        }
-
-        .footer-glitch {
-            font-size: 10px;
-            letter-spacing: 6px;
-            margin-top: 12px;
-            color: rgba(147, 112, 219, 0.5);
-            text-transform: uppercase;
-            animation: footerGlitch 3s infinite;
-        }
-
-        @keyframes footerGlitch {
-            0%, 100% { opacity: 0.5; letter-spacing: 6px; }
-            50% { opacity: 1; letter-spacing: 8px; }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .holo-card {
-                padding: 35px 18px;
-            }
-            
-            .glitch-name {
-                font-size: 36px;
-            }
-            
-            .hologram-badge {
-                font-size: 11px;
-                padding: 6px 20px;
-                transform: translateX(50px);
-            }
-            
-            .hologram-badge {
-                transform: translateX(50px);
-            }
-            
-            @keyframes badgeFloat {
-                0%, 100% { transform: translateX(50px) translateY(0); }
-                50% { transform: translateX(50px) translateY(-5px); }
-            }
-            
-            .btn-core span {
-                font-size: 14px;
-            }
-            
-            .btn-core img {
-                width: 22px;
-                height: 22px;
-            }
-            
-            .stat-digit {
-                font-size: 24px;
-            }
-        }
-
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
+            letter-spacing: 4px;
+            border-top: 1px solid #C19A6B;
+            padding-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Grid Lines -->
-    <div class="grid-lines"></div>
-
     <div class="container">
-        <div class="holo-card">
-            <!-- Profile with Cyber Frame -->
-            <div class="profile-nexus">
-                <div class="cyber-frame">
-                    <div class="neon-ring"></div>
-                    <div class="neon-ring-2"></div>
-                    <img src="Your_Profile_Picture_Link" alt="Profile">
+        <div class="artdeco-card">
+            <div class="profile-art">
+                <div class="portrait">
+                    <img src="Your_Profile_Picture_Link" alt="">
                 </div>
-                <div class="hologram-badge">
-                    ⚡ ÆCONomy ⚡
-                </div>
-                <h1 class="glitch-name">Your_Name</h1>
-                <div class="neon-title">DIGITAL ÆSTHETE</div>
+                <h1 class="name-art">YOUR_NAME</h1>
+                <div class="title-art">LUXURY CURATOR</div>
             </div>
 
-            <!-- Cyber Stats -->
-            <div class="cyber-stats">
-                <div class="stat-cell">
-                    <div class="stat-glow">⚡</div>
-                    <span class="stat-digit">$94.2K</span>
-                    <span class="stat-desc">VALUE</span>
-                </div>
-                <div class="stat-cell">
-                    <div class="stat-glow">◈</div>
-                    <span class="stat-digit">31.7K</span>
-                    <span class="stat-desc">SHARES</span>
-                </div>
-                <div class="stat-cell">
-                    <div class="stat-glow">⟁</div>
-                    <span class="stat-digit">243%</span>
-                    <span class="stat-desc">RETURN</span>
-                </div>
+            <div class="stat-block">
+                <div class="stat-item"><span class="stat-num">1925</span><span class="stat-label">EST.</span></div>
+                <div class="stat-item"><span class="stat-num">24K</span><span class="stat-label">GOLD</span></div>
+                <div class="stat-item"><span class="stat-num">88%</span><span class="stat-label">PURE</span></div>
             </div>
 
-            <!-- All 11 Original Buttons with Correct Logos -->
-            <div class="nexus-grid">
-                <!-- 1. Facebook -->
-                <a class="nexus-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook">
-                        <span>Facebook</span>
-                    </div>
-                    <div class="btn-metric">⚡ 14.2K</div>
-                </a>
+            <a href="#" class="art-btn"><span><span>✧ FACEBOOK ✧</span> <img src="https://cdn.simpleicons.org/facebook/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ FACEBOOK PAGE ✧</span> <img src="https://cdn.simpleicons.org/facebook/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ INSTAGRAM ✧</span> <img src="https://cdn.simpleicons.org/instagram/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ WHATSAPP ✧</span> <img src="https://cdn.simpleicons.org/whatsapp/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ TIKTOK ✧</span> <img src="https://cdn.simpleicons.org/tiktok/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ TELEGRAM ✧</span> <img src="https://cdn.simpleicons.org/telegram/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ TWITTER X ✧</span> <img src="https://cdn.simpleicons.org/x/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ DISCORD ✧</span> <img src="https://cdn.simpleicons.org/discord/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ CALL ME ✧</span> <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ ABOUT ME ✧</span> <img src="https://cdn.simpleicons.org/aboutdotme/C19A6B"></span></a>
+            <a href="#" class="art-btn"><span><span>✧ MY WEBSITE ✧</span> <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);"></span></a>
 
-                <!-- 2. Facebook Page (Variant) -->
-                <a class="nexus-btn variant-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook Page">
-                        <span>Facebook Page</span>
-                    </div>
-                    <div class="btn-metric">◈ 9.8K</div>
-                </a>
-
-                <!-- 3. Instagram -->
-                <a class="nexus-btn" href="https://www.instagram.com/your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
-                        <span>Instagram</span>
-                    </div>
-                    <div class="btn-metric">⚡ 52.1K</div>
-                </a>
-
-                <!-- 4. WhatsApp (Variant) -->
-                <a class="nexus-btn variant-btn" href="https://wa.me/8801234567890" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp">
-                        <span>WhatsApp</span>
-                    </div>
-                    <div class="btn-metric">◈ 4.3K</div>
-                </a>
-
-                <!-- 5. TikTok -->
-                <a class="nexus-btn" href="https://www.tiktok.com/@your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok">
-                        <span>TikTok</span>
-                    </div>
-                    <div class="btn-metric">⚡ 78.9K</div>
-                </a>
-
-                <!-- 6. Telegram (Variant) -->
-                <a class="nexus-btn variant-btn" href="https://t.me/your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
-                        <span>Telegram</span>
-                    </div>
-                    <div class="btn-metric">◈ 6.7K</div>
-                </a>
-
-                <!-- 7. Twitter (X) -->
-                <a class="nexus-btn" href="https://x.com/your_username" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="X">
-                        <span>Twitter (X)</span>
-                    </div>
-                    <div class="btn-metric">⚡ 27.3K</div>
-                </a>
-
-                <!-- 8. Discord (Variant) -->
-                <a class="nexus-btn variant-btn" href="https://discord.gg/your_invite_link" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
-                        <span>Discord</span>
-                    </div>
-                    <div class="btn-metric">◈ 3.8K</div>
-                </a>
-
-                <!-- 9. Call Me -->
-                <a class="nexus-btn" href="tel:01234567890">
-                    <div class="btn-core">
-                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone" style="filter: brightness(0) invert(1);">
-                        <span>Call Me</span>
-                    </div>
-                    <div class="btn-metric">⚡ 24/7</div>
-                </a>
-
-                <!-- 10. About Me (Variant) -->
-                <a class="nexus-btn variant-btn" href="#" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn.simpleicons.org/aboutdotme/FFFFFF" alt="About Me">
-                        <span>About Me</span>
-                    </div>
-                    <div class="btn-metric">◈ BIO</div>
-                </a>
-
-                <!-- 11. My Website -->
-                <a class="nexus-btn" href="#" target="_blank">
-                    <div class="btn-core">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: brightness(0) invert(1);">
-                        <span>My Website</span>
-                    </div>
-                    <div class="btn-metric">⚡ .io</div>
-                </a>
-            </div>
-
-            <!-- Cyber Footer -->
-            <div class="cyber-footer">
-                <div class="footer-beam"></div>
-                <div class="footer-text">
-                    COPYRIGHT © 2026 <br>
-                    <strong>⌘ Your_Name ⌘</strong> <br>
-                    ALL RIGHTS RESERVED
-                </div>
-                <div class="footer-glitch">
-                    ÆSTHETIC ECONOMY // NEXUS
-                </div>
-            </div>
+            <div class="footer-art">✧ 1920s LUXURY EDITION ✧</div>
         </div>
     </div>
 </body>
