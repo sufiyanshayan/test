@@ -3,204 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WABI SABI | Your_Name</title>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&family=Hina+Mincho&display=swap" rel="stylesheet">
+    <title>MEMPHIS | Your_Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #F5F1E9;
-            font-family: 'Zen Old Mincho', serif;
+            background: #FFE5B4;
+            font-family: 'Righteous', cursive;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow-x: hidden;
         }
+
+        /* Memphis Patterns */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 Q 30 30, 50 10 Q 70 -10, 90 10" stroke="%23D4C8B8" fill="none" stroke-width="0.5"/></svg>');
-            opacity: 0.1;
+            background: 
+                radial-gradient(circle at 10% 20%, #FF6B6B 10px, transparent 10px),
+                radial-gradient(circle at 90% 40%, #4ECDC4 15px, transparent 15px),
+                radial-gradient(circle at 30% 80%, #FFE66D 20px, transparent 20px),
+                repeating-linear-gradient(45deg, #FF9F1C 0px, #FF9F1C 5px, transparent 5px, transparent 15px);
+            opacity: 0.3;
+            animation: movePatterns 20s linear infinite;
         }
-        .container { max-width: 450px; width: 100%; padding: 20px; position: relative; z-index: 2; }
 
-        /* Wabi-Sabi Card */
-        .wabi-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            padding: 60px 30px 40px;
+        @keyframes movePatterns {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .container { max-width: 500px; width: 100%; padding: 20px; position: relative; z-index: 2; }
+
+        /* Memphis Card */
+        .memphis-card {
+            background: white;
+            border: 8px solid black;
+            box-shadow: 15px 15px 0 #FF6B6B, 25px 25px 0 #4ECDC4;
+            padding: 40px 25px;
             position: relative;
-            border: 1px solid #D4C8B8;
-            box-shadow: 0 30px 40px rgba(0,0,0,0.02);
+            transform: rotate(-1deg);
         }
 
-        /* Torn Paper Effect */
-        .wabi-card::before {
-            content: '';
+        /* Squiggle */
+        .squiggle {
             position: absolute;
-            top: -5px;
-            left: 0;
-            width: 100%;
-            height: 10px;
-            background: inherit;
-            filter: blur(5px);
-        }
-
-        .sumi-ink {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #8B7D6B 0%, transparent 70%);
-            opacity: 0.1;
-            border-radius: 50%;
+            top: -20px;
+            left: 20px;
+            font-size: 40px;
+            color: #FF6B6B;
+            transform: rotate(5deg);
         }
 
         /* Profile */
-        .profile-wabi {
+        .profile-memphis {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
+            position: relative;
         }
-        .ink-portrait {
-            width: 130px;
-            height: 130px;
-            margin: 0 auto 25px;
-            border-radius: 100% 70% 80% 60% / 60% 80% 70% 100%;
-            background: #E8E0D5;
+        .morphic-frame {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #FFE66D);
             padding: 8px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: morph 8s ease-in-out infinite;
         }
-        .ink-portrait img {
+        @keyframes morph {
+            0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            33% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            66% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+        }
+        .morphic-frame img {
             width: 100%;
             height: 100%;
             border-radius: inherit;
             object-fit: cover;
-            filter: grayscale(30%) contrast(90%);
+            border: 4px solid white;
         }
-        .name-wabi {
-            font-size: 40px;
-            font-weight: 400;
-            color: #4A4238;
-            letter-spacing: 4px;
-            margin-bottom: 8px;
+        .name-memphis {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 48px;
+            color: black;
+            text-transform: uppercase;
+            -webkit-text-stroke: 3px #FF6B6B;
+            letter-spacing: -2px;
+            margin-bottom: 5px;
         }
-        .title-wabi {
-            color: #8B7D6B;
-            font-size: 12px;
-            letter-spacing: 8px;
+        .title-memphis {
+            font-size: 16px;
+            color: #4ECDC4;
+            background: black;
+            display: inline-block;
+            padding: 5px 20px;
+            transform: rotate(-2deg);
         }
 
-        /* Economy */
-        .imperfect-stats {
+        /* Stats */
+        .barbie-stats {
             display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 35px 0;
-            padding: 20px;
-            background: rgba(212, 200, 184, 0.2);
-            border-radius: 100px 30px 100px 30px;
+            gap: 10px;
+            margin: 30px 0;
         }
-        .imperfect-item { text-align: center; }
-        .imperfect-num {
+        .stat-cloud {
+            flex: 1;
+            background: #FFE66D;
+            border: 3px solid black;
+            border-radius: 50% 20% 50% 20%;
+            padding: 15px 5px;
+            text-align: center;
+            transform: rotate(var(--rot));
+            box-shadow: 5px 5px 0 #FF6B6B;
+        }
+        .stat-cloud:nth-child(1) { --rot: -2deg; background: #FF6B6B; color: white; }
+        .stat-cloud:nth-child(2) { --rot: 3deg; background: #4ECDC4; }
+        .stat-cloud:nth-child(3) { --rot: -1deg; background: #FFE66D; }
+        .stat-num {
+            font-size: 28px;
+            font-weight: bold;
             display: block;
-            font-size: 32px;
-            color: #5D5346;
-            font-family: 'Hina Mincho', serif;
-        }
-        .imperfect-label {
-            font-size: 10px;
-            color: #8B7D6B;
-            letter-spacing: 2px;
         }
 
         /* Buttons */
-        .wabi-btn {
+        .memphis-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 25px;
-            margin: 12px 0;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #D4C8B8;
-            color: #4A4238;
+            margin: 15px 0;
+            padding: 15px 25px;
+            background: white;
+            border: 4px solid black;
             text-decoration: none;
-            font-size: 15px;
-            letter-spacing: 2px;
-            transition: all 0.4s;
+            color: black;
+            font-size: 18px;
+            text-transform: uppercase;
+            transition: all 0.2s;
             position: relative;
+            box-shadow: 8px 8px 0 #FF6B6B;
         }
-        .wabi-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 50%;
-            width: 0;
-            height: 1px;
-            background: #8B7D6B;
-            transition: all 0.4s;
+        .memphis-btn:nth-child(even) { box-shadow: 8px 8px 0 #4ECDC4; }
+        .memphis-btn:hover {
+            transform: translate(4px, 4px);
+            box-shadow: 4px 4px 0 black;
         }
-        .wabi-btn:hover::after { left: 0; width: 100%; }
-        .wabi-btn:hover { padding-left: 35px; color: #2C2823; }
-        .wabi-btn img { 
-            width: 20px; 
-            height: 20px; 
-            opacity: 0.5;
-            transition: opacity 0.3s;
+        .memphis-btn img { 
+            width: 24px; 
+            height: 24px;
+            filter: brightness(0);
         }
-        .wabi-btn:hover img { opacity: 1; }
 
-        .footer-wabi {
+        .footer-memphis {
             text-align: center;
-            margin-top: 40px;
-            color: #8B7D6B;
-            font-size: 11px;
-            letter-spacing: 3px;
-            writing-mode: horizontal-tb;
+            margin-top: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            border-top: 4px dashed black;
+            padding-top: 20px;
         }
-        .kanji {
-            font-size: 40px;
-            color: #D4C8B8;
+        .emoji-row {
+            font-size: 24px;
             margin-bottom: 10px;
+            filter: drop-shadow(2px 2px 0 #FF6B6B);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="wabi-card">
-            <div class="sumi-ink"></div>
+        <div class="memphis-card">
+            <div class="squiggle">〰️〰️〰️</div>
             
-            <div class="profile-wabi">
-                <div class="ink-portrait">
+            <div class="profile-memphis">
+                <div class="morphic-frame">
                     <img src="Your_Profile_Picture_Link" alt="">
                 </div>
-                <h1 class="name-wabi">YOUR_NAME</h1>
-                <div class="title-wabi">侘び寂び</div>
+                <h1 class="name-memphis">YOUR_NAME</h1>
+                <div class="title-memphis">MEMPHIS GROUP</div>
             </div>
 
-            <div class="imperfect-stats">
-                <div class="imperfect-item"><span class="imperfect-num">𝟭</span><span class="imperfect-label">ZEN</span></div>
-                <div class="imperfect-item"><span class="imperfect-num">𝟮𝟲</span><span class="imperfect-label">WABI</span></div>
-                <div class="imperfect-item"><span class="imperfect-num">𝟭𝟰</span><span class="imperfect-label">SABI</span></div>
+            <div class="barbie-stats">
+                <div class="stat-cloud"><span class="stat-num">80s</span> VIBE</div>
+                <div class="stat-cloud"><span class="stat-num">POP</span> ART</div>
+                <div class="stat-cloud"><span class="stat-num">FUN</span>KY</div>
             </div>
 
-            <a href="#" class="wabi-btn"><span>◈ FACEBOOK ◈</span> <img src="https://cdn.simpleicons.org/facebook/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ FACEBOOK PAGE ◈</span> <img src="https://cdn.simpleicons.org/facebook/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ INSTAGRAM ◈</span> <img src="https://cdn.simpleicons.org/instagram/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ WHATSAPP ◈</span> <img src="https://cdn.simpleicons.org/whatsapp/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ TIKTOK ◈</span> <img src="https://cdn.simpleicons.org/tiktok/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ TELEGRAM ◈</span> <img src="https://cdn.simpleicons.org/telegram/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ TWITTER X ◈</span> <img src="https://cdn.simpleicons.org/x/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ DISCORD ◈</span> <img src="https://cdn.simpleicons.org/discord/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ CALL ME ◈</span> <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0.3);"></a>
-            <a href="#" class="wabi-btn"><span>◈ ABOUT ME ◈</span> <img src="https://cdn.simpleicons.org/aboutdotme/4A4238"></a>
-            <a href="#" class="wabi-btn"><span>◈ MY WEBSITE ◈</span> <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0.3);"></a>
+            <a href="#" class="memphis-btn"><span>🤘 FACEBOOK</span> <img src="https://cdn.simpleicons.org/facebook/000000"></a>
+            <a href="#" class="memphis-btn"><span>🎸 FB PAGE</span> <img src="https://cdn.simpleicons.org/facebook/000000"></a>
+            <a href="#" class="memphis-btn"><span>📸 INSTAGRAM</span> <img src="https://cdn.simpleicons.org/instagram/000000"></a>
+            <a href="#" class="memphis-btn"><span>💬 WHATSAPP</span> <img src="https://cdn.simpleicons.org/whatsapp/000000"></a>
+            <a href="#" class="memphis-btn"><span>🎵 TIKTOK</span> <img src="https://cdn.simpleicons.org/tiktok/000000"></a>
+            <a href="#" class="memphis-btn"><span>✈️ TELEGRAM</span> <img src="https://cdn.simpleicons.org/telegram/000000"></a>
+            <a href="#" class="memphis-btn"><span>🐦 X</span> <img src="https://cdn.simpleicons.org/x/000000"></a>
+            <a href="#" class="memphis-btn"><span>🎮 DISCORD</span> <img src="https://cdn.simpleicons.org/discord/000000"></a>
+            <a href="#" class="memphis-btn"><span>📞 CALL ME</span> <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0);"></a>
+            <a href="#" class="memphis-btn"><span>👤 ABOUT</span> <img src="https://cdn.simpleicons.org/aboutdotme/000000"></a>
+            <a href="#" class="memphis-btn"><span>🌐 WEBSITE</span> <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0);"></a>
 
-            <div class="footer-wabi">
-                <div class="kanji">一</div>
-                © 2026 • 侘び寂び • YOUR_NAME
+            <div class="footer-memphis">
+                <div class="emoji-row">🌀💖✨💎🌀</div>
+                © 2026 MEMPHIS MILANO • YOUR_NAME
             </div>
         </div>
     </div>
