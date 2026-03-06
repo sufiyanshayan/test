@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE GALLERIA | Your_Name</title>
+    <title>THE NOBLE ECONOMY | Your_Name</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Josefin+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -19,8 +16,8 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: #0F0F0F;
+            font-family: 'Josefin Sans', sans-serif;
+            background: #0B0C10;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -29,798 +26,670 @@
             overflow-x: hidden;
         }
 
-        /* Ultra Premium Animated Background */
+        /* Unique Textured Background */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 215, 0, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 40% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 60% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-                repeating-linear-gradient(45deg, rgba(212, 175, 55, 0.02) 0px, rgba(212, 175, 55, 0.02) 2px, transparent 2px, transparent 8px);
-            animation: backgroundPulse 15s ease-in-out infinite;
-        }
-
-        @keyframes backgroundPulse {
-            0%, 100% { opacity: 0.5; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.02); }
-        }
-
-        /* Floating Gold Particles */
-        .particle-field {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
+            background-image: 
+                linear-gradient(165deg, rgba(200, 168, 98, 0.02) 0%, transparent 30%),
+                linear-gradient(345deg, rgba(200, 168, 98, 0.02) 0%, transparent 30%),
+                repeating-radial-gradient(circle at 30% 40%, rgba(200, 168, 98, 0.03) 0px, transparent 2px, transparent 10px);
             pointer-events: none;
         }
 
-        .gold-particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #D4AF37;
+        /* Floating Marble Orbs */
+        .marble {
+            position: fixed;
             border-radius: 50%;
-            box-shadow: 0 0 20px #D4AF37;
-            animation: particleFloat 15s infinite linear;
+            filter: blur(70px);
+            z-index: 0;
+            mix-blend-mode: screen;
         }
 
-        @keyframes particleFloat {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        .marble-1 {
+            top: -200px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(200, 168, 98, 0.15), rgba(139, 115, 65, 0.05));
+            animation: marbleFloat 25s infinite alternate;
         }
 
-        /* Generate 30 particles */
-        .gold-particle:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
-        .gold-particle:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; }
-        .gold-particle:nth-child(3) { left: 30%; animation-duration: 15s; animation-delay: 4s; }
-        .gold-particle:nth-child(4) { left: 40%; animation-duration: 20s; animation-delay: 1s; }
-        .gold-particle:nth-child(5) { left: 50%; animation-duration: 14s; animation-delay: 3s; }
-        .gold-particle:nth-child(6) { left: 60%; animation-duration: 22s; animation-delay: 5s; }
-        .gold-particle:nth-child(7) { left: 70%; animation-duration: 16s; animation-delay: 2.5s; }
-        .gold-particle:nth-child(8) { left: 80%; animation-duration: 19s; animation-delay: 3.5s; }
-        .gold-particle:nth-child(9) { left: 90%; animation-duration: 13s; animation-delay: 1.5s; }
-        .gold-particle:nth-child(10) { left: 95%; animation-duration: 21s; animation-delay: 4.5s; }
-        .gold-particle:nth-child(11) { left: 15%; animation-duration: 17s; animation-delay: 0.5s; }
-        .gold-particle:nth-child(12) { left: 25%; animation-duration: 23s; animation-delay: 2.2s; }
-        .gold-particle:nth-child(13) { left: 35%; animation-duration: 14s; animation-delay: 3.8s; }
-        .gold-particle:nth-child(14) { left: 45%; animation-duration: 19s; animation-delay: 1.2s; }
-        .gold-particle:nth-child(15) { left: 55%; animation-duration: 16s; animation-delay: 4.2s; }
-        .gold-particle:nth-child(16) { left: 65%; animation-duration: 22s; animation-delay: 0.8s; }
-        .gold-particle:nth-child(17) { left: 75%; animation-duration: 18s; animation-delay: 2.8s; }
-        .gold-particle:nth-child(18) { left: 85%; animation-duration: 15s; animation-delay: 3.2s; }
-        .gold-particle:nth-child(19) { left: 92%; animation-duration: 20s; animation-delay: 1.8s; }
-        .gold-particle:nth-child(20) { left: 98%; animation-duration: 13s; animation-delay: 4.8s; }
-        .gold-particle:nth-child(21) { left: 5%; animation-duration: 24s; animation-delay: 0.3s; }
-        .gold-particle:nth-child(22) { left: 12%; animation-duration: 17s; animation-delay: 3.3s; }
-        .gold-particle:nth-child(23) { left: 22%; animation-duration: 21s; animation-delay: 1.7s; }
-        .gold-particle:nth-child(24) { left: 32%; animation-duration: 15s; animation-delay: 4.7s; }
-        .gold-particle:nth-child(25) { left: 42%; animation-duration: 19s; animation-delay: 2.1s; }
-        .gold-particle:nth-child(26) { left: 52%; animation-duration: 23s; animation-delay: 0.9s; }
-        .gold-particle:nth-child(27) { left: 62%; animation-duration: 16s; animation-delay: 3.9s; }
-        .gold-particle:nth-child(28) { left: 72%; animation-duration: 20s; animation-delay: 1.4s; }
-        .gold-particle:nth-child(29) { left: 82%; animation-duration: 14s; animation-delay: 4.4s; }
-        .gold-particle:nth-child(30) { left: 88%; animation-duration: 18s; animation-delay: 2.6s; }
+        .marble-2 {
+            bottom: -200px;
+            right: -100px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(220, 190, 120, 0.12), rgba(100, 80, 50, 0.03));
+            animation: marbleFloat 30s infinite alternate-reverse;
+        }
+
+        @keyframes marbleFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, -100px) scale(1.2); }
+        }
 
         /* Main Container */
         .container {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 500px;
+            max-width: 520px;
             padding: 20px;
             margin: 20px auto;
         }
 
-        /* Masterpiece Card */
-        .masterpiece-card {
-            background: rgba(20, 20, 20, 0.85);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 64px;
-            padding: 45px 28px;
+        /* Unique Architectural Card */
+        .arch-card {
+            background: rgba(16, 18, 22, 0.9);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(200, 168, 98, 0.25);
+            border-radius: 80px 80px 80px 80px / 60px 60px 60px 60px;
+            padding: 50px 30px;
             box-shadow: 
-                0 40px 80px rgba(0,0,0,0.7),
-                0 0 0 2px rgba(212, 175, 55, 0.2) inset,
-                0 0 60px rgba(212, 175, 55, 0.3);
+                0 50px 100px rgba(0,0,0,0.7),
+                0 0 0 1px rgba(200, 168, 98, 0.2) inset,
+                0 0 70px rgba(200, 168, 98, 0.15);
             position: relative;
-            overflow: hidden;
         }
 
-        /* Luxury Corner Ornaments */
-        .masterpiece-card::before,
-        .masterpiece-card::after {
-            content: '';
+        /* Architectural Corners */
+        .arch-card::before {
+            content: '◈';
             position: absolute;
+            top: 20px;
+            left: 30px;
+            color: rgba(200, 168, 98, 0.3);
+            font-size: 24px;
+            transform: rotate(15deg);
+        }
+
+        .arch-card::after {
+            content: '◈';
+            position: absolute;
+            bottom: 20px;
+            right: 30px;
+            color: rgba(200, 168, 98, 0.3);
+            font-size: 24px;
+            transform: rotate(-15deg);
+        }
+
+        /* Noble Profile Section */
+        .noble-profile {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        /* Unique Portrait Frame */
+        .portrait-vault {
             width: 150px;
             height: 150px;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-            filter: blur(30px);
-        }
-
-        .masterpiece-card::before {
-            top: -75px;
-            left: -75px;
-        }
-
-        .masterpiece-card::after {
-            bottom: -75px;
-            right: -75px;
-        }
-
-        /* Royal Profile Section */
-        .royal-profile {
-            text-align: center;
-            margin-bottom: 35px;
-            position: relative;
-        }
-
-        /* Ornate Profile Container */
-        .royal-frame {
-            width: 160px;
-            height: 160px;
-            margin: 0 auto 25px;
+            margin: 0 auto 30px;
             position: relative;
             cursor: pointer;
         }
 
-        /* Multiple Layered Frames */
-        .frame-layer-1 {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid #D4AF37;
-            border-radius: 50%;
-            border-top-color: transparent;
-            border-bottom-color: transparent;
-            animation: rotateSlow 12s linear infinite;
-        }
-
-        .frame-layer-2 {
+        /* Geometric Frame Design */
+        .geo-frame-1 {
             position: absolute;
             top: -15px;
             left: -15px;
             right: -15px;
             bottom: -15px;
-            border: 1px solid rgba(212, 175, 55, 0.4);
-            border-radius: 50%;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            animation: rotateMedium 15s linear infinite reverse;
+            border: 2px solid rgba(200, 168, 98, 0.4);
+            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+            animation: morphFrame 12s ease-in-out infinite;
         }
 
-        .frame-layer-3 {
+        .geo-frame-2 {
             position: absolute;
             top: -20px;
             left: -20px;
             right: -20px;
             bottom: -20px;
-            border: 1px dashed rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            animation: rotateFast 8s linear infinite;
+            border: 1px dashed rgba(200, 168, 98, 0.3);
+            border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%;
+            animation: morphFrame 15s ease-in-out infinite reverse;
         }
 
-        @keyframes rotateSlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes morphFrame {
+            0%, 100% { border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%; }
+            33% { border-radius: 60% 40% 60% 40% / 40% 60% 40% 60%; }
+            66% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
         }
 
-        @keyframes rotateMedium {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(-360deg); }
-        }
-
-        @keyframes rotateFast {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(180deg); }
-        }
-
-        .royal-frame img {
+        .portrait-vault img {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #1a1a1a;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            border: 4px solid #1E1F25;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             position: relative;
             z-index: 5;
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .royal-frame:hover img {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.4);
+        .portrait-vault:hover img {
+            transform: scale(1.08) rotate(5deg);
+            border-color: #C8A862;
         }
 
-        /* Royal Crown Badge */
-        .crown-badge {
+        /* Unique Noble Badge */
+        .noble-seal {
             position: absolute;
-            top: -10px;
+            bottom: -10px;
             right: 50%;
-            transform: translateX(70px);
-            background: linear-gradient(135deg, #D4AF37, #8B6914);
-            color: #000;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 16px;
-            font-weight: 700;
-            padding: 10px 30px;
-            border-radius: 50px;
+            transform: translateX(65px);
+            background: #1E1F25;
+            color: #C8A862;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 13px;
+            font-weight: 400;
+            padding: 10px 28px;
+            border-radius: 40px;
             letter-spacing: 3px;
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.5);
-            border: 1px solid rgba(255,255,255,0.3);
+            border: 1px solid #C8A862;
+            box-shadow: 0 10px 30px rgba(200, 168, 98, 0.2);
             white-space: nowrap;
             z-index: 20;
-            animation: crownFloat 3s ease-in-out infinite;
+            backdrop-filter: blur(5px);
         }
 
-        .crown-badge i {
-            margin-right: 8px;
-            font-size: 14px;
+        .noble-seal span {
+            margin: 0 5px;
+            font-size: 16px;
         }
 
-        @keyframes crownFloat {
-            0%, 100% { transform: translateX(70px) translateY(0); }
-            50% { transform: translateX(70px) translateY(-5px); }
-        }
-
-        /* Royal Name */
-        .royal-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 42px;
+        /* Name with Unique Typography */
+        .noble-name {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 38px;
             font-weight: 700;
-            color: #D4AF37;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-            text-shadow: 
-                3px 3px 6px rgba(0,0,0,0.5),
-                0 0 20px rgba(212, 175, 55, 0.3);
+            color: #C8A862;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
             position: relative;
             display: inline-block;
         }
 
-        .royal-name::before,
-        .royal-name::after {
-            content: '👑';
+        .noble-name .small-crown {
             font-size: 24px;
-            margin: 0 15px;
             opacity: 0.5;
-            animation: crownWink 3s infinite;
+            margin: 0 8px;
         }
 
-        @keyframes crownWink {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-
-        .royal-title {
-            font-size: 13px;
-            color: #aaa;
+        .noble-epithet {
+            font-size: 12px;
+            color: #8A8A8A;
             letter-spacing: 6px;
             text-transform: uppercase;
             margin-bottom: 30px;
             font-weight: 300;
-            word-spacing: 8px;
+            word-spacing: 4px;
         }
 
-        /* Opulent Economy Stats */
-        .opulent-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 40px;
-            padding: 25px 15px;
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(139, 105, 20, 0.05));
-            border-radius: 120px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+        /* Unique Economy Metrics */
+        .economy-altar {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 45px;
+            padding: 15px 20px;
+            background: rgba(200, 168, 98, 0.03);
+            border-radius: 100px;
+            border: 1px solid rgba(200, 168, 98, 0.15);
             position: relative;
             overflow: hidden;
         }
 
-        .opulent-stats::after {
+        .economy-altar::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
-            animation: goldWave 4s infinite;
+            background: linear-gradient(90deg, transparent, rgba(200, 168, 98, 0.05), transparent);
+            animation: lightBeam 6s infinite;
         }
 
-        @keyframes goldWave {
+        @keyframes lightBeam {
             0% { left: -100%; }
             30% { left: 100%; }
             100% { left: 100%; }
         }
 
-        .stat-block {
+        .offering {
             text-align: center;
+            flex: 1;
             position: relative;
         }
 
-        .stat-icon {
-            color: #D4AF37;
-            font-size: 20px;
+        .offering-symbol {
+            color: #C8A862;
+            font-size: 18px;
             margin-bottom: 8px;
+            opacity: 0.8;
         }
 
-        .stat-number {
+        .offering-value {
             display: block;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
+            font-family: 'Libre Baskerville', serif;
+            font-size: 26px;
             font-weight: 700;
-            color: #D4AF37;
-            margin-bottom: 5px;
+            color: #C8A862;
+            margin-bottom: 4px;
             line-height: 1;
         }
 
-        .stat-label {
-            font-size: 10px;
-            color: #888;
+        .offering-label {
+            font-size: 9px;
+            color: #6A6A6A;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 300;
+            letter-spacing: 2px;
         }
 
-        /* Luxurious Button Grid */
-        .luxury-grid {
+        /* Unique Button Grid */
+        .heritage-grid {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-bottom: 35px;
+            gap: 16px;
+            margin-bottom: 40px;
         }
 
-        /* The Ultimate Premium Button */
-        .luxury-btn {
+        /* Architectural Buttons */
+        .heritage-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 18px 28px;
-            background: rgba(25, 25, 25, 0.7);
-            border: 1.5px solid rgba(212, 175, 55, 0.2);
-            border-radius: 60px;
+            padding: 18px 30px;
+            background: rgba(25, 28, 33, 0.8);
+            border: 1px solid rgba(200, 168, 98, 0.2);
+            border-radius: 50px;
             color: #fff;
             text-decoration: none;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
 
-        /* Button Shine Overlay */
-        .luxury-btn::before {
+        /* Button Top Accent */
+        .heritage-btn::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, 
-                transparent, 
-                rgba(212, 175, 55, 0.2), 
-                rgba(255, 255, 255, 0.1), 
-                rgba(212, 175, 55, 0.2), 
-                transparent);
-            transition: left 0.8s ease;
-        }
-
-        .luxury-btn:hover::before {
-            left: 100%;
-        }
-
-        /* Button Glow Effect */
-        .luxury-btn::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
             left: 10%;
             width: 80%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #C8A862, transparent);
             transform: scaleX(0);
             transition: transform 0.5s ease;
         }
 
-        .luxury-btn:hover::after {
+        .heritage-btn:hover::before {
             transform: scaleX(1);
         }
 
-        .btn-icon-wrapper {
+        /* Button Bottom Accent */
+        .heritage-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #C8A862, transparent);
+            transform: scaleX(0);
+            transition: transform 0.5s ease 0.1s;
+        }
+
+        .heritage-btn:hover::after {
+            transform: scaleX(1);
+        }
+
+        .btn-asset {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 20px;
             position: relative;
             z-index: 2;
         }
 
-        .btn-icon-wrapper i {
-            font-size: 24px;
-            color: #D4AF37;
-            transition: all 0.4s ease;
-            width: 28px;
-            text-align: center;
-        }
-
-        .btn-icon-wrapper img {
-            width: 24px;
-            height: 24px;
+        /* Original Logo Container - Exactly as before */
+        .btn-asset img {
+            width: 22px;
+            height: 22px;
             filter: brightness(0) invert(1);
             transition: all 0.4s ease;
+            object-fit: contain;
         }
 
-        .btn-text {
+        .btn-asset span {
             font-size: 15px;
-            font-weight: 500;
-            color: #f0f0f0;
+            font-weight: 400;
+            color: #E0E0E0;
             letter-spacing: 0.5px;
             transition: all 0.3s ease;
         }
 
-        .btn-decoration {
-            color: #D4AF37;
+        .btn-value {
+            color: #C8A862;
             font-size: 14px;
             opacity: 0;
-            transform: translateX(-15px);
-            transition: all 0.4s ease;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
             position: relative;
             z-index: 2;
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Libre Baskerville', serif;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
-        .luxury-btn:hover {
-            background: rgba(212, 175, 55, 0.1);
-            border-color: rgba(212, 175, 55, 0.6);
-            transform: translateY(-4px) scale(1.02);
+        .heritage-btn:hover {
+            background: rgba(200, 168, 98, 0.08);
+            border-color: rgba(200, 168, 98, 0.5);
+            transform: translateY(-3px) scale(1.01);
             box-shadow: 
-                0 20px 40px rgba(0,0,0,0.5),
-                0 0 30px rgba(212, 175, 55, 0.3);
-            padding-left: 35px;
+                0 20px 40px rgba(0,0,0,0.6),
+                0 0 30px rgba(200, 168, 98, 0.2);
+            padding-left: 40px;
+            padding-right: 40px;
         }
 
-        .luxury-btn:hover .btn-icon-wrapper i {
-            transform: scale(1.2) rotate(5deg);
-            color: #FFD700;
+        .heritage-btn:hover .btn-asset img {
+            transform: scale(1.15) rotate(3deg);
+            filter: brightness(1) sepia(1) saturate(5) hue-rotate(350deg);
         }
 
-        .luxury-btn:hover .btn-icon-wrapper img {
-            transform: scale(1.2) rotate(5deg);
-            filter: brightness(1) invert(0.8) sepia(1) hue-rotate(5deg);
-        }
-
-        .luxury-btn:hover .btn-text {
-            color: #D4AF37;
+        .heritage-btn:hover .btn-asset span {
+            color: #C8A862;
             letter-spacing: 1px;
         }
 
-        .luxury-btn:hover .btn-decoration {
+        .heritage-btn:hover .btn-value {
             opacity: 1;
             transform: translateX(0);
         }
 
-        /* Royal Button Variant - Every 3rd button */
-        .royal-btn {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(139, 105, 20, 0.1));
-            border-color: rgba(212, 175, 55, 0.4);
-            position: relative;
+        /* Exclusive Button Variant - Alternating Pattern */
+        .exclusive-btn {
+            background: rgba(30, 33, 38, 0.9);
+            border-color: rgba(200, 168, 98, 0.3);
+            border-width: 1.5px;
         }
 
-        .royal-btn .btn-icon-wrapper i {
-            color: #FFD700;
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        .exclusive-btn .btn-asset span {
+            font-weight: 500;
         }
 
-        .royal-btn .btn-text {
-            font-weight: 600;
+        .exclusive-btn .btn-value {
+            font-size: 15px;
         }
 
-        .royal-btn .btn-decoration {
-            font-size: 16px;
-        }
-
-        .royal-btn .btn-decoration i {
-            margin-left: 5px;
-            font-size: 12px;
-        }
-
-        /* Emperor Footer */
-        .emperor-footer {
-            margin-top: 35px;
+        /* Unique Footer Design */
+        .legacy-footer {
+            margin-top: 30px;
             text-align: center;
             padding: 25px 0 5px;
-            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-top: 1px solid rgba(200, 168, 98, 0.15);
             position: relative;
         }
 
-        .footer-ornament {
+        .legacy-symbols {
             position: absolute;
             top: -15px;
             left: 50%;
             transform: translateX(-50%);
-            background: #0F0F0F;
-            padding: 0 20px;
-            color: #D4AF37;
-            font-size: 24px;
-            letter-spacing: 10px;
+            background: #0B0C10;
+            padding: 0 25px;
+            color: #C8A862;
+            font-size: 22px;
+            letter-spacing: 15px;
         }
 
-        .footer-ornament i {
-            margin: 0 10px;
-            font-size: 16px;
-            opacity: 0.7;
+        .legacy-symbols span {
+            opacity: 0.5;
+            font-size: 18px;
         }
 
-        .footer-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 14px;
-            color: #777;
+        .legacy-text {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 13px;
+            color: #6A6A6A;
             letter-spacing: 2px;
-            line-height: 1.8;
+            line-height: 2;
         }
 
-        .footer-text strong {
-            color: #D4AF37;
+        .legacy-text .legacy-name {
+            color: #C8A862;
             font-weight: 700;
             margin: 0 5px;
         }
 
-        .footer-gold {
-            color: #D4AF37;
+        .legacy-seal {
+            color: #C8A862;
             font-size: 10px;
-            letter-spacing: 4px;
-            margin-top: 10px;
+            letter-spacing: 5px;
+            margin-top: 15px;
             opacity: 0.6;
+            word-spacing: 10px;
         }
 
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 480px) {
-            .masterpiece-card {
-                padding: 35px 20px;
-                border-radius: 48px;
+            .arch-card {
+                padding: 40px 20px;
+                border-radius: 60px;
             }
             
-            .royal-name {
-                font-size: 36px;
+            .noble-name {
+                font-size: 32px;
             }
             
-            .royal-name::before,
-            .royal-name::after {
-                margin: 0 8px;
+            .noble-name .small-crown {
                 font-size: 20px;
+                margin: 0 4px;
             }
             
-            .crown-badge {
-                font-size: 14px;
+            .noble-seal {
+                font-size: 11px;
                 padding: 8px 20px;
-                transform: translateX(60px);
+                transform: translateX(50px);
             }
             
-            .crown-badge i {
-                font-size: 12px;
+            .btn-asset {
+                gap: 15px;
             }
             
-            .btn-icon-wrapper {
-                gap: 14px;
-            }
-            
-            .btn-icon-wrapper i {
-                font-size: 20px;
-            }
-            
-            .btn-text {
+            .btn-asset span {
                 font-size: 14px;
             }
             
-            .luxury-btn {
-                padding: 16px 22px;
+            .heritage-btn {
+                padding: 16px 25px;
+            }
+            
+            .offering-value {
+                font-size: 22px;
             }
         }
 
-        /* Smooth Scrolling */
+        /* Smooth Scroll */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Selection Style */
+        /* Custom Selection */
         ::selection {
-            background: #D4AF37;
-            color: #000;
+            background: #C8A862;
+            color: #0B0C10;
         }
     </style>
 </head>
 <body>
-    <!-- Floating Gold Particles -->
-    <div class="particle-field">
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-        <div class="gold-particle"></div>
-    </div>
+    <!-- Marble Orbs -->
+    <div class="marble marble-1"></div>
+    <div class="marble marble-2"></div>
 
     <div class="container">
-        <div class="masterpiece-card">
-            <!-- Royal Profile with Ornate Frames -->
-            <div class="royal-profile">
-                <div class="royal-frame">
-                    <div class="frame-layer-1"></div>
-                    <div class="frame-layer-2"></div>
-                    <div class="frame-layer-3"></div>
-                    <img src="Your_Profile_Picture_Link" alt="Royal Profile">
+        <div class="arch-card">
+            <!-- Noble Profile with Geometric Frame -->
+            <div class="noble-profile">
+                <div class="portrait-vault">
+                    <div class="geo-frame-1"></div>
+                    <div class="geo-frame-2"></div>
+                    <img src="Your_Profile_Picture_Link" alt="Noble Profile">
                 </div>
-                <div class="crown-badge">
-                    <i class="fas fa-crown"></i> ROYAL ECONOMY <i class="fas fa-crown"></i>
+                <div class="noble-seal">
+                    <span>⬩</span> NOBLE ECONOMY <span>⬩</span>
                 </div>
-                <h1 class="royal-name">Your_Name</h1>
-                <div class="royal-title">EMPEROR OF DIGITAL ECONOMY</div>
+                <h1 class="noble-name">
+                    <span class="small-crown">⬩</span> Your_Name <span class="small-crown">⬩</span>
+                </h1>
+                <div class="noble-epithet">GUARDIAN OF DIGITAL WEALTH</div>
             </div>
 
-            <!-- Opulent Economy Dashboard -->
-            <div class="opulent-stats">
-                <div class="stat-block">
-                    <div class="stat-icon"><i class="fas fa-coins"></i></div>
-                    <span class="stat-number">$128.5K</span>
-                    <span class="stat-label">WEALTH</span>
+            <!-- Economy Altar -->
+            <div class="economy-altar">
+                <div class="offering">
+                    <div class="offering-symbol">◈</div>
+                    <span class="offering-value">$89.4K</span>
+                    <span class="offering-label">TREASURY</span>
                 </div>
-                <div class="stat-block">
-                    <div class="stat-icon"><i class="fas fa-gem"></i></div>
-                    <span class="stat-number">45.8K</span>
-                    <span class="stat-label">ASSETS</span>
+                <div class="offering">
+                    <div class="offering-symbol">⬩</div>
+                    <span class="offering-value">23.6K</span>
+                    <span class="offering-label">HOLDINGS</span>
                 </div>
-                <div class="stat-block">
-                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-                    <span class="stat-number">312%</span>
-                    <span class="stat-label">GROWTH</span>
+                <div class="offering">
+                    <div class="offering-symbol">◊</div>
+                    <span class="offering-value">178%</span>
+                    <span class="offering-label">YIELD</span>
                 </div>
             </div>
 
-            <!-- All 11 Original Buttons - Ultra Premium -->
-            <div class="luxury-grid">
-                <!-- 1. Facebook -->
-                <a class="luxury-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-facebook-f"></i>
-                        <span class="btn-text">Facebook</span>
+            <!-- Heritage Grid - All 11 Original Buttons with Correct Logos -->
+            <div class="heritage-grid">
+                <!-- 1. Facebook - Original Logo -->
+                <a class="heritage-btn" href="https://www.facebook.com/your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook">
+                        <span>Facebook</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ 12.5K</div>
                 </a>
 
-                <!-- 2. Facebook Page (Royal) -->
-                <a class="luxury-btn royal-btn" href="https://www.facebook.com/your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-facebook"></i>
-                        <span class="btn-text">Facebook Page</span>
+                <!-- 2. Facebook Page - Original Logo -->
+                <a class="heritage-btn exclusive-btn" href="https://www.facebook.com/your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook Page">
+                        <span>Facebook Page</span>
                     </div>
-                    <div class="btn-decoration">✦ <i class="fas fa-crown"></i></div>
+                    <div class="btn-value">⬩ 8.2K</div>
                 </a>
 
-                <!-- 3. Instagram -->
-                <a class="luxury-btn" href="https://www.instagram.com/your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-instagram"></i>
-                        <span class="btn-text">Instagram</span>
+                <!-- 3. Instagram - Original Logo -->
+                <a class="heritage-btn" href="https://www.instagram.com/your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
+                        <span>Instagram</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ 45.3K</div>
                 </a>
 
-                <!-- 4. WhatsApp (Royal) -->
-                <a class="luxury-btn royal-btn" href="https://wa.me/8801234567890" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-whatsapp"></i>
-                        <span class="btn-text">WhatsApp</span>
+                <!-- 4. WhatsApp - Original Logo -->
+                <a class="heritage-btn exclusive-btn" href="https://wa.me/8801234567890" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp">
+                        <span>WhatsApp</span>
                     </div>
-                    <div class="btn-decoration">✦ <i class="fas fa-crown"></i></div>
+                    <div class="btn-value">⬩ 3.1K</div>
                 </a>
 
-                <!-- 5. TikTok -->
-                <a class="luxury-btn" href="https://www.tiktok.com/@your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-tiktok"></i>
-                        <span class="btn-text">TikTok</span>
+                <!-- 5. TikTok - Original Logo -->
+                <a class="heritage-btn" href="https://www.tiktok.com/@your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok">
+                        <span>TikTok</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ 67.8K</div>
                 </a>
 
-                <!-- 6. Telegram (Royal) -->
-                <a class="luxury-btn royal-btn" href="https://t.me/your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-telegram-plane"></i>
-                        <span class="btn-text">Telegram</span>
+                <!-- 6. Telegram - Original Logo -->
+                <a class="heritage-btn exclusive-btn" href="https://t.me/your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
+                        <span>Telegram</span>
                     </div>
-                    <div class="btn-decoration">✦ <i class="fas fa-crown"></i></div>
+                    <div class="btn-value">⬩ 5.4K</div>
                 </a>
 
-                <!-- 7. Twitter (X) -->
-                <a class="luxury-btn" href="https://x.com/your_username" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-x-twitter"></i>
-                        <span class="btn-text">Twitter (X)</span>
+                <!-- 7. Twitter (X) - Original Logo -->
+                <a class="heritage-btn" href="https://x.com/your_username" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="X">
+                        <span>Twitter (X)</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ 21.7K</div>
                 </a>
 
-                <!-- 8. Discord (Royal) -->
-                <a class="luxury-btn royal-btn" href="https://discord.gg/your_invite_link" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fab fa-discord"></i>
-                        <span class="btn-text">Discord</span>
+                <!-- 8. Discord - Original Logo -->
+                <a class="heritage-btn exclusive-btn" href="https://discord.gg/your_invite_link" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
+                        <span>Discord</span>
                     </div>
-                    <div class="btn-decoration">✦ <i class="fas fa-crown"></i></div>
+                    <div class="btn-value">⬩ 2.9K</div>
                 </a>
 
-                <!-- 9. Call Me -->
-                <a class="luxury-btn" href="tel:01234567890">
-                    <div class="btn-icon-wrapper">
-                        <i class="fas fa-phone-alt"></i>
-                        <span class="btn-text">Call Me</span>
+                <!-- 9. Call Me - Original Icon -->
+                <a class="heritage-btn" href="tel:01234567890">
+                    <div class="btn-asset">
+                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone" style="filter: brightness(0) invert(1);">
+                        <span>Call Me</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ 24/7</div>
                 </a>
 
-                <!-- 10. About Me (Royal) -->
-                <a class="luxury-btn royal-btn" href="#" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fas fa-user"></i>
-                        <span class="btn-text">About Me</span>
+                <!-- 10. About Me - Original Icon -->
+                <a class="heritage-btn exclusive-btn" href="#" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/aboutdotme/FFFFFF" alt="About Me">
+                        <span>About Me</span>
                     </div>
-                    <div class="btn-decoration">✦ <i class="fas fa-crown"></i></div>
+                    <div class="btn-value">⬩ BIO</div>
                 </a>
 
-                <!-- 11. My Website -->
-                <a class="luxury-btn" href="#" target="_blank">
-                    <div class="btn-icon-wrapper">
-                        <i class="fas fa-globe"></i>
-                        <span class="btn-text">My Website</span>
+                <!-- 11. My Website - Original Icon -->
+                <a class="heritage-btn" href="#" target="_blank">
+                    <div class="btn-asset">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: brightness(0) invert(1);">
+                        <span>My Website</span>
                     </div>
-                    <div class="btn-decoration"><i class="fas fa-arrow-right"></i></div>
+                    <div class="btn-value">◈ .com</div>
                 </a>
             </div>
 
-            <!-- Emperor Footer -->
-            <div class="emperor-footer">
-                <div class="footer-ornament">
-                    <i class="fas fa-crown"></i> ✦ <i class="fas fa-crown"></i>
+            <!-- Legacy Footer -->
+            <div class="legacy-footer">
+                <div class="legacy-symbols">
+                    <span>◈</span> ⬩ <span>◊</span>
                 </div>
-                <div class="footer-text">
+                <div class="legacy-text">
                     COPYRIGHT © 2026 <br>
-                    <strong>✦ YOUR_NAME ✦</strong> <br>
+                    <span class="legacy-name">◈ YOUR_NAME ◈</span> <br>
                     ALL RIGHTS RESERVED
                 </div>
-                <div class="footer-gold">
-                    ROYAL ECONOMY ◈ EMPEROR EDITION
+                <div class="legacy-seal">
+                    NOBLE ECONOMY ⬩ HERITAGE EDITION
                 </div>
             </div>
         </div>
