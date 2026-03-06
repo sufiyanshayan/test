@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OPULENT MINIMAL | Your_Name</title>
+    <title>PREMIUM ECONOMY | Your_Name</title>
     
-    <!-- Ultra Premium Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Now+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -17,43 +16,45 @@
         }
 
         body {
-            font-family: 'Helvetica Now Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #111214;
+            font-family: 'Inter', sans-serif;
+            background: #0C0C10;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            overflow-x: hidden;
         }
 
-        /* Ultra Premium Background - Liquid Gold */
+        /* Premium Economy Background - Liquid Gold + Silver */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(230, 195, 120, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(200, 160, 100, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(180, 140, 80, 0.04) 0%, transparent 60%),
-                radial-gradient(circle at 60% 20%, rgba(220, 180, 110, 0.05) 0%, transparent 60%);
-            filter: blur(60px);
-            animation: liquidGold 20s ease-in-out infinite alternate;
+                radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(192, 192, 192, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 60% 20%, rgba(169, 169, 169, 0.07) 0%, transparent 60%);
+            filter: blur(70px);
+            animation: liquidPrecious 25s ease-in-out infinite alternate;
         }
 
-        @keyframes liquidGold {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.1); }
+        @keyframes liquidPrecious {
+            0% { opacity: 0.5; transform: scale(1) rotate(0deg); }
+            100% { opacity: 1; transform: scale(1.15) rotate(2deg); }
         }
 
-        /* Subtle Texture - Million Dollar Feel */
+        /* Premium Texture - Dollar Sign Pattern */
         body::after {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
             background-image: 
-                repeating-linear-gradient(45deg, rgba(255, 215, 0, 0.01) 0px, rgba(255, 215, 0, 0.01) 2px, transparent 2px, transparent 8px);
+                repeating-linear-gradient(0deg, rgba(212, 175, 55, 0.02) 0px, rgba(212, 175, 55, 0.02) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(90deg, rgba(192, 192, 192, 0.02) 0px, rgba(192, 192, 192, 0.02) 1px, transparent 1px, transparent 40px);
             pointer-events: none;
         }
 
@@ -61,534 +62,598 @@
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             padding: 20px;
             margin: 0 auto;
         }
 
-        /* The Perfect Card - Clean, Expensive, Modern */
-        .premium-card {
-            background: rgba(18, 20, 24, 0.85);
-            backdrop-filter: blur(30px) saturate(180%);
-            -webkit-backdrop-filter: blur(30px) saturate(180%);
-            border: 1px solid rgba(230, 195, 120, 0.18);
-            border-radius: 48px;
-            padding: 40px 24px;
-            box-shadow: 
-                0 40px 80px -20px rgba(0, 0, 0, 0.8),
-                0 0 0 1px rgba(230, 195, 120, 0.08) inset,
-                0 0 40px rgba(230, 195, 120, 0.1);
-        }
-
-        /* Profile - Clean & Powerful */
-        .profile-section {
-            text-align: center;
-            margin-bottom: 36px;
-        }
-
-        /* The Perfect Frame - Modern Luxury */
-        .portrait-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .portrait-ring {
-            position: absolute;
-            top: -6px;
-            left: -6px;
-            right: -6px;
-            bottom: -6px;
-            border: 1.5px solid rgba(230, 195, 120, 0.3);
-            border-radius: 50%;
-            transition: all 0.5s ease;
-        }
-
-        .portrait-ring::before {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            right: 3px;
-            bottom: 3px;
-            border: 1px solid rgba(230, 195, 120, 0.2);
-            border-radius: 50%;
-        }
-
-        .portrait-container:hover .portrait-ring {
-            transform: scale(1.1);
-            border-color: rgba(230, 195, 120, 0.6);
-        }
-
-        .portrait-container img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid rgba(230, 195, 120, 0.2);
-            transition: all 0.4s ease;
-        }
-
-        .portrait-container:hover img {
-            border-color: rgba(230, 195, 120, 0.5);
-            transform: scale(1.02);
-        }
-
-        /* Premium Badge - Minimal & Impactful */
-        .economy-badge {
-            display: inline-block;
-            background: rgba(230, 195, 120, 0.1);
-            color: #E6C378;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 6px 24px;
+        /* Premium Economy Card */
+        .economy-card {
+            background: rgba(15, 17, 22, 0.85);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             border-radius: 40px;
-            letter-spacing: 2px;
-            margin-bottom: 16px;
-            border: 1px solid rgba(230, 195, 120, 0.2);
-            backdrop-filter: blur(5px);
-        }
-
-        .economy-badge span {
-            margin: 0 6px;
-            font-size: 16px;
-        }
-
-        /* Name - Powerful Typography */
-        .premium-name {
-            font-size: 36px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .premium-title {
-            font-size: 14px;
-            color: #9A9A9A;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* Economy Stats - Clean & Premium */
-        .wealth-metrics {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            margin: 36px 0;
-            padding: 20px 16px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 32px;
-            border: 1px solid rgba(230, 195, 120, 0.1);
-        }
-
-        .metric-item {
-            text-align: center;
-            flex: 1;
-        }
-
-        .metric-icon {
-            font-size: 20px;
-            color: #E6C378;
-            margin-bottom: 8px;
-            font-weight: 300;
-        }
-
-        .metric-value {
-            display: block;
-            font-size: 26px;
-            font-weight: 600;
-            color: #E6C378;
-            margin-bottom: 4px;
-            font-feature-settings: "tnum";
-        }
-
-        .metric-label {
-            font-size: 10px;
-            color: #7A7A7A;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 400;
-        }
-
-        /* Button Grid - Perfect Spacing */
-        .button-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 36px;
-        }
-
-        /* The Ultimate Premium Button */
-        .premium-button {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 100px;
-            color: #FFFFFF;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            padding: 40px 25px;
+            box-shadow: 
+                0 50px 100px -20px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(212, 175, 55, 0.1) inset,
+                0 0 60px rgba(212, 175, 55, 0.15);
             position: relative;
             overflow: hidden;
         }
 
-        /* Button Hover Effect - Liquid Gold */
-        .premium-button::before {
+        /* Economy Ticker Effect */
+        .economy-card::before {
+            content: '$ $ $ $ $ $ $ $ $ $';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            color: rgba(212, 175, 55, 0.03);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 10px;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+            pointer-events: none;
+        }
+
+        .economy-card::after {
+            content: '⟁ ⟁ ⟁ ⟁ ⟁ ⟁ ⟁ ⟁ ⟁ ⟁';
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            color: rgba(192, 192, 192, 0.03);
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 10px;
+            white-space: nowrap;
+            animation: ticker 25s linear infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Profile Section */
+        .profile-economy {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* Premium Frame - Stock Market Inspired */
+        .chart-frame {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .chart-ring {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: #D4AF37;
+            border-bottom-color: #C0C0C0;
+            animation: chartRotate 6s linear infinite;
+        }
+
+        .chart-ring-2 {
+            position: absolute;
+            top: -12px;
+            left: -12px;
+            right: -12px;
+            bottom: -12px;
+            border: 1px dashed rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            animation: chartRotate 9s linear infinite reverse;
+        }
+
+        @keyframes chartRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #1E1F25;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            position: relative;
+            z-index: 5;
+            transition: all 0.4s ease;
+        }
+
+        .chart-frame:hover img {
+            transform: scale(1.03);
+            border-color: #D4AF37;
+        }
+
+        /* Economy Badge */
+        .economy-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(192, 192, 192, 0.1));
+            color: #D4AF37;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 28px;
+            border-radius: 100px;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .economy-badge .trend {
+            color: #4CAF50;
+            margin-left: 5px;
+        }
+
+        /* Name with Economy Vibe */
+        .economy-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 40px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.2);
+        }
+
+        .economy-title {
+            font-size: 14px;
+            color: #A0A0A0;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        /* Live Market Stats */
+        .market-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 35px;
+            padding: 20px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .market-stats::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(230, 195, 120, 0.08),
-                rgba(230, 195, 120, 0.03),
-                transparent
-            );
-            transition: left 0.6s ease;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            animation: marketFlash 4s infinite;
         }
 
-        .premium-button:hover::before {
+        @keyframes marketFlash {
+            0% { left: -100%; }
+            30% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .stat-ticker {
+            text-align: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .stat-arrow {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .stat-arrow.up { color: #4CAF50; }
+        .stat-arrow.down { color: #F44336; }
+
+        .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: #D4AF37;
+            margin-bottom: 4px;
+            font-feature-settings: "tnum";
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #8A8A8A;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Button Grid */
+        .economy-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        /* Premium Economy Button */
+        .economy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 17px 25px;
+            background: rgba(25, 27, 32, 0.7);
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            border-radius: 40px;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Button Ticker Effect */
+        .economy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(212, 175, 55, 0.15),
+                rgba(192, 192, 192, 0.1),
+                rgba(212, 175, 55, 0.15),
+                transparent);
+            transition: left 0.8s ease;
+        }
+
+        .economy-btn:hover::before {
             left: 100%;
         }
 
-        .button-left {
+        .btn-asset {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 18px;
             position: relative;
             z-index: 2;
         }
 
-        /* Logo Styling - Perfect & Clean */
-        .button-left img {
-            width: 22px;
-            height: 22px;
+        .btn-asset img {
+            width: 24px;
+            height: 24px;
             filter: brightness(0) invert(1);
-            transition: all 0.3s ease;
-            opacity: 0.9;
+            transition: all 0.4s ease;
         }
 
-        .button-left span {
+        .btn-asset span {
             font-size: 16px;
             font-weight: 500;
-            color: #FFFFFF;
+            color: #F0F0F0;
             transition: all 0.3s ease;
-            letter-spacing: 0.2px;
+            letter-spacing: 0.3px;
         }
 
-        .button-value {
-            color: #E6C378;
-            font-size: 15px;
-            font-weight: 500;
+        .btn-price {
+            color: #D4AF37;
+            font-size: 16px;
+            font-weight: 600;
             opacity: 0;
-            transform: translateX(-10px);
+            transform: translateX(-15px);
             transition: all 0.4s ease;
             position: relative;
             z-index: 2;
             font-feature-settings: "tnum";
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
-        /* Button Hover State - Premium Feel */
-        .premium-button:hover {
-            background: rgba(230, 195, 120, 0.05);
-            border-color: rgba(230, 195, 120, 0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.5);
-            padding-left: 28px;
-            padding-right: 28px;
+        .btn-price .change {
+            font-size: 12px;
+            color: #4CAF50;
         }
 
-        .premium-button:hover .button-left img {
-            transform: scale(1.1);
-            filter: brightness(1) sepia(1) saturate(3) hue-rotate(340deg);
+        .economy-btn:hover {
+            background: rgba(35, 37, 42, 0.8);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 
+                0 20px 40px -10px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(212, 175, 55, 0.2);
+            padding-left: 30px;
+            padding-right: 30px;
         }
 
-        .premium-button:hover .button-left span {
-            color: #E6C378;
+        .economy-btn:hover .btn-asset img {
+            transform: scale(1.15) rotate(3deg);
+            filter: brightness(1) sepia(1) saturate(5) hue-rotate(340deg);
         }
 
-        .premium-button:hover .button-value {
+        .economy-btn:hover .btn-asset span {
+            color: #D4AF37;
+        }
+
+        .economy-btn:hover .btn-price {
             opacity: 1;
             transform: translateX(0);
         }
 
-        /* Special Button Variant - Every 3rd button */
-        .premium-button.special {
-            background: rgba(230, 195, 120, 0.03);
-            border-color: rgba(230, 195, 120, 0.2);
+        /* Premium Button Variant - Every 2nd button */
+        .economy-btn.premium-share {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(25, 27, 32, 0.7));
+            border-color: rgba(212, 175, 55, 0.25);
         }
 
-        .premium-button.special .button-left span {
-            font-weight: 600;
-        }
-
-        .premium-button.special .button-value {
-            color: #FFFFFF;
-            background: rgba(230, 195, 120, 0.2);
+        .economy-btn.premium-share .btn-price {
+            background: rgba(212, 175, 55, 0.15);
             padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 13px;
+            border-radius: 30px;
+            font-size: 14px;
         }
 
-        /* Footer - Clean & Premium */
-        .premium-footer {
-            margin-top: 24px;
+        /* Footer - Stock Exchange Style */
+        .economy-footer {
+            margin-top: 25px;
             text-align: center;
-            padding: 24px 0 8px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px 0 5px;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
             position: relative;
         }
 
-        .footer-separator {
+        .footer-ticker {
             position: absolute;
-            top: -1px;
+            top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: #111214;
-            padding: 0 20px;
-            color: #E6C378;
-            font-size: 14px;
-            letter-spacing: 4px;
+            background: #0C0C10;
+            padding: 0 25px;
+            color: #D4AF37;
+            font-size: 16px;
+            letter-spacing: 8px;
+            font-weight: 600;
         }
 
         .footer-text {
             font-size: 13px;
-            color: #6A6A6A;
-            letter-spacing: 1px;
+            color: #707070;
+            letter-spacing: 1.5px;
             line-height: 1.8;
-            font-weight: 400;
         }
 
-        .footer-text .premium-signature {
-            color: #E6C378;
-            font-weight: 500;
-            margin: 0 4px;
+        .footer-text .stock-code {
+            color: #D4AF37;
+            font-weight: 700;
+            margin: 0 5px;
+            font-size: 15px;
         }
 
-        .footer-edition {
-            color: rgba(230, 195, 120, 0.3);
+        .footer-exchange {
+            color: rgba(212, 175, 55, 0.4);
             font-size: 10px;
-            letter-spacing: 3px;
-            margin-top: 16px;
+            letter-spacing: 4px;
+            margin-top: 15px;
             text-transform: uppercase;
         }
 
-        /* Responsive - Perfect on all devices */
+        /* Live Indicator */
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: livePulse 1.5s infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Responsive */
         @media (max-width: 480px) {
-            .premium-card {
-                padding: 32px 20px;
+            .economy-card {
+                padding: 35px 20px;
             }
             
-            .premium-name {
-                font-size: 32px;
+            .economy-name {
+                font-size: 36px;
             }
             
-            .portrait-container {
-                width: 110px;
-                height: 110px;
+            .chart-frame {
+                width: 120px;
+                height: 120px;
             }
             
-            .button-left span {
+            .btn-asset span {
                 font-size: 15px;
             }
             
-            .button-left img {
-                width: 20px;
-                height: 20px;
+            .btn-asset img {
+                width: 22px;
+                height: 22px;
             }
             
-            .premium-button {
-                padding: 14px 22px;
-            }
-            
-            .metric-value {
+            .stat-number {
                 font-size: 24px;
             }
         }
 
-        /* Smooth Everything */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Perfect Selection */
+        /* Selection */
         ::selection {
-            background: rgba(230, 195, 120, 0.2);
-            color: #E6C378;
-        }
-
-        /* Custom Scrollbar - Premium Touch */
-        ::-webkit-scrollbar {
-            width: 4px;
-            background: #111214;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(230, 195, 120, 0.3);
-            border-radius: 0;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(230, 195, 120, 0.5);
+            background: rgba(212, 175, 55, 0.2);
+            color: #D4AF37;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="premium-card">
+        <div class="economy-card">
             <!-- Profile -->
-            <div class="profile-section">
-                <div class="portrait-container">
-                    <div class="portrait-ring"></div>
+            <div class="profile-economy">
+                <div class="chart-frame">
+                    <div class="chart-ring"></div>
+                    <div class="chart-ring-2"></div>
                     <img src="Your_Profile_Picture_Link" alt="Profile">
                 </div>
                 <div class="economy-badge">
-                    <span>⟁</span> PREMIUM ECONOMY <span>⟁</span>
+                    $ PREMIUM ECONOMY <span class="trend">▲ +12.8%</span>
                 </div>
-                <h1 class="premium-name">Your_Name</h1>
-                <div class="premium-title">DIGITAL ASSET CURATOR</div>
+                <h1 class="economy-name">Your_Name</h1>
+                <div class="economy-title">CHIEF ECONOMICS OFFICER</div>
             </div>
 
-            <!-- Wealth Metrics - Clean Premium Numbers -->
-            <div class="wealth-metrics">
-                <div class="metric-item">
-                    <div class="metric-icon">⚡</div>
-                    <span class="metric-value">128.4</span>
-                    <span class="metric-label">VALUE</span>
+            <!-- Live Market Stats -->
+            <div class="market-stats">
+                <div class="stat-ticker">
+                    <div class="stat-arrow up">▲</div>
+                    <span class="stat-number">128.4</span>
+                    <span class="stat-label">NASDAQ</span>
                 </div>
-                <div class="metric-item">
-                    <div class="metric-icon">◈</div>
-                    <span class="metric-value">45.8</span>
-                    <span class="metric-label">HOLDINGS</span>
+                <div class="stat-ticker">
+                    <div class="stat-arrow up">▲</div>
+                    <span class="stat-number">45.8</span>
+                    <span class="stat-label">DOW JONES</span>
                 </div>
-                <div class="metric-item">
-                    <div class="metric-icon">⟁</div>
-                    <span class="metric-value">312%</span>
-                    <span class="metric-label">GROWTH</span>
+                <div class="stat-ticker">
+                    <div class="stat-arrow down">▼</div>
+                    <span class="stat-number">312%</span>
+                    <span class="stat-label">S&P 500</span>
                 </div>
             </div>
 
-            <!-- All 11 Buttons - Perfect Premium Design -->
-            <div class="button-grid">
+            <!-- All 11 Buttons with Stock Prices -->
+            <div class="economy-grid">
                 <!-- 1. Facebook -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
-                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="FB">
                         <span>Facebook</span>
                     </div>
-                    <div class="button-value">128.4</div>
+                    <div class="btn-price">$128.4 <span class="change">▲2.3%</span></div>
                 </a>
 
-                <!-- 2. Facebook Page (Special) -->
-                <a class="premium-button special" href="#">
-                    <div class="button-left">
-                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="Facebook Page">
+                <!-- 2. Facebook Page (Premium Share) -->
+                <a class="economy-btn premium-share" href="#">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/facebook/FFFFFF" alt="FB Page">
                         <span>Facebook Page</span>
                     </div>
-                    <div class="button-value">45.8</div>
+                    <div class="btn-price">$45.8 <span class="change">▲1.2%</span></div>
                 </a>
 
                 <!-- 3. Instagram -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
-                        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="Instagram">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/instagram/FFFFFF" alt="IG">
                         <span>Instagram</span>
                     </div>
-                    <div class="button-value">312%</div>
+                    <div class="btn-price">$312 <span class="change">▲5.6%</span></div>
                 </a>
 
-                <!-- 4. WhatsApp (Special) -->
-                <a class="premium-button special" href="#">
-                    <div class="button-left">
-                        <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WhatsApp">
+                <!-- 4. WhatsApp (Premium Share) -->
+                <a class="economy-btn premium-share" href="#">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/whatsapp/FFFFFF" alt="WA">
                         <span>WhatsApp</span>
                     </div>
-                    <div class="button-value">24/7</div>
+                    <div class="btn-price">$67.2 <span class="change">▼0.8%</span></div>
                 </a>
 
                 <!-- 5. TikTok -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok">
                         <span>TikTok</span>
                     </div>
-                    <div class="button-value">892K</div>
+                    <div class="btn-price">$892 <span class="change">▲12.4%</span></div>
                 </a>
 
-                <!-- 6. Telegram (Special) -->
-                <a class="premium-button special" href="#">
-                    <div class="button-left">
-                        <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
+                <!-- 6. Telegram (Premium Share) -->
+                <a class="economy-btn premium-share" href="#">
+                    <div class="btn-asset">
+                        <img src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="TG">
                         <span>Telegram</span>
                     </div>
-                    <div class="button-value">45K</div>
+                    <div class="btn-price">$45.2 <span class="change">▲3.1%</span></div>
                 </a>
 
                 <!-- 7. Twitter X -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="X">
                         <span>Twitter (X)</span>
                     </div>
-                    <div class="button-value">234K</div>
+                    <div class="btn-price">$234 <span class="change">▼1.5%</span></div>
                 </a>
 
-                <!-- 8. Discord (Special) -->
-                <a class="premium-button special" href="#">
-                    <div class="button-left">
+                <!-- 8. Discord (Premium Share) -->
+                <a class="economy-btn premium-share" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
                         <span>Discord</span>
                     </div>
-                    <div class="button-value">12K</div>
+                    <div class="btn-price">$128 <span class="change">▲4.2%</span></div>
                 </a>
 
                 <!-- 9. Call Me -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone" style="filter: brightness(0) invert(1);">
                         <span>Call Me</span>
                     </div>
-                    <div class="button-value">VIP</div>
+                    <div class="btn-price">VIP <span class="change">24/7</span></div>
                 </a>
 
-                <!-- 10. About Me (Special) -->
-                <a class="premium-button special" href="#">
-                    <div class="button-left">
+                <!-- 10. About Me (Premium Share) -->
+                <a class="economy-btn premium-share" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn.simpleicons.org/aboutdotme/FFFFFF" alt="About">
                         <span>About Me</span>
                     </div>
-                    <div class="button-value">BIO</div>
+                    <div class="btn-price">BIO <span class="change">▲</span></div>
                 </a>
 
                 <!-- 11. My Website -->
-                <a class="premium-button" href="#">
-                    <div class="button-left">
+                <a class="economy-btn" href="#">
+                    <div class="btn-asset">
                         <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: brightness(0) invert(1);">
                         <span>My Website</span>
                     </div>
-                    <div class="button-value">.com</div>
+                    <div class="btn-price">.com <span class="change">▲</span></div>
                 </a>
             </div>
 
-            <!-- Premium Footer -->
-            <div class="premium-footer">
-                <div class="footer-separator">⚡ ◈ ⟁</div>
+            <!-- Stock Exchange Footer -->
+            <div class="economy-footer">
+                <div class="footer-ticker">$ € £ ¥</div>
                 <div class="footer-text">
-                    COPYRIGHT © 2026 <br>
-                    <span class="premium-signature">YOUR_NAME</span> <br>
+                    © 2026 PREMIUM ECONOMY EXCHANGE <br>
+                    <span class="stock-code">YOUR_NAME</span> <span class="live-indicator"></span> <br>
                     ALL RIGHTS RESERVED
                 </div>
-                <div class="footer-edition">
-                    PREMIUM ECONOMY • OPULENT MINIMAL
+                <div class="footer-exchange">
+                    NASDAQ • DOW JONES • S&P 500
                 </div>
             </div>
         </div>
