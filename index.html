@@ -3,208 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ART DECO | Your_Name</title>
-    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>WABI SABI | Your_Name</title>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&family=Hina+Mincho&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #1A120B;
-            font-family: 'Marcellus', serif;
+            background: #F5F1E9;
+            font-family: 'Zen Old Mincho', serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
-            overflow-x: hidden;
         }
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background: 
-                repeating-linear-gradient(45deg, rgba(193, 154, 107, 0.03) 0px, rgba(193, 154, 107, 0.03) 20px, transparent 20px, transparent 40px),
-                radial-gradient(circle at 50% 50%, #2C1E12 0%, #1A120B 100%);
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10 10 Q 30 30, 50 10 Q 70 -10, 90 10" stroke="%23D4C8B8" fill="none" stroke-width="0.5"/></svg>');
+            opacity: 0.1;
         }
-        .container { max-width: 500px; width: 100%; padding: 20px; position: relative; z-index: 2; }
-        
-        /* Art Deco Card */
-        .artdeco-card {
-            background: #2C1E12;
-            border: 3px solid #C19A6B;
-            padding: 50px 30px;
+        .container { max-width: 450px; width: 100%; padding: 20px; position: relative; z-index: 2; }
+
+        /* Wabi-Sabi Card */
+        .wabi-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            padding: 60px 30px 40px;
             position: relative;
-            box-shadow: 20px 20px 40px rgba(0,0,0,0.6), 0 0 0 2px #8B6B4D inset;
+            border: 1px solid #D4C8B8;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.02);
         }
-        .artdeco-card::before {
-            content: '◈◈◈';
+
+        /* Torn Paper Effect */
+        .wabi-card::before {
+            content: '';
             position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #C19A6B;
-            font-size: 24px;
-            letter-spacing: 15px;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: inherit;
+            filter: blur(5px);
         }
-        .artdeco-card::after {
-            content: '◈◈◈';
+
+        .sumi-ink {
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #C19A6B;
-            font-size: 24px;
-            letter-spacing: 15px;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #8B7D6B 0%, transparent 70%);
+            opacity: 0.1;
+            border-radius: 50%;
         }
 
         /* Profile */
-        .profile-art {
+        .profile-wabi {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
-        .portrait {
-            width: 150px;
-            height: 150px;
+        .ink-portrait {
+            width: 130px;
+            height: 130px;
             margin: 0 auto 25px;
-            border: 8px double #C19A6B;
-            border-radius: 0;
-            transform: rotate(45deg);
-            overflow: hidden;
-            box-shadow: 0 0 40px rgba(193, 154, 107, 0.3);
+            border-radius: 100% 70% 80% 60% / 60% 80% 70% 100%;
+            background: #E8E0D5;
+            padding: 8px;
         }
-        .portrait img {
+        .ink-portrait img {
             width: 100%;
             height: 100%;
+            border-radius: inherit;
             object-fit: cover;
-            transform: rotate(-45deg) scale(1.2);
-            border: none;
+            filter: grayscale(30%) contrast(90%);
         }
-        .name-art {
-            font-family: 'Cinzel', serif;
-            font-size: 42px;
-            color: #C19A6B;
+        .name-wabi {
+            font-size: 40px;
+            font-weight: 400;
+            color: #4A4238;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        .title-wabi {
+            color: #8B7D6B;
+            font-size: 12px;
             letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            text-shadow: 4px 4px 0 #3D2B1C;
-        }
-        .title-art {
-            color: #B8A28C;
-            font-size: 14px;
-            letter-spacing: 6px;
-            text-transform: uppercase;
         }
 
-        /* Stats */
-        .stat-block {
+        /* Economy */
+        .imperfect-stats {
             display: flex;
-            justify-content: space-between;
-            margin: 30px 0;
-            border-top: 2px solid #C19A6B;
-            border-bottom: 2px solid #C19A6B;
-            padding: 20px 0;
+            justify-content: center;
+            gap: 30px;
+            margin: 35px 0;
+            padding: 20px;
+            background: rgba(212, 200, 184, 0.2);
+            border-radius: 100px 30px 100px 30px;
         }
-        .stat-item {
-            text-align: center;
-            flex: 1;
-            border-right: 1px solid #C19A6B;
-        }
-        .stat-item:last-child { border-right: none; }
-        .stat-num {
-            font-family: 'Cinzel', serif;
-            font-size: 32px;
-            color: #C19A6B;
+        .imperfect-item { text-align: center; }
+        .imperfect-num {
             display: block;
+            font-size: 32px;
+            color: #5D5346;
+            font-family: 'Hina Mincho', serif;
         }
-        .stat-label {
-            color: #B8A28C;
+        .imperfect-label {
             font-size: 10px;
+            color: #8B7D6B;
             letter-spacing: 2px;
         }
 
         /* Buttons */
-        .art-btn {
-            display: block;
-            margin: 15px 0;
-            padding: 18px 25px;
-            background: transparent;
-            border: 2px solid #C19A6B;
-            color: #C19A6B;
-            text-decoration: none;
-            font-size: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            position: relative;
-            transition: all 0.3s;
-            overflow: hidden;
-        }
-        .art-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: #C19A6B;
-            transition: left 0.4s;
-            z-index: 0;
-        }
-        .art-btn:hover::before { left: 0; }
-        .art-btn span {
-            position: relative;
-            z-index: 2;
+        .wabi-btn {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 18px 25px;
+            margin: 12px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #D4C8B8;
+            color: #4A4238;
+            text-decoration: none;
+            font-size: 15px;
+            letter-spacing: 2px;
+            transition: all 0.4s;
+            position: relative;
         }
-        .art-btn:hover span { color: #1A120B; }
-        .art-btn img { 
-            width: 22px; 
-            height: 22px; 
-            filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);
+        .wabi-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background: #8B7D6B;
+            transition: all 0.4s;
         }
+        .wabi-btn:hover::after { left: 0; width: 100%; }
+        .wabi-btn:hover { padding-left: 35px; color: #2C2823; }
+        .wabi-btn img { 
+            width: 20px; 
+            height: 20px; 
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        .wabi-btn:hover img { opacity: 1; }
 
-        .footer-art {
+        .footer-wabi {
             text-align: center;
-            margin-top: 30px;
-            color: #B8A28C;
-            font-size: 12px;
-            letter-spacing: 4px;
-            border-top: 1px solid #C19A6B;
-            padding-top: 20px;
+            margin-top: 40px;
+            color: #8B7D6B;
+            font-size: 11px;
+            letter-spacing: 3px;
+            writing-mode: horizontal-tb;
+        }
+        .kanji {
+            font-size: 40px;
+            color: #D4C8B8;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="artdeco-card">
-            <div class="profile-art">
-                <div class="portrait">
+        <div class="wabi-card">
+            <div class="sumi-ink"></div>
+            
+            <div class="profile-wabi">
+                <div class="ink-portrait">
                     <img src="Your_Profile_Picture_Link" alt="">
                 </div>
-                <h1 class="name-art">YOUR_NAME</h1>
-                <div class="title-art">LUXURY CURATOR</div>
+                <h1 class="name-wabi">YOUR_NAME</h1>
+                <div class="title-wabi">侘び寂び</div>
             </div>
 
-            <div class="stat-block">
-                <div class="stat-item"><span class="stat-num">1925</span><span class="stat-label">EST.</span></div>
-                <div class="stat-item"><span class="stat-num">24K</span><span class="stat-label">GOLD</span></div>
-                <div class="stat-item"><span class="stat-num">88%</span><span class="stat-label">PURE</span></div>
+            <div class="imperfect-stats">
+                <div class="imperfect-item"><span class="imperfect-num">𝟭</span><span class="imperfect-label">ZEN</span></div>
+                <div class="imperfect-item"><span class="imperfect-num">𝟮𝟲</span><span class="imperfect-label">WABI</span></div>
+                <div class="imperfect-item"><span class="imperfect-num">𝟭𝟰</span><span class="imperfect-label">SABI</span></div>
             </div>
 
-            <a href="#" class="art-btn"><span><span>✧ FACEBOOK ✧</span> <img src="https://cdn.simpleicons.org/facebook/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ FACEBOOK PAGE ✧</span> <img src="https://cdn.simpleicons.org/facebook/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ INSTAGRAM ✧</span> <img src="https://cdn.simpleicons.org/instagram/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ WHATSAPP ✧</span> <img src="https://cdn.simpleicons.org/whatsapp/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ TIKTOK ✧</span> <img src="https://cdn.simpleicons.org/tiktok/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ TELEGRAM ✧</span> <img src="https://cdn.simpleicons.org/telegram/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ TWITTER X ✧</span> <img src="https://cdn.simpleicons.org/x/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ DISCORD ✧</span> <img src="https://cdn.simpleicons.org/discord/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ CALL ME ✧</span> <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ ABOUT ME ✧</span> <img src="https://cdn.simpleicons.org/aboutdotme/C19A6B"></span></a>
-            <a href="#" class="art-btn"><span><span>✧ MY WEBSITE ✧</span> <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(0.8) sepia(1) hue-rotate(350deg);"></span></a>
+            <a href="#" class="wabi-btn"><span>◈ FACEBOOK ◈</span> <img src="https://cdn.simpleicons.org/facebook/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ FACEBOOK PAGE ◈</span> <img src="https://cdn.simpleicons.org/facebook/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ INSTAGRAM ◈</span> <img src="https://cdn.simpleicons.org/instagram/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ WHATSAPP ◈</span> <img src="https://cdn.simpleicons.org/whatsapp/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ TIKTOK ◈</span> <img src="https://cdn.simpleicons.org/tiktok/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ TELEGRAM ◈</span> <img src="https://cdn.simpleicons.org/telegram/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ TWITTER X ◈</span> <img src="https://cdn.simpleicons.org/x/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ DISCORD ◈</span> <img src="https://cdn.simpleicons.org/discord/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ CALL ME ◈</span> <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0.3);"></a>
+            <a href="#" class="wabi-btn"><span>◈ ABOUT ME ◈</span> <img src="https://cdn.simpleicons.org/aboutdotme/4A4238"></a>
+            <a href="#" class="wabi-btn"><span>◈ MY WEBSITE ◈</span> <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0.3);"></a>
 
-            <div class="footer-art">✧ 1920s LUXURY EDITION ✧</div>
+            <div class="footer-wabi">
+                <div class="kanji">一</div>
+                © 2026 • 侘び寂び • YOUR_NAME
+            </div>
         </div>
     </div>
 </body>
