@@ -2,67 +2,355 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<title>Your_Name - Modern</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your_Name · Golden Hour</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background: #f5f5f5;
-  font-family: 'Space Grotesk', sans-serif;
-  display: flex; justify-content: center; align-items: center;
+  background: #fef7e9;  /* Warm sunrise glow */
+  font-family: 'Inter', sans-serif;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  position: relative;
+  overflow-x: hidden;
 }
-.wrapper { max-width: 400px; width: 100%; padding: 16px; }
+
+/* Glorious Sunshine Effect */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 40%, rgba(255, 215, 150, 0.25) 0%, transparent 50%),
+              radial-gradient(circle at 80% 70%, rgba(255, 235, 200, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 20% 80%, rgba(255, 245, 220, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrapper {
+  max-width: 440px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Main Card - Classic Modern Base */
 .container {
-  background: #ffffff;
-  border-radius: 32px;
-  padding: 32px 20px;
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.02);
-  display: flex; flex-direction: column; gap: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 48px 48px 48px 48px;
+  padding: 32px 24px;
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 245, 225, 0.8),
+    inset 0 0 30px rgba(255, 250, 240, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid rgba(255, 235, 200, 0.6);
 }
+
+/* Profile Picture - Sun-touched */
+.profile {
+  position: relative;
+  margin-bottom: 8px;
+}
+
 .profile img {
-  width: 100px; height: 100px; border-radius: 20px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1);
-  transition: 0.2s;
+  border: 3px solid #ffffff;
+  box-shadow: 
+    0 0 0 6px rgba(255, 215, 140, 0.3),
+    0 20px 30px -10px rgba(200, 150, 70, 0.25),
+    0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s ease;
 }
-.profile img:hover { border-radius: 30px; }
-.name { font-size: 26px; font-weight: 600; letter-spacing: -0.5px; }
-.title { font-size: 13px; color: #888; font-weight: 400; margin-bottom: 16px; }
+
+.profile img:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    0 0 0 8px rgba(255, 200, 120, 0.4),
+    0 25px 35px -8px rgba(180, 130, 50, 0.3);
+}
+
+/* Glorious sun ray behind profile */
+.profile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 220, 140, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: sunPulse 4s infinite ease-in-out;
+}
+
+@keyframes sunPulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Name - Classic Elegance */
+.name {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: #2d2a24;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  position: relative;
+  display: inline-block;
+}
+
+.name::before {
+  content: '☀️';
+  font-size: 24px;
+  position: absolute;
+  left: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.7;
+  animation: glow 3s infinite;
+}
+
+.name::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #eab678, #f5c68a, #eab678, transparent);
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.6; transform: translateY(-50%) rotate(0deg); }
+  50% { opacity: 1; transform: translateY(-50%) rotate(5deg); }
+}
+
+/* Title */
+.title {
+  font-size: 15px;
+  color: #7f6e58;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+  word-spacing: 2px;
+}
+
+/* Buttons - Premium Economy with Sunshine */
 .btn {
-  display: flex; align-items: center; gap: 12px;
-  padding: 14px 18px; border-radius: 18px; text-decoration: none;
-  background: #ffffff; color: #1a1a1a; font-size: 15px; font-weight: 500;
-  border: 1.5px solid #f0f0f0;
-  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 22px;
+  border-radius: 100px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  color: #2d2a24;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 215, 150, 0.6);
+  box-shadow: 
+    0 4px 12px rgba(250, 200, 130, 0.2),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  position: relative;
+  overflow: hidden;
 }
+
+/* Sunshine glow on buttons */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 235, 170, 0.4), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.btn:hover::before {
+  opacity: 1;
+}
+
 .btn:hover {
-  border-color: #000;
-  background: #000;
-  color: #fff;
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: #f5c68a;
+  box-shadow: 
+    0 15px 25px -8px rgba(210, 150, 70, 0.3),
+    0 0 0 2px rgba(255, 235, 200, 0.8);
 }
-.btn:hover img { filter: brightness(0) invert(1); }
-.btn img { width: 20px; height: 20px; transition: 0.2s; }
+
+.btn img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0.8) sepia(30%);
+  transition: all 0.3s;
+}
+
+.btn:hover img {
+  filter: brightness(1) sepia(10%);
+  transform: scale(1.1) rotate(2deg);
+}
+
+/* Special divider for premium feel */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 4px;
+  color: #d4b28c;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #eacaa8, #f5dbb1, #eacaa8, transparent);
+}
+
+/* Footer - Golden Hour */
 .footer {
-  margin-top: 28px; font-size: 11px; color: #bbb;
-  text-align: center; font-weight: 400;
-  text-transform: uppercase; letter-spacing: 1px;
+  margin-top: 30px;
+  padding: 16px 8px 8px;
+  font-size: 12px;
+  color: #8f806c;
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  position: relative;
+}
+
+.footer::before {
+  content: '✧ ☼ ✧';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #eab678;
+  font-size: 14px;
+  letter-spacing: 6px;
+  background: #fef7e9;
+  padding: 0 15px;
+  white-space: nowrap;
+}
+
+.footer span {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .container { padding: 24px 18px; }
+  .name { font-size: 24px; }
+  .name::before { left: -25px; font-size: 18px; }
+  .btn { padding: 14px 18px; }
 }
 </style>
 </head>
 <body>
+
 <div class="wrapper">
   <div class="container">
-    <div class="profile"><img src="Your_Profile_Picture_Link"></div>
+
+    <div class="profile">
+      <img src="Your_Profile_Picture_Link" alt="Profile">
+    </div>
+
     <div class="name">Your_Name</div>
-    <div class="title">Your_Title</div>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/facebook/000000">Facebook</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/instagram/000000">Instagram</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/x/000000">Twitter X</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/whatsapp/000000">WhatsApp</a>
-    <a class="btn" href="#"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="width:18px;">Call</a>
+    <div class="title">Your_Title · premium economy</div>
+
+    <!-- Social Links with Sunshine Vibe -->
+    <a class="btn" href="#" target="_blank">
+      <img src="https://cdn.simpleicons.org/facebook/a67c4b" alt="">
+      Facebook
+    </a>
+
+    <a class="btn" href="#" target="_blank">
+      <img src="https://cdn.simpleicons.org/instagram/a67c4b" alt="">
+      Instagram
+    </a>
+
+    <a class="btn" href="#" target="_blank">
+      <img src="https://cdn.simpleicons.org/whatsapp/a67c4b" alt="">
+      WhatsApp
+    </a>
+
+    <a class="btn" href="#" target="_blank">
+      <img src="https://cdn.simpleicons.org/telegram/a67c4b" alt="">
+      Telegram
+    </a>
+
+    <a class="btn" href="#" target="_blank">
+      <img src="https://cdn.simpleicons.org/x/a67c4b" alt="">
+      Twitter (X)
+    </a>
+
+    <!-- Premium Divider -->
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span>✦ premium ✦</span>
+      <span class="divider-line"></span>
+    </div>
+
+    <a class="btn" href="tel:01234567890">
+      <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: sepia(40%);" alt="">
+      Call Me
+    </a>
+
+    <a class="btn" href="#">
+      <img src="https://cdn.simpleicons.org/aboutdotme/a67c4b" alt="">
+      About Me
+    </a>
+
+    <a class="btn" href="#">
+      <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: sepia(40%);" alt="">
+      My Website
+    </a>
+
   </div>
-  <div class="footer">© 2026 Your_Name · modern edge</div>
+
+  <div class="footer">
+    © 2026 · MADE BY Your_Name · <span>golden hour edition</span>
+  </div>
 </div>
+
 </body>
 </html>
