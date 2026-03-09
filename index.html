@@ -163,6 +163,9 @@ body::after {
   text-align: center;
   margin-bottom: 22px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Profile glow layer */
@@ -175,7 +178,7 @@ body::after {
   height: 140px;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 70%);
   border-radius: 50%;
-  z-index: -1;
+  z-index: 1;
   animation: pulseGlow 4s infinite alternate;
 }
 
@@ -184,72 +187,123 @@ body::after {
   100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* ===== UNIQUE PROFILE BORDER DESIGN ===== */
+/* ===== ROTATING BLUE & GOLDEN CIRCLE BORDER ===== */
 .profile img {
   width: 105px;
   height: 105px;
   border-radius: 50%;
   object-fit: cover;
   position: relative;
-  z-index: 2;
-  
-  /* Unique Double Border with Gradient */
+  z-index: 3;
   border: 3px solid transparent;
-  background: linear-gradient(#0e1117, #0e1117) padding-box,
-              linear-gradient(135deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box;
   
-  /* Outer Ring - Animated */
-  box-shadow: 
-    0 0 0 2px #0e1117,
-    0 0 0 5px rgba(212, 175, 55, 0.3),
-    0 0 0 8px rgba(65, 105, 225, 0.2),
-    0 15px 30px -10px #000;
-  
-  transition: all 0.5s ease;
-  
-  /* Subtle Rotating Animation */
-  animation: borderRotate 8s linear infinite;
+  /* Inner shadow for depth */
+  box-shadow: 0 10px 20px -5px #000;
 }
 
-/* Hover Effect - More Dynamic */
-.profile img:hover {
-  transform: scale(1.03);
-  border-width: 4px;
-  box-shadow: 
-    0 0 0 2px #0e1117,
-    0 0 0 6px rgba(212, 175, 55, 0.5),
-    0 0 0 10px rgba(65, 105, 225, 0.3),
-    0 20px 40px -8px #000;
-  animation: borderRotate 3s linear infinite;
-}
-
-/* Rotating Animation for Border */
-@keyframes borderRotate {
-  0% { background: linear-gradient(0deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
-  25% { background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
-  50% { background: linear-gradient(180deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
-  75% { background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
-  100% { background: linear-gradient(360deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
-}
-
-/* Optional: Add a Diamond Effect on Hover */
-.profile img:hover::after {
+/* Rotating Circle Container */
+.profile::before {
   content: '';
   position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 125px;
+  height: 125px;
   border-radius: 50%;
-  background: linear-gradient(45deg, #d4af37, transparent, #4169e1, transparent);
-  opacity: 0.3;
-  z-index: -1;
-  animation: spin 3s linear infinite;
+  
+  /* Conic gradient for rotating colors */
+  background: conic-gradient(
+    from 0deg,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37
+  );
+  
+  /* Animation for rotation */
+  animation: rotateBorder 3s linear infinite;
+  z-index: 2;
+  
+  /* Mask to create thin border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 5px; /* Border thickness */
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Second rotating ring for double effect */
+.profile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  
+  /* Conic gradient in opposite direction */
+  background: conic-gradient(
+    from 180deg,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1
+  );
+  
+  /* Animation in opposite direction */
+  animation: rotateBorderReverse 4s linear infinite;
+  z-index: 1;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2px; /* Thinner border for outer ring */
+  opacity: 0.7;
+}
+
+/* Rotation animations */
+@keyframes rotateBorder {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes rotateBorderReverse {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+/* Hover effect - speed up rotation */
+.profile:hover::before {
+  animation: rotateBorder 1.5s linear infinite;
+}
+
+.profile:hover::after {
+  animation: rotateBorderReverse 2s linear infinite;
 }
 
 /* Name */
@@ -260,11 +314,14 @@ body::after {
   color: #d4af37;
   text-align: center;
   letter-spacing: -0.3px;
+  margin-top: 15px;
   margin-bottom: 6px;
   text-shadow: 
     0 2px 15px rgba(212, 175, 55, 0.2),
     0 0 30px rgba(65, 105, 225, 0.1);
   line-height: 1.2;
+  position: relative;
+  z-index: 5;
 }
 
 /* Title */
@@ -284,6 +341,7 @@ body::after {
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
   border-radius: 30px;
   line-height: 2;
+  z-index: 5;
 }
 
 /* Buttons - ORIGINAL DESIGN */
@@ -291,6 +349,8 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative;
+  z-index: 5;
 }
 
 .btn {
@@ -395,6 +455,7 @@ body::after {
   position: relative;
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: 0.8px;
+  z-index: 5;
 }
 
 .footer::before {
@@ -432,6 +493,7 @@ body::after {
   font-weight: 200;
   font-family: 'Plus Jakarta Sans', sans-serif;
   position: relative;
+  z-index: 5;
 }
 
 .premium-badge::before,
@@ -492,7 +554,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with UNIQUE BORDER DESIGN -->
+    <!-- Profile with ROTATING BLUE & GOLDEN CIRCLE -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
