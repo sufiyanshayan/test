@@ -3,10 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name · Sunshine</title>
+<title>Your_Name · Signature White</title>
 
 <!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="Your_Favicon_Link">
 
 <style>
 * {
@@ -16,16 +19,17 @@
 }
 
 body {
-  background: #fffbf5;  /* Soft warm white */
-  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  font-family: 'Outfit', sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 16px;
+  position: relative;
 }
 
-/* Gentle sunshine glow */
+/* Subtle texture for premium feel */
 body::before {
   content: '';
   position: fixed;
@@ -33,109 +37,161 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 40%, #fff1d6 0%, transparent 40%),
-              radial-gradient(circle at 80% 80%, #ffe9c4 0%, transparent 40%);
-  opacity: 0.5;
+  background-image: 
+    radial-gradient(#f5f5f5 1px, transparent 1px),
+    radial-gradient(#f5f5f5 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+  opacity: 0.4;
   pointer-events: none;
 }
 
 .wrapper {
-  max-width: 420px;
+  max-width: 440px;
   width: 100%;
   position: relative;
+  z-index: 2;
 }
 
-/* Main card - Clean & Premium */
+/* Main Card - Pure White Premium */
 .container {
   background: #ffffff;
-  border-radius: 40px;
-  padding: 32px 20px;
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05),
-              0 0 0 1px #fae9d4;
+  border-radius: 48px;
+  padding: 36px 24px;
+  box-shadow: 
+    0 30px 60px -20px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(0, 0, 0, 0.02),
+    inset 0 0 0 1px rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   gap: 12px;
+  position: relative;
 }
 
-/* Profile with soft sun touch */
+/* Premium corner accents */
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.container::before {
+  top: 20px;
+  left: 20px;
+  border-top: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
+}
+
+.container::after {
+  bottom: 20px;
+  right: 20px;
+  border-bottom: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+}
+
+/* Profile Section */
 .profile {
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .profile img {
-  width: 100px;
-  height: 100px;
+  width: 105px;
+  height: 105px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #ffffff;
-  box-shadow: 0 10px 25px -5px rgba(218, 165, 50, 0.2),
-              0 0 0 4px #fff8e7;
+  box-shadow: 
+    0 15px 30px -8px rgba(0, 0, 0, 0.05),
+    0 0 0 5px #f8f8f8;
+  transition: transform 0.4s ease;
 }
 
-.profile::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, #ffe7b0 0%, transparent 70%);
-  opacity: 0.4;
-  z-index: -1;
-  border-radius: 50%;
+.profile img:hover {
+  transform: scale(1.02);
 }
 
-/* Name - Classic Elegance */
+/* Name - Classic Modern Fusion */
 .name {
   font-family: 'Playfair Display', serif;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 500;
-  color: #2c2c2c;
-  letter-spacing: -0.3px;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  margin-bottom: 4px;
 }
 
-/* Title - Subtle */
+/* Title */
 .title {
   font-size: 14px;
-  color: #a07e5c;
-  font-weight: 400;
+  color: #8a8a8a;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
   margin-bottom: 16px;
-  letter-spacing: 0.5px;
+  font-family: 'Outfit', sans-serif;
 }
 
-/* Buttons - Clean Premium */
+/* Buttons Grid Layout - সব বাটন থাকবে */
+.buttons-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0;
+}
+
+/* Premium Button Design */
 .btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 14px 20px;
-  border-radius: 50px;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-radius: 60px;
   text-decoration: none;
   background: #ffffff;
-  color: #2c2c2c;
+  color: #1a1a1a;
   font-size: 15px;
   font-weight: 400;
-  border: 1px solid #f0e4d4;
-  transition: all 0.2s ease;
+  border: 1px solid #eeeeee;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
   position: relative;
   overflow: hidden;
 }
 
-.btn:hover {
-  background: #fffaf2;
-  border-color: #e5c9a8;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px -8px rgba(200, 150, 70, 0.2);
+.btn-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-right {
+  font-size: 18px;
+  opacity: 0.3;
+  transition: opacity 0.3s;
 }
 
 .btn img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   opacity: 0.7;
-  transition: 0.2s;
+  transition: all 0.3s;
+}
+
+/* Button Hover Effect */
+.btn:hover {
+  background: #fcfcfc;
+  border-color: #cccccc;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover .btn-right {
+  opacity: 0.8;
 }
 
 .btn:hover img {
@@ -143,14 +199,15 @@ body::before {
   transform: scale(1.05);
 }
 
-/* Premium divider */
+/* Premium Divider */
 .divider {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 8px 0;
-  color: #c4a27a;
-  font-size: 11px;
+  gap: 16px;
+  margin: 16px 0 8px;
+  color: #b0b0b0;
+  font-size: 12px;
+  font-weight: 300;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -158,36 +215,45 @@ body::before {
 .divider-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #e5d5c0, transparent);
+  background: linear-gradient(90deg, transparent, #e0e0e0, #e0e0e0, #e0e0e0, transparent);
 }
 
-/* Footer */
+/* Footer - Minimal Premium */
 .footer {
-  margin-top: 28px;
-  font-size: 11px;
-  color: #a9927a;
+  margin-top: 32px;
+  padding: 16px 8px 4px;
+  font-size: 12px;
+  color: #a0a0a0;
   text-align: center;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.5px;
   position: relative;
-  padding-top: 16px;
+  line-height: 1.8;
 }
 
 .footer::before {
-  content: '☀️';
+  content: '';
   position: absolute;
-  top: -8px;
+  top: -2px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fffbf5;
-  padding: 0 12px;
-  font-size: 14px;
+  width: 60px;
+  height: 1px;
+  background: #d4d4d4;
+}
+
+.footer span {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: #7a7a7a;
 }
 
 /* Responsive */
 @media (max-width: 380px) {
-  .container { padding: 24px 16px; }
+  .container { padding: 28px 18px; }
   .name { font-size: 24px; }
-  .btn { padding: 12px 16px; }
+  .btn { padding: 14px 20px; }
 }
 </style>
 </head>
@@ -196,53 +262,124 @@ body::before {
 <div class="wrapper">
   <div class="container">
 
+    <!-- Profile Section -->
     <div class="profile">
-      <img src="Your_Profile_Picture_Link" alt="Profile">
+      <img src="Your_Profile_Picture_Link" alt="Profile Picture">
     </div>
 
     <div class="name">Your_Name</div>
     <div class="title">Your_Title</div>
 
-    <!-- Social Links -->
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/facebook/9c7c5c"> Facebook
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/instagram/9c7c5c"> Instagram
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/whatsapp/9c7c5c"> WhatsApp
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/telegram/9c7c5c"> Telegram
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/x/9c7c5c"> Twitter (X)
-    </a>
+    <!-- All Buttons - কোনো ডিলিট নেই -->
+    <div class="buttons-grid">
 
-    <!-- Divider -->
-    <div class="divider">
-      <span class="divider-line"></span>
-      <span>Premium</span>
-      <span class="divider-line"></span>
-    </div>
+      <!-- Facebook -->
+      <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/facebook/5a5a5a" alt="">
+          Facebook
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
 
-    <a class="btn" href="tel:01234567890">
-      <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="opacity:0.6;"> Call Me
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn.simpleicons.org/aboutdotme/9c7c5c"> About
-    </a>
-    <a class="btn" href="#">
-      <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="opacity:0.6;"> Website
-    </a>
+      <!-- Facebook Page -->
+      <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/facebook/5a5a5a" alt="">
+          Facebook Page
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
 
-  </div>
+      <!-- Instagram -->
+      <a class="btn" href="https://www.instagram.com/your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/instagram/5a5a5a" alt="">
+          Instagram
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
 
+      <!-- WhatsApp -->
+      <a class="btn" href="https://wa.me/8801234567890" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/whatsapp/5a5a5a" alt="">
+          WhatsApp
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- TikTok -->
+      <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/tiktok/5a5a5a" alt="">
+          TikTok
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- Telegram -->
+      <a class="btn" href="https://t.me/your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/telegram/5a5a5a" alt="">
+          Telegram
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- Twitter (X) -->
+      <a class="btn" href="https://x.com/your_username" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/x/5a5a5a" alt="">
+          Twitter (X)
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- Divider for Premium Feel -->
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span>contact</span>
+        <span class="divider-line"></span>
+      </div>
+
+      <!-- Call Me -->
+      <a class="btn" href="tel:01234567890">
+        <span class="btn-left">
+          <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="" style="width:20px;height:20px;opacity:0.6;">
+          Call Me
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- About Me -->
+      <a class="btn" href="#" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn.simpleicons.org/aboutdotme/5a5a5a" alt="">
+          About Me
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+      <!-- My Website -->
+      <a class="btn" href="#" target="_blank">
+        <span class="btn-left">
+          <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="" style="width:20px;height:20px;opacity:0.6;">
+          My Website
+        </span>
+        <span class="btn-right">↗</span>
+      </a>
+
+    </div> <!-- buttons-grid end -->
+
+  </div> <!-- container end -->
+
+  <!-- Footer -->
   <div class="footer">
-    © 2026 Your_Name · sunshine premium
+    Copyright © 2026 MADE BY <br> <span>"Your_Name"</span>. <br> All Rights Reserved.
   </div>
-</div>
+
+</div> <!-- wrapper end -->
 
 </body>
 </html>
