@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name · Signature Edition</title>
+<title>Your_Name · Executive Edition</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Fonts - Modern + Classic Fusion -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <!-- Favicon -->
 <link rel="icon" type="image/png" href="Your_Favicon_Link">
@@ -19,238 +19,313 @@
 }
 
 body {
-  background: #0a0c10;
-  font-family: 'Inter', sans-serif;
+  background: #080b0f;  /* Deeper black for premium feel */
+  font-family: 'Plus Jakarta Sans', sans-serif;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
+  padding: 20px;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* Soft background glow */
+/* Premium light effects - more subtle & elegant */
 body::before {
   content: '';
   position: fixed;
-  top: -30%;
-  right: -20%;
-  width: 80%;
-  height: 80%;
+  top: -20%;
+  right: -10%;
+  width: 70%;
+  height: 70%;
   background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
   pointer-events: none;
   z-index: 0;
+  animation: subtleFloat 15s infinite alternate ease-in-out;
 }
 
 body::after {
   content: '';
   position: fixed;
-  bottom: -30%;
-  left: -20%;
-  width: 80%;
-  height: 80%;
+  bottom: -20%;
+  left: -10%;
+  width: 70%;
+  height: 70%;
   background: radial-gradient(circle, rgba(65, 105, 225, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
   pointer-events: none;
   z-index: 0;
+  animation: subtleFloat 18s infinite alternate-reverse ease-in-out;
+}
+
+@keyframes subtleFloat {
+  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  100% { transform: translate(2%, 2%) scale(1.05); opacity: 0.8; }
 }
 
 .wrapper {
-  max-width: 420px;
+  max-width: 440px;
   width: 100%;
   position: relative;
   z-index: 2;
 }
 
-/* Main Card - Premium Black */
+/* Main Card - Premium Black with depth */
 .container {
-  background: #111418;
+  background: #0e1117;  /* Rich black-blue */
   border-radius: 40px;
-  padding: 38px 22px 30px;
+  padding: 42px 26px 36px;
   box-shadow: 
-    0 30px 50px -20px #000,
-    0 0 0 1px rgba(212, 175, 55, 0.15);
+    0 35px 70px -20px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(212, 175, 55, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.02),
+    inset 0 0 30px rgba(212, 175, 55, 0.03);
   position: relative;
-  border: 1px solid #2a2f38;
-  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+  backdrop-filter: blur(1px);
 }
 
-/* Subtle gold line at top */
+/* Premium top bar - more elegant */
 .container::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 25%;
-  width: 50%;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #d4af37, #4169e1, #d4af37, transparent);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.3), 
+    #d4af37, 
+    #4169e1, 
+    #d4af37, 
+    rgba(212, 175, 55, 0.3), 
+    transparent
+  );
   border-radius: 0 0 4px 4px;
-  opacity: 0.6;
+  filter: blur(0.5px);
 }
 
-/* Profile section */
+/* Corner accents - more refined */
+.container::after {
+  content: '';
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-top: 1.5px solid rgba(212, 175, 55, 0.25);
+  border-right: 1.5px solid rgba(212, 175, 55, 0.25);
+  opacity: 0.8;
+}
+
+.corner-decoration {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  width: 40px;
+  height: 40px;
+  border-bottom: 1.5px solid rgba(65, 105, 225, 0.25);
+  border-left: 1.5px solid rgba(65, 105, 225, 0.25);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Profile Section - more premium */
 .profile {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   position: relative;
 }
 
+/* Layered glow effect */
+.profile::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: pulseGlow 4s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.95); }
+  100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+}
+
 .profile img {
-  width: 100px;
-  height: 100px;
+  width: 105px;
+  height: 105px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid #d4af37;
   box-shadow: 
-    0 0 0 3px #111418,
-    0 0 0 6px rgba(65, 105, 225, 0.2),
-    0 15px 30px -10px #000;
-  transition: transform 0.3s ease;
+    0 0 0 3px #0e1117,
+    0 0 0 6px rgba(65, 105, 225, 0.25),
+    0 20px 40px -10px #000;
+  transition: all 0.5s ease;
 }
 
 .profile img:hover {
   transform: scale(1.02);
   border-color: #4169e1;
   box-shadow: 
-    0 0 0 3px #111418,
-    0 0 0 8px rgba(212, 175, 55, 0.15),
-    0 20px 35px -8px #000;
+    0 0 0 3px #0e1117,
+    0 0 0 8px rgba(212, 175, 55, 0.25),
+    0 25px 45px -8px #000;
 }
 
-/* Name - More premium */
+/* Name - Classic Premium */
 .name {
   font-family: 'Playfair Display', serif;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 600;
   color: #d4af37;
   text-align: center;
-  margin-bottom: 6px;
   letter-spacing: -0.3px;
-  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+  margin-bottom: 6px;
+  text-shadow: 
+    0 2px 15px rgba(212, 175, 55, 0.2),
+    0 0 30px rgba(65, 105, 225, 0.1);
   line-height: 1.2;
 }
 
-/* Title - Enhanced */
+/* Title - Modern touch */
 .title {
   font-size: 12px;
-  color: #8a9ac2;
+  color: #8e9cd3;  /* Soft blue */
   text-align: center;
   font-weight: 300;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  margin-bottom: 26px;
-  padding: 0 10px;
+  margin-bottom: 30px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  word-spacing: 4px;
+  position: relative;
   display: inline-block;
-  width: 100%;
+  padding: 0 20px;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+  border-radius: 30px;
+  line-height: 2;
 }
 
-/* Buttons container */
+/* Buttons - Premium redesign */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;  /* Slightly more gap for premium breathing room */
 }
 
-/* Button styling - More refined */
 .btn {
   display: flex;
   align-items: center;
-  padding: 14px 20px;
+  padding: 16px 22px;
   text-decoration: none;
-  background: #1a1e26;
-  border: 1px solid #2f3540;
-  border-radius: 50px;
-  transition: all 0.3s ease;
-  color: #fff;
+  background: rgba(14, 17, 23, 0.6);
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(#0e1117, #0e1117), 
+                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border-radius: 60px;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+  color: #ffffff;
   font-size: 14px;
   font-weight: 400;
+  backdrop-filter: blur(8px);
   position: relative;
   overflow: hidden;
 }
 
-/* Subtle gradient overlay on hover */
-.btn::before {
+/* Inner shine effect */
+.btn::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), rgba(65, 105, 225, 0.1), transparent);
-  transition: left 0.5s ease;
+  top: -50%;
+  left: -60%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
 }
 
-.btn:hover::before {
-  left: 100%;
+.btn:hover::after {
+  opacity: 0.3;
 }
 
 .btn:hover {
-  background: #222832;
-  border-color: #d4af37;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -10px #000, 0 0 0 1px rgba(212, 175, 55, 0.3);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 
+    0 18px 30px -12px #000,
+    0 0 0 1px rgba(212, 175, 55, 0.4),
+    0 0 20px rgba(65, 105, 225, 0.2);
+  background: rgba(20, 24, 32, 0.7);
 }
 
-/* Button icon */
 .btn-icon {
   width: 28px;
-  margin-right: 14px;
-  display: flex;
-  justify-content: center;
+  text-align: center;
+  margin-right: 16px;
+  position: relative;
 }
 
 .btn-icon img {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   filter: brightness(0) invert(1);
+  transition: all 0.4s;
   opacity: 0.9;
-  transition: transform 0.3s ease;
 }
 
 .btn:hover .btn-icon img {
+  filter: brightness(0) invert(0.9) sepia(0.5) hue-rotate(350deg);
   transform: scale(1.1);
-  opacity: 1;
 }
 
-/* Button text */
 .btn-text {
   flex: 1;
-  color: #eceef2;
+  color: #f5f5f5;
   font-weight: 350;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
 }
 
-/* Button arrow */
 .btn-arrow {
-  color: #4169e1;
-  opacity: 0.6;
+  opacity: 0.4;
   font-size: 18px;
-  transition: all 0.3s ease;
-  margin-left: 5px;
+  color: #d4af37;
+  transition: all 0.3s;
+  margin-left: 8px;
+  font-family: 'Playfair Display', serif;
 }
 
 .btn:hover .btn-arrow {
   opacity: 1;
+  color: #4169e1;
   transform: translateX(3px);
-  color: #d4af37;
 }
 
-/* Mini premium divider - Very subtle */
-.mini-divider {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), rgba(65, 105, 225, 0.2), transparent);
-  margin: 15px 0 5px;
-  width: 100%;
-}
-
-/* Footer - More elegant */
+/* Footer - Premium minimal */
 .footer {
-  margin-top: 30px;
+  margin-top: 36px;
   text-align: center;
   font-size: 11px;
-  color: #6b7485;
-  line-height: 1.9;
-  padding-top: 18px;
+  color: #6e7485;
+  line-height: 2;
+  padding-top: 22px;
   position: relative;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.8px;
 }
 
 .footer::before {
@@ -260,32 +335,40 @@ body::after {
   left: 30%;
   width: 40%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), rgba(65, 105, 225, 0.3), transparent);
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(212, 175, 55, 0.3), 
+    rgba(65, 105, 225, 0.3), 
+    rgba(212, 175, 55, 0.3), 
+    transparent
+  );
 }
 
 .footer span {
-  color: #d4af37;
   font-family: 'Playfair Display', serif;
   font-size: 12px;
+  color: #d4af37;
   font-weight: 500;
-}
-
-/* Small premium badge */
-.premium-badge {
-  text-align: center;
-  margin: 8px 0 -5px;
-  font-size: 8px;
-  color: rgba(212, 175, 55, 0.25);
-  letter-spacing: 3px;
-  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Responsive */
-@media (max-width: 360px) {
-  .container { padding: 32px 18px 25px; }
-  .name { font-size: 28px; }
-  .btn { padding: 12px 16px; }
-  .btn-text { font-size: 13px; }
+@media (max-width: 380px) {
+  .container { padding: 35px 20px 30px; }
+  .name { font-size: 32px; }
+  .btn { padding: 14px 18px; }
+  .btn-text { font-size: 14px; }
+}
+
+/* Modern premium touches */
+.premium-badge {
+  text-align: center;
+  margin: 10px 0 -5px;
+  font-size: 9px;
+  color: rgba(212, 175, 55, 0.3);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 300;
 }
 </style>
 </head>
@@ -294,6 +377,9 @@ body::after {
 <div class="wrapper">
   <div class="container">
 
+    <!-- Corner Decoration -->
+    <div class="corner-decoration"></div>
+
     <!-- Profile -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
@@ -301,9 +387,9 @@ body::after {
 
     <!-- Name & Title -->
     <div class="name">Your_Name</div>
-    <div class="title">Your_Title</div>
+    <div class="title">PREMIUM ECONOMY · EXECUTIVE</div>
 
-    <!-- All Buttons - একটানা সাজানো -->
+    <!-- All Buttons - Premium Sequence -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -355,12 +441,9 @@ body::after {
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Very subtle divider -->
-      <div class="mini-divider"></div>
-
       <!-- Call Me -->
       <a class="btn" href="tel:01234567890">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:18px;"></span>
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:20px;"></span>
         <span class="btn-text">Call Me</span>
         <span class="btn-arrow">→</span>
       </a>
@@ -374,7 +457,7 @@ body::after {
 
       <!-- My Website -->
       <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:18px;"></span>
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:20px;"></span>
         <span class="btn-text">My Website</span>
         <span class="btn-arrow">→</span>
       </a>
@@ -382,7 +465,7 @@ body::after {
     </div>
 
     <!-- Premium Badge -->
-    <div class="premium-badge">✦ PREMIUM EDITION ✦</div>
+    <div class="premium-badge">✦ EXECUTIVE COLLECTION ✦</div>
 
     <!-- Footer -->
     <div class="footer">
