@@ -2,56 +2,67 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name - Minimal</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Your_Name - Luxury</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-  background: #ffffff;
-  font-family: 'Inter', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: linear-gradient(145deg, #f8f8f8 0%, #ffffff 100%);
+  font-family: 'Cormorant Garamond', serif;
+  display: flex; justify-content: center; align-items: center;
   min-height: 100vh;
-  color: #111111;
 }
-.wrapper { max-width: 400px; width: 100%; padding: 20px; }
-.container { display: flex; flex-direction: column; gap: 12px; }
+.wrapper { max-width: 420px; width: 100%; padding: 20px; }
+.container {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 40px;
+  padding: 30px 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.03), 0 0 0 1px rgba(255,255,255,0.8);
+  display: flex; flex-direction: column; gap: 14px;
+}
 .profile img {
-  width: 90px; height: 90px; border-radius: 50%;
-  object-fit: cover; border: 1px solid #eaeaea;
-  margin-bottom: 8px;
+  width: 110px; height: 110px; border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1), 0 0 0 2px #fff, 0 0 0 4px #f0f0f0;
 }
-.name { font-size: 20px; font-weight: 400; letter-spacing: -0.3px; }
-.title { font-size: 13px; color: #888; margin-bottom: 16px; font-weight: 300; }
+.name { font-size: 28px; font-weight: 500; letter-spacing: 0.5px; color: #1c1c1c; }
+.title { font-size: 15px; color: #7a7a7a; margin-bottom: 10px; font-style: italic; }
 .btn {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 14px; border-radius: 30px; text-decoration: none;
-  background: #ffffff; color: #000; font-size: 14px; font-weight: 400;
-  border: 1px solid #f0f0f0; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px; border-radius: 50px; text-decoration: none;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(5px);
+  color: #2a2a2a; font-size: 16px; font-weight: 500;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.02), 0 0 0 1px rgba(255,255,255,0.9);
+  transition: 0.3s;
 }
-.btn:hover { background: #fafafa; border-color: #ddd; }
-.btn img { width: 16px; height: 16px; opacity: 0.7; }
+.btn:hover {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1);
+  transform: scale(1.02);
+}
+.btn img { width: 20px; height: 20px; }
+.btn span { margin-right: auto; margin-left: 12px; }
 .footer {
-  margin-top: 30px; font-size: 11px; color: #aaa;
-  text-align: center; font-weight: 300;
+  margin-top: 30px; font-size: 12px; color: #999;
+  text-align: center; font-style: italic;
 }
 </style>
 </head>
 <body>
 <div class="wrapper">
   <div class="container">
-    <div class="profile"><img src="Your_Profile_Picture_Link" alt=""></div>
+    <div class="profile"><img src="Your_Profile_Picture_Link"></div>
     <div class="name">Your_Name</div>
     <div class="title">Your_Title</div>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/facebook/888888">Facebook</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/instagram/888888">Instagram</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/whatsapp/888888">WhatsApp</a>
-    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/x/888888">Twitter (X)</a>
-    <a class="btn" href="#"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: grayscale(1);">Call Me</a>
+    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/facebook/5a5a5a"><span>Facebook</span>↗</a>
+    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/instagram/5a5a5a"><span>Instagram</span>↗</a>
+    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/whatsapp/5a5a5a"><span>WhatsApp</span>↗</a>
+    <a class="btn" href="#"><img src="https://cdn.simpleicons.org/telegram/5a5a5a"><span>Telegram</span>↗</a>
+    <a class="btn" href="#"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="width:18px;"><span>Call Me</span>↗</a>
   </div>
-  <div class="footer">© 2026 Your_Name</div>
+  <div class="footer">© 2026 Your_Name · All rights reserved</div>
 </div>
 </body>
 </html>
