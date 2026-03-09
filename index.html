@@ -1,323 +1,180 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KEEPER</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your_Name</title>
 
-        body {
-            background: #0A0A0A;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #FFFFFF;
-            overflow: hidden;
-        }
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;700&display=swap" rel="stylesheet">
 
-        .container {
-            width: 100%;
-            max-width: 380px;
-            padding: 15px;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-        }
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="Your_Favicon_Link">
 
-        .keeper-card {
-            background: #0A0A0A;
-            width: 100%;
-            max-height: 98vh;
-            overflow-y: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            padding: 5px 0;
-        }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-        .keeper-card::-webkit-scrollbar {
-            display: none;
-        }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Noto Serif Bengali", serif;
+  background: #f7f7f7;
+  overflow-x: hidden;
+}
 
-        /* Header */
-        .keeper-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-        .keeper-title {
-            font-size: 48px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #FFFFFF;
-            line-height: 1;
-            margin-bottom: 5px;
-        }
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-        .keeper-sub {
-            font-size: 14px;
-            color: #888;
-            letter-spacing: 3px;
-            font-weight: 300;
-        }
+/* Profile Picture */
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  object-fit: cover;
+  margin-bottom: 12px;
+  box-shadow: 0 0 0 4px #fff, 0 0 14px rgba(0,0,0,0.35);
+}
 
-        /* Stats Section */
-        .stats-grid {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 35px;
-            background: #111111;
-            border-radius: 100px;
-            padding: 15px 20px;
-            border: 1px solid #222222;
-        }
+/* Name */
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
-        .stat-item {
-            text-align: center;
-            flex: 1;
-        }
+/* Title */
+.title {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 14px;
+}
 
-        .stat-number {
-            display: block;
-            font-size: 24px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-bottom: 4px;
-        }
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 12px;
+  text-decoration: none;
+  background: #ffffff;
+  color: #000;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
 
-        .stat-label {
-            font-size: 10px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 400;
-        }
+.btn img {
+  width: 16px;
+  height: 16px;
+}
 
-        .stat-divider {
-            width: 1px;
-            height: 30px;
-            background: #333333;
-        }
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
 
-        /* Buttons Section */
-        .buttons-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .keeper-btn {
-            display: flex;
-            align-items: center;
-            padding: 14px 20px;
-            background: #111111;
-            border: 1px solid #222222;
-            border-radius: 12px;
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 400;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .keeper-btn:hover {
-            background: #1A1A1A;
-            border-color: #444444;
-            transform: translateY(-1px);
-        }
-
-        .btn-icon {
-            width: 22px;
-            height: 22px;
-            margin-right: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-
-        .btn-text {
-            flex: 1;
-            color: #FFFFFF;
-        }
-
-        .btn-arrow {
-            color: #666666;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        .keeper-btn:hover .btn-arrow {
-            color: #FFFFFF;
-            transform: translateX(3px);
-        }
-
-        /* Footer */
-        .keeper-footer {
-            text-align: center;
-            padding: 15px 0 5px;
-            border-top: 1px solid #222222;
-        }
-
-        .footer-text {
-            font-size: 12px;
-            color: #666666;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-            font-weight: 300;
-        }
-
-        .footer-text i {
-            font-style: italic;
-            color: #888;
-        }
-
-        .footer-rights {
-            font-size: 9px;
-            color: #444444;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Icon styles - simple Unicode/emojis */
-        .icon-fb:before { content: "f"; font-weight: bold; }
-        .icon-ig:before { content: "◉"; }
-        .icon-wa:before { content: "🗨"; }
-        .icon-tt:before { content: "♬"; }
-        .icon-tg:before { content: "✈"; }
-        .icon-x:before { content: "𝕏"; }
-        .icon-dc:before { content: "◈"; }
-        .icon-call:before { content: "☏"; }
-        .icon-about:before { content: "ⓘ"; }
-        .icon-web:before { content: "⌂"; }
-
-        /* Responsive for small heights */
-        @media (max-height: 700px) {
-            .keeper-title { font-size: 42px; }
-            .stats-grid { padding: 12px 18px; margin-bottom: 25px; }
-            .stat-number { font-size: 22px; }
-            .keeper-btn { padding: 12px 18px; }
-            .buttons-grid { gap: 8px; margin-bottom: 25px; }
-        }
-    </style>
+/* Footer */
+.footer {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #555;
+  text-align: center;
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <div class="keeper-card">
 
-            <!-- Header -->
-            <div class="keeper-header">
-                <div class="keeper-title">KEEPER</div>
-                <div class="keeper-sub">KEEPER</div>
-            </div>
+<div class="wrapper">
+  <div class="container">
 
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">147</span>
-                    <span class="stat-label">YEARS</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number">33</span>
-                    <span class="stat-label">RITUALS</span>
-                </div>
-                <div class="stat-divider"></div>
-                <div class="stat-item">
-                    <span class="stat-number">888</span>
-                    <span class="stat-label">SCROLLS</span>
-                </div>
-            </div>
-
-            <!-- Buttons - 11 items as per your design -->
-            <div class="buttons-grid">
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">f</span>
-                    <span class="btn-text">Facebook</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">f</span>
-                    <span class="btn-text">Facebook Page</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">◉</span>
-                    <span class="btn-text">Instagram</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">🗨</span>
-                    <span class="btn-text">WhatsApp</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">♬</span>
-                    <span class="btn-text">TikTok</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">✈</span>
-                    <span class="btn-text">Telegram</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">𝕏</span>
-                    <span class="btn-text">Twitter (X)</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">◈</span>
-                    <span class="btn-text">Discord</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">☏</span>
-                    <span class="btn-text">Call Me</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">ⓘ</span>
-                    <span class="btn-text">About Me</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-                
-                <a href="#" class="keeper-btn">
-                    <span class="btn-icon">⌂</span>
-                    <span class="btn-text">My Website</span>
-                    <span class="btn-arrow">→</span>
-                </a>
-            </div>
-
-            <!-- Footer -->
-            <div class="keeper-footer">
-                <div class="footer-text">
-                    <i>विश्वास, अभियान</i>
-                </div>
-                <div class="footer-rights">
-                    ALL RIGHTS RESERVED
-                </div>
-            </div>
-
-        </div>
+    <div class="profile">
+      <img src="Your_Profile_Picture_Link" alt="Profile Picture">
     </div>
+
+    <div class="name">Your_Name</div>
+    <div class="title">Your_Title</div>
+
+    <a class="btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/facebook/000000" alt="Facebook Logo">
+      Facebook
+    </a>
+
+    <a class="btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/facebook/000000" alt="Facebook Logo">
+      Facebook Page
+    </a>
+
+    <a class="btn" href="https://www.instagram.com/your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/instagram/000000" alt="Instagram Logo">
+      Instagram
+    </a>
+
+    <a class="btn" href="https://wa.me/8801234567890" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/whatsapp/000000" alt="WhatsApp Logo">
+      WhatsApp
+    </a>
+
+    <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/tiktok/000000" alt="TikTok Logo">
+      TikTok
+    </a>
+
+    <a class="btn" href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/telegram/000000" alt="Telegram Logo">
+      Telegram
+    </a>
+
+    <!-- Twitter (X) Updated -->
+    <a class="btn" href="https://x.com/your_username" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/x/000000" alt="Twitter (X) Logo">
+      Twitter (X)
+    </a>
+
+    <a class="btn" href="tel:01234567890">
+      <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Phone Logo">
+      Call Me
+    </a>
+
+    <a class="btn" href="#" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn.simpleicons.org/aboutdotme/000000" alt="About Logo">
+      About Me
+    </a>
+
+    <a class="btn" href="#" target="_blank" rel="noopener noreferrer">
+      <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website Logo">
+      My Website
+    </a>
+
+  </div>
+
+  <div class="footer">
+    Copyright © 2026 MADE BY <br> "Your_Name". <br> All Rights Reserved.
+  </div>
+
+</div>
+
 </body>
 </html>
