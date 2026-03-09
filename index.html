@@ -279,7 +279,7 @@ body::before {
   right: -15px;
 }
 
-/* Buttons - Royal Design */
+/* Buttons - Royal Design with Border Glow */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -292,7 +292,14 @@ body::before {
   padding: 18px 24px;
   text-decoration: none;
   background: rgba(10, 15, 25, 0.6);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  border: 1.5px solid transparent;
+  
+  /* Premium gradient border with glow - FIXED */
+  background-image: linear-gradient(rgba(10, 15, 25, 0.6), rgba(10, 15, 25, 0.6)), 
+                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  
   border-radius: 100px;
   transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
   color: #ffffff;
@@ -301,57 +308,47 @@ body::before {
   backdrop-filter: blur(5px);
   position: relative;
   overflow: hidden;
+  
+  /* Border glow effect */
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
 }
 
-/* Premium gradient border on hover */
-.btn::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, #d4af37, #4169e1, #d4af37);
-  border-radius: 100px;
-  opacity: 0;
-  transition: opacity 0.4s;
-  z-index: -1;
-}
-
-/* Shimmer effect */
+/* Inner shine effect */
 .btn::after {
   content: '';
   position: absolute;
   top: -50%;
-  left: -50%;
+  left: -60%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: rotate(30deg);
-  animation: shimmer 8s infinite linear;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%) rotate(30deg); }
-  100% { transform: translateX(100%) rotate(30deg); }
+.btn:hover::after {
+  opacity: 0.3;
 }
 
 .btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  background: rgba(15, 20, 35, 0.8);
-  border-color: transparent;
+  transform: translateY(-3px) scale(1.01);
+  
+  /* Enhanced border glow on hover */
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(rgba(20, 25, 35, 0.8), rgba(20, 25, 35, 0.8)), 
+                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  
+  /* Stronger glow on hover */
   box-shadow: 
-    0 15px 30px -10px #000,
-    0 0 30px rgba(212, 175, 55, 0.3);
-}
-
-.btn:hover::before {
-  opacity: 1;
+    0 18px 30px -12px #000,
+    0 0 0 1px rgba(212, 175, 55, 0.4),
+    0 0 25px rgba(212, 175, 55, 0.6),
+    0 0 35px rgba(65, 105, 225, 0.4);
+  
+  background: rgba(20, 24, 32, 0.7);
 }
 
 .btn-icon {
@@ -514,7 +511,7 @@ body::before {
     <div class="name">Your_Name</div>
     <div class="title">Royal Black Edition · Executive</div>
 
-    <!-- All Buttons - Premium Sequence -->
+    <!-- All Buttons - Premium Sequence with Border Glow -->
     <div class="buttons">
 
       <!-- Facebook -->
