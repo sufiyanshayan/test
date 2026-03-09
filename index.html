@@ -19,7 +19,7 @@
 }
 
 body {
-  background: #080b0f;  /* Deeper black for premium feel */
+  background: #080b0f;
   font-family: 'Plus Jakarta Sans', sans-serif;
   min-height: 100vh;
   display: flex;
@@ -30,7 +30,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Premium light effects - more subtle & elegant */
+/* Premium light effects */
 body::before {
   content: '';
   position: fixed;
@@ -59,7 +59,7 @@ body::after {
   animation: subtleFloat 18s infinite alternate-reverse ease-in-out;
 }
 
-/* Floating particles - NEW PREMIUM ELEMENT */
+/* Floating particles */
 .particle {
   position: fixed;
   width: 2px;
@@ -90,9 +90,9 @@ body::after {
   z-index: 2;
 }
 
-/* Main Card - Premium Black with depth */
+/* Main Card */
 .container {
-  background: #0e1117;  /* Rich black-blue */
+  background: #0e1117;
   border-radius: 40px;
   padding: 42px 26px 36px;
   box-shadow: 
@@ -103,7 +103,7 @@ body::after {
   position: relative;
   border: 1px solid rgba(212, 175, 55, 0.1);
   backdrop-filter: blur(1px);
-  animation: cardFloat 6s ease-in-out infinite; /* NEW PREMIUM ELEMENT */
+  animation: cardFloat 6s ease-in-out infinite;
 }
 
 @keyframes cardFloat {
@@ -111,7 +111,7 @@ body::after {
   50% { transform: translateY(-5px); }
 }
 
-/* Premium top bar - more elegant */
+/* Premium top bar */
 .container::before {
   content: '';
   position: absolute;
@@ -133,7 +133,7 @@ body::after {
   filter: blur(0.5px);
 }
 
-/* Corner accents - more refined */
+/* Corner accents */
 .container::after {
   content: '';
   position: absolute;
@@ -146,7 +146,6 @@ body::after {
   opacity: 0.8;
 }
 
-/* NEW CORNER DECORATION - Bottom Left */
 .corner-decoration {
   position: absolute;
   bottom: 24px;
@@ -159,22 +158,22 @@ body::after {
   pointer-events: none;
 }
 
-/* Profile Section - more premium */
+/* Profile Section */
 .profile {
   text-align: center;
   margin-bottom: 22px;
   position: relative;
 }
 
-/* Layered glow effect - NEW PREMIUM ELEMENT */
+/* Profile glow layer */
 .profile-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 70%);
   border-radius: 50%;
   z-index: -1;
   animation: pulseGlow 4s infinite alternate;
@@ -182,32 +181,78 @@ body::after {
 
 @keyframes pulseGlow {
   0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.95); }
-  100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
 }
 
+/* ===== UNIQUE PROFILE BORDER DESIGN ===== */
 .profile img {
   width: 105px;
   height: 105px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #d4af37;
+  position: relative;
+  z-index: 2;
+  
+  /* Unique Double Border with Gradient */
+  border: 3px solid transparent;
+  background: linear-gradient(#0e1117, #0e1117) padding-box,
+              linear-gradient(135deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box;
+  
+  /* Outer Ring - Animated */
   box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 6px rgba(65, 105, 225, 0.25),
-    0 20px 40px -10px #000;
+    0 0 0 2px #0e1117,
+    0 0 0 5px rgba(212, 175, 55, 0.3),
+    0 0 0 8px rgba(65, 105, 225, 0.2),
+    0 15px 30px -10px #000;
+  
   transition: all 0.5s ease;
+  
+  /* Subtle Rotating Animation */
+  animation: borderRotate 8s linear infinite;
 }
 
+/* Hover Effect - More Dynamic */
 .profile img:hover {
-  transform: scale(1.02);
-  border-color: #4169e1;
+  transform: scale(1.03);
+  border-width: 4px;
   box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 8px rgba(212, 175, 55, 0.25),
-    0 25px 45px -8px #000;
+    0 0 0 2px #0e1117,
+    0 0 0 6px rgba(212, 175, 55, 0.5),
+    0 0 0 10px rgba(65, 105, 225, 0.3),
+    0 20px 40px -8px #000;
+  animation: borderRotate 3s linear infinite;
 }
 
-/* Name - Classic Premium */
+/* Rotating Animation for Border */
+@keyframes borderRotate {
+  0% { background: linear-gradient(0deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
+  25% { background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
+  50% { background: linear-gradient(180deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
+  75% { background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
+  100% { background: linear-gradient(360deg, #d4af37, #4169e1, #d4af37, #4169e1) border-box; }
+}
+
+/* Optional: Add a Diamond Effect on Hover */
+.profile img:hover::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #d4af37, transparent, #4169e1, transparent);
+  opacity: 0.3;
+  z-index: -1;
+  animation: spin 3s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Name */
 .name {
   font-family: 'Playfair Display', serif;
   font-size: 36px;
@@ -222,10 +267,10 @@ body::after {
   line-height: 1.2;
 }
 
-/* Title - Modern touch */
+/* Title */
 .title {
   font-size: 12px;
-  color: #8e9cd3;  /* Soft blue */
+  color: #8e9cd3;
   text-align: center;
   font-weight: 300;
   letter-spacing: 3px;
@@ -241,11 +286,11 @@ body::after {
   line-height: 2;
 }
 
-/* Buttons - ORIGINAL DESIGN PRESERVED */
+/* Buttons - ORIGINAL DESIGN */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;  /* Slightly more gap for premium breathing room */
+  gap: 12px;
 }
 
 .btn {
@@ -269,7 +314,6 @@ body::after {
   overflow: hidden;
 }
 
-/* Inner shine effect */
 .btn::after {
   content: '';
   position: absolute;
@@ -340,7 +384,7 @@ body::after {
   transform: translateX(3px);
 }
 
-/* Footer - Premium minimal */
+/* Footer */
 .footer {
   margin-top: 36px;
   text-align: center;
@@ -377,7 +421,7 @@ body::after {
   letter-spacing: 1px;
 }
 
-/* Premium badge - NEW PREMIUM ELEMENT */
+/* Premium badge */
 .premium-badge {
   text-align: center;
   margin: 15px 0 -10px;
@@ -397,7 +441,7 @@ body::after {
   color: rgba(65, 105, 225, 0.4);
 }
 
-/* Loading animation - NEW PREMIUM ELEMENT */
+/* Loading animation */
 .loading-bar {
   position: fixed;
   top: 0;
@@ -426,10 +470,10 @@ body::after {
 </head>
 <body>
 
-<!-- Loading animation - NEW PREMIUM ELEMENT -->
+<!-- Loading animation -->
 <div class="loading-bar"></div>
 
-<!-- Floating particles - NEW PREMIUM ELEMENT -->
+<!-- Floating particles -->
 <script>
   for(let i = 0; i < 15; i++) {
     const particle = document.createElement('div');
@@ -445,20 +489,20 @@ body::after {
 <div class="wrapper">
   <div class="container">
 
-    <!-- Corner Decoration - ORIGINAL KEPT -->
+    <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with glow layer - NEW PREMIUM ELEMENT -->
+    <!-- Profile with UNIQUE BORDER DESIGN -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
 
-    <!-- Name & Title - ORIGINAL -->
+    <!-- Name & Title -->
     <div class="name">Your_Name</div>
     <div class="title">PREMIUM ECONOMY · EXECUTIVE</div>
 
-    <!-- All Buttons - ORIGINAL DESIGN COMPLETELY UNCHANGED -->
+    <!-- All Buttons - ORIGINAL DESIGN -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -533,10 +577,10 @@ body::after {
 
     </div>
 
-    <!-- Premium Badge - NEW PREMIUM ELEMENT -->
+    <!-- Premium Badge -->
     <div class="premium-badge">EXECUTIVE COLLECTION</div>
 
-    <!-- Footer - ORIGINAL WITH MINOR ENHANCEMENT -->
+    <!-- Footer -->
     <div class="footer">
       Copyright © 2026 MADE BY <br> <span>"Your_Name"</span>. <br> All Rights Reserved
     </div>
