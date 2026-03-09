@@ -19,7 +19,7 @@
 }
 
 body {
-  background: #0a0c0f;  /* Deep black-blue */
+  background: #0a0c0f;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   display: flex;
@@ -65,9 +65,9 @@ body::after {
   z-index: 2;
 }
 
-/* Main Card - Black with Golden accents */
+/* Main Card */
 .container {
-  background: #111316;  /* Rich black with slight blue undertone */
+  background: #111316;
   border-radius: 36px;
   padding: 40px 24px 32px;
   box-shadow: 
@@ -156,7 +156,7 @@ body::after {
   font-family: 'Cormorant Garamond', serif;
   font-size: 34px;
   font-weight: 600;
-  color: #d4af37;  /* Golden */
+  color: #d4af37;
   text-align: center;
   letter-spacing: 0.5px;
   margin-bottom: 4px;
@@ -166,7 +166,7 @@ body::after {
 /* Title */
 .title {
   font-size: 13px;
-  color: #a3b9ff;  /* Light blue */
+  color: #a3b9ff;
   text-align: center;
   font-weight: 300;
   letter-spacing: 2px;
@@ -175,11 +175,11 @@ body::after {
   font-family: 'Inter', sans-serif;
 }
 
-/* Buttons */
+/* Buttons - Continuous flow, no gaps */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 10px;  /* Consistent gap between ALL buttons */
 }
 
 .btn {
@@ -235,7 +235,7 @@ body::after {
 .btn-icon img {
   width: 18px;
   height: 18px;
-  filter: brightness(0) invert(1);  /* Make icons white */
+  filter: brightness(0) invert(1);
   transition: all 0.3s;
 }
 
@@ -262,34 +262,6 @@ body::after {
   color: #4169e1;
 }
 
-/* Divider */
-.section-divider {
-  text-align: center;
-  margin: 20px 0 12px;
-  position: relative;
-}
-
-.section-divider span {
-  background: #111316;
-  padding: 0 15px;
-  color: #d4af37;
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-
-.section-divider::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #d4af37, #4169e1, #d4af37, transparent);
-  z-index: -1;
-}
-
 /* Footer */
 .footer {
   margin-top: 32px;
@@ -310,12 +282,6 @@ body::after {
   color: #a3b9ff;
 }
 
-/* Special blue accent for some buttons */
-.btn:nth-child(3) .btn-arrow,
-.btn:nth-child(5) .btn-arrow {
-  color: #4169e1;
-}
-
 /* Responsive */
 @media (max-width: 360px) {
   .container { padding: 30px 18px; }
@@ -328,7 +294,7 @@ body::after {
 <div class="wrapper">
   <div class="container">
 
-    <!-- Corner Decoration (Bottom Left) -->
+    <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
     <!-- Profile -->
@@ -340,7 +306,7 @@ body::after {
     <div class="name">Your_Name</div>
     <div class="title">Your_Title</div>
 
-    <!-- All Buttons - সম্পূর্ণ অক্ষত -->
+    <!-- All Buttons - একটানা সাজানো, কোনো gap নেই -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -385,21 +351,16 @@ body::after {
         <span class="btn-arrow">↗</span>
       </a>
 
-      <!-- Twitter (X) -->
+      <!-- Twitter (X) - এখন সরাসরি Telegram এর পরেই -->
       <a class="btn" href="https://x.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/x/ffffff"></span>
         <span class="btn-text">Twitter (X)</span>
         <span class="btn-arrow">↗</span>
       </a>
 
-      <!-- Premium Divider -->
-      <div class="section-divider">
-        <span>✦ CONNECT ✦</span>
-      </div>
-
-      <!-- Call Me -->
+      <!-- Call Me - এখন সরাসরি Twitter (X) এর পরেই, কোনো gap নেই -->
       <a class="btn" href="tel:01234567890">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1);"></span>
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:18px;"></span>
         <span class="btn-text">Call Me</span>
         <span class="btn-arrow">↗</span>
       </a>
@@ -413,7 +374,7 @@ body::after {
 
       <!-- My Website -->
       <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1);"></span>
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:18px;"></span>
         <span class="btn-text">My Website</span>
         <span class="btn-arrow">↗</span>
       </a>
