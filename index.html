@@ -187,7 +187,7 @@ body::after {
   100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* ===== ROTATING BLUE & GOLDEN CIRCLE BORDER ===== */
+/* Profile Image with Rotating Border */
 .profile img {
   width: 105px;
   height: 105px;
@@ -196,12 +196,10 @@ body::after {
   position: relative;
   z-index: 3;
   border: 3px solid transparent;
-  
-  /* Inner shadow for depth */
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* Rotating Circle Container */
+/* Rotating Circle for Profile */
 .profile::before {
   content: '';
   position: absolute;
@@ -211,8 +209,6 @@ body::after {
   width: 125px;
   height: 125px;
   border-radius: 50%;
-  
-  /* Conic gradient for rotating colors */
   background: conic-gradient(
     from 0deg,
     #d4af37,
@@ -225,21 +221,16 @@ body::after {
     #4169e1,
     #d4af37
   );
-  
-  /* Animation for rotation */
   animation: rotateBorder 3s linear infinite;
   z-index: 2;
-  
-  /* Mask to create thin border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 5px; /* Border thickness */
+  padding: 5px;
 }
 
-/* Second rotating ring for double effect */
 .profile::after {
   content: '';
   position: absolute;
@@ -249,8 +240,6 @@ body::after {
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  
-  /* Conic gradient in opposite direction */
   background: conic-gradient(
     from 180deg,
     #4169e1,
@@ -263,47 +252,26 @@ body::after {
     #d4af37,
     #4169e1
   );
-  
-  /* Animation in opposite direction */
   animation: rotateBorderReverse 4s linear infinite;
   z-index: 1;
-  
-  /* Mask for border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 2px; /* Thinner border for outer ring */
+  padding: 2px;
   opacity: 0.7;
 }
 
 /* Rotation animations */
 @keyframes rotateBorder {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 @keyframes rotateBorderReverse {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
-}
-
-/* Hover effect - speed up rotation */
-.profile:hover::before {
-  animation: rotateBorder 1.5s linear infinite;
-}
-
-.profile:hover::after {
-  animation: rotateBorderReverse 2s linear infinite;
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
 /* Name */
@@ -344,11 +312,11 @@ body::after {
   z-index: 5;
 }
 
-/* Buttons - ORIGINAL DESIGN */
+/* ===== BUTTONS WITH ROTATING BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;  /* Slightly increased for rotating border space */
   position: relative;
   z-index: 5;
 }
@@ -358,12 +326,7 @@ body::after {
   align-items: center;
   padding: 16px 22px;
   text-decoration: none;
-  background: rgba(14, 17, 23, 0.6);
-  border: 1.5px solid transparent;
-  background-image: linear-gradient(#0e1117, #0e1117), 
-                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
+  background: rgba(14, 17, 23, 0.8);
   border-radius: 60px;
   transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
   color: #ffffff;
@@ -372,32 +335,123 @@ body::after {
   backdrop-filter: blur(8px);
   position: relative;
   overflow: hidden;
+  z-index: 2;
+  
+  /* Inner border */
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
+                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
+/* Rotating Border Container */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 63px; /* Slightly larger than button */
+  
+  /* Conic gradient for rotating colors */
+  background: conic-gradient(
+    from 0deg,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37
+  );
+  
+  /* Rotation animation */
+  animation: rotateBorderClockwise 4s linear infinite;
+  z-index: -1;
+  
+  /* Mask to create thin border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2px; /* Border thickness */
+}
+
+/* Second rotating ring for double effect (optional) */
 .btn::after {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -60%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s;
-  pointer-events: none;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 65px;
+  
+  /* Conic gradient in opposite direction */
+  background: conic-gradient(
+    from 180deg,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1,
+    #d4af37,
+    #4169e1
+  );
+  
+  /* Animation in opposite direction */
+  animation: rotateBorderCounterClockwise 5s linear infinite;
+  z-index: -2;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px; /* Thinner border */
+  opacity: 0.7;
+}
+
+/* Rotation animations for buttons */
+@keyframes rotateBorderClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateBorderCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Hover effect - speed up rotation */
+.btn:hover::before {
+  animation: rotateBorderClockwise 2s linear infinite;
 }
 
 .btn:hover::after {
-  opacity: 0.3;
+  animation: rotateBorderCounterClockwise 2.5s linear infinite;
 }
 
 .btn:hover {
   transform: translateY(-3px) scale(1.01);
-  box-shadow: 
-    0 18px 30px -12px #000,
-    0 0 0 1px rgba(212, 175, 55, 0.4),
-    0 0 20px rgba(65, 105, 225, 0.2);
-  background: rgba(20, 24, 32, 0.7);
+  background: rgba(20, 24, 32, 0.9);
+  box-shadow: 0 18px 30px -12px #000;
 }
 
 .btn-icon {
@@ -405,6 +459,7 @@ body::after {
   text-align: center;
   margin-right: 16px;
   position: relative;
+  z-index: 3;
 }
 
 .btn-icon img {
@@ -427,6 +482,8 @@ body::after {
   letter-spacing: 0.3px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 15px;
+  position: relative;
+  z-index: 3;
 }
 
 .btn-arrow {
@@ -436,6 +493,8 @@ body::after {
   transition: all 0.3s;
   margin-left: 8px;
   font-family: 'Playfair Display', serif;
+  position: relative;
+  z-index: 3;
 }
 
 .btn:hover .btn-arrow {
@@ -554,7 +613,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with ROTATING BLUE & GOLDEN CIRCLE -->
+    <!-- Profile with Rotating Border -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
@@ -564,7 +623,7 @@ body::after {
     <div class="name">Your_Name</div>
     <div class="title">PREMIUM ECONOMY · EXECUTIVE</div>
 
-    <!-- All Buttons - ORIGINAL DESIGN -->
+    <!-- All Buttons with ROTATING BLUE & GOLDEN BORDER -->
     <div class="buttons">
 
       <!-- Facebook -->
