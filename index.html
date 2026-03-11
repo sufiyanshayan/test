@@ -158,7 +158,7 @@ body::after {
   pointer-events: none;
 }
 
-/* Profile Section */
+/* ===== PROFILE SECTION - CIRCULAR ROTATING BORDER ===== */
 .profile {
   text-align: center;
   margin-bottom: 22px;
@@ -187,7 +187,7 @@ body::after {
   100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
 }
 
-/* Profile Image with Rotating Border */
+/* Profile Image */
 .profile img {
   width: 105px;
   height: 105px;
@@ -195,11 +195,11 @@ body::after {
   object-fit: cover;
   position: relative;
   z-index: 3;
-  border: 3px solid #d4af37;  /* Golden border */
+  border: 3px solid #d4af37;
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* Rotating Circle for Profile - EXACT SAME STYLE */
+/* Rotating Circle for Profile - CIRCULAR */
 .profile::before {
   content: '';
   position: absolute;
@@ -209,8 +209,6 @@ body::after {
   width: 125px;
   height: 125px;
   border-radius: 50%;
-  
-  /* Conic gradient for rotating colors */
   background: conic-gradient(
     from 0deg,
     #d4af37,
@@ -223,21 +221,16 @@ body::after {
     #4169e1,
     #d4af37
   );
-  
-  /* Animation for rotation */
-  animation: rotateBorder 3s linear infinite;
+  animation: rotateCircle 3s linear infinite;
   z-index: 2;
-  
-  /* Mask to create thin border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 5px; /* Border thickness */
+  padding: 5px;
 }
 
-/* Second rotating ring for double effect */
 .profile::after {
   content: '';
   position: absolute;
@@ -247,8 +240,6 @@ body::after {
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  
-  /* Conic gradient in opposite direction */
   background: conic-gradient(
     from 180deg,
     #4169e1,
@@ -261,47 +252,33 @@ body::after {
     #d4af37,
     #4169e1
   );
-  
-  /* Animation in opposite direction */
-  animation: rotateBorderReverse 4s linear infinite;
+  animation: rotateCircleReverse 4s linear infinite;
   z-index: 1;
-  
-  /* Mask for border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 2px; /* Thinner border for outer ring */
+  padding: 2px;
   opacity: 0.7;
 }
 
-/* Rotation animations */
-@keyframes rotateBorder {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
+@keyframes rotateCircle {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-@keyframes rotateBorderReverse {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
+@keyframes rotateCircleReverse {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(-360deg); }
 }
 
-/* Hover effect - speed up rotation */
 .profile:hover::before {
-  animation: rotateBorder 1.5s linear infinite;
+  animation: rotateCircle 1.5s linear infinite;
 }
 
 .profile:hover::after {
-  animation: rotateBorderReverse 2s linear infinite;
+  animation: rotateCircleReverse 2s linear infinite;
 }
 
 /* Name */
@@ -342,11 +319,11 @@ body::after {
   z-index: 5;
 }
 
-/* ===== BUTTONS WITH SAME STYLE AS PROFILE PICTURE ===== */
+/* ===== BUTTONS SECTION - RECTANGULAR ROTATING BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   position: relative;
   z-index: 5;
 }
@@ -364,26 +341,26 @@ body::after {
   font-weight: 400;
   backdrop-filter: blur(8px);
   position: relative;
-  overflow: visible; /* Changed to visible to show border */
+  overflow: hidden;  /* This ensures the rotating border stays within bounds */
   z-index: 2;
   
   /* Simple golden border */
   border: 2px solid #d4af37;
 }
 
-/* Rotating Border Container - EXACT SAME STYLE AS PROFILE::before */
+/* Rotating Border for Buttons - RECTANGULAR (only on border, not on text) */
 .btn::before {
   content: '';
   position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border-radius: 65px;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 60px;
   
-  /* Conic gradient for rotating colors */
+  /* Conic gradient for rotating colors - starts from top */
   background: conic-gradient(
-    from 0deg,
+    from 0deg at 50% 50%,
     #d4af37,
     #4169e1,
     #d4af37,
@@ -396,31 +373,32 @@ body::after {
   );
   
   /* Rotation animation */
-  animation: btnRotateBorder 3s linear infinite;
+  animation: rotateRectangularBorder 4s linear infinite;
   z-index: -1;
   
-  /* Mask to create thin border effect - EXACT SAME TECHNIQUE */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
+  /* This mask ensures gradient ONLY shows on the border, not inside */
+  mask: linear-gradient(black, black) content-box, 
+        linear-gradient(black, black);
   mask-composite: exclude;
-  padding: 4px; /* Border thickness */
+  -webkit-mask: linear-gradient(black, black) content-box, 
+               linear-gradient(black, black);
+  -webkit-mask-composite: xor;
+  padding: 2px; /* Border thickness */
 }
 
-/* Second rotating ring - EXACT SAME STYLE AS PROFILE::after */
+/* Second rotating ring for double effect - RECTANGULAR */
 .btn::after {
   content: '';
   position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border-radius: 68px;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 62px;
   
   /* Conic gradient in opposite direction */
   background: conic-gradient(
-    from 180deg,
+    from 180deg at 50% 50%,
     #4169e1,
     #d4af37,
     #4169e1,
@@ -433,21 +411,22 @@ body::after {
   );
   
   /* Animation in opposite direction */
-  animation: btnRotateBorderReverse 4s linear infinite;
+  animation: rotateRectangularBorderReverse 5s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
+  mask: linear-gradient(black, black) content-box, 
+        linear-gradient(black, black);
   mask-composite: exclude;
-  padding: 2px; /* Thinner border for outer ring */
+  -webkit-mask: linear-gradient(black, black) content-box, 
+               linear-gradient(black, black);
+  -webkit-mask-composite: xor;
+  padding: 1.5px; /* Border thickness */
   opacity: 0.7;
 }
 
-/* Rotation animations for buttons */
-@keyframes btnRotateBorder {
+/* Rotation animations for rectangular borders */
+@keyframes rotateRectangularBorder {
   from {
     transform: rotate(0deg);
   }
@@ -456,7 +435,7 @@ body::after {
   }
 }
 
-@keyframes btnRotateBorderReverse {
+@keyframes rotateRectangularBorderReverse {
   from {
     transform: rotate(0deg);
   }
@@ -465,20 +444,20 @@ body::after {
   }
 }
 
-/* Hover effect - speed up rotation (EXACT SAME AS PROFILE) */
+/* Hover effect - speed up rotation */
 .btn:hover::before {
-  animation: btnRotateBorder 1.5s linear infinite;
+  animation: rotateRectangularBorder 2s linear infinite;
 }
 
 .btn:hover::after {
-  animation: btnRotateBorderReverse 2s linear infinite;
+  animation: rotateRectangularBorderReverse 2.5s linear infinite;
 }
 
 .btn:hover {
   transform: translateY(-3px) scale(1.01);
   background: rgba(20, 24, 32, 0.9);
   box-shadow: 0 18px 30px -12px #000;
-  border-color: #4169e1; /* Border color changes on hover */
+  border-color: #4169e1;
 }
 
 .btn-icon {
@@ -640,7 +619,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with Rotating Border -->
+    <!-- Profile with CIRCULAR Rotating Border -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
@@ -650,7 +629,7 @@ body::after {
     <div class="name">Your_Name</div>
     <div class="title">PREMIUM ECONOMY · EXECUTIVE</div>
 
-    <!-- All Buttons with SAME ROTATING BORDER AS PROFILE -->
+    <!-- Buttons with RECTANGULAR Rotating Border (only on border) -->
     <div class="buttons">
 
       <!-- Facebook -->
