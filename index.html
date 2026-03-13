@@ -199,7 +199,7 @@ body::after {
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* ===== ROTATING BORDER FOR PROFILE (CIRCULAR) ===== */
+/* ===== STATIC BLUE & GOLDEN BORDER FOR PROFILE ===== */
 .profile::before {
   content: '';
   position: absolute;
@@ -209,20 +209,12 @@ body::after {
   width: 125px;
   height: 125px;
   border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37
-  );
-  animation: rotateCircle 3s linear infinite;
+  
+  /* Static gradient - no animation */
+  background: linear-gradient(135deg, #d4af37, #4169e1, #d4af37, #4169e1);
   z-index: 2;
+  
+  /* Mask to create border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
@@ -240,20 +232,12 @@ body::after {
   width: 135px;
   height: 135px;
   border-radius: 50%;
-  background: conic-gradient(
-    from 180deg,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1
-  );
-  animation: rotateCircleReverse 4s linear infinite;
+  
+  /* Static gradient in opposite direction */
+  background: linear-gradient(225deg, #4169e1, #d4af37, #4169e1, #d4af37);
   z-index: 1;
+  
+  /* Mask for border effect */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
@@ -261,24 +245,6 @@ body::after {
   mask-composite: exclude;
   padding: 2px;
   opacity: 0.7;
-}
-
-@keyframes rotateCircle {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes rotateCircleReverse {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(-360deg); }
-}
-
-.profile:hover::before {
-  animation: rotateCircle 1.5s linear infinite;
-}
-
-.profile:hover::after {
-  animation: rotateCircleReverse 2s linear infinite;
 }
 
 /* Name */
@@ -347,7 +313,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - WITH ROTATING BORDER ONLY ON OUTER BORDER ===== */
+/* ===== BUTTONS SECTION - STATIC BLUE & GOLDEN BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -371,37 +337,20 @@ body::after {
   position: relative;
   overflow: hidden;
   z-index: 2;
-  
-  /* Simple border - will be visible */
-  border: 2px solid #d4af37;
 }
 
-/* ===== ONLY OUTER ROTATING BORDER (NO INNER BORDER) ===== */
-.btn::after {
+/* ===== STATIC BLUE & GOLDEN BORDER FOR BUTTONS (NO ROTATION) ===== */
+.btn::before {
   content: '';
   position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 64px;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 62px;
   
-  /* Conic gradient for rotating colors */
-  background: conic-gradient(
-    from 0deg,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37
-  );
-  
-  /* Rotation animation */
-  animation: rotateOuterBorder 4s linear infinite;
+  /* Static gradient - blue and golden, no animation */
+  background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
   z-index: -1;
   
   /* Mask to show ONLY on the border */
@@ -411,29 +360,41 @@ body::after {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   padding: 2px; /* Border thickness */
-  opacity: 0.9;
 }
 
-/* Rotation animation */
-@keyframes rotateOuterBorder {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Hover effect - speed up rotation */
-.btn:hover::after {
-  animation: rotateOuterBorder 2s linear infinite;
+/* Optional second layer for more depth */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 64px;
+  
+  /* Static gradient in different direction */
+  background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
+  z-index: -2;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  opacity: 0.5;
 }
 
 .btn:hover {
   transform: translateY(-3px) scale(1.01);
   background: rgba(20, 24, 32, 0.9);
   box-shadow: 0 18px 30px -12px #000;
-  border-color: #4169e1; /* Border color changes on hover */
+}
+
+.btn:hover::before {
+  /* Gradient colors swap on hover */
+  background: linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
 }
 
 .btn-icon {
@@ -595,7 +556,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with Rotating Border -->
+    <!-- Profile with Static Blue & Golden Border -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
@@ -610,7 +571,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- Buttons with ONLY OUTER ROTATING BORDER -->
+    <!-- Buttons with STATIC BLUE & GOLDEN BORDER -->
     <div class="buttons">
 
       <!-- Facebook -->
