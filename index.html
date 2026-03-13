@@ -158,7 +158,7 @@ body::after {
   pointer-events: none;
 }
 
-/* ===== PROFILE SECTION - CIRCULAR ROTATING BORDER ===== */
+/* Profile Section */
 .profile {
   text-align: center;
   margin-bottom: 22px;
@@ -199,7 +199,7 @@ body::after {
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* Rotating Circle for Profile - CIRCULAR */
+/* ===== ROTATING BORDER FOR PROFILE (CIRCULAR) ===== */
 .profile::before {
   content: '';
   position: absolute;
@@ -299,31 +299,59 @@ body::after {
   z-index: 5;
 }
 
-/* Title */
-.title {
-  font-size: 12px;
-  color: #8e9cd3;
+/* Title - PREMIUMECONOMY and EXECUTIVE */
+.title-container {
   text-align: center;
-  font-weight: 300;
-  letter-spacing: 3px;
-  text-transform: uppercase;
   margin-bottom: 30px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  word-spacing: 4px;
   position: relative;
-  display: inline-block;
-  padding: 0 20px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
-  border-radius: 30px;
-  line-height: 2;
   z-index: 5;
 }
 
-/* ===== BUTTONS SECTION - RECTANGULAR ROTATING BORDER ===== */
+.premium-title {
+  font-size: 16px;
+  color: #d4af37;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-bottom: 4px;
+}
+
+.executive-title {
+  font-size: 14px;
+  color: #8e9cd3;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.executive-title::before,
+.executive-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+}
+
+.executive-title::before {
+  left: -15px;
+}
+
+.executive-title::after {
+  right: -15px;
+}
+
+/* ===== BUTTONS SECTION - WITH ROTATING BORDER ONLY ON THE BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   position: relative;
   z-index: 5;
 }
@@ -341,26 +369,27 @@ body::after {
   font-weight: 400;
   backdrop-filter: blur(8px);
   position: relative;
-  overflow: hidden;  /* This ensures the rotating border stays within bounds */
+  overflow: hidden;
   z-index: 2;
   
-  /* Simple golden border */
+  /* Golden border - this is the MARKED AREA you mentioned */
   border: 2px solid #d4af37;
 }
 
-/* Rotating Border for Buttons - RECTANGULAR (only on border, not on text) */
+/* ===== ROTATING BORDER FOR BUTTONS (EXACTLY LIKE PROFILE PICTURE BORDER) ===== */
+/* Inner rotating border - Clockwise */
 .btn::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 60px;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 62px;
   
-  /* Conic gradient for rotating colors - starts from top */
+  /* Same conic gradient as profile picture */
   background: conic-gradient(
-    from 0deg at 50% 50%,
+    from 0deg,
     #d4af37,
     #4169e1,
     #d4af37,
@@ -372,33 +401,32 @@ body::after {
     #d4af37
   );
   
-  /* Rotation animation */
-  animation: rotateRectangularBorder 4s linear infinite;
+  /* Same animation speed as profile picture */
+  animation: rotateButtonBorder 3s linear infinite;
   z-index: -1;
   
-  /* This mask ensures gradient ONLY shows on the border, not inside */
-  mask: linear-gradient(black, black) content-box, 
-        linear-gradient(black, black);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(black, black) content-box, 
-               linear-gradient(black, black);
+  /* Mask to show ONLY on the border */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
+  mask-composite: exclude;
   padding: 2px; /* Border thickness */
 }
 
-/* Second rotating ring for double effect - RECTANGULAR */
+/* Outer rotating border - Counter-clockwise (double effect like profile) */
 .btn::after {
   content: '';
   position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 62px;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 64px;
   
-  /* Conic gradient in opposite direction */
+  /* Opposite direction gradient */
   background: conic-gradient(
-    from 180deg at 50% 50%,
+    from 180deg,
     #4169e1,
     #d4af37,
     #4169e1,
@@ -410,23 +438,22 @@ body::after {
     #4169e1
   );
   
-  /* Animation in opposite direction */
-  animation: rotateRectangularBorderReverse 5s linear infinite;
+  /* Opposite direction animation */
+  animation: rotateButtonBorderReverse 4s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
-  mask: linear-gradient(black, black) content-box, 
-        linear-gradient(black, black);
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(black, black) content-box, 
-               linear-gradient(black, black);
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  padding: 1.5px; /* Border thickness */
+  mask-composite: exclude;
+  padding: 1px;
   opacity: 0.7;
 }
 
-/* Rotation animations for rectangular borders */
-@keyframes rotateRectangularBorder {
+/* Same rotation animations as profile picture */
+@keyframes rotateButtonBorder {
   from {
     transform: rotate(0deg);
   }
@@ -435,7 +462,7 @@ body::after {
   }
 }
 
-@keyframes rotateRectangularBorderReverse {
+@keyframes rotateButtonBorderReverse {
   from {
     transform: rotate(0deg);
   }
@@ -444,20 +471,20 @@ body::after {
   }
 }
 
-/* Hover effect - speed up rotation */
+/* Hover effect - speed up rotation (exactly like profile) */
 .btn:hover::before {
-  animation: rotateRectangularBorder 2s linear infinite;
+  animation: rotateButtonBorder 1.5s linear infinite;
 }
 
 .btn:hover::after {
-  animation: rotateRectangularBorderReverse 2.5s linear infinite;
+  animation: rotateButtonBorderReverse 2s linear infinite;
 }
 
 .btn:hover {
   transform: translateY(-3px) scale(1.01);
   background: rgba(20, 24, 32, 0.9);
   box-shadow: 0 18px 30px -12px #000;
-  border-color: #4169e1;
+  border-color: #4169e1; /* Border color changes on hover */
 }
 
 .btn-icon {
@@ -619,86 +646,49 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with CIRCULAR Rotating Border -->
+    <!-- Profile with Rotating Border -->
     <div class="profile">
       <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
 
-    <!-- Name & Title -->
+    <!-- Name -->
     <div class="name">Your_Name</div>
-    <div class="title">PREMIUM ECONOMY · EXECUTIVE</div>
+    
+    <!-- Title - PREMIUMECONOMY and EXECUTIVE separate lines as per image -->
+    <div class="title-container">
+      <div class="premium-title">PREMIUMECONOMY</div>
+      <div class="executive-title">EXECUTIVE</div>
+    </div>
 
-    <!-- Buttons with RECTANGULAR Rotating Border (only on border) -->
+    <!-- Buttons with ROTATING BORDER exactly like profile picture -->
     <div class="buttons">
 
-      <!-- Facebook -->
+      <!-- Facebook - with rotating border on the MARKED AREA -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Facebook Page -->
+      <!-- Facebook Page - with rotating border on the MARKED AREA -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook Page</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Instagram -->
+      <!-- Instagram - with rotating border on the MARKED AREA -->
       <a class="btn" href="https://www.instagram.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/instagram/ffffff"></span>
         <span class="btn-text">Instagram</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- WhatsApp -->
+      <!-- WhatsApp - with rotating border on the MARKED AREA -->
       <a class="btn" href="https://wa.me/8801234567890" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/whatsapp/ffffff"></span>
         <span class="btn-text">WhatsApp</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- TikTok -->
-      <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/tiktok/ffffff"></span>
-        <span class="btn-text">TikTok</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- Telegram -->
-      <a class="btn" href="https://t.me/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/telegram/ffffff"></span>
-        <span class="btn-text">Telegram</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- Twitter (X) -->
-      <a class="btn" href="https://x.com/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/x/ffffff"></span>
-        <span class="btn-text">Twitter (X)</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- Call Me -->
-      <a class="btn" href="tel:01234567890">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:20px;"></span>
-        <span class="btn-text">Call Me</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- About Me -->
-      <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/aboutdotme/ffffff"></span>
-        <span class="btn-text">About Me</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- My Website -->
-      <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:20px;"></span>
-        <span class="btn-text">My Website</span>
         <span class="btn-arrow">→</span>
       </a>
 
