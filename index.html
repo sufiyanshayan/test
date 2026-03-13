@@ -231,7 +231,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - ROTATING BLUE & GOLDEN BORDER ===== */
+/* ===== BUTTONS SECTION - STATIC BORDER WITH ROTATING COLOR ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -255,11 +255,11 @@ body::after {
   position: relative;
   z-index: 2;
   
-  /* Inner background - no border here */
+  /* No border property here - we'll use pseudo-element */
   border: none;
 }
 
-/* Rotating border - Blue & Golden gradient that rotates */
+/* Border with rotating color - BORDER IS STATIC, COLORS MOVE INSIDE IT */
 .btn::before {
   content: '';
   position: absolute;
@@ -269,7 +269,7 @@ body::after {
   bottom: -3px;
   border-radius: 62px;
   
-  /* Conic gradient for rotating colors - Blue & Golden */
+  /* Conic gradient for rotating colors - these colors move */
   background: conic-gradient(
     from 0deg,
     #d4af37,  /* Golden */
@@ -283,25 +283,25 @@ body::after {
     #d4af37   /* Golden */
   );
   
-  /* Rotation animation - colors move along the border */
-  animation: rotateBorder 4s linear infinite;
+  /* Color rotation animation - colors move, border stays static */
+  animation: rotateColors 4s linear infinite;
   z-index: -1;
   
-  /* CRITICAL: Shows gradient ONLY on border, NOT on content */
+  /* CRITICAL: Shows gradient ONLY on border area */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   
-  /* Border thickness */
+  /* Border thickness - this area is STATIC, only colors move inside */
   padding: 2.5px;
   
   /* Smooth edges */
   pointer-events: none;
 }
 
-/* Second rotating ring for double effect (optional - adds depth) */
+/* Second layer for depth - colors move opposite direction */
 .btn::after {
   content: '';
   position: absolute;
@@ -311,7 +311,7 @@ body::after {
   bottom: -5px;
   border-radius: 64px;
   
-  /* Opposite direction gradient */
+  /* Conic gradient in opposite direction */
   background: conic-gradient(
     from 180deg,
     #4169e1,  /* Blue */
@@ -325,8 +325,8 @@ body::after {
     #4169e1   /* Blue */
   );
   
-  /* Opposite direction animation */
-  animation: rotateBorderReverse 5s linear infinite;
+  /* Colors rotate opposite direction */
+  animation: rotateColorsReverse 5s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
@@ -340,8 +340,8 @@ body::after {
   pointer-events: none;
 }
 
-/* Rotation animations */
-@keyframes rotateBorder {
+/* Color rotation animations - border STAYS STILL, only colors rotate */
+@keyframes rotateColors {
   from {
     transform: rotate(0deg);
   }
@@ -350,7 +350,7 @@ body::after {
   }
 }
 
-@keyframes rotateBorderReverse {
+@keyframes rotateColorsReverse {
   from {
     transform: rotate(0deg);
   }
@@ -359,13 +359,13 @@ body::after {
   }
 }
 
-/* Hover effect - speed up rotation */
+/* Hover effect - speed up color rotation */
 .btn:hover::before {
-  animation: rotateBorder 2s linear infinite;
+  animation: rotateColors 2s linear infinite;
 }
 
 .btn:hover::after {
-  animation: rotateBorderReverse 2.5s linear infinite;
+  animation: rotateColorsReverse 2.5s linear infinite;
 }
 
 .btn:hover {
@@ -534,7 +534,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- Buttons with ROTATING BLUE & GOLDEN BORDER -->
+    <!-- Buttons with STATIC BORDER and ROTATING COLORS -->
     <div class="buttons">
 
       <!-- Facebook -->
