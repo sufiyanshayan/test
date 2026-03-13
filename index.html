@@ -59,25 +59,6 @@ body::after {
   animation: subtleFloat 18s infinite alternate-reverse ease-in-out;
 }
 
-/* Floating particles */
-.particle {
-  position: fixed;
-  width: 2px;
-  height: 2px;
-  background: rgba(212, 175, 55, 0.3);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  animation: floatParticle 15s infinite linear;
-}
-
-@keyframes floatParticle {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { transform: translateY(-100vh) translateX(100vw); opacity: 0; }
-}
-
 @keyframes subtleFloat {
   0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
   100% { transform: translate(2%, 2%) scale(1.05); opacity: 0.8; }
@@ -163,135 +144,28 @@ body::after {
   text-align: center;
   margin-bottom: 22px;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* Profile glow layer */
-.profile-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 140px;
-  height: 140px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(65, 105, 225, 0.1) 50%, transparent 70%);
-  border-radius: 50%;
-  z-index: 1;
-  animation: pulseGlow 4s infinite alternate;
-}
-
-@keyframes pulseGlow {
-  0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.95); }
-  100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
-}
-
-/* Profile Image */
 .profile img {
   width: 105px;
   height: 105px;
   border-radius: 50%;
   object-fit: cover;
-  position: relative;
-  z-index: 3;
   border: 3px solid #d4af37;
-  box-shadow: 0 10px 20px -5px #000;
+  box-shadow: 
+    0 0 0 3px #0e1117,
+    0 0 0 6px rgba(65, 105, 225, 0.25),
+    0 20px 40px -10px #000;
+  transition: all 0.5s ease;
 }
 
-/* Rotating Border for Profile - CIRCULAR (BORDER ONLY) */
-.profile::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 125px;
-  height: 125px;
-  border-radius: 50%;
-  
-  /* Conic gradient for rotating colors */
-  background: conic-gradient(
-    from 0deg,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37
-  );
-  
-  /* Rotation animation */
-  animation: rotateBorder 3s linear infinite;
-  z-index: 2;
-  
-  /* CRITICAL: Mask to show ONLY on the border, NOT on the content */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 5px; /* Border thickness */
-}
-
-/* Second rotating ring for double effect */
-.profile::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 135px;
-  height: 135px;
-  border-radius: 50%;
-  
-  /* Conic gradient in opposite direction */
-  background: conic-gradient(
-    from 180deg,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1
-  );
-  
-  /* Animation in opposite direction */
-  animation: rotateBorderReverse 4s linear infinite;
-  z-index: 1;
-  
-  /* Mask for border effect */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 2px; /* Thinner border for outer ring */
-  opacity: 0.7;
-}
-
-@keyframes rotateBorder {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes rotateBorderReverse {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to { transform: translate(-50%, -50%) rotate(-360deg); }
-}
-
-.profile:hover::before {
-  animation: rotateBorder 1.5s linear infinite;
-}
-
-.profile:hover::after {
-  animation: rotateBorderReverse 2s linear infinite;
+.profile img:hover {
+  transform: scale(1.02);
+  border-color: #4169e1;
+  box-shadow: 
+    0 0 0 3px #0e1117,
+    0 0 0 8px rgba(212, 175, 55, 0.25),
+    0 25px 45px -8px #000;
 }
 
 /* Name */
@@ -308,8 +182,6 @@ body::after {
     0 2px 15px rgba(212, 175, 55, 0.2),
     0 0 30px rgba(65, 105, 225, 0.1);
   line-height: 1.2;
-  position: relative;
-  z-index: 5;
 }
 
 /* Title - PREMIUMECONOMY and EXECUTIVE */
@@ -317,7 +189,6 @@ body::after {
   text-align: center;
   margin-bottom: 30px;
   position: relative;
-  z-index: 5;
 }
 
 .premium-title {
@@ -360,11 +231,11 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - ROTATING BORDER (BORDER ONLY, NOT ON TEXT) ===== */
+/* ===== BUTTONS SECTION - ROTATING BLUE & GOLDEN BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
   position: relative;
   z-index: 5;
 }
@@ -384,10 +255,11 @@ body::after {
   position: relative;
   z-index: 2;
   
-  /* No border here - we'll use pseudo-element for rotating border */
+  /* Inner background - no border here */
+  border: none;
 }
 
-/* ===== ROTATING BORDER FOR BUTTONS - ONLY ON BORDER, NOT ON TEXT ===== */
+/* Rotating border - Blue & Golden gradient that rotates */
 .btn::before {
   content: '';
   position: absolute;
@@ -397,39 +269,39 @@ body::after {
   bottom: -3px;
   border-radius: 62px;
   
-  /* Conic gradient for rotating colors */
+  /* Conic gradient for rotating colors - Blue & Golden */
   background: conic-gradient(
     from 0deg,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37   /* Golden */
   );
   
-  /* Rotation animation */
-  animation: rotateButtonBorder 4s linear infinite;
+  /* Rotation animation - colors move along the border */
+  animation: rotateBorder 4s linear infinite;
   z-index: -1;
   
-  /* CRITICAL: This mask ensures gradient ONLY shows on the border, NOT on the text/content */
+  /* CRITICAL: Shows gradient ONLY on border, NOT on content */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   
-  /* Border thickness - only this much will show as border */
+  /* Border thickness */
   padding: 2.5px;
   
-  /* This ensures the border is smooth */
+  /* Smooth edges */
   pointer-events: none;
 }
 
-/* Second rotating ring for double effect (optional) */
+/* Second rotating ring for double effect (optional - adds depth) */
 .btn::after {
   content: '';
   position: absolute;
@@ -439,22 +311,22 @@ body::after {
   bottom: -5px;
   border-radius: 64px;
   
-  /* Conic gradient in opposite direction */
+  /* Opposite direction gradient */
   background: conic-gradient(
     from 180deg,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1,  /* Blue */
+    #d4af37,  /* Golden */
+    #4169e1   /* Blue */
   );
   
-  /* Animation in opposite direction */
-  animation: rotateButtonBorderReverse 5s linear infinite;
+  /* Opposite direction animation */
+  animation: rotateBorderReverse 5s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
@@ -469,7 +341,7 @@ body::after {
 }
 
 /* Rotation animations */
-@keyframes rotateButtonBorder {
+@keyframes rotateBorder {
   from {
     transform: rotate(0deg);
   }
@@ -478,7 +350,7 @@ body::after {
   }
 }
 
-@keyframes rotateButtonBorderReverse {
+@keyframes rotateBorderReverse {
   from {
     transform: rotate(0deg);
   }
@@ -489,11 +361,11 @@ body::after {
 
 /* Hover effect - speed up rotation */
 .btn:hover::before {
-  animation: rotateButtonBorder 2s linear infinite;
+  animation: rotateBorder 2s linear infinite;
 }
 
 .btn:hover::after {
-  animation: rotateButtonBorderReverse 2.5s linear infinite;
+  animation: rotateBorderReverse 2.5s linear infinite;
 }
 
 .btn:hover {
@@ -642,28 +514,14 @@ body::after {
 <!-- Loading animation -->
 <div class="loading-bar"></div>
 
-<!-- Floating particles -->
-<script>
-  for(let i = 0; i < 15; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.top = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 15 + 's';
-    particle.style.animationDuration = (10 + Math.random() * 20) + 's';
-    document.body.appendChild(particle);
-  }
-</script>
-
 <div class="wrapper">
   <div class="container">
 
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with Rotating Border (BORDER ONLY) -->
+    <!-- Profile -->
     <div class="profile">
-      <div class="profile-glow"></div>
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
 
@@ -676,31 +534,31 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- Buttons with ROTATING BORDER (BORDER ONLY, NOT ON TEXT) -->
+    <!-- Buttons with ROTATING BLUE & GOLDEN BORDER -->
     <div class="buttons">
 
-      <!-- Facebook - rotating border only, text untouched -->
+      <!-- Facebook -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Facebook Page - rotating border only, text untouched -->
+      <!-- Facebook Page -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook Page</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Instagram - rotating border only, text untouched -->
+      <!-- Instagram -->
       <a class="btn" href="https://www.instagram.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/instagram/ffffff"></span>
         <span class="btn-text">Instagram</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- WhatsApp - rotating border only, text untouched -->
+      <!-- WhatsApp -->
       <a class="btn" href="https://wa.me/8801234567890" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/whatsapp/ffffff"></span>
         <span class="btn-text">WhatsApp</span>
