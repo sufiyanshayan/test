@@ -347,7 +347,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - WITH ROTATING BORDER ONLY ON THE BORDER ===== */
+/* ===== BUTTONS SECTION - WITH ROTATING BORDER ONLY ON OUTER BORDER ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -372,22 +372,21 @@ body::after {
   overflow: hidden;
   z-index: 2;
   
-  /* Golden border - this is the MARKED AREA you mentioned */
+  /* Simple border - will be visible */
   border: 2px solid #d4af37;
 }
 
-/* ===== ROTATING BORDER FOR BUTTONS (EXACTLY LIKE PROFILE PICTURE BORDER) ===== */
-/* Inner rotating border - Clockwise */
-.btn::before {
+/* ===== ONLY OUTER ROTATING BORDER (NO INNER BORDER) ===== */
+.btn::after {
   content: '';
   position: absolute;
-  top: -3px;
-  left: -3px;
-  right: -3px;
-  bottom: -3px;
-  border-radius: 62px;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 64px;
   
-  /* Same conic gradient as profile picture */
+  /* Conic gradient for rotating colors */
   background: conic-gradient(
     from 0deg,
     #d4af37,
@@ -401,8 +400,8 @@ body::after {
     #d4af37
   );
   
-  /* Same animation speed as profile picture */
-  animation: rotateButtonBorder 3s linear infinite;
+  /* Rotation animation */
+  animation: rotateOuterBorder 4s linear infinite;
   z-index: -1;
   
   /* Mask to show ONLY on the border */
@@ -412,48 +411,11 @@ body::after {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   padding: 2px; /* Border thickness */
+  opacity: 0.9;
 }
 
-/* Outer rotating border - Counter-clockwise (double effect like profile) */
-.btn::after {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  border-radius: 64px;
-  
-  /* Opposite direction gradient */
-  background: conic-gradient(
-    from 180deg,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1,
-    #d4af37,
-    #4169e1
-  );
-  
-  /* Opposite direction animation */
-  animation: rotateButtonBorderReverse 4s linear infinite;
-  z-index: -2;
-  
-  /* Mask for border effect */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 1px;
-  opacity: 0.7;
-}
-
-/* Same rotation animations as profile picture */
-@keyframes rotateButtonBorder {
+/* Rotation animation */
+@keyframes rotateOuterBorder {
   from {
     transform: rotate(0deg);
   }
@@ -462,22 +424,9 @@ body::after {
   }
 }
 
-@keyframes rotateButtonBorderReverse {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(-360deg);
-  }
-}
-
-/* Hover effect - speed up rotation (exactly like profile) */
-.btn:hover::before {
-  animation: rotateButtonBorder 1.5s linear infinite;
-}
-
+/* Hover effect - speed up rotation */
 .btn:hover::after {
-  animation: rotateButtonBorderReverse 2s linear infinite;
+  animation: rotateOuterBorder 2s linear infinite;
 }
 
 .btn:hover {
@@ -655,37 +604,37 @@ body::after {
     <!-- Name -->
     <div class="name">Your_Name</div>
     
-    <!-- Title - PREMIUMECONOMY and EXECUTIVE separate lines as per image -->
+    <!-- Title - PREMIUMECONOMY and EXECUTIVE separate lines -->
     <div class="title-container">
       <div class="premium-title">PREMIUMECONOMY</div>
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- Buttons with ROTATING BORDER exactly like profile picture -->
+    <!-- Buttons with ONLY OUTER ROTATING BORDER -->
     <div class="buttons">
 
-      <!-- Facebook - with rotating border on the MARKED AREA -->
+      <!-- Facebook -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Facebook Page - with rotating border on the MARKED AREA -->
+      <!-- Facebook Page -->
       <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
         <span class="btn-text">Facebook Page</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Instagram - with rotating border on the MARKED AREA -->
+      <!-- Instagram -->
       <a class="btn" href="https://www.instagram.com/your_username" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/instagram/ffffff"></span>
         <span class="btn-text">Instagram</span>
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- WhatsApp - with rotating border on the MARKED AREA -->
+      <!-- WhatsApp -->
       <a class="btn" href="https://wa.me/8801234567890" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/whatsapp/ffffff"></span>
         <span class="btn-text">WhatsApp</span>
