@@ -149,63 +149,63 @@ body::after {
   border-radius: 50%;
   object-fit: cover;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   border: 3px solid transparent;
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* ===== PROFILE PICTURE GRADIENT BORDER (SAME AS BUTTONS) ===== */
+/* ===== PROFILE PICTURE THICK GRADIENT BORDER ===== */
 .profile::before {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 111px; /* image width (105px) + border */
-  height: 111px;
+  width: 125px;  /* Increased for thicker border */
+  height: 125px;
   border-radius: 50%;
   
   /* Same gradient as buttons - Golden & Blue */
   background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  z-index: 1;
+  z-index: 2;
   
   /* Animation for color change - same as buttons */
   animation: borderColorChange 4s linear infinite;
   
-  /* Mask to show only on border */
+  /* Mask to show only on border - with thicker padding */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 3px; /* Border thickness */
+  padding: 8px; /* MUCH THICKER BORDER - exactly as requested "একেবারে হালকা মোটা" */
 }
 
-/* Second layer for more depth */
+/* Second layer for more depth - slightly thicker too */
 .profile::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 117px;
-  height: 117px;
+  width: 133px;  /* Increased for thicker border */
+  height: 133px;
   border-radius: 50%;
   
   /* Gradient in opposite direction */
   background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  z-index: 0;
+  z-index: 1;
   
   /* Animation for color change */
   animation: borderColorChangeReverse 5s linear infinite;
   
-  /* Mask for border effect */
+  /* Mask for border effect - with thicker padding */
   -webkit-mask: 
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  padding: 2px;
+  padding: 5px; /* Thicker than before */
   opacity: 0.7;
 }
 
@@ -217,7 +217,7 @@ body::after {
   color: #d4af37;
   text-align: center;
   letter-spacing: -0.3px;
-  margin-top: 15px;
+  margin-top: 25px;  /* Slightly increased to accommodate thicker border */
   margin-bottom: 6px;
   text-shadow: 
     0 2px 15px rgba(212, 175, 55, 0.2),
@@ -505,7 +505,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with Gradient Border (same as buttons) -->
+    <!-- Profile with THICK Gradient Border -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
