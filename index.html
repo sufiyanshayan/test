@@ -138,6 +138,9 @@ body::after {
   text-align: center;
   margin-bottom: 22px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile img {
@@ -145,21 +148,65 @@ body::after {
   height: 105px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #d4af37;
-  box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 6px rgba(65, 105, 225, 0.25),
-    0 20px 40px -10px #000;
-  transition: all 0.5s ease;
+  position: relative;
+  z-index: 2;
+  border: 3px solid transparent;
+  box-shadow: 0 10px 20px -5px #000;
 }
 
-.profile img:hover {
-  transform: scale(1.02);
-  border-color: #4169e1;
-  box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 8px rgba(212, 175, 55, 0.25),
-    0 25px 45px -8px #000;
+/* ===== PROFILE PICTURE GRADIENT BORDER (SAME AS BUTTONS) ===== */
+.profile::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 111px; /* image width (105px) + border */
+  height: 111px;
+  border-radius: 50%;
+  
+  /* Same gradient as buttons - Golden & Blue */
+  background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
+  z-index: 1;
+  
+  /* Animation for color change - same as buttons */
+  animation: borderColorChange 4s linear infinite;
+  
+  /* Mask to show only on border */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 3px; /* Border thickness */
+}
+
+/* Second layer for more depth */
+.profile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 117px;
+  height: 117px;
+  border-radius: 50%;
+  
+  /* Gradient in opposite direction */
+  background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
+  z-index: 0;
+  
+  /* Animation for color change */
+  animation: borderColorChangeReverse 5s linear infinite;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2px;
+  opacity: 0.7;
 }
 
 /* Name */
@@ -176,6 +223,8 @@ body::after {
     0 2px 15px rgba(212, 175, 55, 0.2),
     0 0 30px rgba(65, 105, 225, 0.1);
   line-height: 1.2;
+  position: relative;
+  z-index: 5;
 }
 
 /* Title - PREMIUMECONOMY and EXECUTIVE */
@@ -183,6 +232,7 @@ body::after {
   text-align: center;
   margin-bottom: 30px;
   position: relative;
+  z-index: 5;
 }
 
 .premium-title {
@@ -225,7 +275,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - BORDER COLOR CHANGING (NO ROTATION) ===== */
+/* ===== BUTTONS SECTION - ALL SOCIAL MEDIA BUTTONS ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -260,7 +310,7 @@ body::after {
   animation: borderColorChange 4s linear infinite;
 }
 
-/* Color change animation - border colors cycle, no rotation */
+/* Color change animation */
 @keyframes borderColorChange {
   0% {
     background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
@@ -281,6 +331,24 @@ body::after {
   100% {
     background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
                       linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
+  }
+}
+
+@keyframes borderColorChangeReverse {
+  0% {
+    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
+  }
+  25% {
+    background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
+  }
+  50% {
+    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
+  }
+  75% {
+    background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
+  }
+  100% {
+    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
   }
 }
 
@@ -437,7 +505,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile -->
+    <!-- Profile with Gradient Border (same as buttons) -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
@@ -451,7 +519,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- Buttons with COLOR CHANGING BORDER (NO ROTATION) -->
+    <!-- All Buttons - COMPLETE LIST -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -479,6 +547,48 @@ body::after {
       <a class="btn" href="https://wa.me/8801234567890" target="_blank">
         <span class="btn-icon"><img src="https://cdn.simpleicons.org/whatsapp/ffffff"></span>
         <span class="btn-text">WhatsApp</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- TikTok -->
+      <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank">
+        <span class="btn-icon"><img src="https://cdn.simpleicons.org/tiktok/ffffff"></span>
+        <span class="btn-text">TikTok</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- Telegram -->
+      <a class="btn" href="https://t.me/your_username" target="_blank">
+        <span class="btn-icon"><img src="https://cdn.simpleicons.org/telegram/ffffff"></span>
+        <span class="btn-text">Telegram</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- Twitter (X) -->
+      <a class="btn" href="https://x.com/your_username" target="_blank">
+        <span class="btn-icon"><img src="https://cdn.simpleicons.org/x/ffffff"></span>
+        <span class="btn-text">Twitter (X)</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- Call Me -->
+      <a class="btn" href="tel:01234567890">
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:20px;"></span>
+        <span class="btn-text">Call Me</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- About Me -->
+      <a class="btn" href="#">
+        <span class="btn-icon"><img src="https://cdn.simpleicons.org/aboutdotme/ffffff"></span>
+        <span class="btn-text">About Me</span>
+        <span class="btn-arrow">→</span>
+      </a>
+
+      <!-- My Website -->
+      <a class="btn" href="#">
+        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:20px;"></span>
+        <span class="btn-text">My Website</span>
         <span class="btn-arrow">→</span>
       </a>
 
