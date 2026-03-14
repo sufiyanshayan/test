@@ -152,51 +152,97 @@ body::after {
   z-index: 3;
   border: 5px solid transparent;
   
-  /* Chase animation: Blue runs after Golden */
-  background: repeating-linear-gradient(
-    90deg,
-    #d4af37 0%,
-    #d4af37 10%,
-    #4169e1 10%,
-    #4169e1 20%,
-    #d4af37 20%,
-    #d4af37 30%,
-    #4169e1 30%,
-    #4169e1 40%,
-    #d4af37 40%,
-    #d4af37 50%,
-    #4169e1 50%,
-    #4169e1 60%,
-    #d4af37 60%,
-    #d4af37 70%,
-    #4169e1 70%,
-    #4169e1 80%,
-    #d4af37 80%,
-    #d4af37 90%,
-    #4169e1 90%,
-    #4169e1 100%
-  ) border-box;
+  /* Base styling */
+  box-shadow: 0 10px 20px -5px #000;
+}
+
+/* ===== CIRCULAR RACETRACK EFFECT ===== */
+.profile::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 125px;
+  height: 125px;
+  border-radius: 50%;
   
+  /* Conic gradient creates a circular racetrack */
+  background: conic-gradient(
+    from 0deg,
+    #d4af37 0deg 60deg,
+    #4169e1 60deg 120deg,
+    #d4af37 120deg 180deg,
+    #4169e1 180deg 240deg,
+    #d4af37 240deg 300deg,
+    #4169e1 300deg 360deg
+  );
+  
+  /* Animation - one color chasing another around the circle */
+  animation: circularChase 3s linear infinite;
+  z-index: 2;
+  
+  /* Mask to create border effect */
   -webkit-mask: 
-    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  
-  box-shadow: 0 10px 20px -5px #000;
-  
-  /* Chase animation - one color chasing the other */
-  animation: chaseEffect 2s linear infinite;
-  background-size: 200% 100%;
+  padding: 5px;
 }
 
-/* Chase effect - Blue chasing Golden */
-@keyframes chaseEffect {
-  0% {
-    background-position: 0% 0%;
+/* Second layer for more depth */
+.profile::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 133px;
+  height: 133px;
+  border-radius: 50%;
+  
+  /* Opposite direction for second runner */
+  background: conic-gradient(
+    from 0deg,
+    #4169e1 0deg 60deg,
+    #d4af37 60deg 120deg,
+    #4169e1 120deg 180deg,
+    #d4af37 180deg 240deg,
+    #4169e1 240deg 300deg,
+    #d4af37 300deg 360deg
+  );
+  
+  /* Opposite direction animation */
+  animation: circularChaseReverse 4s linear infinite;
+  z-index: 1;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2px;
+  opacity: 0.7;
+}
+
+/* Circular chase animation - one chasing another around the circle */
+@keyframes circularChase {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  100% {
-    background-position: 200% 0%;
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes circularChaseReverse {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
   }
 }
 
@@ -266,7 +312,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - CHASE EFFECT ===== */
+/* ===== BUTTONS SECTION - CIRCULAR RACETRACK EFFECT ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -290,45 +336,110 @@ body::after {
   position: relative;
   z-index: 2;
   
-  /* Border with chase effect */
+  /* Base border */
   border: 2.5px solid transparent;
-  background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                    repeating-linear-gradient(
-                      90deg,
-                      #d4af37 0%,
-                      #d4af37 10%,
-                      #4169e1 10%,
-                      #4169e1 20%,
-                      #d4af37 20%,
-                      #d4af37 30%,
-                      #4169e1 30%,
-                      #4169e1 40%,
-                      #d4af37 40%,
-                      #d4af37 50%,
-                      #4169e1 50%,
-                      #4169e1 60%,
-                      #d4af37 60%,
-                      #d4af37 70%,
-                      #4169e1 70%,
-                      #4169e1 80%,
-                      #d4af37 80%,
-                      #d4af37 90%,
-                      #4169e1 90%,
-                      #4169e1 100%
-                    );
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  background-size: 200% 100%;
+}
+
+/* Circular racetrack effect for buttons */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 62px;
   
-  /* Chase animation */
-  animation: chaseEffect 3s linear infinite;
+  /* Conic gradient for circular chase effect */
+  background: conic-gradient(
+    from 0deg,
+    #d4af37 0deg 60deg,
+    #4169e1 60deg 120deg,
+    #d4af37 120deg 180deg,
+    #4169e1 180deg 240deg,
+    #d4af37 240deg 300deg,
+    #4169e1 300deg 360deg
+  );
+  
+  /* Chase animation around the oval */
+  animation: btnCircularChase 3s linear infinite;
+  z-index: -1;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 2.5px;
+}
+
+/* Second runner for buttons */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 64px;
+  
+  /* Opposite direction gradient */
+  background: conic-gradient(
+    from 0deg,
+    #4169e1 0deg 60deg,
+    #d4af37 60deg 120deg,
+    #4169e1 120deg 180deg,
+    #d4af37 180deg 240deg,
+    #4169e1 240deg 300deg,
+    #d4af37 300deg 360deg
+  );
+  
+  /* Opposite direction chase */
+  animation: btnCircularChaseReverse 4s linear infinite;
+  z-index: -2;
+  
+  /* Mask for border effect */
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1.5px;
+  opacity: 0.7;
+}
+
+/* Button chase animations */
+@keyframes btnCircularChase {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes btnCircularChaseReverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.btn:hover::before {
+  animation: btnCircularChase 1.5s linear infinite;
+}
+
+.btn:hover::after {
+  animation: btnCircularChaseReverse 2s linear infinite;
 }
 
 .btn:hover {
   transform: translateY(-3px) scale(1.01);
   background: rgba(20, 24, 32, 0.9);
   box-shadow: 0 18px 30px -12px #000;
-  animation: chaseEffect 1.5s linear infinite; /* Faster chase on hover */
 }
 
 .btn-icon {
@@ -477,7 +588,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with CHASE EFFECT - Blue chasing Golden -->
+    <!-- Profile with CIRCULAR RACETRACK EFFECT -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
@@ -491,7 +602,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- All Buttons with CHASE EFFECT -->
+    <!-- All Buttons with CIRCULAR RACETRACK EFFECT -->
     <div class="buttons">
 
       <!-- Facebook -->
