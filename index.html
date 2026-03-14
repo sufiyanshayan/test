@@ -96,11 +96,11 @@ body::after {
   justify-content: center;
 }
 
-/* Gradient border container */
+/* Gradient border container for profile */
 .profile-border {
   position: relative;
-  width: 106px;
-  height: 106px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: linear-gradient(135deg, #d4af37, #4169e1, #d4af37);
   display: flex;
@@ -115,11 +115,11 @@ body::after {
 }
 
 .profile-border img {
-  width: 100px;
-  height: 100px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #111418;
+  border: 2px solid #111418;
   box-shadow: 0 15px 30px -10px #000;
   transition: transform 0.3s ease;
   position: relative;
@@ -135,28 +135,7 @@ body::after {
   transform: scale(1.02);
 }
 
-/* Alternative static gradient border (if animation feels too much) */
-.profile-gradient-static {
-  position: relative;
-  width: 106px;
-  height: 106px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #d4af37, #4169e1, #d4af37);
-  padding: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.profile-gradient-static img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #111418;
-}
-
-/* Name - More premium */
+/* Name */
 .name {
   font-family: 'Playfair Display', serif;
   font-size: 32px;
@@ -169,7 +148,7 @@ body::after {
   line-height: 1.2;
 }
 
-/* Title - Enhanced */
+/* Title */
 .title {
   font-size: 12px;
   color: #8a9ac2;
@@ -187,17 +166,16 @@ body::after {
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* Button styling - More refined */
+/* Button with gradient border */
 .btn {
   display: flex;
   align-items: center;
   padding: 14px 20px;
   text-decoration: none;
   background: #1a1e26;
-  border: 1px solid #2f3540;
   border-radius: 50px;
   transition: all 0.3s ease;
   color: #fff;
@@ -205,6 +183,13 @@ body::after {
   font-weight: 400;
   position: relative;
   overflow: hidden;
+  
+  /* Gradient border */
+  border: double 1.5px transparent;
+  background-image: linear-gradient(#1a1e26, #1a1e26), 
+                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 /* Subtle gradient overlay on hover */
@@ -217,6 +202,7 @@ body::after {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), rgba(65, 105, 225, 0.1), transparent);
   transition: left 0.5s ease;
+  z-index: 1;
 }
 
 .btn:hover::before {
@@ -224,10 +210,17 @@ body::after {
 }
 
 .btn:hover {
-  background: #222832;
-  border-color: #d4af37;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -10px #000, 0 0 0 1px rgba(212, 175, 55, 0.3);
+  box-shadow: 0 10px 20px -10px #000;
+  
+  /* Reverse gradient on hover */
+  background-image: linear-gradient(#222832, #222832), 
+                    linear-gradient(90deg, #4169e1, #d4af37, #4169e1);
+}
+
+.btn-icon, .btn-text, .btn-arrow {
+  position: relative;
+  z-index: 2;
 }
 
 /* Button icon */
@@ -274,15 +267,15 @@ body::after {
   color: #d4af37;
 }
 
-/* Mini premium divider - Very subtle */
+/* Mini premium divider */
 .mini-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), rgba(65, 105, 225, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), rgba(65, 105, 225, 0.3), transparent);
   margin: 15px 0 5px;
   width: 100%;
 }
 
-/* Footer - More elegant */
+/* Footer */
 .footer {
   margin-top: 30px;
   text-align: center;
@@ -310,12 +303,12 @@ body::after {
   font-weight: 500;
 }
 
-/* Small premium badge */
+/* Premium badge */
 .premium-badge {
   text-align: center;
   margin: 8px 0 -5px;
   font-size: 8px;
-  color: rgba(212, 175, 55, 0.25);
+  color: rgba(212, 175, 55, 0.3);
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -326,6 +319,8 @@ body::after {
   .name { font-size: 28px; }
   .btn { padding: 12px 16px; }
   .btn-text { font-size: 13px; }
+  .profile-border { width: 100px; height: 100px; }
+  .profile-border img { width: 94px; height: 94px; }
 }
 </style>
 </head>
@@ -345,7 +340,7 @@ body::after {
     <div class="name">Your_Name</div>
     <div class="title">Your_Title</div>
 
-    <!-- All Buttons - সম্পূর্ণ ১০টি বাটন -->
+    <!-- All Buttons with Gradient Borders -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -397,7 +392,7 @@ body::after {
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Very subtle divider -->
+      <!-- Divider -->
       <div class="mini-divider"></div>
 
       <!-- Call Me -->
@@ -424,7 +419,7 @@ body::after {
     </div>
 
     <!-- Premium Badge -->
-    <div class="premium-badge">✦ PREMIUM EDITION ✦</div>
+    <div class="premium-badge">✦ PREMIUM GRADIENT EDITION ✦</div>
 
     <!-- Footer -->
     <div class="footer">
