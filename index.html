@@ -150,63 +150,44 @@ body::after {
   object-fit: cover;
   position: relative;
   z-index: 3;
-  border: 3px solid transparent;
+  border: 5px solid transparent; /* Thicker border to show gradient */
+  
+  /* Gradient border that covers the entire border */
+  background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) padding-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  
   box-shadow: 0 10px 20px -5px #000;
+  
+  /* Animation for color change - colors move through the entire border */
+  animation: borderColorFlow 4s linear infinite;
 }
 
-/* ===== PROFILE PICTURE THICK GRADIENT BORDER ===== */
-.profile::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 125px;  /* Increased for thicker border */
-  height: 125px;
-  border-radius: 50%;
-  
-  /* Same gradient as buttons - Golden & Blue */
-  background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  z-index: 2;
-  
-  /* Animation for color change - same as buttons */
-  animation: borderColorChange 4s linear infinite;
-  
-  /* Mask to show only on border - with thicker padding */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 8px; /* MUCH THICKER BORDER - exactly as requested "একেবারে হালকা মোটা" */
+/* Color flow animation - colors move through the entire border */
+@keyframes borderColorFlow {
+  0% {
+    background: linear-gradient(0deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  }
+  25% {
+    background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  }
+  50% {
+    background: linear-gradient(180deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  }
+  75% {
+    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  }
+  100% {
+    background: linear-gradient(360deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37) border-box;
+  }
 }
 
-/* Second layer for more depth - slightly thicker too */
-.profile::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 133px;  /* Increased for thicker border */
-  height: 133px;
-  border-radius: 50%;
-  
-  /* Gradient in opposite direction */
-  background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  z-index: 1;
-  
-  /* Animation for color change */
-  animation: borderColorChangeReverse 5s linear infinite;
-  
-  /* Mask for border effect - with thicker padding */
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 5px; /* Thicker than before */
-  opacity: 0.7;
+/* Remove pseudo-elements - we're using direct border now */
+.profile::before, .profile::after {
+  display: none;
 }
 
 /* Name */
@@ -217,7 +198,7 @@ body::after {
   color: #d4af37;
   text-align: center;
   letter-spacing: -0.3px;
-  margin-top: 25px;  /* Slightly increased to accommodate thicker border */
+  margin-top: 15px;
   margin-bottom: 6px;
   text-shadow: 
     0 2px 15px rgba(212, 175, 55, 0.2),
@@ -331,24 +312,6 @@ body::after {
   100% {
     background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
                       linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-}
-
-@keyframes borderColorChangeReverse {
-  0% {
-    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  25% {
-    background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  50% {
-    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  75% {
-    background: linear-gradient(270deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  100% {
-    background: linear-gradient(270deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
   }
 }
 
@@ -505,7 +468,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with THICK Gradient Border -->
+    <!-- Profile with FULL BORDER COLOR FLOW -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
