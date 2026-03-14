@@ -156,7 +156,7 @@ body::after {
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* ===== CIRCULAR CHASE EFFECT - WITHOUT CLOCK HANDS ===== */
+/* ===== TWO BIG SEGMENTS - ONE BLUE, ONE GOLDEN ===== */
 .profile::before {
   content: '';
   position: absolute;
@@ -167,25 +167,15 @@ body::after {
   height: 125px;
   border-radius: 50%;
   
-  /* Simple alternating colors - like runners on a track */
-  background: repeating-conic-gradient(
+  /* TWO BIG SEGMENTS - 180deg each */
+  background: conic-gradient(
     from 0deg,
-    #d4af37 0deg 30deg,
-    #4169e1 30deg 60deg,
-    #d4af37 60deg 90deg,
-    #4169e1 90deg 120deg,
-    #d4af37 120deg 150deg,
-    #4169e1 150deg 180deg,
-    #d4af37 180deg 210deg,
-    #4169e1 210deg 240deg,
-    #d4af37 240deg 270deg,
-    #4169e1 270deg 300deg,
-    #d4af37 300deg 330deg,
-    #4169e1 330deg 360deg
+    #d4af37 0deg 180deg,
+    #4169e1 180deg 360deg
   );
   
-  /* Continuous flow animation - colors move smoothly around the circle */
-  animation: flowAround 4s linear infinite;
+  /* Animation - the two segments chase each other */
+  animation: twoSegmentChase 4s linear infinite;
   z-index: 2;
   
   /* Mask to create border effect */
@@ -197,7 +187,7 @@ body::after {
   padding: 5px;
 }
 
-/* Second layer for more depth - flows opposite direction */
+/* Second layer - opposite colors */
 .profile::after {
   content: '';
   position: absolute;
@@ -208,25 +198,15 @@ body::after {
   height: 133px;
   border-radius: 50%;
   
-  /* Opposite color pattern */
-  background: repeating-conic-gradient(
+  /* TWO BIG SEGMENTS - opposite arrangement */
+  background: conic-gradient(
     from 0deg,
-    #4169e1 0deg 30deg,
-    #d4af37 30deg 60deg,
-    #4169e1 60deg 90deg,
-    #d4af37 90deg 120deg,
-    #4169e1 120deg 150deg,
-    #d4af37 150deg 180deg,
-    #4169e1 180deg 210deg,
-    #d4af37 210deg 240deg,
-    #4169e1 240deg 270deg,
-    #d4af37 270deg 300deg,
-    #4169e1 300deg 330deg,
-    #d4af37 330deg 360deg
+    #4169e1 0deg 180deg,
+    #d4af37 180deg 360deg
   );
   
-  /* Flow opposite direction */
-  animation: flowAroundReverse 5s linear infinite;
+  /* Opposite direction chase */
+  animation: twoSegmentChaseReverse 5s linear infinite;
   z-index: 1;
   
   /* Mask for border effect */
@@ -239,8 +219,8 @@ body::after {
   opacity: 0.7;
 }
 
-/* Flow animations - no clock hands, just continuous flow */
-@keyframes flowAround {
+/* Chase animations for two big segments */
+@keyframes twoSegmentChase {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
@@ -249,7 +229,7 @@ body::after {
   }
 }
 
-@keyframes flowAroundReverse {
+@keyframes twoSegmentChaseReverse {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
@@ -324,7 +304,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - CONTINUOUS FLOW EFFECT ===== */
+/* ===== BUTTONS SECTION - TWO BIG SEGMENTS ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -352,7 +332,7 @@ body::after {
   border: 2.5px solid transparent;
 }
 
-/* Continuous flow effect for buttons */
+/* Two big segments for buttons - 50% Golden, 50% Blue */
 .btn::before {
   content: '';
   position: absolute;
@@ -362,33 +342,17 @@ body::after {
   bottom: -3px;
   border-radius: 62px;
   
-  /* Alternating colors for continuous flow */
-  background: repeating-linear-gradient(
+  /* TWO BIG SEGMENTS - half and half */
+  background: linear-gradient(
     90deg,
-    #d4af37 0px,
-    #d4af37 8px,
-    #4169e1 8px,
-    #4169e1 16px,
-    #d4af37 16px,
-    #d4af37 24px,
-    #4169e1 24px,
-    #4169e1 32px,
-    #d4af37 32px,
-    #d4af37 40px,
-    #4169e1 40px,
-    #4169e1 48px,
-    #d4af37 48px,
-    #d4af37 56px,
-    #4169e1 56px,
-    #4169e1 64px,
-    #d4af37 64px,
-    #d4af37 72px,
-    #4169e1 72px,
-    #4169e1 80px
+    #d4af37 0%,
+    #d4af37 50%,
+    #4169e1 50%,
+    #4169e1 100%
   );
   
-  /* Flow animation - colors move horizontally */
-  animation: flowHorizontal 3s linear infinite;
+  /* Chase animation - the two halves move */
+  animation: twoHalfChase 4s linear infinite;
   z-index: -1;
   
   /* Mask for border effect */
@@ -399,10 +363,10 @@ body::after {
   mask-composite: exclude;
   padding: 2.5px;
   
-  background-size: 160px 100%;
+  background-size: 200% 100%;
 }
 
-/* Second runner for buttons */
+/* Second runner - opposite colors */
 .btn::after {
   content: '';
   position: absolute;
@@ -412,33 +376,17 @@ body::after {
   bottom: -5px;
   border-radius: 64px;
   
-  /* Opposite color pattern */
-  background: repeating-linear-gradient(
+  /* Opposite arrangement */
+  background: linear-gradient(
     90deg,
-    #4169e1 0px,
-    #4169e1 8px,
-    #d4af37 8px,
-    #d4af37 16px,
-    #4169e1 16px,
-    #4169e1 24px,
-    #d4af37 24px,
-    #d4af37 32px,
-    #4169e1 32px,
-    #4169e1 40px,
-    #d4af37 40px,
-    #d4af37 48px,
-    #4169e1 48px,
-    #4169e1 56px,
-    #d4af37 56px,
-    #d4af37 64px,
-    #4169e1 64px,
-    #4169e1 72px,
-    #d4af37 72px,
-    #d4af37 80px
+    #4169e1 0%,
+    #4169e1 50%,
+    #d4af37 50%,
+    #d4af37 100%
   );
   
-  /* Flow opposite direction */
-  animation: flowHorizontalReverse 4s linear infinite;
+  /* Opposite direction chase */
+  animation: twoHalfChaseReverse 5s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
@@ -450,34 +398,34 @@ body::after {
   padding: 1.5px;
   opacity: 0.7;
   
-  background-size: 160px 100%;
+  background-size: 200% 100%;
 }
 
-/* Flow animations - no clock hands, just continuous flow */
-@keyframes flowHorizontal {
+/* Chase animations for two halves */
+@keyframes twoHalfChase {
   from {
-    background-position: 0 0;
+    background-position: 0% 0;
   }
   to {
-    background-position: 160px 0;
+    background-position: 200% 0;
   }
 }
 
-@keyframes flowHorizontalReverse {
+@keyframes twoHalfChaseReverse {
   from {
-    background-position: 0 0;
+    background-position: 0% 0;
   }
   to {
-    background-position: -160px 0;
+    background-position: -200% 0;
   }
 }
 
 .btn:hover::before {
-  animation: flowHorizontal 1.5s linear infinite;
+  animation: twoHalfChase 2s linear infinite;
 }
 
 .btn:hover::after {
-  animation: flowHorizontalReverse 2s linear infinite;
+  animation: twoHalfChaseReverse 2.5s linear infinite;
 }
 
 .btn:hover {
@@ -632,7 +580,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with CONTINUOUS FLOW EFFECT -->
+    <!-- Profile with TWO BIG SEGMENTS -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
@@ -646,7 +594,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- All Buttons with CONTINUOUS FLOW EFFECT -->
+    <!-- All Buttons with TWO BIG SEGMENTS -->
     <div class="buttons">
 
       <!-- Facebook -->
