@@ -87,55 +87,36 @@ body::after {
   opacity: 0.6;
 }
 
-/* Profile section with gradient border */
+/* Profile section */
 .profile {
   text-align: center;
   margin-bottom: 20px;
   position: relative;
-  display: flex;
-  justify-content: center;
 }
 
-/* Gradient border container for profile */
-.profile-border {
-  position: relative;
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #d4af37, #4169e1, #d4af37);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: rotateGradient 4s linear infinite;
-}
-
-@keyframes rotateGradient {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.profile-border img {
-  width: 104px;
-  height: 104px;
+.profile img {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #111418;
-  box-shadow: 0 15px 30px -10px #000;
+  border: 3px solid #d4af37;
+  box-shadow: 
+    0 0 0 3px #111418,
+    0 0 0 6px rgba(65, 105, 225, 0.2),
+    0 15px 30px -10px #000;
   transition: transform 0.3s ease;
-  position: relative;
-  z-index: 2;
 }
 
-.profile-border:hover {
-  animation: none;
-  background: linear-gradient(135deg, #4169e1, #d4af37, #4169e1);
-}
-
-.profile-border:hover img {
+.profile img:hover {
   transform: scale(1.02);
+  border-color: #4169e1;
+  box-shadow: 
+    0 0 0 3px #111418,
+    0 0 0 8px rgba(212, 175, 55, 0.15),
+    0 20px 35px -8px #000;
 }
 
-/* Name */
+/* Name - More premium */
 .name {
   font-family: 'Playfair Display', serif;
   font-size: 32px;
@@ -148,7 +129,7 @@ body::after {
   line-height: 1.2;
 }
 
-/* Title */
+/* Title - Enhanced */
 .title {
   font-size: 12px;
   color: #8a9ac2;
@@ -166,16 +147,17 @@ body::after {
 .buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
-/* Button with gradient border */
+/* Button styling - More refined */
 .btn {
   display: flex;
   align-items: center;
   padding: 14px 20px;
   text-decoration: none;
   background: #1a1e26;
+  border: 1px solid #2f3540;
   border-radius: 50px;
   transition: all 0.3s ease;
   color: #fff;
@@ -183,13 +165,6 @@ body::after {
   font-weight: 400;
   position: relative;
   overflow: hidden;
-  
-  /* Gradient border */
-  border: double 1.5px transparent;
-  background-image: linear-gradient(#1a1e26, #1a1e26), 
-                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
 }
 
 /* Subtle gradient overlay on hover */
@@ -202,7 +177,6 @@ body::after {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), rgba(65, 105, 225, 0.1), transparent);
   transition: left 0.5s ease;
-  z-index: 1;
 }
 
 .btn:hover::before {
@@ -210,17 +184,10 @@ body::after {
 }
 
 .btn:hover {
+  background: #222832;
+  border-color: #d4af37;
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -10px #000;
-  
-  /* Reverse gradient on hover */
-  background-image: linear-gradient(#222832, #222832), 
-                    linear-gradient(90deg, #4169e1, #d4af37, #4169e1);
-}
-
-.btn-icon, .btn-text, .btn-arrow {
-  position: relative;
-  z-index: 2;
+  box-shadow: 0 10px 20px -10px #000, 0 0 0 1px rgba(212, 175, 55, 0.3);
 }
 
 /* Button icon */
@@ -267,15 +234,15 @@ body::after {
   color: #d4af37;
 }
 
-/* Mini premium divider */
+/* Mini premium divider - Very subtle */
 .mini-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), rgba(65, 105, 225, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), rgba(65, 105, 225, 0.2), transparent);
   margin: 15px 0 5px;
   width: 100%;
 }
 
-/* Footer */
+/* Footer - More elegant */
 .footer {
   margin-top: 30px;
   text-align: center;
@@ -303,12 +270,12 @@ body::after {
   font-weight: 500;
 }
 
-/* Premium badge */
+/* Small premium badge */
 .premium-badge {
   text-align: center;
   margin: 8px 0 -5px;
   font-size: 8px;
-  color: rgba(212, 175, 55, 0.3);
+  color: rgba(212, 175, 55, 0.25);
   letter-spacing: 3px;
   text-transform: uppercase;
 }
@@ -319,8 +286,6 @@ body::after {
   .name { font-size: 28px; }
   .btn { padding: 12px 16px; }
   .btn-text { font-size: 13px; }
-  .profile-border { width: 100px; height: 100px; }
-  .profile-border img { width: 94px; height: 94px; }
 }
 </style>
 </head>
@@ -329,18 +294,16 @@ body::after {
 <div class="wrapper">
   <div class="container">
 
-    <!-- Profile with Gradient Border -->
+    <!-- Profile -->
     <div class="profile">
-      <div class="profile-border">
-        <img src="Your_Profile_Picture_Link" alt="Profile">
-      </div>
+      <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
 
     <!-- Name & Title -->
     <div class="name">Your_Name</div>
     <div class="title">Your_Title</div>
 
-    <!-- All Buttons with Gradient Borders -->
+    <!-- All Buttons - একটানা সাজানো -->
     <div class="buttons">
 
       <!-- Facebook -->
@@ -392,7 +355,7 @@ body::after {
         <span class="btn-arrow">→</span>
       </a>
 
-      <!-- Divider -->
+      <!-- Very subtle divider -->
       <div class="mini-divider"></div>
 
       <!-- Call Me -->
@@ -419,7 +382,7 @@ body::after {
     </div>
 
     <!-- Premium Badge -->
-    <div class="premium-badge">✦ PREMIUM GRADIENT EDITION ✦</div>
+    <div class="premium-badge">✦ PREMIUM EDITION ✦</div>
 
     <!-- Footer -->
     <div class="footer">
