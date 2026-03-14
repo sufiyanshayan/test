@@ -156,7 +156,7 @@ body::after {
   box-shadow: 0 10px 20px -5px #000;
 }
 
-/* ===== CIRCULAR RACETRACK EFFECT ===== */
+/* ===== CIRCULAR CHASE EFFECT - WITHOUT CLOCK HANDS ===== */
 .profile::before {
   content: '';
   position: absolute;
@@ -167,19 +167,25 @@ body::after {
   height: 125px;
   border-radius: 50%;
   
-  /* Conic gradient creates a circular racetrack */
-  background: conic-gradient(
+  /* Simple alternating colors - like runners on a track */
+  background: repeating-conic-gradient(
     from 0deg,
-    #d4af37 0deg 60deg,
-    #4169e1 60deg 120deg,
-    #d4af37 120deg 180deg,
-    #4169e1 180deg 240deg,
-    #d4af37 240deg 300deg,
-    #4169e1 300deg 360deg
+    #d4af37 0deg 30deg,
+    #4169e1 30deg 60deg,
+    #d4af37 60deg 90deg,
+    #4169e1 90deg 120deg,
+    #d4af37 120deg 150deg,
+    #4169e1 150deg 180deg,
+    #d4af37 180deg 210deg,
+    #4169e1 210deg 240deg,
+    #d4af37 240deg 270deg,
+    #4169e1 270deg 300deg,
+    #d4af37 300deg 330deg,
+    #4169e1 330deg 360deg
   );
   
-  /* Animation - one color chasing another around the circle */
-  animation: circularChase 3s linear infinite;
+  /* Continuous flow animation - colors move smoothly around the circle */
+  animation: flowAround 4s linear infinite;
   z-index: 2;
   
   /* Mask to create border effect */
@@ -191,7 +197,7 @@ body::after {
   padding: 5px;
 }
 
-/* Second layer for more depth */
+/* Second layer for more depth - flows opposite direction */
 .profile::after {
   content: '';
   position: absolute;
@@ -202,19 +208,25 @@ body::after {
   height: 133px;
   border-radius: 50%;
   
-  /* Opposite direction for second runner */
-  background: conic-gradient(
+  /* Opposite color pattern */
+  background: repeating-conic-gradient(
     from 0deg,
-    #4169e1 0deg 60deg,
-    #d4af37 60deg 120deg,
-    #4169e1 120deg 180deg,
-    #d4af37 180deg 240deg,
-    #4169e1 240deg 300deg,
-    #d4af37 300deg 360deg
+    #4169e1 0deg 30deg,
+    #d4af37 30deg 60deg,
+    #4169e1 60deg 90deg,
+    #d4af37 90deg 120deg,
+    #4169e1 120deg 150deg,
+    #d4af37 150deg 180deg,
+    #4169e1 180deg 210deg,
+    #d4af37 210deg 240deg,
+    #4169e1 240deg 270deg,
+    #d4af37 270deg 300deg,
+    #4169e1 300deg 330deg,
+    #d4af37 330deg 360deg
   );
   
-  /* Opposite direction animation */
-  animation: circularChaseReverse 4s linear infinite;
+  /* Flow opposite direction */
+  animation: flowAroundReverse 5s linear infinite;
   z-index: 1;
   
   /* Mask for border effect */
@@ -227,8 +239,8 @@ body::after {
   opacity: 0.7;
 }
 
-/* Circular chase animation - one chasing another around the circle */
-@keyframes circularChase {
+/* Flow animations - no clock hands, just continuous flow */
+@keyframes flowAround {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
@@ -237,7 +249,7 @@ body::after {
   }
 }
 
-@keyframes circularChaseReverse {
+@keyframes flowAroundReverse {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
@@ -312,7 +324,7 @@ body::after {
   right: -15px;
 }
 
-/* ===== BUTTONS SECTION - CIRCULAR RACETRACK EFFECT ===== */
+/* ===== BUTTONS SECTION - CONTINUOUS FLOW EFFECT ===== */
 .buttons {
   display: flex;
   flex-direction: column;
@@ -340,7 +352,7 @@ body::after {
   border: 2.5px solid transparent;
 }
 
-/* Circular racetrack effect for buttons */
+/* Continuous flow effect for buttons */
 .btn::before {
   content: '';
   position: absolute;
@@ -350,19 +362,33 @@ body::after {
   bottom: -3px;
   border-radius: 62px;
   
-  /* Conic gradient for circular chase effect */
-  background: conic-gradient(
-    from 0deg,
-    #d4af37 0deg 60deg,
-    #4169e1 60deg 120deg,
-    #d4af37 120deg 180deg,
-    #4169e1 180deg 240deg,
-    #d4af37 240deg 300deg,
-    #4169e1 300deg 360deg
+  /* Alternating colors for continuous flow */
+  background: repeating-linear-gradient(
+    90deg,
+    #d4af37 0px,
+    #d4af37 8px,
+    #4169e1 8px,
+    #4169e1 16px,
+    #d4af37 16px,
+    #d4af37 24px,
+    #4169e1 24px,
+    #4169e1 32px,
+    #d4af37 32px,
+    #d4af37 40px,
+    #4169e1 40px,
+    #4169e1 48px,
+    #d4af37 48px,
+    #d4af37 56px,
+    #4169e1 56px,
+    #4169e1 64px,
+    #d4af37 64px,
+    #d4af37 72px,
+    #4169e1 72px,
+    #4169e1 80px
   );
   
-  /* Chase animation around the oval */
-  animation: btnCircularChase 3s linear infinite;
+  /* Flow animation - colors move horizontally */
+  animation: flowHorizontal 3s linear infinite;
   z-index: -1;
   
   /* Mask for border effect */
@@ -372,6 +398,8 @@ body::after {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   padding: 2.5px;
+  
+  background-size: 160px 100%;
 }
 
 /* Second runner for buttons */
@@ -384,19 +412,33 @@ body::after {
   bottom: -5px;
   border-radius: 64px;
   
-  /* Opposite direction gradient */
-  background: conic-gradient(
-    from 0deg,
-    #4169e1 0deg 60deg,
-    #d4af37 60deg 120deg,
-    #4169e1 120deg 180deg,
-    #d4af37 180deg 240deg,
-    #4169e1 240deg 300deg,
-    #d4af37 300deg 360deg
+  /* Opposite color pattern */
+  background: repeating-linear-gradient(
+    90deg,
+    #4169e1 0px,
+    #4169e1 8px,
+    #d4af37 8px,
+    #d4af37 16px,
+    #4169e1 16px,
+    #4169e1 24px,
+    #d4af37 24px,
+    #d4af37 32px,
+    #4169e1 32px,
+    #4169e1 40px,
+    #d4af37 40px,
+    #d4af37 48px,
+    #4169e1 48px,
+    #4169e1 56px,
+    #d4af37 56px,
+    #d4af37 64px,
+    #4169e1 64px,
+    #4169e1 72px,
+    #d4af37 72px,
+    #d4af37 80px
   );
   
-  /* Opposite direction chase */
-  animation: btnCircularChaseReverse 4s linear infinite;
+  /* Flow opposite direction */
+  animation: flowHorizontalReverse 4s linear infinite;
   z-index: -2;
   
   /* Mask for border effect */
@@ -407,33 +449,35 @@ body::after {
   mask-composite: exclude;
   padding: 1.5px;
   opacity: 0.7;
+  
+  background-size: 160px 100%;
 }
 
-/* Button chase animations */
-@keyframes btnCircularChase {
+/* Flow animations - no clock hands, just continuous flow */
+@keyframes flowHorizontal {
   from {
-    transform: rotate(0deg);
+    background-position: 0 0;
   }
   to {
-    transform: rotate(360deg);
+    background-position: 160px 0;
   }
 }
 
-@keyframes btnCircularChaseReverse {
+@keyframes flowHorizontalReverse {
   from {
-    transform: rotate(0deg);
+    background-position: 0 0;
   }
   to {
-    transform: rotate(-360deg);
+    background-position: -160px 0;
   }
 }
 
 .btn:hover::before {
-  animation: btnCircularChase 1.5s linear infinite;
+  animation: flowHorizontal 1.5s linear infinite;
 }
 
 .btn:hover::after {
-  animation: btnCircularChaseReverse 2s linear infinite;
+  animation: flowHorizontalReverse 2s linear infinite;
 }
 
 .btn:hover {
@@ -588,7 +632,7 @@ body::after {
     <!-- Corner Decoration -->
     <div class="corner-decoration"></div>
 
-    <!-- Profile with CIRCULAR RACETRACK EFFECT -->
+    <!-- Profile with CONTINUOUS FLOW EFFECT -->
     <div class="profile">
       <img src="Your_Profile_Picture_Link" alt="Profile">
     </div>
@@ -602,7 +646,7 @@ body::after {
       <div class="executive-title">EXECUTIVE</div>
     </div>
 
-    <!-- All Buttons with CIRCULAR RACETRACK EFFECT -->
+    <!-- All Buttons with CONTINUOUS FLOW EFFECT -->
     <div class="buttons">
 
       <!-- Facebook -->
