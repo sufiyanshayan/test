@@ -51,6 +51,7 @@ header{
     box-shadow:-2px 0 10px rgba(0,0,0,0.1);
     transition:0.3s;
     padding-top:60px;
+    z-index:1000;
 }
 
 .sidebar a{
@@ -59,6 +60,7 @@ header{
     text-decoration:none;
     color:#333;
     border-bottom:1px solid #eee;
+    transition:0.2s;
 }
 
 .sidebar a:hover{
@@ -79,6 +81,7 @@ header{
     height:100%;
     background:rgba(0,0,0,0.3);
     display:none;
+    z-index:900;
 }
 
 .overlay.active{
@@ -134,9 +137,9 @@ header{
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-    <a href="#">Home</a>
     <a href="test">Test</a>
-    <a href="#">Contact</a>
+    <a href="about">About</a>
+    <a href="contact">Contact</a>
 </div>
 
 <!-- Overlay -->
@@ -145,13 +148,19 @@ header{
 <section class="main">
     <h1>Welcome</h1>
     <p>Clean & modern website design.</p>
-    <button class="btn">Get Started</button>
+    <button class="btn" onclick="goToTest()">Get Started</button>
 </section>
 
 <script>
 function toggleMenu(){
     document.getElementById("sidebar").classList.toggle("active");
     document.getElementById("overlay").classList.toggle("active");
+}
+
+// Button works properly
+function goToTest(){
+    // This works for GitHub Pages clean URL
+    window.location.href = "test";
 }
 </script>
 
