@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FernFix Terrariums</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                        url('https://images.unsplash.com/photo-1463936575829-25148e1db1b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: white;
+        }
+
+        .navbar {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.3);
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        /* Home Page */
+        .home-content {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .home-content h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-content p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        /* Contact Page */
+        .contact-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 600px;
+            margin: 50px auto;
+        }
+
+        .contact-content h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .info-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .info-icon {
+            font-size: 28px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .info-text {
+            font-size: 18px;
+        }
+
+        .info-text h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+            color: #4CAF50;
+        }
+
+        .info-text p {
+            opacity: 0.9;
+        }
+
+        .info-text a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px dotted #4CAF50;
+        }
+
+        .info-text a:hover {
+            color: #4CAF50;
+        }
+
+        /* About Page (example for future pages) */
+        .about-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        .about-content h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Products Page (another example) */
+        .products-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 1000px;
+            margin: 50px auto;
+        }
+
+        .products-content h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .product-card h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .product-card p {
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .home-content h1 {
+                font-size: 48px;
+            }
+
+            .contact-content {
+                padding: 30px;
+            }
+
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#" class="logo" onclick="showPage('home')">FernFix Terrariums</a>
+        <div class="nav-links">
+            <a href="#" onclick="showPage('home')" id="home-link" class="active">Home</a>
+            <a href="#" onclick="showPage('contact')" id="contact-link">Contact</a>
+            <a href="#" onclick="showPage('about')" id="about-link">About</a>
+            <a href="#" onclick="showPage('products')" id="products-link">Products</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home-page" class="page">
+            <div class="home-content">
+                <h1>FernFix Terrariums</h1>
+                <p>Bringing Nature Indoors</p>
+                <p style="font-size: 18px;">Discover our beautiful collection of handcrafted terrariums</p>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="page" style="display: none;">
+            <div class="contact-content">
+                <h2>Contact Us</h2>
+                <div class="contact-info">
+                    <div class="info-item">
+                        <div class="info-icon">📞</div>
+                        <div class="info-text">
+                            <h3>Phone</h3>
+                            <p><a href="tel:+880123456789">+880 1234-567890</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">📧</div>
+                        <div class="info-text">
+                            <h3>Email</h3>
+                            <p><a href="mailto:info@fernfix.com">info@fernfix.com</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <h3>Address</h3>
+                            <p>123 Green Street<br>Dhaka, Bangladesh</p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">🌐</div>
+                        <div class="info-text">
+                            <h3>Social Media</h3>
+                            <p>
+                                <a href="#">Facebook</a> | 
+                                <a href="#">Instagram</a> | 
+                                <a href="#">Twitter</a>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">⏰</div>
+                        <div class="info-text">
+                            <h3>Business Hours</h3>
+                            <p>Mon-Fri: 9AM - 6PM<br>Sat: 10AM - 4PM<br>Sun: Closed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page (Example of a new page) -->
+        <div id="about-page" class="page" style="display: none;">
+            <div class="about-content">
+                <h2>About FernFix</h2>
+                <p>Welcome to FernFix Terrariums! We are passionate about bringing the beauty of nature into your home and office spaces. Our journey began in 2020 with a simple mission: to create sustainable, beautiful terrariums that require minimal maintenance while maximizing visual appeal.</p>
+                <p>Each terrarium is handcrafted with love and attention to detail, using high-quality materials and carefully selected plants. We believe that everyone deserves a piece of nature in their living space, regardless of their gardening experience.</p>
+                <p>Our team of expert horticulturists and designers work together to create unique pieces that not only look beautiful but also thrive in indoor environments. We provide detailed care instructions and ongoing support to ensure your terrarium remains healthy and vibrant for years to come.</p>
+            </div>
+        </div>
+
+        <!-- Products Page (Another example) -->
+        <div id="products-page" class="page" style="display: none;">
+            <div class="products-content">
+                <h2>Our Products</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <h3>Mini Desert</h3>
+                        <p>A beautiful succulent arrangement in a geometric glass container</p>
+                        <p class="product-price">$45.00</p>
+                    </div>
+                    <div class="product-card">
+                        <h3>Tropical Paradise</h3>
+                        <p>Lush ferns and moss in a closed terrarium</p>
+                        <p class="product-price">$65.00</p>
+                    </div>
+                    <div class="product-card">
+                        <h3>Air Plant Holder</h3>
+                        <p>Minimalist design with colorful air plants</p>
+                        <p class="product-price">$35.00</p>
+                    </div>
+                    <div class="product-card">
+                        <h3>Forest Moss</h3>
+                        <p>Rich moss landscape with decorative stones</p>
+                        <p class="product-price">$55.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageName + '-page');
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+
+            // Update active link
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.getElementById(pageName + '-link');
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        }
+
+        // Show home page by default
+        showPage('home');
+    </script>
+</body>
+</html>
