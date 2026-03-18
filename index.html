@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- ===== এখানে আপনার নাম দিন ===== -->
+    <!-- ===== টাইটেল ===== -->
     <title>Your Name</title>
     
-    <!-- ===== FAVICON LINK ===== -->
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co.com/XCj1rPbD/your-favicon.png">
-    <link rel="shortcut icon" href="https://i.ibb.co.com/XCj1rPbD/your-favicon.ico" type="image/x-icon">
-    
     <style>
-        /* পুরানো CSS ঠিক same থাকবে */
         * {
             margin: 0;
             padding: 0;
@@ -44,7 +39,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== LOGO EMPTY ===== */
         .logo {
             display: inline-block;
             white-space: nowrap;
@@ -536,47 +530,46 @@
 </head>
 <body>
     <!-- ============================================== -->
-    <!-- ========== শুধু এই অংশটুকু এডিট করুন ========== -->
+    <!-- ===== এখান থেকে সব এডিট করুন (এক জায়গায়) ===== -->
     <!-- ============================================== -->
     <script>
-        // ================= আপনার তথ্য দিন =================
+        // ================= আপনার সব তথ্য এখানে দিন =================
         const SITE_CONFIG = {
-            // লোগো - ফাঁকা
-            logo: "",
+            // ---------- ১. ফ্যাভিকন লিংক ----------
+            favicon: "https://i.ibb.co.com/XCj1rPbD/your-favicon.png",  // আপনার ফ্যাভিকন লিংক
             
-            // ===== ফুটারে আপনার নাম =====
-            footer: "✦ Your Name ✦",  // এখানে Your Name লেখা আছে
+            // ---------- ২. টাইটেল ও ফুটার ----------
+            siteTitle: "Your Name",              // ব্রাউজার ট্যাবে দেখাবে
+            footerText: "✦ Your Name ✦",          // ফুটারে দেখাবে
             
-            // নেভিগেশন মেনুর নাম
+            // ---------- ৩. নেভিগেশন মেনু ----------
             navLinks: ["Home", "Contact", "About", "Collection"],
             
-            // প্রতিটি বাটনের জন্য তথ্য
+            // ---------- ৪. বাটনের নাম ও লিংক (Home বাদে) ----------
             buttonInfo: [
                 {
                     name: "Contact",
-                    link: "yourdomain.com/Contact"
+                    link: "yourdomain.com/Contact"    // কন্টাক্ট বাটনের লিংক
                 },
                 {
                     name: "Test",
-                    link: "https://mt.work.gd/test"
+                    link: "https://mt.work.gd/test"      // অ্যাবাউট বাটনের লিংক
                 },
                 {
                     name: "Collection",
-                    link: "yourdomain.com/Collection"
+                    link: "yourdomain.com/Collection"  // কালেকশন বাটনের লিংক
                 }
             ],
             
-            // হোম পেজের কন্টেন্ট
+            // ---------- ৫. হোম পেজের কন্টেন্ট ----------
             home: {
-                // ===== হোম পেজের বড় টাইটেলে আপনার নাম =====
-                title: "Your Name",  // এখানে Your Name লেখা আছে
-                titleSpan: "as Art",
+                title: "Your Name",           // হোম পেজের বড় টাইটেল
+                titleSpan: "as Art",           // টাইটেলের দ্বিতীয় লাইন
                 subtitle: "Handcrafted botanical sculptures",
                 quote: "Bringing nature's architecture indoors",
                 
                 art1: {
-                    // ===== আর্ট পিসের টাইটেলে আপনার নাম =====
-                    title: "✦ Your Name",  // এখানে Your Name লেখা আছে
+                    title: "✦ Your Name",      // প্রথম আর্ট পিসের টাইটেল
                     text: "Each piece is a delicate balance of form, texture, and living art. We create miniature landscapes that breathe life into your space."
                 },
                 
@@ -592,22 +585,39 @@
                 }
             }
         };
-        // ========== আপনার তথ্য দেওয়া শেষ ==========
+        
+        // ---------- ফ্যাভিকন অটো সেট হবে ----------
+        (function setFavicon() {
+            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+            link.type = 'image/x-icon';
+            link.rel = 'shortcut icon';
+            link.href = SITE_CONFIG.favicon;
+            document.getElementsByTagName('head')[0].appendChild(link);
+            
+            // পিএনজি ফরম্যাটের জন্যও
+            const linkPNG = document.querySelector("link[rel='icon']") || document.createElement('link');
+            linkPNG.type = 'image/png';
+            linkPNG.rel = 'icon';
+            linkPNG.href = SITE_CONFIG.favicon;
+            document.getElementsByTagName('head')[0].appendChild(linkPNG);
+        })();
+        
+        // ---------- টাইটেল সেট ----------
+        document.title = SITE_CONFIG.siteTitle;
     </script>
+    <!-- ============================================== -->
+    <!-- ===== এডিট করার জায়গা শেষ ===== -->
     <!-- ============================================== -->
 
     <nav class="navbar">
-        <!-- লোগো - ফাঁকা -->
         <span class="logo" id="dynamicLogo"></span>
 
-        <!-- Hamburger Icon -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- Navigation Links -->
         <div class="nav-links" id="navLinks"></div>
     </nav>
 
@@ -672,13 +682,13 @@
     <script>
         // ========== কনফিগারেশন থেকে সব কন্টেন্ট লোড ==========
         function loadContent() {
-            // লোগো সেট করুন (ফাঁকা)
-            document.getElementById('dynamicLogo').innerText = SITE_CONFIG.logo;
+            // লোগো ফাঁকা
+            document.getElementById('dynamicLogo').innerText = "";
             
-            // ফুটার সেট করুন
-            document.getElementById('footerText').innerText = SITE_CONFIG.footer;
+            // ফুটার
+            document.getElementById('footerText').innerText = SITE_CONFIG.footerText;
             
-            // হোম পেজ কন্টেন্ট সেট করুন
+            // হোম পেজ কন্টেন্ট
             document.querySelector('.hero-title').innerHTML = `${SITE_CONFIG.home.title} <span>${SITE_CONFIG.home.titleSpan}</span>`;
             document.getElementById('homeSubtitle').innerText = SITE_CONFIG.home.subtitle;
             document.getElementById('homeQuote').innerText = SITE_CONFIG.home.quote;
@@ -690,7 +700,7 @@
             document.getElementById('art3Text1').innerText = SITE_CONFIG.home.art3.text1;
             document.getElementById('art3Text2').innerText = SITE_CONFIG.home.art3.text2;
             
-            // নেভিগেশন লিংক জেনারেট করুন
+            // নেভিগেশন লিংক
             const navLinks = document.getElementById('navLinks');
             navLinks.innerHTML = '';
             
@@ -708,11 +718,10 @@
                 navLinks.appendChild(a);
             });
             
-            // বাটন ইনফো জেনারেট করুন
+            // বাটন ইনফো
             generateButtonInfo();
         }
         
-        // বাটন ইনফো জেনারেট করার ফাংশন
         function generateButtonInfo() {
             const contactDiv = document.getElementById('contactButtonInfo');
             const aboutDiv = document.getElementById('aboutButtonInfo');
@@ -749,7 +758,6 @@
             });
         }
 
-        // ========== মেনু ফাংশন ==========
         function toggleMenu() {
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
@@ -800,7 +808,6 @@
             });
         }
 
-        // ========== ইভেন্ট লিসেনার ==========
         window.addEventListener('load', function() {
             loadContent();
             showPage('home');
