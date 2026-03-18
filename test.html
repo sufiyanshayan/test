@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MD ABU SUFIYAN MRIDHA</title>
+    <title>FernFix Terrariums · dynamic logo</title>
     <style>
         * {
             margin: 0;
@@ -37,8 +37,10 @@
             font-family: 'Montserrat', sans-serif;
         }
 
+        /* --- DYNAMIC LOGO CONTAINER (always single line) --- */
         .logo {
-            font-size: 28px;
+            display: inline-block;          /* shrink-to-fit width */
+            white-space: nowrap;            /* force single line */
             font-weight: 300;
             letter-spacing: 8px;
             color: #1a1a1a;
@@ -46,8 +48,16 @@
             text-transform: uppercase;
             position: relative;
             z-index: 1001;
+            /* font-size starts at 28px, will be shrunk by js if needed */
+            font-size: 28px;
+            /* avoid any padding that could cause wrapping */
+            padding: 0 2px 0 0;
+            line-height: 1.2;
+            transform-origin: left center;
+            transition: font-size 0.2s ease;
         }
 
+        /* the underline effect remains */
         .logo::after {
             content: '';
             position: absolute;
@@ -351,7 +361,7 @@
             to { transform: rotate(375deg); }
         }
 
-        /* Page Containers (Empty - You can add your content later) */
+        /* Page Containers (Empty) */
         .page-container {
             background: #fff;
             padding: 60px;
@@ -424,8 +434,9 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="#" class="logo" onclick="showPage('home'); closeMenu()">MD ABU SUFIYAN MRIDHA</a>
-        
+        <!-- EDITABLE LOGO: change the text inside span.logo to your name -->
+        <span class="logo" id="dynamicLogo">FERNFIX</span>
+
         <!-- Hamburger Icon -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
@@ -433,7 +444,7 @@
             <span></span>
         </div>
 
-        <!-- Navigation Links (Your Page Links) -->
+        <!-- Navigation Links -->
         <div class="nav-links">
             <a href="#" onclick="showPage('home'); closeMenu()" id="home-link" class="active" style="--i:1;">Home</a>
             <a href="#" onclick="showPage('contact'); closeMenu()" id="contact-link" style="--i:2;">Contact</a>
@@ -448,7 +459,7 @@
             <div class="home-grid">
                 <div class="hero-left">
                     <h1 class="hero-title">
-                        MOOJ TIME
+                        Terrariums
                         <span>as Art</span>
                     </h1>
                     <p class="hero-subtitle">Handcrafted botanical sculptures</p>
@@ -479,7 +490,7 @@
             </div>
         </div>
 
-        <!-- Contact Page (Empty - You can add your content here later) -->
+        <!-- Contact Page (Empty) -->
         <div id="contact-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="page-placeholder">
@@ -489,7 +500,7 @@
             </div>
         </div>
 
-        <!-- About Page (Empty - You can add your content here later) -->
+        <!-- About Page -->
         <div id="about-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="page-placeholder">
@@ -499,7 +510,7 @@
             </div>
         </div>
 
-        <!-- Products Page (Empty - You can add your content here later) -->
+        <!-- Products Page -->
         <div id="products-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="page-placeholder">
@@ -510,12 +521,154 @@
         </div>
         
         <div class="footer">
-            ✦ MD ABU SUFIYAN MRIDHA SHAYAN ✦
+            ✦ FERNFIX TERRARIUMS ✦
         </div>
     </div>
 
     <script>
-        // Hamburger Menu Toggle
+        // ========== DYNAMIC LOGO FONT SIZING (single line, never wrap) ==========
+        function adjustLogoSize() {
+            const logo = document.getElementById('dynamicLogo');
+            if (!logo) return;
+
+            // Set a base reference size (max desired font size)
+            const maxFontSize = 28;          // same as initial CSS
+            const minFontSize = 10;           // never go below this (readable)
+            
+            // We'll do a binary search / stepping to find best fit
+            // First, save original text and styling
+            const originalText = logo.innerText;
+            
+            // Temporarily set a very large width to measure full text width
+            // We'll compare with parent container's width (navbar left side)
+            const navbar = document.querySelector('.navbar');
+            // left part width (from start to hamburger) approximate: logo width + padding
+            // but simpler: we check logo's parent flex width? Actually we want the available space 
+            // before the hamburger (or nav-links on desktop). 
+            // For reliability, we can compute max allowed width for the logo.
+            
+            // On desktop, the logo is left side, and there's the nav-links on the right.
+            // we can measure the .navbar width minus the width occupied by .hamburger/.nav-links
+            // but that's tricky due to variable right side. 
+            // A safe approach: set a maxWidth relative to parent container.
+            // Since parent navbar has padding 50px left+right on desktop, and the right side elements (nav-links) need space,
+            // we can estimate allowed width as navbar.clientWidth * 0.4 (or 300px) but that might be too rigid.
+            
+            // Instead, use container's width minus the space needed for the right side.
+            // We'll do a more robust method: 
+            // clone the logo, set it to absolute, measure its natural width with max font, compare with allowed width.
+            
+            const parentNav = document.querySelector('.navbar');
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            // Available width for logo ≈ total navbar width - (width of nav-links / hamburger) - some padding margin
+            // For simplicity, we'll compute the maximum x position where logo can end before hitting the right side elements.
+            // getBoundingClientRect gives pixel positions.
+            
+            const navRect = parentNav.getBoundingClientRect();
+            const linksRect = navLinks.getBoundingClientRect();
+            const hamburgerRect = hamburger.getBoundingClientRect();
+            
+            // Determine right boundary: if hamburger is visible (mobile style) use its left, else use links left.
+            let rightBoundary;
+            if (window.getComputedStyle(hamburger).display !== 'none') {
+                // mobile: hamburger visible -> logo should stay left of hamburger
+                rightBoundary = hamburgerRect.left;
+            } else {
+                // desktop: logo should stay left of nav-links (with a small gap)
+                rightBoundary = linksRect.left - 20; // 20px gap
+            }
+            
+            const leftBoundary = navRect.left + 50; // left padding is 50px on desktop, but on mobile it's 25px. 
+            // We'll use actual left edge of navbar + padding. The logo itself is inside navbar with same padding.
+            // simpler: use logo's current left position as start.
+            
+            const logoRect = logo.getBoundingClientRect();
+            const startX = logoRect.left;
+            const maxAllowedWidth = rightBoundary - startX - 5; // 5px buffer
+            
+            // If maxAllowedWidth is negative or zero, fallback to default
+            if (maxAllowedWidth < 10) {
+                logo.style.fontSize = maxFontSize + 'px';
+                return;
+            }
+            
+            // Create a hidden measuring span with same text and style
+            const measureSpan = document.createElement('span');
+            measureSpan.style.position = 'absolute';
+            measureSpan.style.left = '-9999px';
+            measureSpan.style.top = '-9999px';
+            measureSpan.style.visibility = 'hidden';
+            measureSpan.style.whiteSpace = 'nowrap';
+            measureSpan.style.fontFamily = window.getComputedStyle(logo).fontFamily;
+            measureSpan.style.fontWeight = window.getComputedStyle(logo).fontWeight;
+            measureSpan.style.letterSpacing = window.getComputedStyle(logo).letterSpacing;
+            measureSpan.style.textTransform = window.getComputedStyle(logo).textTransform;
+            measureSpan.style.fontSize = maxFontSize + 'px';
+            measureSpan.innerText = logo.innerText;
+            
+            document.body.appendChild(measureSpan);
+            
+            let currentFontSize = maxFontSize;
+            let textWidth = measureSpan.getBoundingClientRect().width;
+            
+            // If already fits, use max size
+            if (textWidth <= maxAllowedWidth) {
+                logo.style.fontSize = maxFontSize + 'px';
+                document.body.removeChild(measureSpan);
+                return;
+            }
+            
+            // Binary search for optimal font size between minFontSize and maxFontSize
+            let low = minFontSize;
+            let high = maxFontSize;
+            let bestFit = minFontSize;
+            
+            for (let i = 0; i < 10; i++) { // limit iterations
+                let mid = (low + high) / 2;
+                measureSpan.style.fontSize = mid + 'px';
+                let width = measureSpan.getBoundingClientRect().width;
+                
+                if (width <= maxAllowedWidth) {
+                    bestFit = mid;
+                    low = mid;
+                } else {
+                    high = mid;
+                }
+            }
+            
+            // Apply the best fit size (round to 1 decimal)
+            logo.style.fontSize = Math.floor(bestFit * 10) / 10 + 'px';
+            
+            document.body.removeChild(measureSpan);
+        }
+
+        // Call adjust on load and whenever window is resized (the available space may change)
+        window.addEventListener('load', function() {
+            adjustLogoSize();
+        });
+        
+        window.addEventListener('resize', function() {
+            adjustLogoSize();
+        });
+
+        // Additionally, if you programmatically change the logo text, call adjust.
+        // Example: you can set a new name for testing.
+        // For demonstration, let's allow easy testing: click logo to cycle example names.
+        const logoEl = document.getElementById('dynamicLogo');
+        logoEl.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Cycle through names to test dynamic sizing
+            const names = ['FERNFIX', 'VERY LONG NAME EXAMPLE', 'Αθήνα', 'MACADEMIA', 'LOUISIANA CONTRUCTION COMPANY'];
+            let current = logoEl.innerText;
+            let nextIndex = (names.indexOf(current) + 1) % names.length;
+            if (nextIndex === -1) nextIndex = 0;
+            logoEl.innerText = names[nextIndex];
+            adjustLogoSize();   // immediately adjust
+        });
+
+        // Hamburger and page functions (unchanged, but ensure they don't conflict)
         function toggleMenu() {
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
@@ -530,7 +683,6 @@
             }
         }
 
-        // Close Menu
         function closeMenu() {
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
@@ -540,21 +692,17 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Show Page Function
         function showPage(pageName) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => {
                 page.style.display = 'none';
             });
 
-            // Show selected page
             const selectedPage = document.getElementById(pageName + '-page');
             if (selectedPage) {
                 selectedPage.style.display = 'block';
             }
 
-            // Update active link
             const links = document.querySelectorAll('.nav-links a');
             links.forEach(link => {
                 link.classList.remove('active');
@@ -565,7 +713,6 @@
                 activeLink.classList.add('active');
             }
 
-            // Smooth scroll to top
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
@@ -587,12 +734,18 @@
             }
         });
 
-        // Handle window resize
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
                 closeMenu();
             }
+            // already calls adjustLogoSize separately
+        });
+
+        // Extra: on any font/width changes (e.g., orientation), readjust
+        window.addEventListener('orientationchange', function() {
+            setTimeout(adjustLogoSize, 50);
         });
     </script>
+    <!-- hint: click the logo (FERNFIX) to cycle test names and see auto-shrink -->
 </body>
 </html>
