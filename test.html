@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FernFix Terrariums | Classic Modern</title>
+    <title>FernFix Terrariums</title>
     <style>
         * {
             margin: 0;
@@ -63,7 +63,7 @@
             width: 100%;
         }
 
-        /* Premium Hamburger Menu */
+        /* Hamburger Menu */
         .hamburger {
             display: none;
             flex-direction: column;
@@ -73,29 +73,11 @@
             background: rgba(155, 139, 122, 0.05);
             border-radius: 50%;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .hamburger:hover {
             background: rgba(155, 139, 122, 0.1);
             transform: scale(1.05);
-        }
-
-        .hamburger::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(155,139,122,0.2) 0%, transparent 70%);
-            top: -50%;
-            left: -50%;
-            transition: all 0.5s ease;
-        }
-
-        .hamburger:hover::before {
-            top: 0;
-            left: 0;
         }
 
         .hamburger span {
@@ -105,13 +87,6 @@
             margin: 3px 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             border-radius: 4px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Hamburger Active State - Premium Animation */
-        .hamburger.active {
-            background: rgba(155, 139, 122, 0.15);
         }
 
         .hamburger.active span:nth-child(1) {
@@ -131,14 +106,13 @@
             background: #9b8b7a;
         }
 
-        /* Navigation Links - Premium Design */
+        /* Navigation Links */
         .nav-links {
             display: flex;
             gap: 40px;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        /* Creative Button Styles */
         .nav-links a {
             color: #3a3a3a;
             text-decoration: none;
@@ -151,10 +125,8 @@
             transition: all 0.3s ease;
             border-radius: 30px;
             overflow: hidden;
-            z-index: 1;
         }
 
-        /* Button Background Animation */
         .nav-links a::before {
             content: '';
             position: absolute;
@@ -171,7 +143,6 @@
             left: 100%;
         }
 
-        /* Button Underline Effect */
         .nav-links a::after {
             content: '';
             position: absolute;
@@ -185,27 +156,17 @@
             border-radius: 2px;
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             transform: translateX(-50%) scaleX(1);
         }
 
-        /* Active Button Style */
         .nav-links a.active {
             color: #9b8b7a;
             background: rgba(155, 139, 122, 0.05);
         }
 
-        .nav-links a.active::after {
-            transform: translateX(-50%) scaleX(1);
-            width: 30px;
-        }
-
-        /* Button Hover Glow */
-        .nav-links a:hover {
-            text-shadow: 0 0 8px rgba(155, 139, 122, 0.3);
-        }
-
-        /* Mobile Menu - Premium Slide Animation */
+        /* Mobile Menu */
         @media (max-width: 768px) {
             .navbar {
                 padding: 15px 25px;
@@ -235,7 +196,6 @@
                 right: 0;
             }
 
-            /* Menu Open Animation */
             .nav-links.active a {
                 animation: slideIn 0.5s forwards;
                 animation-delay: calc(0.1s * var(--i));
@@ -253,64 +213,15 @@
                 }
             }
 
-            /* Mobile Button Styles */
             .nav-links a {
                 font-size: 24px;
                 padding: 15px 30px;
                 width: 80%;
                 text-align: center;
-                border: 1px solid transparent;
-            }
-
-            .nav-links a:hover {
-                border-color: rgba(155, 139, 122, 0.2);
-                background: rgba(155, 139, 122, 0.02);
-                transform: scale(1.05);
-            }
-
-            .nav-links a::after {
-                bottom: 10px;
-                width: 30px;
-            }
-
-            .nav-links a:hover::after {
-                width: 50px;
-            }
-
-            /* Ripple Effect on Mobile */
-            .nav-links a {
-                position: relative;
-                overflow: hidden;
             }
 
             .nav-links a:active {
                 transform: scale(0.95);
-            }
-
-            .nav-links a:active::after {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                width: 0;
-                height: 0;
-                border-radius: 50%;
-                background: rgba(155, 139, 122, 0.1);
-                transform: translate(-50%, -50%);
-                animation: ripple 0.3s ease-out;
-            }
-
-            @keyframes ripple {
-                0% {
-                    width: 0;
-                    height: 0;
-                    opacity: 0.5;
-                }
-                100% {
-                    width: 200px;
-                    height: 200px;
-                    opacity: 0;
-                }
             }
         }
 
@@ -331,11 +242,11 @@
         @keyframes pageFade {
             from { 
                 opacity: 0; 
-                transform: translateY(30px) scale(0.98);
+                transform: translateY(30px);
             }
             to { 
                 opacity: 1; 
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
         }
 
@@ -358,12 +269,6 @@
             line-height: 1.1;
             margin-bottom: 30px;
             font-family: 'Cormorant Garamond', serif;
-            animation: titleGlow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes titleGlow {
-            from { text-shadow: 0 0 10px rgba(155, 139, 122, 0); }
-            to { text-shadow: 0 0 20px rgba(155, 139, 122, 0.1); }
         }
 
         .hero-title span {
@@ -391,12 +296,6 @@
             padding: 20px 0;
             border-top: 1px solid rgba(155, 139, 122, 0.3);
             border-bottom: 1px solid rgba(155, 139, 122, 0.3);
-            animation: quotePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes quotePulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
         }
 
         .hero-right {
@@ -411,28 +310,11 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             border-radius: 4px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .art-piece:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-        }
-
-        .art-piece::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .art-piece:hover::before {
-            left: 100%;
         }
 
         .art-piece h3 {
@@ -469,317 +351,32 @@
             to { transform: rotate(375deg); }
         }
 
-        /* Contact Page */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 60px;
+        /* Page Containers (Empty - You can add your content later) */
+        .page-container {
             background: #fff;
             padding: 60px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
             border-radius: 4px;
-        }
-
-        .contact-left {
-            border-right: 1px solid rgba(0, 0, 0, 0.1);
-            padding-right: 40px;
-        }
-
-        .contact-left h2 {
-            font-size: 42px;
-            font-weight: 300;
-            margin-bottom: 30px;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .contact-info-classic {
+            min-height: 500px;
             display: flex;
-            flex-direction: column;
-            gap: 30px;
-            margin-top: 40px;
+            align-items: center;
+            justify-content: center;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateX(10px);
-        }
-
-        .contact-icon {
-            font-size: 24px;
-            min-width: 40px;
-            color: #9b8b7a;
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .contact-text h4 {
+        .page-placeholder {
+            text-align: center;
+            color: #999;
             font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
+            font-size: 16px;
             letter-spacing: 2px;
-            color: #9b8b7a;
-            margin-bottom: 5px;
         }
 
-        .contact-text a {
-            color: #2c2c2c;
-            text-decoration: none;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .contact-text a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #9b8b7a;
-            transition: width 0.3s;
-        }
-
-        .contact-text a:hover::after {
-            width: 100%;
-        }
-
-        .business-card {
-            background: #faf7f2;
-            padding: 40px;
-            border-radius: 4px;
-            position: relative;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .business-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        .business-card::before {
-            content: '✧';
-            position: absolute;
-            top: 20px;
-            right: 30px;
+        .page-placeholder::before {
+            content: '✦';
+            display: block;
             font-size: 60px;
             color: rgba(155, 139, 122, 0.2);
-            animation: spin 20s linear infinite;
-        }
-
-        .business-hours {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .hours-day {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            letter-spacing: 1px;
-            color: #9b8b7a;
-        }
-
-        .social-links-classic {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .social-links-classic a {
-            color: #2c2c2c;
-            text-decoration: none;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            position: relative;
-            padding-bottom: 5px;
-        }
-
-        .social-links-classic a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #9b8b7a;
-            transition: width 0.3s;
-        }
-
-        .social-links-classic a:hover::after {
-            width: 100%;
-        }
-
-        /* About Page */
-        .about-container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 80px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-            border-radius: 4px;
-        }
-
-        .about-container h2 {
-            font-size: 48px;
-            font-weight: 300;
-            margin-bottom: 40px;
-            font-family: 'Cormorant Garamond', serif;
-            position: relative;
-            display: inline-block;
-        }
-
-        .about-container h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 1px;
-            background: #9b8b7a;
-            transition: width 0.3s;
-        }
-
-        .about-container:hover h2::after {
-            width: 100%;
-        }
-
-        .about-text {
-            columns: 2;
-            column-gap: 50px;
-            font-size: 16px;
-            color: #4a4a4a;
-        }
-
-        .about-text p {
             margin-bottom: 20px;
-            break-inside: avoid;
-            transition: transform 0.3s;
-        }
-
-        .about-text p:hover {
-            transform: translateX(5px);
-            color: #9b8b7a;
-        }
-
-        .signature {
-            margin-top: 50px;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 32px;
-            font-style: italic;
-            color: #9b8b7a;
-            text-align: right;
-            animation: signatureGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes signatureGlow {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; text-shadow: 0 0 10px rgba(155, 139, 122, 0.3); }
-        }
-
-        /* Products Page */
-        .products-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .products-header h2 {
-            font-size: 48px;
-            font-weight: 300;
-            margin-bottom: 20px;
-            font-family: 'Cormorant Garamond', serif;
-            animation: titleFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .products-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .gallery-item {
-            background: #fff;
-            padding: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.02);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        }
-
-        .gallery-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent 0%, rgba(155, 139, 122, 0.05) 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .gallery-item:hover::before {
-            opacity: 1;
-        }
-
-        .gallery-item::after {
-            content: '✧';
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 40px;
-            color: rgba(155, 139, 122, 0.1);
-            transition: all 0.3s;
-        }
-
-        .gallery-item:hover::after {
-            transform: rotate(90deg) scale(1.2);
-            color: rgba(155, 139, 122, 0.2);
-        }
-
-        .gallery-item h3 {
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 15px;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .gallery-item .price {
-            font-size: 18px;
-            color: #9b8b7a;
-            font-family: 'Montserrat', sans-serif;
-            margin: 15px 0;
-            position: relative;
-            display: inline-block;
-        }
-
-        .gallery-item .price::before {
-            content: '—';
-            margin-right: 5px;
-            color: #9b8b7a;
-            opacity: 0.5;
         }
 
         /* Footer */
@@ -792,25 +389,6 @@
             font-size: 12px;
             letter-spacing: 2px;
             color: #999;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #9b8b7a, transparent);
-            animation: footerShine 3s infinite;
-        }
-
-        @keyframes footerShine {
-            0% { left: -100%; }
-            50% { left: 100%; }
-            100% { left: 100%; }
         }
 
         /* Responsive */
@@ -831,24 +409,6 @@
             .hero-title {
                 font-size: 60px;
             }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-                padding: 30px;
-            }
-
-            .contact-left {
-                border-right: none;
-                padding-right: 0;
-            }
-
-            .about-container {
-                padding: 40px;
-            }
-
-            .about-text {
-                columns: 1;
-            }
         }
 
         @media (max-width: 480px) {
@@ -859,10 +419,6 @@
             .hero-title span {
                 font-size: 36px;
             }
-
-            .business-hours {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -870,14 +426,14 @@
     <nav class="navbar">
         <a href="#" class="logo" onclick="showPage('home'); closeMenu()">FERNFIX</a>
         
-        <!-- Premium Hamburger Icon -->
+        <!-- Hamburger Icon -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- Navigation Links with Creative Buttons -->
+        <!-- Navigation Links (Your Page Links) -->
         <div class="nav-links">
             <a href="#" onclick="showPage('home'); closeMenu()" id="home-link" class="active" style="--i:1;">Home</a>
             <a href="#" onclick="showPage('contact'); closeMenu()" id="contact-link" style="--i:2;">Contact</a>
@@ -887,7 +443,7 @@
     </nav>
 
     <div class="main-container">
-        <!-- Home Page -->
+        <!-- Home Page (With Content) -->
         <div id="home-page" class="page">
             <div class="home-grid">
                 <div class="hero-left">
@@ -923,134 +479,32 @@
             </div>
         </div>
 
-        <!-- Contact Page -->
+        <!-- Contact Page (Empty - You can add your content here later) -->
         <div id="contact-page" class="page" style="display: none;">
-            <div class="contact-grid">
-                <div class="contact-left">
-                    <h2>Get in touch</h2>
-                    <p>We'd love to hear from you. Whether you have a question about our creations, want to commission a piece, or just want to say hello.</p>
-                    
-                    <div class="contact-info-classic">
-                        <div class="contact-item">
-                            <div class="contact-icon">✧</div>
-                            <div class="contact-text">
-                                <h4>STUDIO</h4>
-                                <p>123 Green Street<br>Dhaka, Bangladesh</p>
-                            </div>
-                        </div>
-                        
-                        <div class="contact-item">
-                            <div class="contact-icon">⌘</div>
-                            <div class="contact-text">
-                                <h4>CONTACT</h4>
-                                <p><a href="tel:+880123456789">+880 1234 567890</a><br>
-                                <a href="mailto:studio@fernfix.com">studio@fernfix.com</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="contact-right">
-                    <div class="business-card">
-                        <h3>Studio Hours</h3>
-                        <div class="business-hours">
-                            <div>
-                                <div class="hours-day">MONDAY</div>
-                                <div class="hours-time">10am - 6pm</div>
-                            </div>
-                            <div>
-                                <div class="hours-day">TUESDAY</div>
-                                <div class="hours-time">10am - 6pm</div>
-                            </div>
-                            <div>
-                                <div class="hours-day">WEDNESDAY</div>
-                                <div class="hours-time">10am - 6pm</div>
-                            </div>
-                            <div>
-                                <div class="hours-day">THURSDAY</div>
-                                <div class="hours-time">10am - 6pm</div>
-                            </div>
-                            <div>
-                                <div class="hours-day">FRIDAY</div>
-                                <div class="hours-time">10am - 4pm</div>
-                            </div>
-                            <div>
-                                <div class="hours-day">SAT/SUN</div>
-                                <div class="hours-time">By appt.</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="business-card">
-                        <h3>Connect</h3>
-                        <div class="social-links-classic">
-                            <a href="#">Instagram</a>
-                            <a href="#">Pinterest</a>
-                            <a href="#">Facebook</a>
-                        </div>
-                    </div>
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (Contact page)
                 </div>
             </div>
         </div>
 
-        <!-- About Page -->
+        <!-- About Page (Empty - You can add your content here later) -->
         <div id="about-page" class="page" style="display: none;">
-            <div class="about-container">
-                <h2>About</h2>
-                <div class="about-text">
-                    <p>FernFix was born from a fascination with the intricate architecture of nature. What began as a personal collection of miniature landscapes has evolved into a studio dedicated to creating living art pieces.</p>
-                    <p>Our approach combines traditional horticulture with contemporary design. Each terrarium is carefully composed, considering not just the plants, but the interplay of light, shadow, and form.</p>
-                    <p>We work exclusively with locally sourced materials and propagate our own plants, ensuring each piece is sustainable and uniquely suited to its environment.</p>
-                    <p>The studio collaborates with interior designers, architects, and private collectors to create custom installations that transform spaces.</p>
-                </div>
-                <div class="signature">
-                    — FernFix Atelier
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (About page)
                 </div>
             </div>
         </div>
 
-        <!-- Products Page -->
+        <!-- Products Page (Empty - You can add your content here later) -->
         <div id="products-page" class="page" style="display: none;">
-            <div class="products-header">
-                <h2>The Collection</h2>
-                <p>Each piece is uniquely crafted and available in limited quantities</p>
-            </div>
-            
-            <div class="products-gallery">
-                <div class="gallery-item">
-                    <h3>Cloud Forest</h3>
-                    <div class="price">$245</div>
-                    <p class="description">A misty landscape of selaginella, miniature ferns, and moss in a geometric terrarium.</p>
-                </div>
-                
-                <div class="gallery-item">
-                    <h3>Desert Rose</h3>
-                    <div class="price">$195</div>
-                    <p class="description">Succulents and cacti arranged in a minimalist white ceramic vessel.</p>
-                </div>
-                
-                <div class="gallery-item">
-                    <h3>Moss Mountain</h3>
-                    <div class="price">$295</div>
-                    <p class="description">A cascading landscape of various moss species on volcanic rock.</p>
-                </div>
-                
-                <div class="gallery-item">
-                    <h3>Air Garden</h3>
-                    <div class="price">$165</div>
-                    <p class="description">Tillandsias mounted on driftwood with preserved moss.</p>
-                </div>
-                
-                <div class="gallery-item">
-                    <h3>Jungle Cube</h3>
-                    <div class="price">$225</div>
-                    <p class="description">Closed terrarium with tropical ferns and peperomia.</p>
-                </div>
-                
-                <div class="gallery-item">
-                    <h3>Mineral Study</h3>
-                    <div class="price">$275</div>
-                    <p class="description">Air plants arranged with crystals and geodes in a glass cloche.</p>
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (Collection page)
                 </div>
             </div>
         </div>
@@ -1069,13 +523,8 @@
             hamburger.classList.toggle('active');
             navLinks.classList.toggle('active');
             
-            // Prevent body scroll when menu is open
             if (navLinks.classList.contains('active')) {
                 document.body.style.overflow = 'hidden';
-                // Add a small delay for animation
-                setTimeout(() => {
-                    document.body.style.overflow = 'hidden';
-                }, 100);
             } else {
                 document.body.style.overflow = 'auto';
             }
@@ -1141,18 +590,6 @@
         // Handle window resize
         window.addEventListener('resize', function() {
             if (window.innerWidth > 768) {
-                closeMenu();
-            }
-        });
-
-        // Add touch event for mobile
-        document.addEventListener('touchstart', function(event) {
-            const navLinks = document.querySelector('.nav-links');
-            const hamburger = document.querySelector('.hamburger');
-            
-            if (navLinks.classList.contains('active') && 
-                !navLinks.contains(event.target) && 
-                !hamburger.contains(event.target)) {
                 closeMenu();
             }
         });
