@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MD ABU SUFIYAN MRIDHA · dynamic logo</title>
+    <title>Your_Name · dynamic logo</title>
     <style>
         * {
             margin: 0;
@@ -37,10 +37,10 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* --- DYNAMIC LOGO CONTAINER (always single line) --- */
+        /* ===== EDITABLE LOGO ===== */
         .logo {
-            display: inline-block;          /* shrink-to-fit width */
-            white-space: nowrap;            /* force single line */
+            display: inline-block;
+            white-space: nowrap;
             font-weight: 300;
             letter-spacing: 8px;
             color: #1a1a1a;
@@ -48,16 +48,13 @@
             text-transform: uppercase;
             position: relative;
             z-index: 1001;
-            /* font-size starts at 28px, will be shrunk by js if needed */
             font-size: 28px;
-            /* avoid any padding that could cause wrapping */
             padding: 0 2px 0 0;
             line-height: 1.2;
             transform-origin: left center;
             transition: font-size 0.2s ease;
         }
 
-        /* the underline effect remains */
         .logo::after {
             content: '';
             position: absolute;
@@ -433,9 +430,62 @@
     </style>
 </head>
 <body>
+    <!-- ============================================== -->
+    <!-- ========== শুধু এই অংশটুকু এডিট করুন ========== -->
+    <!-- ============================================== -->
+    <script>
+        // ================= আপনার তথ্য দিন =================
+        const SITE_CONFIG = {
+            // লোগো - আপনার নাম/ব্র্যান্ড
+            logo: "FERNFIX",
+            
+            // ফুটার টেক্সট
+            footer: "✦ MD ABU SUFIYAN MRIDHA SHAYAN ✦",
+            
+            // নেভিগেশন মেনুর নাম (৪টি)
+            navLinks: ["Home", "Contact", "About", "Collection"],
+            
+            // হোম পেজের কন্টেন্ট
+            home: {
+                title: "Terrariums",
+                titleSpan: "as Art",
+                subtitle: "Handcrafted botanical sculptures",
+                quote: "Bringing nature's architecture indoors",
+                
+                // প্রথম আর্ট পিস
+                art1: {
+                    title: "✦ THE PHILOSOPHY",
+                    text: "Each piece is a delicate balance of form, texture, and living art. We create miniature landscapes that breathe life into your space."
+                },
+                
+                // দ্বিতীয় আর্ট পিস
+                art2: {
+                    title: "✦ LATEST CREATION",
+                    text: "The Emerald Cascade - A vertical garden of mosses and ferns"
+                },
+                
+                // তৃতীয় আর্ট পিস
+                art3: {
+                    title: "✦ UPCOMING EXHIBITION",
+                    text1: "March 15-30 | Botanical Arts Gallery",
+                    text2: "Private viewing by appointment"
+                }
+            },
+            
+            // অন্যান্য পেজের কন্টেন্ট
+            pages: {
+                contact: "YOUR CONTENT HERE\n(Contact page)",
+                about: "YOUR CONTENT HERE\n(About page)",
+                products: "YOUR CONTENT HERE\n(Collection page)"
+            }
+        };
+        // ========== আপনার তথ্য দেওয়া শেষ ==========
+    </script>
+    <!-- ============================================== -->
+
     <nav class="navbar">
-        <!-- EDITABLE LOGO: change the text inside span.logo to your name -->
-        <span class="logo" id="dynamicLogo">FERNFIX</span>
+        <!-- লোগো - উপরের SITE_CONFIG থেকে অটো আপডেট হবে -->
+        <span class="logo" id="dynamicLogo"></span>
 
         <!-- Hamburger Icon -->
         <div class="hamburger" onclick="toggleMenu()">
@@ -444,157 +494,145 @@
             <span></span>
         </div>
 
-        <!-- Navigation Links -->
-        <div class="nav-links">
-            <a href="#" onclick="showPage('home'); closeMenu()" id="home-link" class="active" style="--i:1;">Home</a>
-            <a href="#" onclick="showPage('contact'); closeMenu()" id="contact-link" style="--i:2;">Contact</a>
-            <a href="#" onclick="showPage('about'); closeMenu()" id="about-link" style="--i:3;">About</a>
-            <a href="#" onclick="showPage('products'); closeMenu()" id="products-link" style="--i:4;">Collection</a>
-        </div>
+        <!-- Navigation Links - অটো জেনারেট হবে -->
+        <div class="nav-links" id="navLinks"></div>
     </nav>
 
     <div class="main-container">
-        <!-- Home Page (With Content) -->
+        <!-- Home Page -->
         <div id="home-page" class="page">
             <div class="home-grid">
                 <div class="hero-left">
-                    <h1 class="hero-title">
-                        Terrariums
-                        <span>as Art</span>
+                    <h1 class="hero-title" id="homeTitle">
+                        <span id="homeTitleSpan"></span>
                     </h1>
-                    <p class="hero-subtitle">Handcrafted botanical sculptures</p>
+                    <p class="hero-subtitle" id="homeSubtitle"></p>
                     
-                    <div class="hero-quote">
-                        "Bringing nature's architecture indoors"
-                    </div>
+                    <div class="hero-quote" id="homeQuote"></div>
                     
                     <div class="art-piece">
-                        <h3>✦ THE PHILOSOPHY</h3>
-                        <p>Each piece is a delicate balance of form, texture, and living art. We create miniature landscapes that breathe life into your space.</p>
+                        <h3 id="art1Title"></h3>
+                        <p id="art1Text"></p>
                     </div>
                 </div>
                 
                 <div class="hero-right">
                     <div class="art-piece">
-                        <h3>✦ LATEST CREATION</h3>
-                        <p>The Emerald Cascade - A vertical garden of mosses and ferns</p>
+                        <h3 id="art2Title"></h3>
+                        <p id="art2Text"></p>
                         <div class="floral-sketch"></div>
                     </div>
                     
                     <div class="art-piece">
-                        <h3>✦ UPCOMING EXHIBITION</h3>
-                        <p>March 15-30 | Botanical Arts Gallery</p>
-                        <p style="font-size: 14px; margin-bottom: 0;">Private viewing by appointment</p>
+                        <h3 id="art3Title"></h3>
+                        <p id="art3Text1"></p>
+                        <p style="font-size: 14px; margin-bottom: 0;" id="art3Text2"></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Contact Page (Empty) -->
+        <!-- Contact Page -->
         <div id="contact-page" class="page" style="display: none;">
             <div class="page-container">
-                <div class="page-placeholder">
-                    YOUR CONTENT HERE<br>
-                    (Contact page)
-                </div>
+                <div class="page-placeholder" id="contactContent"></div>
             </div>
         </div>
 
         <!-- About Page -->
         <div id="about-page" class="page" style="display: none;">
             <div class="page-container">
-                <div class="page-placeholder">
-                    YOUR CONTENT HERE<br>
-                    (About page)
-                </div>
+                <div class="page-placeholder" id="aboutContent"></div>
             </div>
         </div>
 
         <!-- Products Page -->
         <div id="products-page" class="page" style="display: none;">
             <div class="page-container">
-                <div class="page-placeholder">
-                    YOUR CONTENT HERE<br>
-                    (Collection page)
-                </div>
+                <div class="page-placeholder" id="productsContent"></div>
             </div>
         </div>
         
-        <div class="footer">
-            ✦ MD ABU SUFIYAN MRIDHA SHAYAN ✦
-        </div>
+        <div class="footer" id="footerText"></div>
     </div>
 
     <script>
-        // ========== DYNAMIC LOGO FONT SIZING (single line, never wrap) ==========
+        // ========== কনফিগারেশন থেকে সব কন্টেন্ট লোড ==========
+        function loadContent() {
+            // লোগো সেট করুন
+            document.getElementById('dynamicLogo').innerText = SITE_CONFIG.logo;
+            
+            // ফুটার সেট করুন
+            document.getElementById('footerText').innerText = SITE_CONFIG.footer;
+            
+            // হোম পেজ কন্টেন্ট সেট করুন
+            document.querySelector('.hero-title').innerHTML = `${SITE_CONFIG.home.title} <span>${SITE_CONFIG.home.titleSpan}</span>`;
+            document.getElementById('homeSubtitle').innerText = SITE_CONFIG.home.subtitle;
+            document.getElementById('homeQuote').innerText = SITE_CONFIG.home.quote;
+            document.getElementById('art1Title').innerText = SITE_CONFIG.home.art1.title;
+            document.getElementById('art1Text').innerText = SITE_CONFIG.home.art1.text;
+            document.getElementById('art2Title').innerText = SITE_CONFIG.home.art2.title;
+            document.getElementById('art2Text').innerText = SITE_CONFIG.home.art2.text;
+            document.getElementById('art3Title').innerText = SITE_CONFIG.home.art3.title;
+            document.getElementById('art3Text1').innerText = SITE_CONFIG.home.art3.text1;
+            document.getElementById('art3Text2').innerText = SITE_CONFIG.home.art3.text2;
+            
+            // অন্যান্য পেজ কন্টেন্ট সেট করুন
+            document.getElementById('contactContent').innerHTML = SITE_CONFIG.pages.contact.replace(/\n/g, '<br>');
+            document.getElementById('aboutContent').innerHTML = SITE_CONFIG.pages.about.replace(/\n/g, '<br>');
+            document.getElementById('productsContent').innerHTML = SITE_CONFIG.pages.products.replace(/\n/g, '<br>');
+            
+            // নেভিগেশন লিংক জেনারেট করুন
+            const navLinks = document.getElementById('navLinks');
+            navLinks.innerHTML = '';
+            
+            SITE_CONFIG.navLinks.forEach((linkName, index) => {
+                const pageId = linkName.toLowerCase();
+                const a = document.createElement('a');
+                a.href = '#';
+                a.setAttribute('onclick', `showPage('${pageId}'); closeMenu();`);
+                a.id = `${pageId}-link`;
+                a.style.setProperty('--i', index + 1);
+                a.innerText = linkName;
+                
+                if (linkName === 'Home') a.classList.add('active');
+                
+                navLinks.appendChild(a);
+            });
+        }
+
+        // ========== ডায়নামিক লোগো সাইজ অ্যাডজাস্ট ==========
         function adjustLogoSize() {
             const logo = document.getElementById('dynamicLogo');
             if (!logo) return;
 
-            // Set a base reference size (max desired font size)
-            const maxFontSize = 28;          // same as initial CSS
-            const minFontSize = 10;           // never go below this (readable)
-            
-            // We'll do a binary search / stepping to find best fit
-            // First, save original text and styling
-            const originalText = logo.innerText;
-            
-            // Temporarily set a very large width to measure full text width
-            // We'll compare with parent container's width (navbar left side)
-            const navbar = document.querySelector('.navbar');
-            // left part width (from start to hamburger) approximate: logo width + padding
-            // but simpler: we check logo's parent flex width? Actually we want the available space 
-            // before the hamburger (or nav-links on desktop). 
-            // For reliability, we can compute max allowed width for the logo.
-            
-            // On desktop, the logo is left side, and there's the nav-links on the right.
-            // we can measure the .navbar width minus the width occupied by .hamburger/.nav-links
-            // but that's tricky due to variable right side. 
-            // A safe approach: set a maxWidth relative to parent container.
-            // Since parent navbar has padding 50px left+right on desktop, and the right side elements (nav-links) need space,
-            // we can estimate allowed width as navbar.clientWidth * 0.4 (or 300px) but that might be too rigid.
-            
-            // Instead, use container's width minus the space needed for the right side.
-            // We'll do a more robust method: 
-            // clone the logo, set it to absolute, measure its natural width with max font, compare with allowed width.
+            const maxFontSize = 28;
+            const minFontSize = 10;
             
             const parentNav = document.querySelector('.navbar');
             const navLinks = document.querySelector('.nav-links');
             const hamburger = document.querySelector('.hamburger');
             
-            // Available width for logo ≈ total navbar width - (width of nav-links / hamburger) - some padding margin
-            // For simplicity, we'll compute the maximum x position where logo can end before hitting the right side elements.
-            // getBoundingClientRect gives pixel positions.
-            
             const navRect = parentNav.getBoundingClientRect();
             const linksRect = navLinks.getBoundingClientRect();
             const hamburgerRect = hamburger.getBoundingClientRect();
             
-            // Determine right boundary: if hamburger is visible (mobile style) use its left, else use links left.
             let rightBoundary;
             if (window.getComputedStyle(hamburger).display !== 'none') {
-                // mobile: hamburger visible -> logo should stay left of hamburger
                 rightBoundary = hamburgerRect.left;
             } else {
-                // desktop: logo should stay left of nav-links (with a small gap)
-                rightBoundary = linksRect.left - 20; // 20px gap
+                rightBoundary = linksRect.left - 20;
             }
-            
-            const leftBoundary = navRect.left + 50; // left padding is 50px on desktop, but on mobile it's 25px. 
-            // We'll use actual left edge of navbar + padding. The logo itself is inside navbar with same padding.
-            // simpler: use logo's current left position as start.
             
             const logoRect = logo.getBoundingClientRect();
             const startX = logoRect.left;
-            const maxAllowedWidth = rightBoundary - startX - 5; // 5px buffer
+            const maxAllowedWidth = rightBoundary - startX - 5;
             
-            // If maxAllowedWidth is negative or zero, fallback to default
             if (maxAllowedWidth < 10) {
                 logo.style.fontSize = maxFontSize + 'px';
                 return;
             }
             
-            // Create a hidden measuring span with same text and style
             const measureSpan = document.createElement('span');
             measureSpan.style.position = 'absolute';
             measureSpan.style.left = '-9999px';
@@ -613,19 +651,17 @@
             let currentFontSize = maxFontSize;
             let textWidth = measureSpan.getBoundingClientRect().width;
             
-            // If already fits, use max size
             if (textWidth <= maxAllowedWidth) {
                 logo.style.fontSize = maxFontSize + 'px';
                 document.body.removeChild(measureSpan);
                 return;
             }
             
-            // Binary search for optimal font size between minFontSize and maxFontSize
             let low = minFontSize;
             let high = maxFontSize;
             let bestFit = minFontSize;
             
-            for (let i = 0; i < 10; i++) { // limit iterations
+            for (let i = 0; i < 10; i++) {
                 let mid = (low + high) / 2;
                 measureSpan.style.fontSize = mid + 'px';
                 let width = measureSpan.getBoundingClientRect().width;
@@ -638,37 +674,11 @@
                 }
             }
             
-            // Apply the best fit size (round to 1 decimal)
             logo.style.fontSize = Math.floor(bestFit * 10) / 10 + 'px';
-            
             document.body.removeChild(measureSpan);
         }
 
-        // Call adjust on load and whenever window is resized (the available space may change)
-        window.addEventListener('load', function() {
-            adjustLogoSize();
-        });
-        
-        window.addEventListener('resize', function() {
-            adjustLogoSize();
-        });
-
-        // Additionally, if you programmatically change the logo text, call adjust.
-        // Example: you can set a new name for testing.
-        // For demonstration, let's allow easy testing: click logo to cycle example names.
-        const logoEl = document.getElementById('dynamicLogo');
-        logoEl.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Cycle through names to test dynamic sizing
-            const names = ['FERNFIX', 'VERY LONG NAME EXAMPLE', 'Αθήνα', 'MACADEMIA', 'LOUISIANA CONTRUCTION COMPANY'];
-            let current = logoEl.innerText;
-            let nextIndex = (names.indexOf(current) + 1) % names.length;
-            if (nextIndex === -1) nextIndex = 0;
-            logoEl.innerText = names[nextIndex];
-            adjustLogoSize();   // immediately adjust
-        });
-
-        // Hamburger and page functions (unchanged, but ensure they don't conflict)
+        // ========== মেনু ফাংশন ==========
         function toggleMenu() {
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
@@ -719,8 +729,20 @@
             });
         }
 
-        // Show home page by default
-        showPage('home');
+        // ========== ইভেন্ট লিসেনার ==========
+        window.addEventListener('load', function() {
+            loadContent();
+            adjustLogoSize();
+            showPage('home');
+        });
+        
+        window.addEventListener('resize', function() {
+            adjustLogoSize();
+        });
+
+        window.addEventListener('orientationchange', function() {
+            setTimeout(adjustLogoSize, 50);
+        });
 
         // Close menu when clicking outside
         document.addEventListener('click', function(event) {
@@ -738,14 +760,7 @@
             if (window.innerWidth > 768) {
                 closeMenu();
             }
-            // already calls adjustLogoSize separately
-        });
-
-        // Extra: on any font/width changes (e.g., orientation), readjust
-        window.addEventListener('orientationchange', function() {
-            setTimeout(adjustLogoSize, 50);
         });
     </script>
-    <!-- hint: click the logo (FERNFIX) to cycle test names and see auto-shrink -->
 </body>
 </html>
