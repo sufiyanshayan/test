@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your_Name · dynamic logo</title>
+    <title>MD ABU SUFIYAN J · dynamic logo</title>
     <style>
         * {
             margin: 0;
@@ -37,7 +37,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== EDITABLE LOGO ===== */
+        /* ===== FIXED LOGO - NEVER CUTS OFF ===== */
         .logo {
             display: inline-block;
             white-space: nowrap;
@@ -51,8 +51,11 @@
             font-size: 28px;
             padding: 0 2px 0 0;
             line-height: 1.2;
-            transform-origin: left center;
-            transition: font-size 0.2s ease;
+            
+            /* এই প্রপার্টি গুলো নিশ্চিত করে যে লেখা কখনো কাটবে না */
+            max-width: fit-content;
+            overflow: visible;
+            text-overflow: clip;
         }
 
         .logo::after {
@@ -80,6 +83,7 @@
             background: rgba(155, 139, 122, 0.05);
             border-radius: 50%;
             transition: all 0.3s ease;
+            flex-shrink: 0; /* এইটা যোগ করা হয়েছে */
         }
 
         .hamburger:hover {
@@ -118,6 +122,7 @@
             display: flex;
             gap: 40px;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            flex-shrink: 0; /* এইটা যোগ করা হয়েছে */
         }
 
         .nav-links a {
@@ -132,6 +137,7 @@
             transition: all 0.3s ease;
             border-radius: 30px;
             overflow: hidden;
+            white-space: nowrap; /* নিশ্চিত করে যে লিংকের লেখাও কাটবে না */
         }
 
         .nav-links a::before {
@@ -225,6 +231,7 @@
                 padding: 15px 30px;
                 width: 80%;
                 text-align: center;
+                white-space: normal; /* মোবাইলে লেখা নরমালি wrap করবে */
             }
 
             .nav-links a:active {
@@ -276,6 +283,8 @@
             line-height: 1.1;
             margin-bottom: 30px;
             font-family: 'Cormorant Garamond', serif;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .hero-title span {
@@ -317,6 +326,8 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
             border-radius: 4px;
             transition: all 0.3s ease;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .art-piece:hover {
@@ -376,6 +387,9 @@
             font-family: 'Montserrat', sans-serif;
             font-size: 16px;
             letter-spacing: 2px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
 
         .page-placeholder::before {
@@ -396,6 +410,8 @@
             font-size: 12px;
             letter-spacing: 2px;
             color: #999;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         /* Responsive */
@@ -416,15 +432,33 @@
             .hero-title {
                 font-size: 60px;
             }
+            
+            .hero-title span {
+                font-size: 48px;
+            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .hero-title {
                 font-size: 48px;
             }
 
             .hero-title span {
                 font-size: 36px;
+            }
+            
+            .art-piece {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .hero-title {
+                font-size: 40px;
+            }
+
+            .hero-title span {
+                font-size: 30px;
             }
         }
     </style>
@@ -436,11 +470,11 @@
     <script>
         // ================= আপনার তথ্য দিন =================
         const SITE_CONFIG = {
-            // লোগো - আপনার নাম/ব্র্যান্ড
-            logo: "MD ABU SUFIYAN MRIDHA SHAYAN",
+            // লোগো - আপনার নাম/ব্র্যান্ড (এখন পুরো নাম আসবে)
+            logo: "MD ABU SUFIYAN J",
             
             // ফুটার টেক্সট
-            footer: "✦ MD ABU SUFIYAN MRIDHA SHAYAN ✦",
+            footer: "✦ MD ABU SUFIYAN J ✦",
             
             // নেভিগেশন মেনুর নাম (৪টি)
             navLinks: ["Home", "Contact", "About", "Collection"],
@@ -599,83 +633,8 @@
                 
                 navLinks.appendChild(a);
             });
-        }
-
-        // ========== ডায়নামিক লোগো সাইজ অ্যাডজাস্ট ==========
-        function adjustLogoSize() {
-            const logo = document.getElementById('dynamicLogo');
-            if (!logo) return;
-
-            const maxFontSize = 28;
-            const minFontSize = 10;
             
-            const parentNav = document.querySelector('.navbar');
-            const navLinks = document.querySelector('.nav-links');
-            const hamburger = document.querySelector('.hamburger');
-            
-            const navRect = parentNav.getBoundingClientRect();
-            const linksRect = navLinks.getBoundingClientRect();
-            const hamburgerRect = hamburger.getBoundingClientRect();
-            
-            let rightBoundary;
-            if (window.getComputedStyle(hamburger).display !== 'none') {
-                rightBoundary = hamburgerRect.left;
-            } else {
-                rightBoundary = linksRect.left - 20;
-            }
-            
-            const logoRect = logo.getBoundingClientRect();
-            const startX = logoRect.left;
-            const maxAllowedWidth = rightBoundary - startX - 5;
-            
-            if (maxAllowedWidth < 10) {
-                logo.style.fontSize = maxFontSize + 'px';
-                return;
-            }
-            
-            const measureSpan = document.createElement('span');
-            measureSpan.style.position = 'absolute';
-            measureSpan.style.left = '-9999px';
-            measureSpan.style.top = '-9999px';
-            measureSpan.style.visibility = 'hidden';
-            measureSpan.style.whiteSpace = 'nowrap';
-            measureSpan.style.fontFamily = window.getComputedStyle(logo).fontFamily;
-            measureSpan.style.fontWeight = window.getComputedStyle(logo).fontWeight;
-            measureSpan.style.letterSpacing = window.getComputedStyle(logo).letterSpacing;
-            measureSpan.style.textTransform = window.getComputedStyle(logo).textTransform;
-            measureSpan.style.fontSize = maxFontSize + 'px';
-            measureSpan.innerText = logo.innerText;
-            
-            document.body.appendChild(measureSpan);
-            
-            let currentFontSize = maxFontSize;
-            let textWidth = measureSpan.getBoundingClientRect().width;
-            
-            if (textWidth <= maxAllowedWidth) {
-                logo.style.fontSize = maxFontSize + 'px';
-                document.body.removeChild(measureSpan);
-                return;
-            }
-            
-            let low = minFontSize;
-            let high = maxFontSize;
-            let bestFit = minFontSize;
-            
-            for (let i = 0; i < 10; i++) {
-                let mid = (low + high) / 2;
-                measureSpan.style.fontSize = mid + 'px';
-                let width = measureSpan.getBoundingClientRect().width;
-                
-                if (width <= maxAllowedWidth) {
-                    bestFit = mid;
-                    low = mid;
-                } else {
-                    high = mid;
-                }
-            }
-            
-            logo.style.fontSize = Math.floor(bestFit * 10) / 10 + 'px';
-            document.body.removeChild(measureSpan);
+            // লোগো সাইজ অ্যাডজাস্ট করার দরকার নেই - এখন আর কাটবে না
         }
 
         // ========== মেনু ফাংশন ==========
@@ -732,16 +691,7 @@
         // ========== ইভেন্ট লিসেনার ==========
         window.addEventListener('load', function() {
             loadContent();
-            adjustLogoSize();
             showPage('home');
-        });
-        
-        window.addEventListener('resize', function() {
-            adjustLogoSize();
-        });
-
-        window.addEventListener('orientationchange', function() {
-            setTimeout(adjustLogoSize, 50);
         });
 
         // Close menu when clicking outside
