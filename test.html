@@ -37,19 +37,20 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== FIXED LOGO - NEVER CUTS OFF ===== */
+        /* ===== FIXED LOGO - SPACE KOMANO HOYECHE ===== */
         .logo {
             display: inline-block;
             white-space: nowrap;
             font-weight: 300;
-            letter-spacing: 8px;
+            /* letter-spacing: 8px থেকে 2px করে দিছি - space komano */
+            letter-spacing: 2px;
             color: #1a1a1a;
             text-decoration: none;
             text-transform: uppercase;
             position: relative;
             z-index: 1001;
             font-size: 28px;
-            padding: 0 2px 0 0;
+            padding: 0;
             line-height: 1.2;
             
             /* এই প্রপার্টি গুলো নিশ্চিত করে যে লেখা কখনো কাটবে না */
@@ -83,7 +84,7 @@
             background: rgba(155, 139, 122, 0.05);
             border-radius: 50%;
             transition: all 0.3s ease;
-            flex-shrink: 0; /* এইটা যোগ করা হয়েছে */
+            flex-shrink: 0;
         }
 
         .hamburger:hover {
@@ -122,7 +123,7 @@
             display: flex;
             gap: 40px;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            flex-shrink: 0; /* এইটা যোগ করা হয়েছে */
+            flex-shrink: 0;
         }
 
         .nav-links a {
@@ -137,7 +138,7 @@
             transition: all 0.3s ease;
             border-radius: 30px;
             overflow: hidden;
-            white-space: nowrap; /* নিশ্চিত করে যে লিংকের লেখাও কাটবে না */
+            white-space: nowrap;
         }
 
         .nav-links a::before {
@@ -231,7 +232,7 @@
                 padding: 15px 30px;
                 width: 80%;
                 text-align: center;
-                white-space: normal; /* মোবাইলে লেখা নরমালি wrap করবে */
+                white-space: normal;
             }
 
             .nav-links a:active {
@@ -633,8 +634,6 @@
                 
                 navLinks.appendChild(a);
             });
-            
-            // লোগো সাইজ অ্যাডজাস্ট করার দরকার নেই - এখন আর কাটবে না
         }
 
         // ========== মেনু ফাংশন ==========
