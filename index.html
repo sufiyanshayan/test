@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your_Name</title>
+    <!-- ===== এখানে আপনার নাম দিন ===== -->
+    <title>Your Name</title>
     
     <!-- ===== FAVICON LINK ===== -->
     <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co.com/XCj1rPbD/your-favicon.png">
     <link rel="shortcut icon" href="https://i.ibb.co.com/XCj1rPbD/your-favicon.ico" type="image/x-icon">
     
     <style>
+        /* পুরানো CSS ঠিক same থাকবে */
         * {
             margin: 0;
             padding: 0;
@@ -42,7 +44,7 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* ===== LOGO NOW EMPTY/REMOVED ===== */
+        /* ===== LOGO EMPTY ===== */
         .logo {
             display: inline-block;
             white-space: nowrap;
@@ -59,13 +61,13 @@
             max-width: fit-content;
             overflow: visible;
             text-overflow: clip;
-            opacity: 0; /* লোগো সম্পূর্ণ invisible */
-            pointer-events: none; /* ক্লিক করা যাবে না */
-            width: 0; /* জায়গা নেবে না */
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
         }
 
         .logo::after {
-            display: none; /* আন্ডারলাইন সরানো */
+            display: none;
         }
 
         /* Hamburger Menu */
@@ -118,7 +120,7 @@
             gap: 40px;
             transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             flex-shrink: 0;
-            margin-left: auto; /* লোগো সরানোর পরে মেনু ডানে চলে যাবে */
+            margin-left: auto;
         }
 
         .nav-links a {
@@ -199,7 +201,7 @@
                 gap: 25px;
                 transition: right 0.6s cubic-bezier(0.77, 0, 0.175, 1);
                 z-index: 1000;
-                margin-left: 0; /* মোবাইলে সেন্টার হবে */
+                margin-left: 0;
             }
 
             .nav-links.active {
@@ -539,24 +541,24 @@
     <script>
         // ================= আপনার তথ্য দিন =================
         const SITE_CONFIG = {
-            // লোগো - এখন ফাঁকা (favicon ব্যবহার হবে)
+            // লোগো - ফাঁকা
             logo: "",
             
-            // ফুটার টেক্সট (যদি চান ফাঁকা রাখতে পারেন)
-            footer: "✦ Your_Name ✦",
+            // ===== ফুটারে আপনার নাম =====
+            footer: "✦ Your Name ✦",  // এখানে Your Name লেখা আছে
             
-            // নেভিগেশন মেনুর নাম (Home ছাড়া বাকিগুলোর জন্য নিচে Button Info দেখাবে)
+            // নেভিগেশন মেনুর নাম
             navLinks: ["Home", "Contact", "About", "Collection"],
             
-            // প্রতিটি বাটনের জন্য তথ্য (Home বাদে)
+            // প্রতিটি বাটনের জন্য তথ্য
             buttonInfo: [
                 {
                     name: "Contact",
                     link: "yourdomain.com/Contact"
                 },
                 {
-                    name: "About",
-                    link: "yourdomain.com/About"
+                    name: "Test",
+                    link: "https://mt.work.gd/test"
                 },
                 {
                     name: "Collection",
@@ -566,13 +568,15 @@
             
             // হোম পেজের কন্টেন্ট
             home: {
-                title: "Your_Title",
+                // ===== হোম পেজের বড় টাইটেলে আপনার নাম =====
+                title: "Your Name",  // এখানে Your Name লেখা আছে
                 titleSpan: "as Art",
                 subtitle: "Handcrafted botanical sculptures",
                 quote: "Bringing nature's architecture indoors",
                 
                 art1: {
-                    title: "✦ Your_Title",
+                    // ===== আর্ট পিসের টাইটেলে আপনার নাম =====
+                    title: "✦ Your Name",  // এখানে Your Name লেখা আছে
                     text: "Each piece is a delicate balance of form, texture, and living art. We create miniature landscapes that breathe life into your space."
                 },
                 
@@ -593,7 +597,7 @@
     <!-- ============================================== -->
 
     <nav class="navbar">
-        <!-- লোগো - এখন ফাঁকা (শুধু favicon কাজ করবে) -->
+        <!-- লোগো - ফাঁকা -->
         <span class="logo" id="dynamicLogo"></span>
 
         <!-- Hamburger Icon -->
@@ -641,21 +645,21 @@
             </div>
         </div>
 
-        <!-- Contact Page - Button Info Show করবে -->
+        <!-- Contact Page -->
         <div id="contact-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="button-info" id="contactButtonInfo"></div>
             </div>
         </div>
 
-        <!-- About Page - Button Info Show করবে -->
+        <!-- About Page -->
         <div id="about-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="button-info" id="aboutButtonInfo"></div>
             </div>
         </div>
 
-        <!-- Collection Page - Button Info Show করবে -->
+        <!-- Collection Page -->
         <div id="collection-page" class="page" style="display: none;">
             <div class="page-container">
                 <div class="button-info" id="collectionButtonInfo"></div>
@@ -668,7 +672,7 @@
     <script>
         // ========== কনফিগারেশন থেকে সব কন্টেন্ট লোড ==========
         function loadContent() {
-            // লোগো সেট করুন (এখন ফাঁকা)
+            // লোগো সেট করুন (ফাঁকা)
             document.getElementById('dynamicLogo').innerText = SITE_CONFIG.logo;
             
             // ফুটার সেট করুন
@@ -704,29 +708,23 @@
                 navLinks.appendChild(a);
             });
             
-            // বাটন ইনফো জেনারেট করুন (Home বাদে)
+            // বাটন ইনফো জেনারেট করুন
             generateButtonInfo();
         }
         
         // বাটন ইনফো জেনারেট করার ফাংশন
         function generateButtonInfo() {
-            // Contact Page
             const contactDiv = document.getElementById('contactButtonInfo');
-            contactDiv.innerHTML = '';
-            
-            // About Page
             const aboutDiv = document.getElementById('aboutButtonInfo');
-            aboutDiv.innerHTML = '';
-            
-            // Collection Page
             const collectionDiv = document.getElementById('collectionButtonInfo');
+            
+            contactDiv.innerHTML = '';
+            aboutDiv.innerHTML = '';
             collectionDiv.innerHTML = '';
             
-            // সব বাটনের ইনফো যোগ করুন
             SITE_CONFIG.buttonInfo.forEach(button => {
                 const pageId = button.name.toLowerCase();
                 
-                // কোন পেজে এই বাটন ইনফো দেখাবে তা নির্ধারণ
                 let targetDiv;
                 if (pageId === 'contact') targetDiv = contactDiv;
                 else if (pageId === 'about') targetDiv = aboutDiv;
@@ -808,7 +806,6 @@
             showPage('home');
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             const navLinks = document.querySelector('.nav-links');
             const hamburger = document.querySelector('.hamburger');
