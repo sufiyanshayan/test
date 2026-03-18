@@ -3,139 +3,596 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আপনার ওয়েবসাইটের নাম</title>
+    <title>MD ABU SUFIYAN MRIDHA</title>
     <style>
-        /* এখানে কোন কিছু পরিবর্তন করতে হবে না - শুধু নিচের INFO অংশ পরিবর্তন করুন */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; color: #333; }
-        .navbar { padding: 20px; background: white; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .logo { font-size: 24px; font-weight: bold; text-decoration: none; color: #333; }
-        .hamburger { display: none; flex-direction: column; cursor: pointer; }
-        .hamburger span { width: 30px; height: 3px; background: #333; margin: 3px 0; }
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { text-decoration: none; color: #333; font-size: 16px; padding: 5px 10px; }
-        .nav-links a:hover { color: #9b8b7a; }
-        .main-container { margin-top: 100px; padding: 20px; max-width: 1200px; margin-left: auto; margin-right: auto; }
-        .page { display: none; animation: fade 0.5s; }
-        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-        .footer { text-align: center; padding: 30px; margin-top: 50px; border-top: 1px solid #ddd; }
-        
-        /* মোবাইলের জন্য */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+            background: #faf7f2;
+            color: #2c2c2c;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500&display=swap');
+
+        /* Navigation */
+        .navbar {
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: #1a1a1a;
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background: #9b8b7a;
+            transition: width 0.3s ease;
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 15px;
+            background: rgba(155, 139, 122, 0.05);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger:hover {
+            background: rgba(155, 139, 122, 0.1);
+            transform: scale(1.05);
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background: #2c2c2c;
+            margin: 3px 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 4px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 6px);
+            width: 25px;
+            background: #9b8b7a;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -6px);
+            width: 25px;
+            background: #9b8b7a;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .nav-links a {
+            color: #3a3a3a;
+            text-decoration: none;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            position: relative;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(155, 139, 122, 0.1), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 20px;
+            height: 2px;
+            background: #9b8b7a;
+            transition: transform 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        .nav-links a.active {
+            color: #9b8b7a;
+            background: rgba(155, 139, 122, 0.05);
+        }
+
+        /* Mobile Menu */
         @media (max-width: 768px) {
-            .hamburger { display: flex; }
-            .nav-links { display: none; position: fixed; top: 80px; left: 0; width: 100%; background: white; flex-direction: column; align-items: center; padding: 30px; gap: 20px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
-            .nav-links.active { display: flex; }
+            .navbar {
+                padding: 15px 25px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 25px;
+                transition: right 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+                z-index: 1000;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links.active a {
+                animation: slideIn 0.5s forwards;
+                animation-delay: calc(0.1s * var(--i));
+                opacity: 0;
+            }
+
+            @keyframes slideIn {
+                0% {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.9);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            .nav-links a {
+                font-size: 24px;
+                padding: 15px 30px;
+                width: 80%;
+                text-align: center;
+            }
+
+            .nav-links a:active {
+                transform: scale(0.95);
+            }
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 100px;
+            padding: 0 60px 60px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Page Transitions */
+        .page {
+            animation: pageFade 0.8s ease;
+        }
+
+        @keyframes pageFade {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        /* Home Page */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            min-height: 80vh;
+        }
+
+        .hero-left {
+            padding-right: 40px;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-title {
+            font-size: 80px;
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .hero-title span {
+            display: block;
+            font-style: italic;
+            color: #9b8b7a;
+            font-size: 60px;
+            margin-top: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            color: #666;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        .hero-quote {
+            font-size: 20px;
+            font-style: italic;
+            color: #9b8b7a;
+            margin: 40px 0;
+            padding: 20px 0;
+            border-top: 1px solid rgba(155, 139, 122, 0.3);
+            border-bottom: 1px solid rgba(155, 139, 122, 0.3);
+        }
+
+        .hero-right {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .art-piece {
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .art-piece:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .art-piece h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            letter-spacing: 3px;
+            color: #9b8b7a;
+            margin-bottom: 15px;
+        }
+
+        .floral-sketch {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f8f4ed 0%, #fff 100%);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .floral-sketch::before {
+            content: '✧';
+            font-size: 200px;
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            color: rgba(155, 139, 122, 0.1);
+            transform: rotate(15deg);
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(15deg); }
+            to { transform: rotate(375deg); }
+        }
+
+        /* Page Containers (Empty - You can add your content later) */
+        .page-container {
+            background: #fff;
+            padding: 60px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-placeholder {
+            text-align: center;
+            color: #999;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+
+        .page-placeholder::before {
+            content: '✦';
+            display: block;
+            font-size: 60px;
+            color: rgba(155, 139, 122, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 100px;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #999;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .main-container {
+                padding: 0 30px 40px;
+            }
+
+            .home-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-left {
+                border-right: none;
+                padding-right: 0;
+            }
+
+            .hero-title {
+                font-size: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 48px;
+            }
+
+            .hero-title span {
+                font-size: 36px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- নেভিগেশন বার - আপনার পেজের লিংক এখানে বসান -->
     <nav class="navbar">
-        <!-- আপনার ওয়েবসাইটের লোগো/নাম এখানে বসান -->
-        <a href="#" class="logo" onclick="showPage('home')">YOUR LOGO</a>
+        <a href="#" class="logo" onclick="showPage('home'); closeMenu()">MD ABU SUFIYAN MRIDHA</a>
         
-        <!-- হ্যামবার্গার মেনু আইকন -->
+        <!-- Hamburger Icon -->
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
             <span></span>
         </div>
 
-        <!-- আপনার নেভিগেশন লিংক গুলো এখানে বসান -->
+        <!-- Navigation Links (Your Page Links) -->
         <div class="nav-links">
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('about')">About</a>
-            <a href="#" onclick="showPage('contact')">Contact</a>
-            <a href="#" onclick="showPage('services')">Services</a>
-            <a href="#" onclick="showPage('blog')">Blog</a>
+            <a href="#" onclick="showPage('home'); closeMenu()" id="home-link" class="active" style="--i:1;">Home</a>
+            <a href="#" onclick="showPage('contact'); closeMenu()" id="contact-link" style="--i:2;">Contact</a>
+            <a href="#" onclick="showPage('about'); closeMenu()" id="about-link" style="--i:3;">About</a>
+            <a href="#" onclick="showPage('products'); closeMenu()" id="products-link" style="--i:4;">Collection</a>
         </div>
     </nav>
 
     <div class="main-container">
-        <!-- ========== আপনার তথ্য এডিট করুন এখানে ========== -->
+        <!-- Home Page (With Content) -->
+        <div id="home-page" class="page">
+            <div class="home-grid">
+                <div class="hero-left">
+                    <h1 class="hero-title">
+                        MOOJ TIME
+                        <span>as Art</span>
+                    </h1>
+                    <p class="hero-subtitle">Handcrafted botanical sculptures</p>
+                    
+                    <div class="hero-quote">
+                        "Bringing nature's architecture indoors"
+                    </div>
+                    
+                    <div class="art-piece">
+                        <h3>✦ THE PHILOSOPHY</h3>
+                        <p>Each piece is a delicate balance of form, texture, and living art. We create miniature landscapes that breathe life into your space.</p>
+                    </div>
+                </div>
+                
+                <div class="hero-right">
+                    <div class="art-piece">
+                        <h3>✦ LATEST CREATION</h3>
+                        <p>The Emerald Cascade - A vertical garden of mosses and ferns</p>
+                        <div class="floral-sketch"></div>
+                    </div>
+                    
+                    <div class="art-piece">
+                        <h3>✦ UPCOMING EXHIBITION</h3>
+                        <p>March 15-30 | Botanical Arts Gallery</p>
+                        <p style="font-size: 14px; margin-bottom: 0;">Private viewing by appointment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page (Empty - You can add your content here later) -->
+        <div id="contact-page" class="page" style="display: none;">
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (Contact page)
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page (Empty - You can add your content here later) -->
+        <div id="about-page" class="page" style="display: none;">
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (About page)
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Page (Empty - You can add your content here later) -->
+        <div id="products-page" class="page" style="display: none;">
+            <div class="page-container">
+                <div class="page-placeholder">
+                    YOUR CONTENT HERE<br>
+                    (Collection page)
+                </div>
+            </div>
+        </div>
         
-        <!-- হোম পেজ -->
-        <div id="home-page" class="page" style="display: block;">
-            <h1 style="font-size: 48px; margin-bottom: 20px;">স্বাগতম</h1>
-            <p style="font-size: 18px; color: #666;">আপনার ওয়েবসাইটে স্বাগতম। এখানে আপনার পরিচয় দিন।</p>
+        <div class="footer">
+            ✦ MD ABU SUFIYAN MRIDHA SHAYAN ✦
         </div>
-
-        <!-- ABOUT পেজ - আপনার তথ্য দিন -->
-        <div id="about-page" class="page">
-            <h1 style="font-size: 36px; margin-bottom: 20px;">আমার সম্পর্কে</h1>
-            <p style="font-size: 18px; line-height: 1.8;">এখানে আপনার পরিচয়, শিক্ষা, অভিজ্ঞতা ইত্যাদি লিখুন।</p>
-        </div>
-
-        <!-- CONTACT পেজ - আপনার যোগাযোগের তথ্য দিন -->
-        <div id="contact-page" class="page">
-            <h1 style="font-size: 36px; margin-bottom: 30px;">যোগাযোগ করুন</h1>
-            <div style="background: white; padding: 30px; border-radius: 10px;">
-                <p><strong>📞 ফোন:</strong> <a href="tel:+8801XXXXXXXXX">+880 1XXX-XXXXXX</a></p>
-                <p><strong>📧 ইমেইল:</strong> <a href="mailto:your@email.com">your@email.com</a></p>
-                <p><strong>📍 ঠিকানা:</strong> আপনার ঠিকানা লিখুন</p>
-                <p><strong>🌐 ফেসবুক:</strong> <a href="#">facebook.com/yourpage</a></p>
-                <p><strong>📱 হোয়াটসঅ্যাপ:</strong> <a href="#">+880 1XXX-XXXXXX</a></p>
-            </div>
-        </div>
-
-        <!-- SERVICES পেজ - আপনার সেবা লিখুন -->
-        <div id="services-page" class="page">
-            <h1 style="font-size: 36px; margin-bottom: 30px;">আমার সেবাসমূহ</h1>
-            <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));">
-                <div style="background: white; padding: 20px; border-radius: 10px;">
-                    <h3>সেবা ১</h3>
-                    <p>এই সেবা সম্পর্কে বিস্তারিত লিখুন</p>
-                </div>
-                <div style="background: white; padding: 20px; border-radius: 10px;">
-                    <h3>সেবা ২</h3>
-                    <p>এই সেবা সম্পর্কে বিস্তারিত লিখুন</p>
-                </div>
-                <div style="background: white; padding: 20px; border-radius: 10px;">
-                    <h3>সেবা ৩</h3>
-                    <p>এই সেবা সম্পর্কে বিস্তারিত লিখুন</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- BLOG পেজ - আপনার ব্লগ পোস্ট লিখুন -->
-        <div id="blog-page" class="page">
-            <h1 style="font-size: 36px; margin-bottom: 30px;">আমার ব্লগ</h1>
-            <div style="background: white; padding: 20px; margin-bottom: 20px; border-radius: 10px;">
-                <h3>ব্লগ পোস্টের শিরোনাম</h3>
-                <p style="color: #666;">তারিখ: জানুয়ারি ২০২৬</p>
-                <p>আপনার ব্লগ পোস্টের কন্টেন্ট লিখুন...</p>
-            </div>
-        </div>
-
-        <!-- ========== আপনার তথ্য এডিট শেষ ========== -->
-    </div>
-
-    <!-- ফুটার - আপনার কপিরাইট তথ্য দিন -->
-    <div class="footer">
-        © 2026 আপনার নাম | আপনার ওয়েবসাইট
     </div>
 
     <script>
-        // এই স্ক্রিপ্ট পরিবর্তন করার দরকার নেই - এটি কাজ করবেই
+        // Hamburger Menu Toggle
         function toggleMenu() {
-            document.querySelector('.nav-links').classList.toggle('active');
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
         }
 
-        function showPage(pageId) {
-            // সব পেজ হাইড করো
-            document.querySelectorAll('.page').forEach(page => {
+        // Close Menu
+        function closeMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Show Page Function
+        function showPage(pageName) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
                 page.style.display = 'none';
             });
+
+            // Show selected page
+            const selectedPage = document.getElementById(pageName + '-page');
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
+
+            // Update active link
+            const links = document.querySelectorAll('.nav-links a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
             
-            // সিলেক্টেড পেজ দেখাও
-            document.getElementById(pageId + '-page').style.display = 'block';
-            
-            // মোবাইল মেনু বন্ধ করো
-            document.querySelector('.nav-links').classList.remove('active');
-            
-            // পেজের উপরে নিয়ে যাও
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const activeLink = document.getElementById(pageName + '-link');
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Smooth scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         }
+
+        // Show home page by default
+        showPage('home');
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navLinks = document.querySelector('.nav-links');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (navLinks.classList.contains('active') && 
+                !navLinks.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                closeMenu();
+            }
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
     </script>
 </body>
 </html>
