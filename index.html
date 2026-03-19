@@ -3,147 +3,221 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Full Page UI Fixed</title>
+<title>Premium Full Page UI</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-html, body {
+body{
     margin:0;
-    padding:0;
-    height:100%;
     font-family:'Poppins', sans-serif;
-    background: linear-gradient(145deg, #e8f5e9, #ffffff);
+    background:linear-gradient(145deg, #e8f5e9, #ffffff);
     overflow-x:hidden;
 }
 
 /* Header */
-header {
-    position: fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:60px;
+header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:0 20px;
-    background: rgba(0,0,0,0.4);
+    padding:15px 25px;
+    backdrop-filter:blur(12px);
+    background:rgba(0,0,0,0.4); /* darkish transparent so white menu is visible */
+    position:fixed;
+    width:100%;
     z-index:1002;
+    color:white;
+    font-weight:600;
 }
 
-/* Hamburger Menu */
-.menu {
+/* Hamburger Menu Icon */
+.menu{
     cursor:pointer;
     width:30px;
     height:22px;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    z-index:1003;
 }
 
-.menu div {
+.menu div{
     height:3px;
     width:100%;
     background:white;
     border-radius:2px;
+    transition:0.3s;
 }
 
 /* Overlay */
-.overlay {
-    position: fixed;
-    top:0;
-    left:0;
+.overlay{
+    position:fixed;
     width:100%;
     height:100%;
-    background: rgba(0,0,0,0.3);
+    background:rgba(0,0,0,0.3);
+    top:0;
+    left:0;
     opacity:0;
     pointer-events:none;
     transition:0.3s;
     z-index:900;
 }
 
-.overlay.active {
+.overlay.active{
     opacity:1;
     pointer-events:all;
 }
 
 /* Sidebar */
-.sidebar {
-    position: fixed;
-    top:0;
+.sidebar{
+    position:fixed;
     right:-320px;
+    top:0;
     width:320px;
     height:100%;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(25px);
+    backdrop-filter:blur(25px);
+    background:rgba(255,255,255,0.95);
     transition:0.4s;
+    box-shadow:-5px 0 25px rgba(0,0,0,0.15);
+    padding-top:20px;
     z-index:1000;
-    padding-top:60px; /* header space */
 }
 
-.sidebar.active {
+.sidebar.active{
     right:0;
 }
 
-.close-btn {
-    position:absolute;
-    top:15px;
-    right:15px;
+/* Close Button */
+.close-btn{
+    text-align:right;
+    padding:15px 25px;
     font-size:24px;
     cursor:pointer;
 }
 
-/* Profile */
-.profile {
+/* Profile Section */
+.profile{
     text-align:center;
-    padding:20px;
+    padding:25px 20px;
     border-bottom:1px solid rgba(0,0,0,0.05);
 }
 
-.profile img {
+.profile img{
     width:80px;
     height:80px;
     border-radius:50%;
     margin-bottom:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.profile h3{
+    margin:5px 0;
+}
+
+.profile p{
+    font-size:13px;
+    color:gray;
 }
 
 /* Menu Links */
-.sidebar a {
-    display:block;
-    padding:15px 25px;
-    margin:10px 15px;
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 25px;
     color:#333;
     text-decoration:none;
-    border-radius:12px;
+    border-radius:15px;
+    margin:10px 15px;
+    font-weight:500;
     transition:0.3s;
+    opacity:0;
+    transform:translateX(40px);
+    animation:slideIn 0.5s forwards;
 }
 
-.sidebar a:hover {
+.sidebar a:nth-child(3){animation-delay:0.1s;}
+.sidebar a:nth-child(4){animation-delay:0.2s;}
+.sidebar a:nth-child(5){animation-delay:0.3s;}
+
+.sidebar a:hover{
     background:#e0f2f1;
+    transform:translateX(0);
 }
 
-/* Main content */
-.main {
+/* Main Section */
+.main{
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
-    padding-top:60px; /* avoid header overlap */
-    box-sizing:border-box;
+    height:100vh;
+    padding:0 20px;
 }
 
-.card {
-    max-width:400px;
+.card{
     width:100%;
-    padding:30px;
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(25px);
+    max-width:400px;
+    padding:40px;
     border-radius:25px;
+    backdrop-filter:blur(25px);
+    background:rgba(255,255,255,0.65);
     box-shadow:0 15px 30px rgba(0,0,0,0.1);
     text-align:center;
+    animation:fade 0.6s ease;
 }
 
-.card h2 { margin-bottom:15px; }
-.card p { color:#555; }
+.card h2{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.card p{
+    font-size:16px;
+    color:#555;
+}
+
+/* Animations */
+@keyframes fade{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1;}
+}
+
+@keyframes slideIn{
+    to{opacity:1; transform:translateX(0);}
+}
+
+/* Loader */
+.loader{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+    z-index:1001;
+}
+
+.loader.active{
+    opacity:1;
+    pointer-events:all;
+}
+
+.spinner{
+    width:40px;
+    height:40px;
+    border:4px solid #ddd;
+    border-top:4px solid #ffffff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    100%{transform:rotate(360deg);}
+}
 </style>
 </head>
 <body>
@@ -157,38 +231,76 @@ header {
     </div>
 </header>
 
+<!-- Overlay -->
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
+<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
+
     <div class="close-btn" onclick="closeMenu()">✕</div>
+
+    <!-- Profile -->
     <div class="profile">
         <img src="https://i.pravatar.cc/100" alt="Profile">
         <h3>Your Name</h3>
         <p>Welcome back</p>
     </div>
+
     <a onclick="go('home')">🏠 Home</a>
     <a onclick="go('test')">📄 Test</a>
     <a onclick="go('about')">ℹ️ About</a>
+
 </div>
 
+<!-- Main -->
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Fully fixed UI. Hamburger menu visible. No cutting at top. Card centered.</p>
+        <p>Full page premium glass UI with clearly visible white hamburger menu 🔥</p>
     </div>
 </div>
 
+<!-- Loader -->
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+</div>
+
 <script>
-function toggleMenu() {
-    document.getElementById("sidebar").classList.toggle("active");
-    document.getElementById("overlay").classList.toggle("active");
+let startX = 0;
+
+// Hamburger toggle
+function toggleMenu(){
+    let sidebar = document.getElementById("sidebar");
+    let overlay = document.getElementById("overlay");
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
 }
-function closeMenu() {
+
+// Close menu
+function closeMenu(){
     document.getElementById("sidebar").classList.remove("active");
     document.getElementById("overlay").classList.remove("active");
 }
+
+// Swipe gestures
+document.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+});
+document.addEventListener("touchend", e=>{
+    let endX = e.changedTouches[0].clientX;
+    if(startX < endX - 80){ openMenu(); }
+    if(startX > endX + 80){ closeMenu(); }
+});
+
+function openMenu(){
+    document.getElementById("sidebar").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+}
+
+// Navigation
 function go(page){
-    window.location.href = page;
+    document.getElementById("loader").classList.add("active");
+    setTimeout(()=>{ window.location.href = page; }, 300);
 }
 </script>
 
