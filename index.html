@@ -12,6 +12,9 @@ body{
     margin:0;
     font-family:'Poppins', sans-serif;
     background:linear-gradient(145deg, #e8f5e9, #ffffff);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
     overflow-x:hidden;
 }
 
@@ -22,9 +25,10 @@ header{
     align-items:center;
     padding:15px 25px;
     backdrop-filter:blur(12px);
-    background:rgba(0,0,0,0.4); /* darkish transparent so white menu is visible */
+    background:rgba(0,0,0,0.4); /* white menu visible */
     position:fixed;
     width:100%;
+    top:0;
     z-index:1002;
     color:white;
     font-weight:600;
@@ -147,11 +151,13 @@ header{
 
 /* Main Section */
 .main{
+    flex:1;
     display:flex;
     justify-content:center;
     align-items:center;
-    height:100vh;
-    padding:0 20px;
+    min-height:100vh;
+    padding:100px 20px 40px 20px; /* padding-top to avoid header overlap */
+    box-sizing:border-box;
 }
 
 .card{
@@ -256,7 +262,7 @@ header{
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Full page premium glass UI with clearly visible white hamburger menu 🔥</p>
+        <p>Full page premium glass UI, centered content, visible white hamburger menu 🔥</p>
     </div>
 </div>
 
