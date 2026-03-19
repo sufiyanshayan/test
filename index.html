@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome</title>
+<title>Pro App</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -11,87 +11,77 @@
 body{
     margin:0;
     font-family:'Poppins', sans-serif;
-    background:#fff;
-    overflow-x:hidden;
+    background:#f9f9f9;
 }
 
 /* Header */
 header{
-    display:flex;
-    justify-content:space-between;
-    padding:15px 20px;
-    border-bottom:1px solid #eee;
-}
-
-.menu{
-    font-size:25px;
-    cursor:pointer;
-}
-
-/* Sidebar */
-.sidebar{
-    position:fixed;
-    right:-260px;
-    top:0;
-    width:260px;
-    height:100%;
-    background:#fff;
-    transition:0.4s;
-    box-shadow:-2px 0 15px rgba(0,0,0,0.1);
-    padding-top:60px;
-    z-index:1000;
-}
-
-.sidebar.active{
-    right:0;
-}
-
-.sidebar a{
-    display:block;
     padding:15px;
-    text-decoration:none;
-    color:#333;
+    text-align:center;
+    font-weight:600;
+    background:#fff;
     border-bottom:1px solid #eee;
 }
 
 /* Main */
 .main{
+    padding:20px;
     text-align:center;
-    margin-top:120px;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeIn 0.8s ease forwards;
 }
 
-@keyframes fadeIn{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
+    margin-top:20px;
 }
 
-/* Button */
 .btn{
+    margin-top:15px;
     padding:12px 25px;
-    background:#2e7d32;
-    color:white;
     border:none;
+    background:#2e7d32;
+    color:#fff;
     border-radius:20px;
     cursor:pointer;
+}
+
+/* Bottom Nav */
+.navbar{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:60px;
+    background:#fff;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid #eee;
+}
+
+.nav-item{
+    text-align:center;
+    font-size:14px;
+    cursor:pointer;
+    color:#555;
+}
+
+.nav-item.active{
+    color:#2e7d32;
+    font-weight:600;
 }
 
 /* Loader */
 .loader{
     position:fixed;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
     background:#fff;
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:2000;
+    z-index:999;
     opacity:0;
     pointer-events:none;
     transition:0.3s;
@@ -112,7 +102,6 @@ header{
 }
 
 @keyframes spin{
-    0%{transform:rotate(0deg);}
     100%{transform:rotate(360deg);}
 }
 </style>
@@ -120,21 +109,24 @@ header{
 
 <body>
 
-<header>
-    <div>Welcome</div>
-    <div class="menu" onclick="toggleMenu()">☰</div>
-</header>
-
-<div class="sidebar" id="sidebar">
-    <a onclick="go('test')">Test</a>
-    <a onclick="go('about')">About</a>
-    <a onclick="go('contact')">Contact</a>
-</div>
+<header>My App 🚀</header>
 
 <div class="main">
-    <h1>Welcome</h1>
-    <p>Ultra smooth website experience 🚀</p>
-    <button class="btn" onclick="go('test')">Get Started</button>
+
+    <h2>Welcome</h2>
+
+    <div class="card">
+        <p>This is your pro level website</p>
+        <button class="btn" onclick="go('test')">Open Test</button>
+    </div>
+
+</div>
+
+<!-- Bottom Navigation -->
+<div class="navbar">
+    <div class="nav-item active" onclick="go('home')">Home</div>
+    <div class="nav-item" onclick="go('test')">Test</div>
+    <div class="nav-item" onclick="go('about')">About</div>
 </div>
 
 <!-- Loader -->
@@ -143,36 +135,12 @@ header{
 </div>
 
 <script>
-let startX = 0;
-
-// Menu toggle
-function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
-}
-
-// Swipe open (mobile)
-document.addEventListener("touchstart", e=>{
-    startX = e.touches[0].clientX;
-});
-
-document.addEventListener("touchend", e=>{
-    let endX = e.changedTouches[0].clientX;
-
-    if(startX < endX - 80){
-        document.getElementById("sidebar").classList.add("active");
-    }
-    if(startX > endX + 80){
-        document.getElementById("sidebar").classList.remove("active");
-    }
-});
-
-// Smooth redirect
 function go(page){
     document.getElementById("loader").classList.add("active");
 
     setTimeout(()=>{
         window.location.href = page;
-    }, 500);
+    }, 400);
 }
 </script>
 
