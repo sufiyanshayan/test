@@ -8,13 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
-body{
+html, body{
     margin:0;
+    padding:0;
+    height:100%;
     font-family:'Poppins', sans-serif;
     background:linear-gradient(145deg, #e8f5e9, #ffffff);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
     overflow-x:hidden;
 }
 
@@ -25,7 +24,7 @@ header{
     align-items:center;
     padding:15px 25px;
     backdrop-filter:blur(12px);
-    background:rgba(0,0,0,0.4); /* white menu visible */
+    background:rgba(0,0,0,0.4);
     position:fixed;
     width:100%;
     top:0;
@@ -151,15 +150,16 @@ header{
 
 /* Main Section */
 .main{
-    flex:1;
     display:flex;
+    flex:1;
     justify-content:center;
     align-items:center;
     min-height:100vh;
-    padding:100px 20px 40px 20px; /* padding-top to avoid header overlap */
+    padding:80px 20px 20px 20px; /* top padding for fixed header */
     box-sizing:border-box;
 }
 
+/* Card */
 .card{
     width:100%;
     max-width:400px;
@@ -237,15 +237,11 @@ header{
     </div>
 </header>
 
-<!-- Overlay -->
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-
     <div class="close-btn" onclick="closeMenu()">✕</div>
 
-    <!-- Profile -->
     <div class="profile">
         <img src="https://i.pravatar.cc/100" alt="Profile">
         <h3>Your Name</h3>
@@ -255,18 +251,15 @@ header{
     <a onclick="go('home')">🏠 Home</a>
     <a onclick="go('test')">📄 Test</a>
     <a onclick="go('about')">ℹ️ About</a>
-
 </div>
 
-<!-- Main -->
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Full page premium glass UI, centered content, visible white hamburger menu 🔥</p>
+        <p>Full page premium glass UI, centered content, no cutting, white hamburger menu 🔥</p>
     </div>
 </div>
 
-<!-- Loader -->
 <div class="loader" id="loader">
     <div class="spinner"></div>
 </div>
