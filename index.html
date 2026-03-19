@@ -32,14 +32,33 @@ header{
     z-index:1002;
 }
 
-/* Menu Icon */
+/* Hamburger Menu */
 .menu{
-    font-size:28px;
+    width:28px;
+    height:22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
     cursor:pointer;
+    z-index:1003;
+}
+.menu span{
+    display:block;
+    height:3px;
+    width:100%;
+    background:#2e7d32;
+    border-radius:2px;
     transition:0.3s;
 }
-.menu:hover{
-    color:#2e7d32;
+/* Animate hamburger to X */
+.menu.active span:nth-child(1){
+    transform:rotate(45deg) translate(5px,5px);
+}
+.menu.active span:nth-child(2){
+    opacity:0;
+}
+.menu.active span:nth-child(3){
+    transform:rotate(-45deg) translate(5px,-5px);
 }
 
 /* Overlay */
@@ -136,7 +155,6 @@ header{
     transform:translateX(0);
     color:#2e7d32;
 }
-
 /* Staggered animation */
 .sidebar a:nth-child(3){animation-delay:0.1s;}
 .sidebar a:nth-child(4){animation-delay:0.2s;}
@@ -229,18 +247,19 @@ header{
 
 <header>
     <div style="font-weight:700; font-size:18px; color:#2e7d32;">My Site</div>
-    <div class="menu" onclick="openMenu()">☰</div>
+    <div class="menu" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
 </header>
 
 <!-- Overlay -->
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
-
-    <div class="close-btn" onclick="closeMenu()">✕</div>
-
-    <!-- Profile -->
+    <div class="close-btn" onclick="toggleMenu()">✕</div>
     <div class="profile">
         <img src="https://i.pravatar.cc/100" alt="Profile">
         <h3>Your Name</h3>
@@ -250,7 +269,6 @@ header{
     <a onclick="go('home')">🏠 Home</a>
     <a onclick="go('test')">📄 Test</a>
     <a onclick="go('about')">ℹ️ About</a>
-
 </div>
 
 <!-- Main -->
@@ -269,31 +287,21 @@ header{
 <script>
 let startX = 0;
 
-// Menu open/close
-function openMenu(){
-    document.getElementById("sidebar").classList.add("active");
-    document.getElementById("overlay").classList.add("active");
-}
-
-function closeMenu(){
-    document.getElementById("sidebar").classList.remove("active");
-    document.getElementById("overlay").classList.remove("active");
+// Hamburger + sidebar toggle
+function toggleMenu(){
+    document.querySelector(".menu").classList.toggle("active");
+    document.getElementById("sidebar").classList.toggle("active");
+    document.getElementById("overlay").classList.toggle("active");
 }
 
 // Swipe gestures
 document.addEventListener("touchstart", e=>{
     startX = e.touches[0].clientX;
 });
-
 document.addEventListener("touchend", e=>{
     let endX = e.changedTouches[0].clientX;
-
-    if(startX < endX - 80){ // swipe right
-        openMenu();
-    }
-    if(startX > endX + 80){ // swipe left
-        closeMenu();
-    }
+    if(startX < endX - 80){ toggleMenu(); } // swipe right
+    if(startX > endX + 80){ toggleMenu(); } // swipe left
 });
 
 // Navigation
