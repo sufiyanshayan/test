@@ -12,6 +12,7 @@ body{
     margin:0;
     font-family:'Poppins', sans-serif;
     background:#fff;
+    overflow-x:hidden;
 }
 
 /* Header */
@@ -30,14 +31,15 @@ header{
 /* Sidebar */
 .sidebar{
     position:fixed;
-    right:-250px;
+    right:-260px;
     top:0;
-    width:250px;
+    width:260px;
     height:100%;
     background:#fff;
-    transition:0.3s;
-    box-shadow:-2px 0 10px rgba(0,0,0,0.1);
+    transition:0.4s;
+    box-shadow:-2px 0 15px rgba(0,0,0,0.1);
     padding-top:60px;
+    z-index:1000;
 }
 
 .sidebar.active{
@@ -55,16 +57,54 @@ header{
 /* Main */
 .main{
     text-align:center;
-    margin-top:100px;
+    margin-top:120px;
+    transition:0.4s;
 }
 
+/* Button */
 .btn{
     padding:12px 25px;
-    background:green;
+    background:#2e7d32;
     color:white;
     border:none;
     border-radius:20px;
     cursor:pointer;
+}
+
+/* 🔥 Loader */
+.loader{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:#fff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:2000;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+}
+
+.loader.active{
+    opacity:1;
+    pointer-events:all;
+}
+
+.spinner{
+    width:40px;
+    height:40px;
+    border:4px solid #ddd;
+    border-top:4px solid #2e7d32;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    0%{transform:rotate(0deg);}
+    100%{transform:rotate(360deg);}
 }
 </style>
 </head>
@@ -77,12 +117,9 @@ header{
 </header>
 
 <div class="sidebar" id="sidebar">
-
-    <!-- শুধু এখানে page নাম লিখবে -->
     <a href="#" onclick="go('test')">Test</a>
     <a href="#" onclick="go('about')">About</a>
     <a href="#" onclick="go('contact')">Contact</a>
-
 </div>
 
 <div class="main">
@@ -90,14 +127,23 @@ header{
     <button class="btn" onclick="go('test')">Get Started</button>
 </div>
 
+<!-- 🔥 Loader -->
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+</div>
+
 <script>
 function toggleMenu(){
     document.getElementById("sidebar").classList.toggle("active");
 }
 
-// 🔥 MAIN MAGIC FUNCTION
+// 🚀 Smooth Page Load
 function go(page){
-    window.location.href = page;
+    document.getElementById("loader").classList.add("active");
+
+    setTimeout(function(){
+        window.location.href = page;
+    }, 500);
 }
 </script>
 
