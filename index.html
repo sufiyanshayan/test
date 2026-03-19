@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome</title>
+<title>Premium UI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -11,7 +11,7 @@
 body{
     margin:0;
     font-family:'Poppins', sans-serif;
-    background:#ffffff;
+    background:linear-gradient(135deg, #e8f5e9, #ffffff);
 }
 
 /* Header */
@@ -19,7 +19,9 @@ header{
     display:flex;
     justify-content:space-between;
     padding:15px 20px;
-    border-bottom:1px solid #eee;
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.6);
+    border-bottom:1px solid rgba(255,255,255,0.3);
 }
 
 .menu{
@@ -30,13 +32,14 @@ header{
 /* Sidebar */
 .sidebar{
     position:fixed;
-    right:-250px;
+    right:-260px;
     top:0;
-    width:250px;
+    width:260px;
     height:100%;
-    background:#fff;
-    transition:0.3s;
-    box-shadow:-2px 0 10px rgba(0,0,0,0.1);
+    backdrop-filter:blur(15px);
+    background:rgba(255,255,255,0.7);
+    transition:0.4s;
+    box-shadow:-2px 0 15px rgba(0,0,0,0.1);
     padding-top:60px;
 }
 
@@ -47,30 +50,43 @@ header{
 .sidebar a{
     display:block;
     padding:15px;
-    text-decoration:none;
     color:#333;
-    border-bottom:1px solid #eee;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.05);
 }
 
-/* Main */
+/* Main Card */
 .main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:80vh;
+}
+
+.card{
+    width:90%;
+    max-width:350px;
+    padding:30px;
+    border-radius:20px;
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.6);
+    box-shadow:0 8px 25px rgba(0,0,0,0.1);
     text-align:center;
-    margin-top:120px;
     animation:fade 0.6s ease;
 }
 
 @keyframes fade{
-    from{opacity:0; transform:translateY(10px);}
+    from{opacity:0; transform:translateY(15px);}
     to{opacity:1;}
 }
 
-/* Button */
 .btn{
+    margin-top:15px;
     padding:12px 25px;
-    background:#2e7d32;
-    color:white;
     border:none;
     border-radius:20px;
+    background:#2e7d32;
+    color:white;
     cursor:pointer;
 }
 
@@ -83,7 +99,6 @@ header{
     display:flex;
     justify-content:center;
     align-items:center;
-    z-index:999;
     opacity:0;
     pointer-events:none;
     transition:0.3s;
@@ -112,7 +127,7 @@ header{
 <body>
 
 <header>
-    <div>Welcome</div>
+    <div>My Site</div>
     <div class="menu" onclick="toggleMenu()">☰</div>
 </header>
 
@@ -125,9 +140,11 @@ header{
 
 <!-- Main -->
 <div class="main">
-    <h1>Welcome</h1>
-    <p>Simple, fast & smooth website 🚀</p>
-    <button class="btn" onclick="go('test')">Get Started</button>
+    <div class="card">
+        <h2>Welcome 👋</h2>
+        <p>Premium glass UI design</p>
+        <button class="btn" onclick="go('test')">Get Started</button>
+    </div>
 </div>
 
 <!-- Loader -->
@@ -140,7 +157,6 @@ function toggleMenu(){
     document.getElementById("sidebar").classList.toggle("active");
 }
 
-// MAIN NAVIGATION
 function go(page){
     document.getElementById("loader").classList.add("active");
 
