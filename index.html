@@ -21,38 +21,72 @@ header{
     padding:15px 20px;
     backdrop-filter:blur(10px);
     background:rgba(255,255,255,0.6);
-    border-bottom:1px solid rgba(255,255,255,0.3);
 }
 
+/* Menu Icon */
 .menu{
     font-size:25px;
     cursor:pointer;
 }
 
+/* Overlay */
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    top:0;
+    left:0;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+}
+
+.overlay.active{
+    opacity:1;
+    pointer-events:all;
+}
+
 /* Sidebar */
 .sidebar{
     position:fixed;
-    right:-260px;
+    right:-280px;
     top:0;
-    width:260px;
+    width:280px;
     height:100%;
-    backdrop-filter:blur(15px);
-    background:rgba(255,255,255,0.7);
+    backdrop-filter:blur(20px);
+    background:rgba(255,255,255,0.8);
     transition:0.4s;
-    box-shadow:-2px 0 15px rgba(0,0,0,0.1);
-    padding-top:60px;
+    box-shadow:-5px 0 20px rgba(0,0,0,0.1);
+    padding-top:20px;
+    z-index:1000;
 }
 
 .sidebar.active{
     right:0;
 }
 
+/* Close Button */
+.close-btn{
+    text-align:right;
+    padding:10px 20px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+/* Menu Links */
 .sidebar a{
     display:block;
-    padding:15px;
+    padding:15px 20px;
     color:#333;
     text-decoration:none;
-    border-bottom:1px solid rgba(0,0,0,0.05);
+    border-radius:10px;
+    margin:5px 10px;
+    transition:0.2s;
+}
+
+.sidebar a:hover{
+    background:#e8f5e9;
 }
 
 /* Main Card */
@@ -128,11 +162,16 @@ header{
 
 <header>
     <div>My Site</div>
-    <div class="menu" onclick="toggleMenu()">☰</div>
+    <div class="menu" onclick="openMenu()">☰</div>
 </header>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
+    <div class="close-btn" onclick="closeMenu()">✕</div>
+
     <a onclick="go('home')">Home</a>
     <a onclick="go('test')">Test</a>
     <a onclick="go('about')">About</a>
@@ -142,7 +181,7 @@ header{
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Premium glass UI design</p>
+        <p>Premium upgraded menu UI 🔥</p>
         <button class="btn" onclick="go('test')">Get Started</button>
     </div>
 </div>
@@ -153,8 +192,14 @@ header{
 </div>
 
 <script>
-function toggleMenu(){
-    document.getElementById("sidebar").classList.toggle("active");
+function openMenu(){
+    document.getElementById("sidebar").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+}
+
+function closeMenu(){
+    document.getElementById("sidebar").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
 }
 
 function go(page){
