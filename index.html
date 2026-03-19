@@ -7,29 +7,37 @@
 <!-- 👉 EDIT HERE: Website Title -->
 <title>CHROMATIC FUTURE | premium economy 3000</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-    margin:0;
     font-family:'Space Grotesk',sans-serif;
-    background:#0f0f17;
+    background:linear-gradient(145deg,#0a0a0f,#1a1a2e);
     color:#fff;
+}
+
+/* APP */
+.app{
+    max-width:480px;
+    margin:auto;
+    min-height:100vh;
+    background:#0f0f17;
 }
 
 /* HEADER */
 header{
     display:flex;
     justify-content:space-between;
-    padding:15px 20px;
+    padding:18px;
     background:#14141e;
 }
 
-/* 👉 EDIT HERE: Logo */
+/* 👉 EDIT HERE: Logo Text */
 .logo{
-    font-size:18px;
-    font-weight:bold;
+    font-weight:700;
 }
 
 /* MENU BUTTON */
@@ -40,36 +48,73 @@ header{
 /* SIDEBAR */
 .sidebar{
     position:fixed;
-    right:-260px;
+    right:-320px;
     top:0;
-    width:250px;
+    width:300px;
     height:100%;
     background:#1a1a26;
     padding:20px;
-    transition:0.3s;
+    transition:0.4s;
 }
 
-.sidebar.active{
-    right:0;
+.sidebar.active{right:0;}
+
+.overlay{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+}
+.overlay.active{
+    opacity:1;
+    pointer-events:all;
+}
+
+/* PROFILE */
+.profile{
+    margin-bottom:20px;
+}
+
+/* MENU */
+.sidebar a{
+    display:block;
+    padding:10px;
+    margin:10px 0;
+    background:#252535;
+    border-radius:10px;
+    cursor:pointer;
 }
 
 /* MAIN */
 .main{
+    padding:20px;
     text-align:center;
-    padding:40px 20px;
 }
 
 /* CARD */
 .card{
     background:#1e1e2c;
-    padding:30px;
-    border-radius:20px;
+    padding:40px 20px;
+    border-radius:30px;
 }
 
+/* CHIP */
+.chip{
+    margin-top:20px;
+    padding:10px 20px;
+    background:#2a2a3e;
+    display:inline-block;
+    border-radius:30px;
+}
 </style>
 </head>
 
 <body>
+
+<div class="app">
 
 <header>
     <!-- 👉 EDIT HERE -->
@@ -78,21 +123,25 @@ header{
     <div class="menu-btn" onclick="openMenu()">☰</div>
 </header>
 
-<!-- SIDEBAR -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
 <div class="sidebar" id="sidebar">
 
-    <!-- 👉 EDIT HERE: Profile -->
+    <!-- 👉 EDIT HERE: Profile Name -->
     <h3>NOVA-7</h3>
+
+    <!-- 👉 EDIT HERE: Profile Subtitle -->
     <p>premium economy · 3024</p>
 
     <!-- 👉 EDIT HERE: Menu -->
-    <a onclick="go('home')">Home</a><br><br>
-    <a onclick="go('about')">About</a><br><br>
-    <a onclick="go('contact')">Contact</a>
+    <a onclick="go('home')">Home</a>
+    <a onclick="go('test')">Test</a>
+    <a onclick="go('about')">About</a>
+    <a onclick="go('orbit')">Orbit</a>
+    <a onclick="go('settings')">Settings</a>
 
 </div>
 
-<!-- MAIN -->
 <div class="main">
     <div class="card">
 
@@ -100,19 +149,30 @@ header{
         <h2>NEON ECONOMY</h2>
 
         <!-- 👉 EDIT HERE -->
-        <p>premium soul · future mind.</p>
+        <p>premium soul · future mind. colorful dimension awaits.</p>
+
+        <!-- 👉 EDIT HERE -->
+        <div class="chip">ECONOMY 3000</div>
 
     </div>
+</div>
+
 </div>
 
 <script>
 
 /* MENU */
 function openMenu(){
-    document.getElementById('sidebar').classList.toggle('active');
+    document.getElementById('sidebar').classList.add('active');
+    document.getElementById('overlay').classList.add('active');
 }
 
-/* 👉 EDIT HERE: Page Navigation */
+function closeMenu(){
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').classList.remove('active');
+}
+
+/* 👉 EDIT HERE: Navigation Fix */
 function go(page){
     window.location.href = page + ".html";
 }
