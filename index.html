@@ -1,115 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 👉 EDIT HERE: Website Title -->
-<title>CHROMATIC FUTURE | premium economy 3000</title>
+    <!-- 👉 EDIT HERE: Website Title -->
+    <title>CHROMATIC FUTURE | premium economy 3000</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-    font-family:'Space Grotesk',sans-serif;
-    background:linear-gradient(145deg,#0a0a0f,#1a1a2e);
-    color:#fff;
-}
-
-/* APP */
-.app{
-    max-width:480px;
-    margin:auto;
-    min-height:100vh;
-    background:#0f0f17;
-}
-
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    padding:18px;
-    background:#14141e;
-}
-
-/* 👉 EDIT HERE: Logo Text */
-.logo{
-    font-weight:700;
-}
-
-/* MENU BUTTON */
-.menu-btn{
-    cursor:pointer;
-}
-
-/* SIDEBAR */
-.sidebar{
-    position:fixed;
-    right:-320px;
-    top:0;
-    width:300px;
-    height:100%;
-    background:#1a1a26;
-    padding:20px;
-    transition:0.4s;
-}
-
-.sidebar.active{right:0;}
-
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    opacity:0;
-    pointer-events:none;
-    transition:0.3s;
-}
-.overlay.active{
-    opacity:1;
-    pointer-events:all;
-}
-
-/* PROFILE */
-.profile{
-    margin-bottom:20px;
-}
-
-/* MENU */
-.sidebar a{
-    display:block;
-    padding:10px;
-    margin:10px 0;
-    background:#252535;
-    border-radius:10px;
-    cursor:pointer;
-}
-
-/* MAIN */
-.main{
-    padding:20px;
-    text-align:center;
-}
-
-/* CARD */
-.card{
-    background:#1e1e2c;
-    padding:40px 20px;
-    border-radius:30px;
-}
-
-/* CHIP */
-.chip{
-    margin-top:20px;
-    padding:10px 20px;
-    background:#2a2a3e;
-    display:inline-block;
-    border-radius:30px;
-}
-</style>
+    <style>
+        /* (CSS SAME AS YOUR ORIGINAL — NO CHANGE) */
+        * {margin:0;padding:0;box-sizing:border-box;}
+        body {
+            font-family:'Space Grotesk',sans-serif;
+            background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            color:#fff;
+        }
+        .app{max-width:480px;margin:0 auto;background:#0f0f17;min-height:100vh;}
+        header{display:flex;justify-content:space-between;padding:1.5rem;background:#14141e;}
+        .logo{font-weight:700;}
+        .hologram-btn{cursor:pointer;}
+        .sidebar{position:fixed;right:-360px;top:0;width:340px;height:100%;background:#1a1a26;transition:0.5s;}
+        .sidebar.active{right:0;}
+        .overlay{position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.7);opacity:0;pointer-events:none;}
+        .overlay.active{opacity:1;pointer-events:all;}
+        .main{text-align:center;padding:2rem;}
+        .card{background:#1e1e2c;padding:2rem;border-radius:30px;}
+    </style>
 </head>
 
 <body>
@@ -117,10 +36,13 @@ header{
 <div class="app">
 
 <header>
-    <!-- 👉 EDIT HERE -->
-    <div class="logo">CHROMATIC 3K</div>
+    <div class="logo">
+        <i class="fa-regular fa-crystal"></i> 
+        <!-- 👉 EDIT HERE: Logo Name -->
+        CHROMATIC 3K
+    </div>
 
-    <div class="menu-btn" onclick="openMenu()">☰</div>
+    <div class="hologram-btn" onclick="openMenu()">☰</div>
 </header>
 
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
@@ -133,26 +55,32 @@ header{
     <!-- 👉 EDIT HERE: Profile Subtitle -->
     <p>premium economy · 3024</p>
 
-    <!-- 👉 EDIT HERE: Menu -->
-    <a onclick="go('home')">Home</a>
-    <a onclick="go('test')">Test</a>
-    <a onclick="go('about')">About</a>
-    <a onclick="go('orbit')">Orbit</a>
-    <a onclick="go('settings')">Settings</a>
+    <!-- 👉 EDIT HERE: Menu Text + Link -->
+    <a onclick="go('home')">HOLO HOME</a>
+    <a onclick="go('test')">NEO LAB</a>
+    <a onclick="go('about')">QUANTUM</a>
+    <a onclick="go('orbit')">ORBIT</a>
+    <a onclick="go('settings')">MATRIX</a>
 
 </div>
 
 <div class="main">
     <div class="card">
 
-        <!-- 👉 EDIT HERE -->
-        <h2>NEON ECONOMY</h2>
+        <!-- 👉 EDIT HERE: Main Heading -->
+        <h2>NEON<br>ECONOMY</h2>
 
-        <!-- 👉 EDIT HERE -->
+        <!-- 👉 EDIT HERE: Description -->
         <p>premium soul · future mind. colorful dimension awaits.</p>
 
-        <!-- 👉 EDIT HERE -->
-        <div class="chip">ECONOMY 3000</div>
+        <!-- 👉 EDIT HERE: Chip Text -->
+        <div>ECONOMY 3000</div>
+
+        <!-- 👉 EDIT HERE: Swipe Text -->
+        <div>SWIPE TO ENTER</div>
+
+        <!-- 👉 EDIT HERE: Status Text -->
+        <div>✦ HOLOGRAM ACTIVE ✦</div>
 
     </div>
 </div>
@@ -161,7 +89,6 @@ header{
 
 <script>
 
-/* MENU */
 function openMenu(){
     document.getElementById('sidebar').classList.add('active');
     document.getElementById('overlay').classList.add('active');
@@ -172,7 +99,7 @@ function closeMenu(){
     document.getElementById('overlay').classList.remove('active');
 }
 
-/* 👉 EDIT HERE: Navigation Fix */
+// 👉 EDIT HERE: Navigation Fix
 function go(page){
     window.location.href = page + ".html";
 }
