@@ -50,14 +50,14 @@ header{
 /* Sidebar */
 .sidebar{
     position:fixed;
-    right:-280px;
+    right:-300px;
     top:0;
-    width:280px;
+    width:300px;
     height:100%;
     backdrop-filter:blur(20px);
-    background:rgba(255,255,255,0.8);
+    background:rgba(255,255,255,0.85);
     transition:0.4s;
-    box-shadow:-5px 0 20px rgba(0,0,0,0.1);
+    box-shadow:-5px 0 25px rgba(0,0,0,0.1);
     padding-top:20px;
     z-index:1000;
 }
@@ -74,22 +74,43 @@ header{
     cursor:pointer;
 }
 
+/* Profile Section */
+.profile{
+    text-align:center;
+    padding:20px;
+    border-bottom:1px solid #eee;
+}
+
+.profile img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    margin-bottom:10px;
+}
+
+.profile h3{
+    margin:5px 0;
+}
+
 /* Menu Links */
 .sidebar a{
-    display:block;
+    display:flex;
+    align-items:center;
+    gap:10px;
     padding:15px 20px;
     color:#333;
     text-decoration:none;
-    border-radius:10px;
-    margin:5px 10px;
-    transition:0.2s;
+    border-radius:12px;
+    margin:8px 12px;
+    transition:0.3s;
 }
 
 .sidebar a:hover{
     background:#e8f5e9;
+    transform:translateX(-5px);
 }
 
-/* Main Card */
+/* Main */
 .main{
     display:flex;
     justify-content:center;
@@ -112,16 +133,6 @@ header{
 @keyframes fade{
     from{opacity:0; transform:translateY(15px);}
     to{opacity:1;}
-}
-
-.btn{
-    margin-top:15px;
-    padding:12px 25px;
-    border:none;
-    border-radius:20px;
-    background:#2e7d32;
-    color:white;
-    cursor:pointer;
 }
 
 /* Loader */
@@ -170,19 +181,27 @@ header{
 
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
+
     <div class="close-btn" onclick="closeMenu()">✕</div>
 
-    <a onclick="go('home')">Home</a>
-    <a onclick="go('test')">Test</a>
-    <a onclick="go('about')">About</a>
+    <!-- Profile -->
+    <div class="profile">
+        <img src="https://i.pravatar.cc/100" alt="">
+        <h3>Your Name</h3>
+        <p style="font-size:12px;color:gray;">Welcome back</p>
+    </div>
+
+    <a onclick="go('home')">🏠 Home</a>
+    <a onclick="go('test')">📄 Test</a>
+    <a onclick="go('about')">ℹ️ About</a>
+
 </div>
 
 <!-- Main -->
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Premium upgraded menu UI 🔥</p>
-        <button class="btn" onclick="go('test')">Get Started</button>
+        <p>Fully upgraded premium UI 🔥</p>
     </div>
 </div>
 
