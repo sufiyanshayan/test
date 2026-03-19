@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium UI</title>
+<title>Premium Swipe UI</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -12,6 +12,7 @@ body{
     margin:0;
     font-family:'Poppins', sans-serif;
     background:linear-gradient(135deg, #e8f5e9, #ffffff);
+    overflow-x:hidden;
 }
 
 /* Header */
@@ -40,6 +41,7 @@ header{
     opacity:0;
     pointer-events:none;
     transition:0.3s;
+    z-index:900;
 }
 
 .overlay.active{
@@ -103,11 +105,25 @@ header{
     border-radius:12px;
     margin:8px 12px;
     transition:0.3s;
+    opacity:0;
+    transform:translateX(30px);
+    animation:slideIn 0.4s forwards;
 }
+
+.sidebar a:nth-child(3){animation-delay:0.1s;}
+.sidebar a:nth-child(4){animation-delay:0.2s;}
+.sidebar a:nth-child(5){animation-delay:0.3s;}
 
 .sidebar a:hover{
     background:#e8f5e9;
-    transform:translateX(-5px);
+    transform:translateX(0);
+}
+
+@keyframes slideIn{
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
 }
 
 /* Main */
@@ -147,6 +163,7 @@ header{
     opacity:0;
     pointer-events:none;
     transition:0.3s;
+    z-index:1001;
 }
 
 .loader.active{
@@ -168,7 +185,6 @@ header{
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -201,7 +217,7 @@ header{
 <div class="main">
     <div class="card">
         <h2>Welcome 👋</h2>
-        <p>Fully upgraded premium UI 🔥</p>
+        <p>Swipe to open the menu + animated items 🔥</p>
     </div>
 </div>
 
@@ -211,6 +227,9 @@ header{
 </div>
 
 <script>
+let startX = 0;
+
+// Menu open/close
 function openMenu(){
     document.getElementById("sidebar").classList.add("active");
     document.getElementById("overlay").classList.add("active");
@@ -221,9 +240,25 @@ function closeMenu(){
     document.getElementById("overlay").classList.remove("active");
 }
 
+// Swipe gestures
+document.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e=>{
+    let endX = e.changedTouches[0].clientX;
+
+    if(startX < endX - 80){ // swipe right
+        openMenu();
+    }
+    if(startX > endX + 80){ // swipe left
+        closeMenu();
+    }
+});
+
+// Navigation
 function go(page){
     document.getElementById("loader").classList.add("active");
-
     setTimeout(()=>{
         window.location.href = page;
     }, 300);
