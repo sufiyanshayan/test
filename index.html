@@ -3,263 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Premium Swipe UI</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-
+<title>My Blue Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-/* Reset & Body */
-body{
-    margin:0;
-    font-family:'Poppins', sans-serif;
-    background: linear-gradient(145deg, #f0f4f8, #d0e8f2);
-    overflow-x:hidden;
-    color:#333;
-}
+    /* Reset & Font */
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #e0f0ff; color: #03396c; overflow-x:hidden; }
 
-/* Header */
-header{
-    position:fixed;
-    top:0;
-    width:100%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 25px;
-    backdrop-filter:blur(12px);
-    background:rgba(255,255,255,0.55);
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
-    z-index:1002;
-}
-
-/* Hamburger Menu */
-.menu{
-    width:28px;
-    height:22px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-    cursor:pointer;
-    z-index:1003;
-}
-.menu span{
-    display:block;
-    height:3px;
-    width:100%;
-    background:#2e7d32;
-    border-radius:2px;
-    transition:0.3s;
-}
-/* Animate hamburger to X */
-.menu.active span:nth-child(1){
-    transform:rotate(45deg) translate(5px,5px);
-}
-.menu.active span:nth-child(2){
-    opacity:0;
-}
-.menu.active span:nth-child(3){
-    transform:rotate(-45deg) translate(5px,-5px);
-}
-
-/* Overlay */
-.overlay{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.35);
-    top:0;
-    left:0;
-    opacity:0;
-    pointer-events:none;
-    transition:0.3s;
-    z-index:900;
-}
-.overlay.active{
-    opacity:1;
-    pointer-events:all;
-}
-
-/* Sidebar */
-.sidebar{
-    position:fixed;
-    right:-320px;
-    top:0;
-    width:320px;
-    height:100%;
-    backdrop-filter:blur(24px);
-    background:rgba(255,255,255,0.85);
-    transition:0.4s;
-    box-shadow:-6px 0 30px rgba(0,0,0,0.1);
-    padding-top:25px;
-    z-index:1000;
-    border-radius:15px 0 0 15px;
-}
-.sidebar.active{
-    right:0;
-}
-
-/* Close Button */
-.close-btn{
-    text-align:right;
-    padding:10px 25px;
-    font-size:24px;
-    cursor:pointer;
-    transition:0.3s;
-}
-.close-btn:hover{
-    color:#2e7d32;
-}
-
-/* Profile Section */
-.profile{
-    text-align:center;
-    padding:25px 20px;
-    border-bottom:1px solid rgba(0,0,0,0.05);
-}
-.profile img{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    margin-bottom:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.1);
-}
-.profile h3{
-    margin:8px 0 5px;
-    font-weight:600;
-    color:#2e7d32;
-}
-.profile p{
-    font-size:13px;
-    color:gray;
-}
-
-/* Menu Links */
-.sidebar a{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:15px 25px;
-    color:#333;
-    text-decoration:none;
-    border-radius:14px;
-    margin:10px 15px;
-    transition:0.3s;
-    background:rgba(255,255,255,0.3);
-    backdrop-filter:blur(10px);
-    opacity:0;
-    transform:translateX(40px);
-    animation:slideIn 0.5s forwards;
-}
-.sidebar a:hover{
-    background:rgba(46,125,50,0.15);
-    transform:translateX(0);
-    color:#2e7d32;
-}
-/* Staggered animation */
-.sidebar a:nth-child(3){animation-delay:0.1s;}
-.sidebar a:nth-child(4){animation-delay:0.2s;}
-.sidebar a:nth-child(5){animation-delay:0.3s;}
-
-/* SlideIn Keyframes */
-@keyframes slideIn{
-    to{
-        opacity:1;
-        transform:translateX(0);
+    /* Header */
+    header {
+        display:flex; justify-content:space-between; align-items:center;
+        padding:15px 20px; background:#0077b6; color:white; position:relative;
     }
-}
+    header h1 { font-size:1.5rem; }
+    .menu-btn {
+        font-size:1.8rem; cursor:pointer; user-select:none;
+    }
 
-/* Main Section */
-.main{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    padding-top:70px;
-    transition:0.3s;
-}
+    /* Side Menu */
+    .side-menu {
+        position:fixed; top:0; left:-250px; width:250px; height:100%;
+        background:#023e8a; color:white; padding:20px; transition:0.3s ease;
+        display:flex; flex-direction:column;
+    }
+    .side-menu.active { left:0; }
+    .close-btn { align-self:flex-end; font-size:1.5rem; cursor:pointer; margin-bottom:20px; }
+    
+    /* Profile */
+    .profile { text-align:center; margin-bottom:30px; }
+    .profile img { width:80px; height:80px; border-radius:50%; margin-bottom:10px; border:2px solid #00b4d8; }
+    .profile h3 { margin-bottom:5px; }
+    .profile p { font-size:12px; color:#90e0ef; }
 
-/* Card */
-.card{
-    width:90%;
-    max-width:380px;
-    padding:35px 25px;
-    border-radius:25px;
-    backdrop-filter:blur(25px);
-    background:rgba(255,255,255,0.55);
-    box-shadow:0 12px 30px rgba(0,0,0,0.08);
-    text-align:center;
-    animation:fade 0.6s ease;
-    transition:0.3s;
-}
-.card h2{
-    margin-bottom:12px;
-    font-weight:700;
-    color:#2e7d32;
-}
-.card p{
-    font-size:15px;
-    line-height:1.5;
-    color:#555;
-}
-.card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 18px 40px rgba(0,0,0,0.12);
-}
+    /* Menu Links */
+    .side-menu a {
+        display:block; padding:12px 10px; margin:5px 0;
+        text-decoration:none; color:white; border-radius:5px;
+        transition:0.2s; cursor:pointer;
+    }
+    .side-menu a:hover { background:#0077b6; }
 
-/* Fade animation */
-@keyframes fade{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
+    /* Main Content */
+    main { padding:40px 20px; }
+    main h2 { font-size:2rem; margin-bottom:15px; }
+    main p { font-size:1rem; color:#023e8a; }
 
-/* Loader */
-.loader{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(255,255,255,0.95);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    pointer-events:none;
-    transition:0.3s;
-    z-index:1001;
-}
-.loader.active{
-    opacity:1;
-    pointer-events:all;
-}
-.spinner{
-    width:40px;
-    height:40px;
-    border:4px solid #ddd;
-    border-top:4px solid #2e7d32;
-    border-radius:50%;
-    animation:spin 1s linear infinite;
-}
-@keyframes spin{
-    100%{transform:rotate(360deg);}
-}
+    /* Swipe Gesture Hint */
+    .hint { margin-top:50px; font-size:1rem; color:#0077b6; animation: pulse 1.5s infinite; text-align:center; }
+    @keyframes pulse {
+        0%,100%{ opacity:1; }
+        50% { opacity:0.5; }
+    }
+
+    /* Animation for menu items */
+    .side-menu a { opacity:0; transform:translateX(-20px); animation: slideIn 0.3s forwards; }
+    .side-menu.active a:nth-child(2){ animation-delay:0.1s; }
+    .side-menu.active a:nth-child(3){ animation-delay:0.2s; }
+    .side-menu.active a:nth-child(4){ animation-delay:0.3s; }
+
+    @keyframes slideIn {
+        to { opacity:1; transform:translateX(0); }
+    }
+
 </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight:700; font-size:18px; color:#2e7d32;">My Site</div>
-    <div class="menu" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+    <h1>My Site</h1>
+    <div class="menu-btn" onclick="openMenu()">☰</div>
 </header>
 
-<!-- Overlay -->
-<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+<div class="side-menu" id="sideMenu">
+    <div class="close-btn" onclick="closeMenu()">✕</div>
 
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <div class="close-btn" onclick="toggleMenu()">✕</div>
     <div class="profile">
         <img src="https://i.pravatar.cc/100" alt="Profile">
         <h3>Your Name</h3>
@@ -271,46 +88,35 @@ header{
     <a onclick="go('about')">ℹ️ About</a>
 </div>
 
-<!-- Main -->
-<div class="main">
-    <div class="card">
-        <h2>Welcome 👋</h2>
-        <p>Swipe right to open the menu and explore smooth animations! ✨</p>
-    </div>
-</div>
-
-<!-- Loader -->
-<div class="loader" id="loader">
-    <div class="spinner"></div>
-</div>
+<main>
+    <h2>Welcome 👋</h2>
+    <p>Swipe to open the menu + animated items 🔥</p>
+    <div class="hint">Swipe from left or click ☰ to open menu</div>
+</main>
 
 <script>
-let startX = 0;
+    const sideMenu = document.getElementById('sideMenu');
 
-// Hamburger + sidebar toggle
-function toggleMenu(){
-    document.querySelector(".menu").classList.toggle("active");
-    document.getElementById("sidebar").classList.toggle("active");
-    document.getElementById("overlay").classList.toggle("active");
-}
+    function openMenu(){
+        sideMenu.classList.add('active');
+    }
 
-// Swipe gestures
-document.addEventListener("touchstart", e=>{
-    startX = e.touches[0].clientX;
-});
-document.addEventListener("touchend", e=>{
-    let endX = e.changedTouches[0].clientX;
-    if(startX < endX - 80){ toggleMenu(); } // swipe right
-    if(startX > endX + 80){ toggleMenu(); } // swipe left
-});
+    function closeMenu(){
+        sideMenu.classList.remove('active');
+    }
 
-// Navigation
-function go(page){
-    document.getElementById("loader").classList.add("active");
-    setTimeout(()=>{
-        window.location.href = page;
-    }, 300);
-}
+    function go(page){
+        alert('Going to ' + page);
+    }
+
+    // Optional: simple swipe detection for mobile
+    let touchStartX = 0;
+    document.body.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+    document.body.addEventListener('touchend', e => {
+        let touchEndX = e.changedTouches[0].screenX;
+        if(touchEndX - touchStartX > 50){ openMenu(); }
+        if(touchStartX - touchEndX > 50){ closeMenu(); }
+    });
 </script>
 
 </body>
