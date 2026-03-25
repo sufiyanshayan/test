@@ -12,8 +12,8 @@ import base64
 
 # ============ আপনি যেসব ফাইল এনক্রিপ্ট করতে চান সেগুলোর নাম লিখুন ============
 FILES_TO_ENCRYPT = [
-    "config.py",
-    "secrets.json", 
+    "index.html",
+    "test.html", 
     "database.yml",
     "api_keys.txt",
     "password.txt"
