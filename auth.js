@@ -1,5 +1,4 @@
 const PASSWORD = "12345";
-
 const PROTECTED_PAGES = ["index.html", "test.html"];
 
 (function () {
@@ -7,51 +6,41 @@ const PROTECTED_PAGES = ["index.html", "test.html"];
 
   if (page === "") page = "index.html";
 
-  if (!PROTECTED_PAGES.includes(page)) return;
+  console.log("Current page:", page); // debug
+
+  if (!PROTECTED_PAGES.includes(page)) {
+    console.log("Not protected page");
+    return;
+  }
 
   const saved = sessionStorage.getItem("auth");
 
-  if (saved === PASSWORD) return;
+  if (saved === PASSWORD) {
+    console.log("Already logged in");
+    return;
+  }
 
-  // 👉 পুরো page clear (blank)
+  console.log("LOCK ACTIVATED");
+
   document.documentElement.innerHTML = `
     <head>
       <title>Locked</title>
       <style>
         body {
           margin: 0;
-          background: #000;
+          background: black;
           display: flex;
           justify-content: center;
           align-items: center;
           height: 100vh;
-          font-family: sans-serif;
-        }
-        .box {
-          background: #111;
-          padding: 30px;
-          border-radius: 10px;
-          text-align: center;
           color: white;
-        }
-        input {
-          padding: 10px;
-          margin-top: 10px;
-          width: 200px;
-        }
-        button {
-          padding: 10px;
-          margin-top: 10px;
-          width: 100%;
-          cursor: pointer;
         }
       </style>
     </head>
     <body>
-      <div class="box">
+      <div>
         <h2>🔒 Locked</h2>
-        <input type="password" id="pass" placeholder="Password">
-        <br>
+        <input type="password" id="pass">
         <button onclick="checkPass()">Enter</button>
       </div>
     </body>
