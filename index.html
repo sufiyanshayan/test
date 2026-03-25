@@ -593,6 +593,7 @@
 
     <script>
         let touchStartX = 0;
+        let navigationInProgress = false;
 
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
@@ -612,34 +613,46 @@
         // Hide loader
         function hideLoader() {
             document.getElementById('loader').classList.remove('active');
+            navigationInProgress = false;
         }
 
-        // Navigation function - uses standard page navigation
+        // Navigation function
         function navigateTo(path) {
+            if (navigationInProgress) return;
+            navigationInProgress = true;
+            
             // Close menu if open
             closeMenu();
             
             // Show loader
             showLoader();
             
-            // Small delay to show loader animation
+            // Small delay to ensure loader shows
             setTimeout(() => {
                 window.location.href = path;
-            }, 200);
+            }, 150);
         }
 
-        // Hide loader when page loads
-        window.addEventListener('load', () => {
+        // Handle back/forward buttons - THIS FIXES THE BACK BUTTON ISSUE
+        window.addEventListener('popstate', function() {
+            // Show loader when back/forward is pressed
+            showLoader();
+            // The page will reload naturally, but we show loader until then
+            setTimeout(() => {
+                hideLoader();
+            }, 500);
+        });
+
+        // Hide loader when page is fully loaded
+        window.addEventListener('load', function() {
             hideLoader();
         });
 
-        // Handle page navigation start (for links clicked before JS loads)
-        document.addEventListener('click', (e) => {
-            // If a menu link is clicked, we already handle it with navigateTo
-            // This is just to ensure loader shows for any navigation
-            if (e.target.closest('a') && !e.target.closest('[onclick]')) {
-                showLoader();
-            }
+        // Also hide loader if DOM is ready (faster)
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                hideLoader();
+            }, 100);
         });
 
         // Swipe gestures
