@@ -4,18 +4,30 @@ const USERS = [
   { username: "admin", password: "12345" },
   { username: "guest", password: "guest123" }
 ];
-const PROTECTED_PAGES = ["index.html","test.html","secret.html"]; // সব প্রটেক্টেড পেজের নাম
+const PROTECTED_PAGES = ["index.html","test.html","secret.html"];
 const MAX_ATTEMPTS = 3;
-const BLOCK_DURATION = 30*1000; // 30 sec
+const BLOCK_DURATION = 30*1000;
 
-// ===== STORAGE KEYS =====
+// ===== KEYS =====
+const LOGIN_KEY = "auth_logged_in"; // logged in state
 const ATTEMPT_KEY = "auth_attempt";
 const BLOCK_KEY = "auth_block";
 
+// hide content initially
+document.documentElement.style.display = "none";
+
 (function(){
-  // ===== CURRENT PAGE =====
   let page = window.location.pathname.split("/").pop() || "index.html";
-  if(!PROTECTED_PAGES.includes(page)) return; // not protected
+  if(!PROTECTED_PAGES.includes(page)){
+    document.documentElement.style.display = ""; // show normal content
+    return;
+  }
+
+  // ===== CHECK LOGIN =====
+  if(sessionStorage.getItem(LOGIN_KEY) === "true"){
+    document.documentElement.style.display = ""; // show content
+    return;
+  }
 
   // ===== CHECK BLOCK =====
   const blockUntil = sessionStorage.getItem(BLOCK_KEY);
@@ -25,14 +37,13 @@ const BLOCK_KEY = "auth_block";
       <body style="margin:0;height:100vh;background:black;display:flex;justify-content:center;align-items:center;color:white;font-family:sans-serif;">
         <h2>⏳ Too many wrong attempts. Wait ${wait} sec</h2>
       </body>`;
-    setTimeout(()=>location.reload(),1000);
     return;
   }
 
   // ===== GET ATTEMPTS =====
   let attempts = parseInt(sessionStorage.getItem(ATTEMPT_KEY)) || 0;
 
-  // ===== SHOW LOGIN UI =====
+  // ===== LOGIN UI =====
   document.documentElement.innerHTML = `
   <head>
     <title>🔒 Login Required</title>
@@ -63,9 +74,10 @@ const BLOCK_KEY = "auth_block";
     const valid = USERS.find(u=>u.username===user && u.password===pass);
 
     if(valid){
+      sessionStorage.setItem(LOGIN_KEY, "true");
       sessionStorage.removeItem(ATTEMPT_KEY);
       sessionStorage.removeItem(BLOCK_KEY);
-      location.reload(); // original page content দেখাবে
+      document.documentElement.style.display = ""; // show page content
     } else {
       attempts++;
       sessionStorage.setItem(ATTEMPT_KEY, attempts);
