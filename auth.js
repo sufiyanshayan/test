@@ -1,8 +1,8 @@
 // ==== CONFIG ====
 const PASSWORD = "1234"; // এখানে password দাও
 const PROTECTED_PAGES = [
-  "secret.html",
-  "private.html",
+  "index.html",
+  "test.html",
   "admin.html"
 ];
 
