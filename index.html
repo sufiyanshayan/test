@@ -309,6 +309,132 @@
             z-index: 2;
         }
 
+        .card {
+            background: #1e1e2c;
+            border: 1px solid rgba(255,100,255,0.3);
+            border-radius: 40px;
+            padding: 3rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 
+                0 30px 50px -20px rgba(0,0,0,0.8),
+                0 0 0 1px rgba(255,100,255,0.2) inset,
+                0 0 50px rgba(255,100,255,0.2);
+            text-align: center;
+            animation: hologram 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* animated hologram overlay - but NO BLUR */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                rgba(255,100,255,0.1),
+                rgba(100,200,255,0.1),
+                rgba(255,100,200,0.1),
+                transparent 70%
+            );
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes hologram {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card h2 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff, #a0ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            position: relative;
+            text-shadow: 0 0 30px rgba(255,160,255,0.3);
+        }
+
+        .card p {
+            color: rgba(255,255,255,0.8);
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2.2rem;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .economy-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #2a2a3e;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,100,255,0.4);
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(255,100,255,0.3);
+            text-transform: uppercase;
+        }
+
+        .economy-chip i {
+            color: #ffa0ff;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px #ffa0ff);
+        }
+
+        /* colorful gesture hint */
+        .gesture-hint {
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .gesture-hint i {
+            font-size: 1.2rem;
+            color: #ffa0ff;
+            filter: drop-shadow(0 0 10px #ffa0ff);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
         /* neon loader - NO BLUR */
         .loader {
             position: fixed;
@@ -355,6 +481,21 @@
             margin: 1.5rem auto;
         }
 
+        /* status text */
+        .cyber-status {
+            font-size: 0.7rem;
+            color: rgba(200,200,255,0.5);
+            margin-top: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: blink 3s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         /* colorful particle variations */
         .particle:nth-child(1) { background: #ff50a0; left: 10%; animation-duration: 15s; }
         .particle:nth-child(2) { background: #50ffa0; left: 30%; animation-duration: 25s; width: 6px; height: 6px; }
@@ -378,7 +519,7 @@
 
     <div class="app">
         <header>
-            <div class="logo" onclick="go('/')">
+            <div class="logo" onclick="navigateTo('/')">
                 <i class="fa-regular fa-crystal"></i> Your_Name
             </div>
             <div class="hologram-btn" onclick="openMenu()">
@@ -406,29 +547,42 @@
                 </div>
             </div>
 
-            <a onclick="go('/')">
+            <a onclick="navigateTo('/')">
                 <i class="fa-regular fa-crystal"></i> HOLO HOME
             </a>
-            <a onclick="go('/test')">
+            <a onclick="navigateTo('/test')">
                 <i class="fa-regular fa-flask"></i> TEST
             </a>
-            <a onclick="go('/about')">
+            <a onclick="navigateTo('/about')">
                 <i class="fa-regular fa-atom"></i> QUANTUM
             </a>
-            <a onclick="go('/orbit')">
+            <a onclick="navigateTo('/orbit')">
                 <i class="fa-regular fa-satellite"></i> ORBIT
             </a>
 
             <div class="divider"></div>
 
-            <a onclick="go('/settings')">
+            <a onclick="navigateTo('/settings')">
                 <i class="fa-regular fa-sliders"></i> SETTINGS
             </a>
         </div>
 
-        <!-- Main Content - will be filled dynamically -->
+        <!-- Main Content -->
         <div class="main" id="main">
-            <!-- Initial content will be loaded by JavaScript -->
+            <div class="card">
+                <h2>Your_Name<br>Your_Title</h2>
+                <p>Your_Description</p>
+                
+                <div class="economy-chip">
+                    <i class="fa-regular fa-bolt"></i> WELCOME
+                </div>
+
+                <div class="gesture-hint">
+                    <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
+                    <i class="fa-regular fa-hand-back-point-left"></i>
+                </div>
+                <div class="cyber-status">✦ YOUR_NAME ✦</div>
+            </div>
         </div>
 
         <!-- Loader - SOLID -->
@@ -460,81 +614,33 @@
             document.getElementById('loader').classList.remove('active');
         }
 
-        // Load page content via AJAX
-        function loadPageContent(url) {
-            showLoader();
-            
-            // Fetch the HTML file (with .html extension)
-            const fetchUrl = url === '/' ? '/index.html' : url + '.html';
-            
-            fetch(fetchUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Page not found');
-                    }
-                    return response.text();
-                })
-                .then(html => {
-                    // Extract the content from the fetched HTML
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const mainContent = doc.querySelector('.main');
-                    
-                    if (mainContent) {
-                        document.getElementById('main').innerHTML = mainContent.innerHTML;
-                    } else {
-                        // If .main not found, try to get body content
-                        const bodyContent = doc.body.querySelector('.main') || doc.body;
-                        document.getElementById('main').innerHTML = bodyContent.innerHTML;
-                    }
-                    
-                    // Update page title
-                    const newTitle = doc.querySelector('title');
-                    if (newTitle) {
-                        document.title = newTitle.textContent;
-                    } else {
-                        document.title = 'Your_Name';
-                    }
-                    
-                    hideLoader();
-                })
-                .catch(error => {
-                    console.error('Error loading page:', error);
-                    // Show error message
-                    document.getElementById('main').innerHTML = `
-                        <div class="card">
-                            <h2>Error</h2>
-                            <p>Page not found. Please try again.</p>
-                            <div class="economy-chip">
-                                <i class="fa-regular fa-circle-exclamation"></i> 404
-                            </div>
-                        </div>
-                    `;
-                    hideLoader();
-                });
-        }
-
-        // Navigation function - updates URL without reload
-        function go(path) {
+        // Navigation function - uses standard page navigation
+        function navigateTo(path) {
             // Close menu if open
             closeMenu();
             
-            // Update URL using pushState
-            history.pushState({}, '', path);
+            // Show loader
+            showLoader();
             
-            // Load the page content
-            loadPageContent(path);
+            // Small delay to show loader animation
+            setTimeout(() => {
+                window.location.href = path;
+            }, 200);
         }
 
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', () => {
-            const currentPath = window.location.pathname;
-            loadPageContent(currentPath);
+        // Hide loader when page loads
+        window.addEventListener('load', () => {
+            hideLoader();
         });
 
-        // Initial load - render based on current URL
-        const initialPath = window.location.pathname;
-        loadPageContent(initialPath);
+        // Handle page navigation start (for links clicked before JS loads)
+        document.addEventListener('click', (e) => {
+            // If a menu link is clicked, we already handle it with navigateTo
+            // This is just to ensure loader shows for any navigation
+            if (e.target.closest('a') && !e.target.closest('[onclick]')) {
+                showLoader();
+            }
+        });
 
         // Swipe gestures
         document.addEventListener('touchstart', e => {
