@@ -1,27 +1,59 @@
-// ==== CONFIG ====
-const PASSWORD = "1234"; // এখানে password দাও
+const PASSWORD_HASH = "827ccb0eea8a706c4c34a16891f84e7b"; // password: 12345
+
 const PROTECTED_PAGES = [
   "index.html",
-  "test.html",
-  "admin.html"
+  "test.html"
 ];
 
-// ==== SYSTEM ====
-(function () {
-  const currentPage = window.location.pathname.split("/").pop();
+// ===== HASH FUNCTION =====
+async function md5(text) {
+  const data = new TextEncoder().encode(text);
+  const hashBuffer = await crypto.subtle.digest("MD5", data);
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
 
-  if (!PROTECTED_PAGES.includes(currentPage)) return;
+// ===== SYSTEM =====
+(async function () {
+  let page = window.location.pathname.split("/").pop();
 
-  const saved = localStorage.getItem("auth_pass");
+  // 👉 index.html detect fix (important)
+  if (page === "") page = "index.html";
 
-  if (saved === PASSWORD) return;
+  if (!PROTECTED_PAGES.includes(page)) return;
 
-  let input = prompt("Enter Password:");
+  const saved = localStorage.getItem("auth");
 
-  if (input === PASSWORD) {
-    localStorage.setItem("auth_pass", input);
-  } else {
-    alert("Wrong Password!");
-    window.location.href = "index.html";
-  }
+  if (saved === PASSWORD_HASH) return;
+
+  document.body.innerHTML = `
+    <div style="
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#111;
+      color:white;
+      flex-direction:column;
+      font-family:sans-serif;
+    ">
+      <h2>🔒 Protected Page</h2>
+      <input type="password" id="pass" placeholder="Enter password"
+        style="padding:10px;margin:10px;">
+      <button onclick="checkPass()">Login</button>
+    </div>
+  `;
+
+  window.checkPass = async function () {
+    const input = document.getElementById("pass").value;
+    const hash = await md5(input);
+
+    if (hash === PASSWORD_HASH) {
+      localStorage.setItem("auth", hash);
+      location.reload();
+    } else {
+      alert("Wrong password!");
+    }
+  };
 })();
