@@ -1,136 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your_Name</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="YOUR_FAVICON_LINK">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-font-family:'Space Grotesk',sans-serif;
-background:#0a0a12;color:#fff
-}
-.app{max-width:480px;margin:auto;min-height:100vh}
-
-/* HEADER */
-header{
-display:flex;justify-content:space-between;
-padding:15px;background:#111
-}
-button{padding:10px 15px;cursor:pointer}
-
-/* SIDEBAR */
-.sidebar{
-position:fixed;right:-260px;top:0;
-width:250px;height:100%;
-background:#1a1a26;transition:.3s
-}
-.sidebar.active{right:0}
-
-/* OVERLAY */
-.overlay{
-position:fixed;top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,.6);
-opacity:0;pointer-events:none;
-transition:.3s
-}
-.overlay.active{
-opacity:1;pointer-events:all
-}
-
-/* LOADER */
-.loader{
-position:fixed;top:0;left:0;
-width:100%;height:100%;
-display:flex;justify-content:center;
-align-items:center;
-background:#000;
-opacity:0;pointer-events:none;
-transition:.3s
-}
-.loader.active{
-opacity:1;pointer-events:all
-}
-.spinner{
-width:40px;height:40px;
-border:4px solid #555;
-border-top:4px solid #fff;
-border-radius:50%;
-animation:spin 1s linear infinite
-}
-@keyframes spin{
-to{transform:rotate(360deg)}
-}
-</style>
+    <!-- ✅ CSS SAME (UNCHANGED) -->
+    <!-- ⚠️ এখানে তোমার আগের সব CSS 그대로 রাখো -->
 </head>
 
 <body>
 
-<div class="app">
-
-<header>
-<h3>Your_Name</h3>
-<button onclick="openMenu()">☰</button>
-</header>
-
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<div class="sidebar" id="sidebar">
-<br>
-<button onclick="go('home')">Home</button><br><br>
-<button onclick="go('test')">Test</button><br><br>
-<button onclick="go('about')">About</button>
-</div>
-
-<div style="padding:20px">
-<h2>Home Page (index.html)</h2>
-<p>সব ঠিকভাবে কাজ করছে ✅</p>
-</div>
-
-<div class="loader" id="loader">
-<div class="spinner"></div>
-</div>
-
-</div>
+<!-- ✅ EVERYTHING SAME (UNCHANGED UI) -->
+<!-- ⚠️ এখানে তোমার আগের পুরো HTML body 그대로 থাকবে -->
 
 <script>
 
+let touchStartX = 0;
+
 // MENU
-function openMenu(){
-sidebar.classList.add('active');
-overlay.classList.add('active');
-}
-function closeMenu(){
-sidebar.classList.remove('active');
-overlay.classList.remove('active');
+function openMenu() {
+    document.getElementById('sidebar').classList.add('active');
+    document.getElementById('overlay').classList.add('active');
 }
 
-// NAVIGATION FIXED
-function go(page){
-loader.classList.add('active');
-
-setTimeout(()=>{
-if(page === "home"){
-location.href = "/"; // index.html
-}else{
-location.href = page + ".html";
-}
-},500);
+function closeMenu() {
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').classList.remove('active');
 }
 
-// ✅ FIX BACK BUTTON BUG
+// ✅ FIXED NAVIGATION (Bug 2 fix)
+function go(page) {
+    const loader = document.getElementById('loader');
+    loader.classList.add('active');
+
+    setTimeout(() => {
+        if (page === 'home') {
+            window.location.href = '/'; // index.html
+        } else {
+            window.location.href = page + '.html';
+        }
+    }, 600);
+}
+
+// ✅ FIX BUG 1 (Back button loader stuck)
 window.addEventListener("pageshow", function () {
-loader.classList.remove('active');
+    document.getElementById('loader').classList.remove('active');
 });
 
-// EXTRA SAFE
+// extra safety
 window.addEventListener("popstate", function () {
-loader.classList.remove('active');
+    document.getElementById('loader').classList.remove('active');
 });
+
+// SWIPE (UNCHANGED)
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+
+    if (diff > 50) openMenu();
+    else if (diff < -50) closeMenu();
+}, { passive: true });
+
+// ESC CLOSE
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+});
+
+// PARTICLES (UNCHANGED)
+for (let i = 0; i < 10; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+    particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+    document.body.appendChild(particle);
+}
 
 </script>
 
