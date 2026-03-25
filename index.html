@@ -4,88 +4,723 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your_Name</title>
-
-    <link rel="icon" href="YOUR_FAVICON_LINK">
+    <!-- favicon link - replace YOUR_FAVICON_LINK with your favicon URL -->
+    <link rel="icon" href="YOUR_FAVICON_LINK" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <!-- ✅ CSS SAME (UNCHANGED) -->
-    <!-- ⚠️ এখানে তোমার আগের সব CSS 그대로 রাখো -->
-</head>
-
-<body>
-
-<!-- ✅ EVERYTHING SAME (UNCHANGED UI) -->
-<!-- ⚠️ এখানে তোমার আগের পুরো HTML body 그대로 থাকবে -->
-
-<script>
-
-let touchStartX = 0;
-
-// MENU
-function openMenu() {
-    document.getElementById('sidebar').classList.add('active');
-    document.getElementById('overlay').classList.add('active');
-}
-
-function closeMenu() {
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').classList.remove('active');
-}
-
-// ✅ FIXED NAVIGATION (Bug 2 fix)
-function go(page) {
-    const loader = document.getElementById('loader');
-    loader.classList.add('active');
-
-    setTimeout(() => {
-        if (page === 'home') {
-            window.location.href = '/'; // index.html
-        } else {
-            window.location.href = page + '.html';
+    <style>
+        /* ... (all your existing styles remain exactly the same) ... */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    }, 600);
-}
 
-// ✅ FIX BUG 1 (Back button loader stuck)
-window.addEventListener("pageshow", function () {
-    document.getElementById('loader').classList.remove('active');
-});
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-// extra safety
-window.addEventListener("popstate", function () {
-    document.getElementById('loader').classList.remove('active');
-});
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #0f0f17;
+            min-height: 100vh;
+            position: relative;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
 
-// SWIPE (UNCHANGED)
-document.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 50, 100, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(80, 200, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(200, 100, 255, 0.15) 0%, transparent 50%),
+                linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            z-index: -1;
+            animation: breathe 10s ease-in-out infinite;
+        }
 
-document.addEventListener('touchend', e => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
+        @keyframes breathe {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
 
-    if (diff > 50) openMenu();
-    else if (diff < -50) closeMenu();
-}, { passive: true });
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 20s linear infinite;
+        }
 
-// ESC CLOSE
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeMenu();
-});
+        @keyframes float {
+            from { transform: translateY(100vh) translateX(0); }
+            to { transform: translateY(-100vh) translateX(100px); }
+        }
 
-// PARTICLES (UNCHANGED)
-for (let i = 0; i < 10; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDuration = (15 + Math.random() * 20) + 's';
-    particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
-    document.body.appendChild(particle);
-}
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.8rem;
+            background: #14141e;
+            border-bottom: 1px solid rgba(255,100,200,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-</script>
+        .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #fff, #a0a0ff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 20px rgba(255,160,255,0.3);
+        }
 
+        .logo i {
+            font-size: 1.2rem;
+            color: #ffa0ff;
+            -webkit-text-fill-color: initial;
+            background: none;
+            filter: drop-shadow(0 0 8px #ffa0ff);
+        }
+
+        .hologram-btn {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border-radius: 40px;
+            background: #1e1e2a;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255,100,200,0.2);
+        }
+
+        .hologram-btn:hover {
+            background: #2a2a3a;
+            border-color: rgba(255,200,255,0.3);
+            box-shadow: 0 0 25px rgba(255,100,255,0.4);
+        }
+
+        .hologram-btn .line {
+            width: 22px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffa0ff, #a0a0ff);
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            z-index: 200;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: -360px;
+            top: 0;
+            width: 340px;
+            height: 100%;
+            background: #1a1a26;
+            box-shadow: -25px 0 50px rgba(0,0,0,0.5);
+            transition: right 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 300;
+            padding: 2.2rem 1.5rem;
+            border-left: 1px solid rgba(255,100,255,0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-btn {
+            text-align: right;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-btn i {
+            font-size: 1.6rem;
+            color: rgba(255,200,255,0.8);
+            text-shadow: 0 0 15px #ffa0ff;
+            transition: transform 0.3s;
+        }
+
+        .close-btn:hover i {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,100,255,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff50a0, #a050ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+            box-shadow: 0 0 30px rgba(255,100,255,0.5);
+            animation: avatarPulse 3s infinite;
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255,100,255,0.5); }
+            50% { box-shadow: 0 0 50px rgba(100,200,255,0.8); }
+        }
+
+        .profile-text h3 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 0.2rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-text p {
+            font-size: 0.8rem;
+            color: rgba(200,200,255,0.7);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(100,100,255,0.5);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.1rem 1.2rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 16px;
+            margin: 0.5rem 0;
+            transition: all 0.3s;
+            background: #252535;
+            border: 1px solid rgba(255,100,255,0.2);
+            opacity: 0;
+            transform: translateX(30px);
+            animation: neonSlide 0.5s forwards;
+            text-shadow: 0 0 8px rgba(255,255,255,0.3);
+            cursor: pointer;
+        }
+
+        .sidebar a:nth-child(4) { animation-delay: 0.07s; }
+        .sidebar a:nth-child(5) { animation-delay: 0.14s; }
+        .sidebar a:nth-child(6) { animation-delay: 0.21s; }
+        .sidebar a:nth-child(7) { animation-delay: 0.28s; }
+
+        .sidebar a i {
+            font-size: 1.4rem;
+            width: 30px;
+            color: #ffa0ff;
+            filter: drop-shadow(0 0 8px #ffa0ff);
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background: #353549;
+            border-color: rgba(255,100,255,0.5);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 0 30px rgba(255,100,255,0.3);
+        }
+
+        .sidebar a:hover i {
+            color: #fff;
+            filter: drop-shadow(0 0 12px #fff);
+        }
+
+        @keyframes neonSlide {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            padding: 1.8rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card {
+            background: #1e1e2c;
+            border: 1px solid rgba(255,100,255,0.3);
+            border-radius: 40px;
+            padding: 3rem 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 
+                0 30px 50px -20px rgba(0,0,0,0.8),
+                0 0 0 1px rgba(255,100,255,0.2) inset,
+                0 0 50px rgba(255,100,255,0.2);
+            text-align: center;
+            animation: hologram 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent,
+                rgba(255,100,255,0.1),
+                rgba(100,200,255,0.1),
+                rgba(255,100,200,0.1),
+                transparent 70%
+            );
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes hologram {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.95);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card h2 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff, #a0ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            position: relative;
+            text-shadow: 0 0 30px rgba(255,160,255,0.3);
+        }
+
+        .card p {
+            color: rgba(255,255,255,0.8);
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2.2rem;
+            max-width: 280px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        .economy-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #2a2a3e;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,100,255,0.4);
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(255,100,255,0.3);
+            text-transform: uppercase;
+        }
+
+        .economy-chip i {
+            color: #ffa0ff;
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 8px #ffa0ff);
+        }
+
+        .gesture-hint {
+            margin-top: 2.5rem;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .gesture-hint i {
+            font-size: 1.2rem;
+            color: #ffa0ff;
+            filter: drop-shadow(0 0 10px #ffa0ff);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 400;
+        }
+
+        .loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .neon-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,100,255,0.2);
+            border-top: 4px solid #ffa0ff;
+            border-right: 4px solid #a0ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 30px rgba(255,100,255,0.5);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffa0ff, #a0ffff, transparent);
+            margin: 1.5rem auto;
+        }
+
+        .cyber-status {
+            font-size: 0.7rem;
+            color: rgba(200,200,255,0.5);
+            margin-top: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: blink 3s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .particle:nth-child(1) { background: #ff50a0; left: 10%; animation-duration: 15s; }
+        .particle:nth-child(2) { background: #50ffa0; left: 30%; animation-duration: 25s; width: 6px; height: 6px; }
+        .particle:nth-child(3) { background: #a050ff; left: 50%; animation-duration: 20s; }
+        .particle:nth-child(4) { background: #ffa050; left: 70%; animation-duration: 18s; width: 3px; height: 3px; }
+        .particle:nth-child(5) { background: #50a0ff; left: 90%; animation-duration: 22s; }
+        .particle:nth-child(6) { background: #ff50ff; left: 20%; animation-duration: 30s; width: 8px; height: 8px; }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <div class="app">
+        <header>
+            <div class="logo">
+                <i class="fa-regular fa-crystal"></i> Your_Name
+            </div>
+            <div class="hologram-btn" onclick="openMenu()">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </header>
+
+        <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="close-btn" onclick="closeMenu()">
+                <i class="fa-regular fa-xmark"></i>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">
+                    <i class="fa-regular fa-robot"></i>
+                </div>
+                <div class="profile-text">
+                    <h3>YOUR_NAME</h3>
+                    <p>Your_Title</p>
+                </div>
+            </div>
+
+            <!-- Home now goes to '/' -->
+            <a onclick="go('/')">
+                <i class="fa-regular fa-crystal"></i> HOLO HOME
+            </a>
+            <a onclick="go('/test')">
+                <i class="fa-regular fa-flask"></i> TEST
+            </a>
+            <a onclick="go('/about')">
+                <i class="fa-regular fa-atom"></i> QUANTUM
+            </a>
+            <a onclick="go('/orbit')">
+                <i class="fa-regular fa-satellite"></i> ORBIT
+            </a>
+
+            <div class="divider"></div>
+
+            <a onclick="go('/settings')">
+                <i class="fa-regular fa-sliders"></i> SETTINGS
+            </a>
+        </div>
+
+        <!-- Main Content - will be filled dynamically -->
+        <div class="main" id="main"></div>
+
+        <div class="loader" id="loader">
+            <div class="neon-spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        // ---------- ROUTING ----------
+        // Define content for each route
+        const routes = {
+            '/': {
+                title: 'Home',
+                content: `
+                    <div class="card">
+                        <h2>Your_Name<br>Your_Title</h2>
+                        <p>Your_Description</p>
+                        <div class="economy-chip">
+                            <i class="fa-regular fa-bolt"></i> WELCOME
+                        </div>
+                        <div class="gesture-hint">
+                            <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
+                            <i class="fa-regular fa-hand-back-point-left"></i>
+                        </div>
+                        <div class="cyber-status">✦ YOUR_NAME ✦</div>
+                    </div>
+                `
+            },
+            '/test': {
+                title: 'Test Page',
+                content: `
+                    <div class="card">
+                        <h2>Test<br>Laboratory</h2>
+                        <p>Experimental features and diagnostics. All systems nominal.</p>
+                        <div class="economy-chip">
+                            <i class="fa-regular fa-flask"></i> BETA MODE
+                        </div>
+                        <div class="cyber-status">✦ TEST ENVIRONMENT ✦</div>
+                    </div>
+                `
+            },
+            '/about': {
+                title: 'About Quantum',
+                content: `
+                    <div class="card">
+                        <h2>Quantum<br>Core</h2>
+                        <p>Exploring the intersection of consciousness and technology. This is a prototype neural interface.</p>
+                        <div class="economy-chip">
+                            <i class="fa-regular fa-atom"></i> v0.1.0
+                        </div>
+                        <div class="cyber-status">✦ QUANTUM STATE ✦</div>
+                    </div>
+                `
+            },
+            '/orbit': {
+                title: 'Orbit Control',
+                content: `
+                    <div class="card">
+                        <h2>Orbit<br>Module</h2>
+                        <p>Satellite uplink active. Orbital parameters loaded.</p>
+                        <div class="economy-chip">
+                            <i class="fa-regular fa-satellite"></i> ONLINE
+                        </div>
+                        <div class="cyber-status">✦ TRACKING SIGNAL ✦</div>
+                    </div>
+                `
+            },
+            '/settings': {
+                title: 'Settings',
+                content: `
+                    <div class="card">
+                        <h2>Settings<br>Console</h2>
+                        <p>Configure your holographic interface. More options coming soon.</p>
+                        <div class="economy-chip">
+                            <i class="fa-regular fa-sliders"></i> PREFERENCES
+                        </div>
+                        <div class="cyber-status">✦ CONFIG MODE ✦</div>
+                    </div>
+                `
+            }
+        };
+
+        // Default route if path not found
+        const defaultRoute = '/';
+
+        // Get current path from browser
+        function getCurrentPath() {
+            let path = window.location.pathname;
+            if (path === '') path = '/';
+            // Remove trailing slash if any (except root)
+            if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
+            return path;
+        }
+
+        // Render the page based on path
+        function renderPage(path) {
+            const route = routes[path] || routes[defaultRoute];
+            document.title = `${route.title} | Your_Name`;
+            const mainContainer = document.getElementById('main');
+            mainContainer.innerHTML = route.content;
+        }
+
+        // Navigation function with smooth loader
+        function go(path) {
+            // Show loader
+            const loader = document.getElementById('loader');
+            loader.classList.add('active');
+
+            // Close menu if open
+            closeMenu();
+
+            // Update URL and render content after short delay (for loader effect)
+            setTimeout(() => {
+                // Use pushState to change URL without reload
+                history.pushState({}, '', path);
+                renderPage(path);
+                // Hide loader
+                loader.classList.remove('active');
+            }, 400);
+        }
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', () => {
+            // Show loader during transition
+            const loader = document.getElementById('loader');
+            loader.classList.add('active');
+            setTimeout(() => {
+                renderPage(getCurrentPath());
+                loader.classList.remove('active');
+            }, 200);
+        });
+
+        // Initial load: render based on current URL
+        renderPage(getCurrentPath());
+
+        // ---------- SIDEBAR & SWIPE LOGIC (unchanged) ----------
+        let touchStartX = 0;
+
+        function openMenu() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchEndX - touchStartX;
+            if (diff > 50) openMenu();
+            else if (diff < -50) closeMenu();
+        }, { passive: true });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeMenu();
+        });
+
+        // Dynamic particles (optional)
+        for (let i = 0; i < 10; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (15 + Math.random() * 20) + 's';
+            particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
+            document.body.appendChild(particle);
+        }
+    </script>
 </body>
 </html>
