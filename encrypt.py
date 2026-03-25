@@ -29,7 +29,7 @@ class SimpleEncrypt:
     def _get_password(self):
         pwd = os.environ.get('ENCRYPT_PWD')
         if not pwd:
-            pwd = getpass.getpass("Enter password: ")
+            pwd = getpass.getpass("Enter password: 1234")
         return pwd
     
     def _make_key(self):
