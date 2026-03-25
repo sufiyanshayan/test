@@ -13,12 +13,58 @@ const PROTECTED_PAGES = ["index.html", "test.html"];
 
   if (saved === PASSWORD) return;
 
-  const input = prompt("Enter Password:");
+  // 👉 পুরো page clear (blank)
+  document.documentElement.innerHTML = `
+    <head>
+      <title>Locked</title>
+      <style>
+        body {
+          margin: 0;
+          background: #000;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          font-family: sans-serif;
+        }
+        .box {
+          background: #111;
+          padding: 30px;
+          border-radius: 10px;
+          text-align: center;
+          color: white;
+        }
+        input {
+          padding: 10px;
+          margin-top: 10px;
+          width: 200px;
+        }
+        button {
+          padding: 10px;
+          margin-top: 10px;
+          width: 100%;
+          cursor: pointer;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="box">
+        <h2>🔒 Locked</h2>
+        <input type="password" id="pass" placeholder="Password">
+        <br>
+        <button onclick="checkPass()">Enter</button>
+      </div>
+    </body>
+  `;
 
-  if (input === PASSWORD) {
-    sessionStorage.setItem("auth", input);
-  } else {
-    alert("Wrong password!");
-    window.location.href = "https://google.com";
-  }
+  window.checkPass = function () {
+    const input = document.getElementById("pass").value;
+
+    if (input === PASSWORD) {
+      sessionStorage.setItem("auth", input);
+      location.reload();
+    } else {
+      alert("Wrong password!");
+    }
+  };
 })();
