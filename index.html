@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ... (all your existing styles remain exactly the same) ... */
         * {
             margin: 0;
             padding: 0;
@@ -24,6 +23,7 @@
             min-height: 100vh;
         }
 
+        /* main app container - NO BLUR */
         .app {
             max-width: 480px;
             margin: 0 auto;
@@ -36,6 +36,7 @@
             overflow: hidden;
         }
 
+        /* animated gradient background - NO BLUR */
         .cyber-bg {
             position: fixed;
             top: 0;
@@ -56,6 +57,7 @@
             50% { opacity: 1; }
         }
 
+        /* floating particles - CRISP */
         .particle {
             position: fixed;
             width: 4px;
@@ -72,6 +74,7 @@
             to { transform: translateY(-100vh) translateX(100px); }
         }
 
+        /* header — NO BLUR, solid */
         header {
             display: flex;
             justify-content: space-between;
@@ -136,6 +139,7 @@
             transition: 0.2s;
         }
 
+        /* overlay — NO BLUR, solid color */
         .overlay {
             position: fixed;
             top: 0;
@@ -154,6 +158,7 @@
             pointer-events: all;
         }
 
+        /* sidebar — SOLID, NO BLUR */
         .sidebar {
             position: fixed;
             right: -360px;
@@ -189,6 +194,7 @@
             transform: rotate(180deg) scale(1.1);
         }
 
+        /* profile — SOLID */
         .profile {
             display: flex;
             align-items: center;
@@ -236,6 +242,7 @@
             text-shadow: 0 0 10px rgba(100,100,255,0.5);
         }
 
+        /* menu items — SOLID */
         .sidebar a {
             display: flex;
             align-items: center;
@@ -289,6 +296,7 @@
             }
         }
 
+        /* main content — SOLID card */
         .main {
             display: flex;
             flex-direction: column;
@@ -317,6 +325,7 @@
             overflow: hidden;
         }
 
+        /* animated hologram overlay - but NO BLUR */
         .card::before {
             content: '';
             position: absolute;
@@ -399,6 +408,7 @@
             filter: drop-shadow(0 0 8px #ffa0ff);
         }
 
+        /* colorful gesture hint */
         .gesture-hint {
             margin-top: 2.5rem;
             font-size: 0.8rem;
@@ -424,6 +434,7 @@
             50% { transform: translateX(5px); }
         }
 
+        /* neon loader - NO BLUR */
         .loader {
             position: fixed;
             top: 0;
@@ -461,6 +472,7 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* cyber divider */
         .divider {
             width: 80px;
             height: 2px;
@@ -468,6 +480,7 @@
             margin: 1.5rem auto;
         }
 
+        /* status text */
         .cyber-status {
             font-size: 0.7rem;
             color: rgba(200,200,255,0.5);
@@ -482,6 +495,7 @@
             50% { opacity: 1; }
         }
 
+        /* colorful particle variations */
         .particle:nth-child(1) { background: #ff50a0; left: 10%; animation-duration: 15s; }
         .particle:nth-child(2) { background: #50ffa0; left: 30%; animation-duration: 25s; width: 6px; height: 6px; }
         .particle:nth-child(3) { background: #a050ff; left: 50%; animation-duration: 20s; }
@@ -491,7 +505,10 @@
     </style>
 </head>
 <body>
+    <!-- animated background -->
     <div class="cyber-bg"></div>
+    
+    <!-- floating particles -->
     <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
@@ -510,8 +527,10 @@
             </div>
         </header>
 
+        <!-- Overlay - SOLID BLACK -->
         <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
+        <!-- Sidebar — SOLID, NO BLUR -->
         <div class="sidebar" id="sidebar">
             <div class="close-btn" onclick="closeMenu()">
                 <i class="fa-regular fa-xmark"></i>
@@ -527,164 +546,53 @@
                 </div>
             </div>
 
-            <!-- Home now goes to '/' -->
+            <!-- Home goes to index.html (root) -->
             <a onclick="go('/')">
                 <i class="fa-regular fa-crystal"></i> HOLO HOME
             </a>
-            <a onclick="go('/test')">
+            <!-- Other links load actual files: test.html, about.html, orbit.html, settings.html -->
+            <a onclick="go('test')">
                 <i class="fa-regular fa-flask"></i> TEST
             </a>
-            <a onclick="go('/about')">
+            <a onclick="go('about')">
                 <i class="fa-regular fa-atom"></i> QUANTUM
             </a>
-            <a onclick="go('/orbit')">
+            <a onclick="go('orbit')">
                 <i class="fa-regular fa-satellite"></i> ORBIT
             </a>
 
             <div class="divider"></div>
 
-            <a onclick="go('/settings')">
+            <a onclick="go('settings')">
                 <i class="fa-regular fa-sliders"></i> SETTINGS
             </a>
         </div>
 
-        <!-- Main Content - will be filled dynamically -->
-        <div class="main" id="main"></div>
+        <!-- Main Content -->
+        <div class="main">
+            <div class="card">
+                <h2>Your_Name<br>Your_Title</h2>
+                <p>Your_Description</p>
+                
+                <div class="economy-chip">
+                    <i class="fa-regular fa-bolt"></i> WELCOME
+                </div>
 
+                <div class="gesture-hint">
+                    <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
+                    <i class="fa-regular fa-hand-back-point-left"></i>
+                </div>
+                <div class="cyber-status">✦ YOUR_NAME ✦</div>
+            </div>
+        </div>
+
+        <!-- Loader - SOLID -->
         <div class="loader" id="loader">
             <div class="neon-spinner"></div>
         </div>
     </div>
 
     <script>
-        // ---------- ROUTING ----------
-        // Define content for each route
-        const routes = {
-            '/': {
-                title: 'Home',
-                content: `
-                    <div class="card">
-                        <h2>Your_Name<br>Your_Title</h2>
-                        <p>Your_Description</p>
-                        <div class="economy-chip">
-                            <i class="fa-regular fa-bolt"></i> WELCOME
-                        </div>
-                        <div class="gesture-hint">
-                            <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
-                            <i class="fa-regular fa-hand-back-point-left"></i>
-                        </div>
-                        <div class="cyber-status">✦ YOUR_NAME ✦</div>
-                    </div>
-                `
-            },
-            '/test': {
-                title: 'Test Page',
-                content: `
-                    <div class="card">
-                        <h2>Test<br>Laboratory</h2>
-                        <p>Experimental features and diagnostics. All systems nominal.</p>
-                        <div class="economy-chip">
-                            <i class="fa-regular fa-flask"></i> BETA MODE
-                        </div>
-                        <div class="cyber-status">✦ TEST ENVIRONMENT ✦</div>
-                    </div>
-                `
-            },
-            '/about': {
-                title: 'About Quantum',
-                content: `
-                    <div class="card">
-                        <h2>Quantum<br>Core</h2>
-                        <p>Exploring the intersection of consciousness and technology. This is a prototype neural interface.</p>
-                        <div class="economy-chip">
-                            <i class="fa-regular fa-atom"></i> v0.1.0
-                        </div>
-                        <div class="cyber-status">✦ QUANTUM STATE ✦</div>
-                    </div>
-                `
-            },
-            '/orbit': {
-                title: 'Orbit Control',
-                content: `
-                    <div class="card">
-                        <h2>Orbit<br>Module</h2>
-                        <p>Satellite uplink active. Orbital parameters loaded.</p>
-                        <div class="economy-chip">
-                            <i class="fa-regular fa-satellite"></i> ONLINE
-                        </div>
-                        <div class="cyber-status">✦ TRACKING SIGNAL ✦</div>
-                    </div>
-                `
-            },
-            '/settings': {
-                title: 'Settings',
-                content: `
-                    <div class="card">
-                        <h2>Settings<br>Console</h2>
-                        <p>Configure your holographic interface. More options coming soon.</p>
-                        <div class="economy-chip">
-                            <i class="fa-regular fa-sliders"></i> PREFERENCES
-                        </div>
-                        <div class="cyber-status">✦ CONFIG MODE ✦</div>
-                    </div>
-                `
-            }
-        };
-
-        // Default route if path not found
-        const defaultRoute = '/';
-
-        // Get current path from browser
-        function getCurrentPath() {
-            let path = window.location.pathname;
-            if (path === '') path = '/';
-            // Remove trailing slash if any (except root)
-            if (path !== '/' && path.endsWith('/')) path = path.slice(0, -1);
-            return path;
-        }
-
-        // Render the page based on path
-        function renderPage(path) {
-            const route = routes[path] || routes[defaultRoute];
-            document.title = `${route.title} | Your_Name`;
-            const mainContainer = document.getElementById('main');
-            mainContainer.innerHTML = route.content;
-        }
-
-        // Navigation function with smooth loader
-        function go(path) {
-            // Show loader
-            const loader = document.getElementById('loader');
-            loader.classList.add('active');
-
-            // Close menu if open
-            closeMenu();
-
-            // Update URL and render content after short delay (for loader effect)
-            setTimeout(() => {
-                // Use pushState to change URL without reload
-                history.pushState({}, '', path);
-                renderPage(path);
-                // Hide loader
-                loader.classList.remove('active');
-            }, 400);
-        }
-
-        // Handle browser back/forward buttons
-        window.addEventListener('popstate', () => {
-            // Show loader during transition
-            const loader = document.getElementById('loader');
-            loader.classList.add('active');
-            setTimeout(() => {
-                renderPage(getCurrentPath());
-                loader.classList.remove('active');
-            }, 200);
-        });
-
-        // Initial load: render based on current URL
-        renderPage(getCurrentPath());
-
-        // ---------- SIDEBAR & SWIPE LOGIC (unchanged) ----------
         let touchStartX = 0;
 
         function openMenu() {
@@ -697,6 +605,25 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
+        // Navigation with loader – loads actual page files
+        function go(page) {
+            // Show loader
+            const loader = document.getElementById('loader');
+            loader.classList.add('active');
+
+            // Close menu if open
+            closeMenu();
+
+            // Small delay so loader is visible before navigation starts
+            setTimeout(() => {
+                // If page is '/', go to index.html; otherwise go to [page].html
+                // This matches your existing file structure (test.html, about.html, etc.)
+                let url = page === '/' ? '/' : `${page}.html`;
+                window.location.href = url;
+            }, 300);
+        }
+
+        // Swipe gestures
         document.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
@@ -704,15 +631,25 @@
         document.addEventListener('touchend', e => {
             const touchEndX = e.changedTouches[0].screenX;
             const diff = touchEndX - touchStartX;
-            if (diff > 50) openMenu();
-            else if (diff < -50) closeMenu();
+
+            if (diff > 50) { // swipe right
+                openMenu();
+            } else if (diff < -50) { // swipe left
+                closeMenu();
+            }
         }, { passive: true });
 
+        // Close menu with Escape key
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeMenu();
         });
 
-        // Dynamic particles (optional)
+        // Ensure loader is hidden on page load (it already is, but just in case)
+        window.addEventListener('load', () => {
+            document.getElementById('loader').classList.remove('active');
+        });
+
+        // Create more particles dynamically
         for (let i = 0; i < 10; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
