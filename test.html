@@ -306,7 +306,7 @@
             margin: 0.5rem auto 0;
         }
 
-        /* Link buttons - keeping your original cyber design but with names/logos from your code */
+        /* Link buttons */
         .links-container {
             width: 100%;
             display: flex;
@@ -465,6 +465,17 @@
         .profile-main, .about-section {
             animation: fadeInUp 0.5s ease forwards;
         }
+
+        /* Page container styles */
+        .page-container {
+            width: 100%;
+            display: none;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .page-container.active-page {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -524,130 +535,266 @@
         </div>
 
         <div class="main-content">
-            <div class="profile-main">
-                <div class="profile-image">
-                    <img src="Your_Profile_Picture_Link" alt="Profile Picture" onerror="this.src='https://via.placeholder.com/100?text=Profile'">
+            <!-- Home Page -->
+            <div id="homePage" class="page-container active-page">
+                <div class="profile-main">
+                    <div class="profile-image">
+                        <img src="Your_Profile_Picture_Link" alt="Profile Picture" onerror="this.src='https://via.placeholder.com/100?text=Profile'">
+                    </div>
+                    <h2>Your_Name</h2>
+                    <div class="title">Your_Title</div>
+                    <div class="bio-text">Creative Developer | Digital Creator | Tech Enthusiast</div>
                 </div>
-                <h2>Your_Name</h2>
-                <div class="title">Your_Title</div>
-                <div class="bio-text">Creative Developer | Digital Creator | Tech Enthusiast</div>
+
+                <div class="links-container">
+                    <!-- Facebook -->
+                    <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook">
+                            <span>Facebook</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Facebook Page -->
+                    <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook Page">
+                            <span>Facebook Page</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Instagram -->
+                    <a class="link-btn" href="https://www.instagram.com/your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+                            <span>Instagram</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- WhatsApp -->
+                    <a class="link-btn" href="https://wa.me/8801234567890" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp">
+                            <span>WhatsApp</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- TikTok -->
+                    <a class="link-btn" href="https://www.tiktok.com/@your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok">
+                            <span>TikTok</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Telegram -->
+                    <a class="link-btn" href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram">
+                            <span>Telegram</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Twitter (X) -->
+                    <a class="link-btn" href="https://x.com/your_username" target="_blank" rel="noopener noreferrer">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/x/ffffff" alt="Twitter X">
+                            <span>Twitter (X)</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- Call Me -->
+                    <a class="link-btn call-btn" href="tel:01234567890">
+                        <div class="link-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call Me" style="filter: none;">
+                            <span>Call Me</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- About Me -->
+                    <a class="link-btn" href="#" onclick="handleSidebarClick('about'); return false;">
+                        <div class="link-left">
+                            <img src="https://cdn.simpleicons.org/aboutdotme/ffffff" alt="About Me">
+                            <span>About Me</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+
+                    <!-- My Website -->
+                    <a class="link-btn" href="#" onclick="handleSidebarClick('orbit'); return false;">
+                        <div class="link-left">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: none;">
+                            <span>My Website</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="about-section">
+                    <h3><i class="fas fa-star"></i> About Me <i class="fas fa-star"></i></h3>
+                    <p>Hi! I'm Your_Name, a passionate creator sharing my journey, content, and connections. Feel free to reach out through any of my social platforms above!</p>
+                </div>
             </div>
 
-            <div class="links-container">
-                <!-- Facebook - from your code -->
-                <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook">
-                        <span>Facebook</span>
+            <!-- Test Page -->
+            <div id="testPage" class="page-container">
+                <div class="profile-main">
+                    <div class="profile-image">
+                        <i class="fas fa-flask" style="font-size: 48px; color: #ffa0ff;"></i>
                     </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
+                    <h2>Test Page</h2>
+                    <div class="title">Experimental Zone</div>
+                    <div class="bio-text">Testing new features and experiments</div>
+                </div>
 
-                <!-- Facebook Page - from your code -->
-                <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook Page">
-                        <span>Facebook Page</span>
+                <div class="links-container">
+                    <div class="link-btn" onclick="alert('Test feature 1: This is a demo alert!')">
+                        <div class="link-left">
+                            <i class="fas fa-vial"></i>
+                            <span>Test Feature 1</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
                     </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
+                    <div class="link-btn" onclick="alert('Test feature 2: Coming soon!')">
+                        <div class="link-left">
+                            <i class="fas fa-microscope"></i>
+                            <span>Test Feature 2</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
                     </div>
-                </a>
+                    <div class="link-btn" onclick="alert('Test feature 3: Under development')">
+                        <div class="link-left">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Test Feature 3</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Instagram - from your code -->
-                <a class="link-btn" href="https://www.instagram.com/your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
-                        <span>Instagram</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- WhatsApp - from your code -->
-                <a class="link-btn" href="https://wa.me/8801234567890" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp">
-                        <span>WhatsApp</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- TikTok - from your code -->
-                <a class="link-btn" href="https://www.tiktok.com/@your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok">
-                        <span>TikTok</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- Telegram - from your code -->
-                <a class="link-btn" href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram">
-                        <span>Telegram</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- Twitter (X) - from your code -->
-                <a class="link-btn" href="https://x.com/your_username" target="_blank" rel="noopener noreferrer">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/x/ffffff" alt="Twitter X">
-                        <span>Twitter (X)</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- Call Me - from your code -->
-                <a class="link-btn call-btn" href="tel:01234567890">
-                    <div class="link-left">
-                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call Me" style="filter: none;">
-                        <span>Call Me</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- About Me - from your code -->
-                <a class="link-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="alert('About Me section coming soon!'); return false;">
-                    <div class="link-left">
-                        <img src="https://cdn.simpleicons.org/aboutdotme/ffffff" alt="About Me">
-                        <span>About Me</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
-
-                <!-- My Website - from your code -->
-                <a class="link-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="alert('My Website coming soon!'); return false;">
-                    <div class="link-left">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: none;">
-                        <span>My Website</span>
-                    </div>
-                    <div class="link-right">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </a>
+                <div class="about-section">
+                    <h3><i class="fas fa-flask"></i> Test Zone</h3>
+                    <p>This is a testing area where you can try out new features and experimental tools.</p>
+                </div>
             </div>
 
-            <div class="about-section">
-                <h3><i class="fas fa-star"></i> About Me <i class="fas fa-star"></i></h3>
-                <p>Hi! I'm Your_Name, a passionate creator sharing my journey, content, and connections. Feel free to reach out through any of my social platforms above!</p>
+            <!-- About Page -->
+            <div id="aboutPage" class="page-container">
+                <div class="profile-main">
+                    <div class="profile-image">
+                        <i class="fas fa-atom" style="font-size: 48px; color: #ffa0ff;"></i>
+                    </div>
+                    <h2>About Quantum</h2>
+                    <div class="title">The Creator</div>
+                    <div class="bio-text">Exploring the intersection of creativity and technology</div>
+                </div>
+
+                <div class="about-section" style="margin-top: 0;">
+                    <h3><i class="fas fa-user-astronaut"></i> Who Am I?</h3>
+                    <p>I'm a creative developer and digital artist passionate about building amazing experiences. I love exploring new technologies and sharing my journey with the world.</p>
+                </div>
+                <div class="about-section">
+                    <h3><i class="fas fa-rocket"></i> My Mission</h3>
+                    <p>To inspire and empower others through creative content and innovative solutions that make a difference.</p>
+                </div>
+            </div>
+
+            <!-- Orbit Page -->
+            <div id="orbitPage" class="page-container">
+                <div class="profile-main">
+                    <div class="profile-image">
+                        <i class="fas fa-satellite" style="font-size: 48px; color: #ffa0ff;"></i>
+                    </div>
+                    <h2>Orbit</h2>
+                    <div class="title">Digital Space</div>
+                    <div class="bio-text">Exploring the digital universe</div>
+                </div>
+
+                <div class="links-container">
+                    <a class="link-btn" href="#" onclick="alert('Portfolio coming soon!'); return false;">
+                        <div class="link-left">
+                            <i class="fas fa-briefcase"></i>
+                            <span>Portfolio</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a class="link-btn" href="#" onclick="alert('Blog coming soon!'); return false;">
+                        <div class="link-left">
+                            <i class="fas fa-blog"></i>
+                            <span>Blog</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settingsPage" class="page-container">
+                <div class="profile-main">
+                    <div class="profile-image">
+                        <i class="fas fa-sliders-h" style="font-size: 48px; color: #ffa0ff;"></i>
+                    </div>
+                    <h2>Settings</h2>
+                    <div class="title">Customize Experience</div>
+                </div>
+
+                <div class="links-container">
+                    <div class="link-btn" onclick="alert('Theme settings coming soon!')">
+                        <div class="link-left">
+                            <i class="fas fa-palette"></i>
+                            <span>Theme</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                    <div class="link-btn" onclick="alert('Language settings coming soon!')">
+                        <div class="link-left">
+                            <i class="fas fa-language"></i>
+                            <span>Language</span>
+                        </div>
+                        <div class="link-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="footer">
@@ -661,6 +808,8 @@
     </div>
 
     <script>
+        let currentPage = 'home';
+
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -671,15 +820,6 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
-        function handleSidebarClick(page) {
-            showLoader();
-            setTimeout(() => {
-                alert('Navigating to: ' + page.toUpperCase() + '\n\nAdd your actual page links here!');
-                hideLoader();
-                closeMenu();
-            }, 500);
-        }
-
         function showLoader() {
             document.getElementById('loader').classList.add('active');
         }
@@ -687,6 +827,52 @@
         function hideLoader() {
             document.getElementById('loader').classList.remove('active');
         }
+
+        function navigateToPage(page) {
+            if (currentPage === page) {
+                // If already on the same page, refresh the page content
+                showLoader();
+                setTimeout(() => {
+                    const activePage = document.getElementById(currentPage + 'Page');
+                    if (activePage) {
+                        // Refresh animation by removing and adding class
+                        activePage.style.animation = 'none';
+                        activePage.offsetHeight; // Force reflow
+                        activePage.style.animation = 'fadeInUp 0.4s ease';
+                    }
+                    hideLoader();
+                }, 300);
+                return;
+            }
+
+            showLoader();
+            setTimeout(() => {
+                // Hide all pages
+                document.querySelectorAll('.page-container').forEach(pageDiv => {
+                    pageDiv.classList.remove('active-page');
+                });
+                
+                // Show selected page
+                const selectedPage = document.getElementById(page + 'Page');
+                if (selectedPage) {
+                    selectedPage.classList.add('active-page');
+                    currentPage = page;
+                }
+                
+                hideLoader();
+                closeMenu();
+            }, 400);
+        }
+
+        function handleSidebarClick(page) {
+            navigateToPage(page);
+        }
+
+        // Override for home and test buttons from links container
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add any additional initialization here
+            currentPage = 'home';
+        });
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeMenu();
@@ -706,6 +892,7 @@
             }
         });
 
+        // Create particles
         for (let i = 0; i < 12; i++) {
             const p = document.createElement('div');
             p.className = 'particle';
