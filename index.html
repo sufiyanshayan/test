@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Your existing styles remain exactly the same */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* main app container - NO BLUR */
         .app {
             max-width: 480px;
             margin: 0 auto;
@@ -36,7 +36,6 @@
             overflow: hidden;
         }
 
-        /* animated gradient background - NO BLUR */
         .cyber-bg {
             position: fixed;
             top: 0;
@@ -57,7 +56,6 @@
             50% { opacity: 1; }
         }
 
-        /* floating particles - CRISP */
         .particle {
             position: fixed;
             width: 4px;
@@ -74,7 +72,6 @@
             to { transform: translateY(-100vh) translateX(100px); }
         }
 
-        /* header — NO BLUR, solid */
         header {
             display: flex;
             justify-content: space-between;
@@ -140,7 +137,6 @@
             transition: 0.2s;
         }
 
-        /* overlay — NO BLUR, solid color */
         .overlay {
             position: fixed;
             top: 0;
@@ -159,7 +155,6 @@
             pointer-events: all;
         }
 
-        /* sidebar — SOLID, NO BLUR */
         .sidebar {
             position: fixed;
             right: -360px;
@@ -195,7 +190,6 @@
             transform: rotate(180deg) scale(1.1);
         }
 
-        /* profile — SOLID */
         .profile {
             display: flex;
             align-items: center;
@@ -243,7 +237,6 @@
             text-shadow: 0 0 10px rgba(100,100,255,0.5);
         }
 
-        /* menu items — SOLID */
         .sidebar a {
             display: flex;
             align-items: center;
@@ -297,7 +290,6 @@
             }
         }
 
-        /* main content — SOLID card */
         .main {
             display: flex;
             flex-direction: column;
@@ -326,7 +318,6 @@
             overflow: hidden;
         }
 
-        /* animated hologram overlay - but NO BLUR */
         .card::before {
             content: '';
             position: absolute;
@@ -409,7 +400,6 @@
             filter: drop-shadow(0 0 8px #ffa0ff);
         }
 
-        /* colorful gesture hint */
         .gesture-hint {
             margin-top: 2.5rem;
             font-size: 0.8rem;
@@ -435,7 +425,6 @@
             50% { transform: translateX(5px); }
         }
 
-        /* neon loader - NO BLUR */
         .loader {
             position: fixed;
             top: 0;
@@ -473,7 +462,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* cyber divider */
         .divider {
             width: 80px;
             height: 2px;
@@ -481,7 +469,6 @@
             margin: 1.5rem auto;
         }
 
-        /* status text */
         .cyber-status {
             font-size: 0.7rem;
             color: rgba(200,200,255,0.5);
@@ -496,7 +483,6 @@
             50% { opacity: 1; }
         }
 
-        /* colorful particle variations */
         .particle:nth-child(1) { background: #ff50a0; left: 10%; animation-duration: 15s; }
         .particle:nth-child(2) { background: #50ffa0; left: 30%; animation-duration: 25s; width: 6px; height: 6px; }
         .particle:nth-child(3) { background: #a050ff; left: 50%; animation-duration: 20s; }
@@ -506,10 +492,7 @@
     </style>
 </head>
 <body>
-    <!-- animated background -->
     <div class="cyber-bg"></div>
-    
-    <!-- floating particles -->
     <div class="particle"></div>
     <div class="particle"></div>
     <div class="particle"></div>
@@ -528,10 +511,8 @@
             </div>
         </header>
 
-        <!-- Overlay - SOLID BLACK -->
         <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-        <!-- Sidebar — SOLID, NO BLUR -->
         <div class="sidebar" id="sidebar">
             <div class="close-btn" onclick="closeMenu()">
                 <i class="fa-regular fa-xmark"></i>
@@ -567,7 +548,6 @@
             </a>
         </div>
 
-        <!-- Main Content -->
         <div class="main" id="main">
             <div class="card">
                 <h2>Your_Name<br>Your_Title</h2>
@@ -585,7 +565,6 @@
             </div>
         </div>
 
-        <!-- Loader - SOLID -->
         <div class="loader" id="loader">
             <div class="neon-spinner"></div>
         </div>
@@ -593,8 +572,16 @@
 
     <script>
         let touchStartX = 0;
-        let navigationInProgress = false;
-
+        
+        // Fix: Ensure loader is hidden when page loads
+        window.addEventListener('pageshow', function(event) {
+            // This fires even when page is loaded from bfcache (back/forward)
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.classList.remove('active');
+            }
+        });
+        
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -605,55 +592,43 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
-        // Show loader
         function showLoader() {
             document.getElementById('loader').classList.add('active');
         }
 
-        // Hide loader
         function hideLoader() {
-            document.getElementById('loader').classList.remove('active');
-            navigationInProgress = false;
+            const loader = document.getElementById('loader');
+            if (loader) {
+                loader.classList.remove('active');
+            }
         }
 
-        // Navigation function
         function navigateTo(path) {
-            if (navigationInProgress) return;
-            navigationInProgress = true;
-            
-            // Close menu if open
             closeMenu();
-            
-            // Show loader
             showLoader();
-            
-            // Small delay to ensure loader shows
             setTimeout(() => {
                 window.location.href = path;
             }, 150);
         }
 
-        // Handle back/forward buttons - THIS FIXES THE BACK BUTTON ISSUE
+        // FIX FOR BUG 1: Handle back button properly
+        // This ensures page loads when back button is pressed
         window.addEventListener('popstate', function() {
             // Show loader when back/forward is pressed
             showLoader();
-            // The page will reload naturally, but we show loader until then
-            setTimeout(() => {
-                hideLoader();
-            }, 500);
+            // The page will reload, but we ensure loader shows
+            // No need to do anything else - the page will load naturally
         });
 
-        // Hide loader when page is fully loaded
-        window.addEventListener('load', function() {
-            hideLoader();
+        // Hide loader immediately when page starts loading
+        document.addEventListener('readystatechange', function() {
+            if (document.readyState === 'interactive' || document.readyState === 'complete') {
+                hideLoader();
+            }
         });
 
-        // Also hide loader if DOM is ready (faster)
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                hideLoader();
-            }, 100);
-        });
+        // Ensure loader is hidden on initial load
+        hideLoader();
 
         // Swipe gestures
         document.addEventListener('touchstart', e => {
@@ -664,19 +639,18 @@
             const touchEndX = e.changedTouches[0].screenX;
             const diff = touchEndX - touchStartX;
 
-            if (diff > 50) { // swipe right
+            if (diff > 50) {
                 openMenu();
-            } else if (diff < -50) { // swipe left
+            } else if (diff < -50) {
                 closeMenu();
             }
         }, { passive: true });
 
-        // Close menu with Escape key
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') closeMenu();
         });
 
-        // Create more particles dynamically
+        // Create particles
         for (let i = 0; i < 10; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
