@@ -4,42 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your_Name</title>
+<!-- Fonts + Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-body { margin:0; font-family:sans-serif; background:#111; color:#fff; }
+/* ===== Reset + Body ===== */
+* {margin:0; padding:0; box-sizing:border-box;}
+body { font-family:'Space Grotesk',sans-serif; background: linear-gradient(145deg,#0a0a0f,#1a1a2e); color:#fff; overflow-x:hidden; min-height:100vh; }
 
-/* ===== Login Overlay ===== */
+/* ===== LOGIN OVERLAY ===== */
 #login-overlay {
-    position:fixed;
-    top:0; left:0;
+    position:fixed; top:0; left:0;
     width:100%; height:100%;
     background:rgba(0,0,0,0.95);
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
     z-index:9999;
 }
 #login-overlay input {
-    padding:0.8rem 1rem;
-    margin:0.5rem 0;
-    border-radius:8px;
-    border:none;
-    width:200px;
+    padding:0.8rem 1rem; margin:0.5rem 0;
+    border-radius:8px; border:none; width:220px;
+    font-size:1rem;
 }
 #login-overlay button {
-    padding:0.8rem 1.5rem;
-    border:none;
-    border-radius:24px;
+    padding:0.8rem 1.5rem; border:none; border-radius:24px;
     background: linear-gradient(90deg,#ffa0ff,#a0ffff);
-    font-weight:700;
-    color:#111;
-    cursor:pointer;
+    font-weight:700; color:#111; cursor:pointer; margin-top:0.5rem;
 }
 #error-msg { color:red; margin-top:0.5rem; font-size:0.9rem; }
 
-/* ===== Existing main page ===== */
-header { padding:1rem; background:#222; display:flex; justify-content:space-between; }
-.main { padding:2rem; text-align:center; }
+/* ===== Existing Styles (abbreviated for brevity) ===== */
+header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 1.8rem;background:#14141e;border-bottom:1px solid rgba(255,100,200,0.2);position:sticky;top:0;z-index:100;}
+.logo{font-weight:700;font-size:1.4rem;background:linear-gradient(135deg,#fff,#a0a0ff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:8px;letter-spacing:-0.02em;text-shadow:0 0 20px rgba(255,160,255,0.3);}
+.main{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;padding:1.8rem;position:relative;z-index:2;}
+.card{background:#1e1e2c;border:1px solid rgba(255,100,255,0.3);border-radius:40px;padding:3rem 2rem;width:100%;max-width:380px;box-shadow:0 30px 50px -20px rgba(0,0,0,0.8),0 0 0 1px rgba(255,100,255,0.2) inset,0 0 50px rgba(255,100,255,0.2);text-align:center;position:relative;overflow:hidden;}
+/* ... add all your previous CSS here ... */
+
+/* Optional: overlay blur prevention */
+.app { position:relative; z-index:1; }
 </style>
 </head>
 <body>
@@ -54,40 +55,71 @@ header { padding:1rem; background:#222; display:flex; justify-content:space-betw
 </div>
 
 <!-- ===== Main Page ===== -->
+<div class="app">
 <header>
-    <div>Logo / Name</div>
-    <div>Menu</div>
+    <div class="logo"><i class="fa-regular fa-crystal"></i> Your_Name</div>
+    <div class="hologram-btn" onclick="openMenu()">
+        <div class="line"></div><div class="line"></div>
+    </div>
 </header>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="close-btn" onclick="closeMenu()"><i class="fa-regular fa-xmark"></i></div>
+    <div class="profile">
+        <div class="avatar"><i class="fa-regular fa-robot"></i></div>
+        <div class="profile-text"><h3>YOUR_NAME</h3><p>Your_Title</p></div>
+    </div>
+    <a onclick="go('home')"><i class="fa-regular fa-crystal"></i> HOLO HOME</a>
+    <a onclick="go('test')"><i class="fa-regular fa-flask"></i> TEST</a>
+    <a onclick="go('about')"><i class="fa-regular fa-atom"></i> QUANTUM</a>
+    <a onclick="go('orbit')"><i class="fa-regular fa-satellite"></i> ORBIT</a>
+    <div class="divider"></div>
+    <a onclick="go('settings')"><i class="fa-regular fa-sliders"></i> SETTINGS</a>
+</div>
+
+<!-- Main Content -->
 <div class="main">
-    <h1>Welcome to Your Page</h1>
-    <p>This is your existing content.</p>
+    <div class="card">
+        <h2>Your_Name<br>Your_Title</h2>
+        <p>Your_Description</p>
+    </div>
+</div>
 </div>
 
 <script>
-// ===== Define allowed credentials =====
+// ===== LOGIN LOGIC =====
 const ALLOWED = { username:"admin", password:"12345" };
-
-// ===== Elements =====
-const overlay = document.getElementById("login-overlay");
+const overlayLogin = document.getElementById("login-overlay");
 const loginBtn = document.getElementById("login-btn");
 const errorMsg = document.getElementById("error-msg");
 
-// ===== Login Function =====
 loginBtn.addEventListener("click", ()=>{
     const user = document.getElementById("username").value;
     const pass = document.getElementById("password").value;
 
-    if(user === ALLOWED.username && pass === ALLOWED.password){
-        overlay.style.display = "none"; // hide overlay
+    if(user===ALLOWED.username && pass===ALLOWED.password){
+        overlayLogin.style.display="none";
     } else {
-        errorMsg.textContent = "Invalid username or password";
+        errorMsg.textContent="Invalid username or password";
     }
 });
 
-// Optional: press Enter to login
-document.getElementById("password").addEventListener("keypress", function(e){
-    if(e.key === "Enter") loginBtn.click();
+document.getElementById("password").addEventListener("keypress", e=>{
+    if(e.key==="Enter") loginBtn.click();
 });
+
+// ===== Existing JS =====
+let touchStartX=0;
+function openMenu(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');}
+function closeMenu(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');}
+document.addEventListener('touchstart', e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});
+document.addEventListener('touchend', e=>{const touchEndX=e.changedTouches[0].screenX; const diff=touchEndX-touchStartX; if(diff>50){openMenu();} else if(diff<-50){closeMenu();}}, {passive:true});
+function go(page){ window.location.href=page; }
+document.addEventListener('keydown', e=>{if(e.key==='Escape') closeMenu();});
 </script>
 
 </body>
