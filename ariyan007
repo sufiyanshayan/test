@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+        }
+        .message {
+            text-align: center;
+            font-size: 2rem;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <!-- আপনি এখানে আপনার লেখাটি দিন -->
+        MY WEBSITE IS STILL UNDER CONSTRUCTION , COMMING SOON.
+    </div>
+</body>
+</html>
