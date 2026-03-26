@@ -7,6 +7,31 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- URL থেকে index.html সরানোর স্ক্রিপ্ট - প্রথমেই রান করবে -->
+    <script>
+        (function() {
+            // বর্তমান URL চেক করা
+            var path = window.location.pathname;
+            var hash = window.location.hash;
+            var search = window.location.search;
+            
+            // যদি URL এ index.html থাকে
+            if (path === '/index.html' || path === '/index.htm' || path.endsWith('/index.html') || path.endsWith('/index.htm')) {
+                // নতুন URL তৈরি করা
+                var newPath = '/';
+                if (path !== '/index.html' && path !== '/index.htm') {
+                    newPath = path.replace(/\/index\.html?$/, '/');
+                }
+                var newUrl = window.location.origin + newPath + search + hash;
+                // রিডাইরেক্ট করা (পেজ রিলোড হবে)
+                window.location.replace(newUrl);
+            }
+        })();
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -598,7 +623,7 @@
                     </div>
                 </a>
 
-                <!-- Call Me - এখন অন্য বাটনের মতো (লাল কালার নেই) -->
+                <!-- Call Me -->
                 <a class="link-btn" href="call.html" target="_blank">
                     <div class="link-left">
                         <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call Me" style="filter: brightness(0) invert(1);">
@@ -648,17 +673,6 @@
     </div>
 
     <script>
-        // URL থেকে index.html লুকানোর ফাংশন
-        function removeIndexFromUrl() {
-            if (window.location.pathname === '/index.html' || window.location.pathname === '/index.htm') {
-                const cleanUrl = window.location.origin + '/';
-                window.history.replaceState({}, document.title, cleanUrl);
-            }
-        }
-        
-        // পেজ লোড হলে URL ক্লিন করবে
-        window.addEventListener('load', removeIndexFromUrl);
-        
         // মেনু খোলা/বন্ধ করার ফাংশন
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
@@ -670,13 +684,14 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
-        // পেজে নিয়ে যাওয়ার ফাংশন - এখানে আপনি আপনার পেজের নাম সেট করুন
+        // পেজে নিয়ে যাওয়ার ফাংশন - এখানে home পেজের জন্য '/' ব্যবহার করা হয়েছে
         function goToPage(pageName) {
             showLoader();
             
             setTimeout(function() {
                 if (pageName === 'home') {
-                    window.location.href = 'index.html';
+                    // home পেজের জন্য শুধু '/' ব্যবহার করা হয়েছে, index.html ছাড়া
+                    window.location.href = '/';
                 } 
                 else if (pageName === 'test') {
                     window.location.href = 'test.html';
