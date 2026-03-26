@@ -8,25 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!-- URL থেকে .html এবং index.html সরানোর স্ক্রিপ্ট -->
-    <script>
-        // পেজ লোড হওয়ার সাথে সাথে URL ক্লিন করা
-        (function() {
-            let currentUrl = window.location.href;
-            let currentPath = window.location.pathname;
-            
-            // index.html সরানো
-            if (currentPath === '/index.html') {
-                window.history.replaceState({}, document.title, '/');
-            }
-            // অন্য যেকোনো .html সরানো (শুধু পেজ রিলোড ছাড়া)
-            else if (currentPath.includes('.html') && currentPath !== '/index.html') {
-                let cleanUrl = currentUrl.replace(/\.html$/, '');
-                window.history.replaceState({}, document.title, cleanUrl);
-            }
-        })();
-    </script>
-    
     <style>
         * {
             margin: 0;
@@ -668,6 +649,25 @@
     </div>
 
     <script>
+        // URL ক্লিন করার ফাংশন - GLITCH ফ্রি
+        (function() {
+            let currentPath = window.location.pathname;
+            let currentUrl = window.location.href;
+            
+            // index.html সরানো
+            if (currentPath === '/index.html') {
+                window.location.replace('/');
+                return;
+            }
+            
+            // অন্য .html সরানো - শুধু যদি .html থাকে
+            if (currentPath.includes('.html') && !currentPath.includes('index.html')) {
+                let cleanUrl = currentUrl.replace(/\.html$/, '');
+                window.location.replace(cleanUrl);
+                return;
+            }
+        })();
+        
         // মেনু খোলা/বন্ধ করার ফাংশন
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
@@ -685,25 +685,34 @@
             
             if (currentPath === '/' || currentPath === '/index.html') {
                 return 'home';
-            } else if (currentPath.includes('test.html')) {
+            } else if (currentPath === '/test' || currentPath.includes('test.html')) {
                 return 'test';
-            } else if (currentPath.includes('about.html')) {
+            } else if (currentPath === '/about' || currentPath.includes('about.html')) {
                 return 'about';
-            } else if (currentPath.includes('orbit.html')) {
+            } else if (currentPath === '/orbit' || currentPath.includes('orbit.html')) {
                 return 'orbit';
-            } else if (currentPath.includes('settings.html')) {
+            } else if (currentPath === '/settings' || currentPath.includes('settings.html')) {
                 return 'settings';
             }
             return '';
         }
 
-        // পেজ রিফ্রেশ করার ফাংশন (URL clean থাকবে)
+        // পেজ রিফ্রেশ করার ফাংশন (কোনো .html দেখা যাবে না)
         function refreshCurrentPage() {
-            let currentUrl = window.location.href;
-            // URL থেকে .html সরানো
-            let cleanUrl = currentUrl.replace(/\.html$/, '');
-            // পেজ রিফ্রেশ করা
-            window.location.href = cleanUrl;
+            let currentPage = getCurrentPage();
+            if (currentPage === 'home') {
+                window.location.href = '/';
+            } else if (currentPage === 'test') {
+                window.location.href = '/test';
+            } else if (currentPage === 'about') {
+                window.location.href = '/about';
+            } else if (currentPage === 'orbit') {
+                window.location.href = '/orbit';
+            } else if (currentPage === 'settings') {
+                window.location.href = '/settings';
+            } else {
+                window.location.reload();
+            }
         }
 
         // পেজে নিয়ে যাওয়ার ফাংশন
@@ -711,7 +720,7 @@
             // বর্তমান পেজ চেক করা
             let currentPage = getCurrentPage();
             
-            // যদি একই পেজে ক্লিক করে, তাহলে পেজ রিফ্রেশ করবে
+            // যদি একই পেজে ক্লিক করে, তাহলে পেজ রিফ্রেশ করবে (GLITCH ফ্রি)
             if (currentPage === pageName) {
                 closeMenu();
                 showLoader();
@@ -729,16 +738,16 @@
                     window.location.href = '/';
                 } 
                 else if (pageName === 'test') {
-                    window.location.href = 'test.html';
+                    window.location.href = '/test';
                 }
                 else if (pageName === 'about') {
-                    window.location.href = 'about.html';
+                    window.location.href = '/about';
                 }
                 else if (pageName === 'orbit') {
-                    window.location.href = 'orbit.html';
+                    window.location.href = '/orbit';
                 }
                 else if (pageName === 'settings') {
-                    window.location.href = 'settings.html';
+                    window.location.href = '/settings';
                 }
                 else {
                     alert('পেজটি পাওয়া যায়নি');
