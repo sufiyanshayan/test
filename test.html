@@ -1,582 +1,722 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your_Name · Executive Edition</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Your_Name | Link in Bio</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<!-- Fonts - Modern + Classic Fusion -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="Your_Favicon_Link">
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #0f0f17;
+            min-height: 100vh;
+            position: relative;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
 
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 50, 100, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(80, 200, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(200, 100, 255, 0.15) 0%, transparent 50%),
+                linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            z-index: -2;
+        }
 
-body {
-  background: #080b0f;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  position: relative;
-  overflow-x: hidden;
-}
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s linear infinite;
+        }
 
-/* Premium light effects */
-body::before {
-  content: '';
-  position: fixed;
-  top: -20%;
-  right: -10%;
-  width: 70%;
-  height: 70%;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  animation: subtleFloat 15s infinite alternate ease-in-out;
-}
+        @keyframes float {
+            from { transform: translateY(100vh) translateX(0); }
+            to { transform: translateY(-100vh) translateX(100px); }
+        }
 
-body::after {
-  content: '';
-  position: fixed;
-  bottom: -20%;
-  left: -10%;
-  width: 70%;
-  height: 70%;
-  background: radial-gradient(circle, rgba(65, 105, 225, 0.06) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  animation: subtleFloat 18s infinite alternate-reverse ease-in-out;
-}
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            background: rgba(20,20,30,0.95);
+            border-bottom: 1px solid rgba(255,100,200,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
 
-@keyframes subtleFloat {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-  100% { transform: translate(2%, 2%) scale(1.05); opacity: 0.8; }
-}
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-.wrapper {
-  max-width: 440px;
-  width: 100%;
-  position: relative;
-  z-index: 2;
-}
+        .logo i {
+            font-size: 1.2rem;
+            color: #ffa0ff;
+            -webkit-text-fill-color: initial;
+        }
 
-/* Main Card */
-.container {
-  background: #0e1117;
-  border-radius: 40px;
-  padding: 42px 26px 36px;
-  box-shadow: 
-    0 35px 70px -20px rgba(0, 0, 0, 0.9),
-    0 0 0 1px rgba(212, 175, 55, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.02),
-    inset 0 0 30px rgba(212, 175, 55, 0.03);
-  position: relative;
-  border: 1px solid rgba(212, 175, 55, 0.1);
-  backdrop-filter: blur(1px);
-}
+        .menu-btn {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            border-radius: 40px;
+            background: rgba(30,30,42,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
 
-/* Premium top bar */
-.container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 140px;
-  height: 4px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(212, 175, 55, 0.3), 
-    #d4af37, 
-    #4169e1, 
-    #d4af37, 
-    rgba(212, 175, 55, 0.3), 
-    transparent
-  );
-  border-radius: 0 0 4px 4px;
-  filter: blur(0.5px);
-}
+        .menu-btn:hover {
+            background: rgba(42,42,58,0.9);
+            border-color: rgba(255,200,255,0.3);
+        }
 
-/* Corner accents */
-.container::after {
-  content: '';
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 40px;
-  height: 40px;
-  border-top: 1.5px solid rgba(212, 175, 55, 0.25);
-  border-right: 1.5px solid rgba(212, 175, 55, 0.25);
-  opacity: 0.8;
-}
+        .menu-btn .line {
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffa0ff, #a0a0ff);
+            border-radius: 4px;
+        }
 
-.corner-decoration {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  width: 40px;
-  height: 40px;
-  border-bottom: 1.5px solid rgba(65, 105, 225, 0.25);
-  border-left: 1.5px solid rgba(65, 105, 225, 0.25);
-  opacity: 0.8;
-  pointer-events: none;
-}
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 200;
+        }
 
-/* Profile Section */
-.profile {
-  text-align: center;
-  margin-bottom: 22px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
 
-.profile img {
-  width: 105px;
-  height: 105px;
-  border-radius: 50%;
-  object-fit: cover;
-  position: relative;
-  z-index: 3;
-  
-  /* Social media border gradient - exactly like buttons */
-  border: 3px solid transparent;
-  background-image: linear-gradient(#0e1117, #0e1117), 
-                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  
-  box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 6px rgba(65, 105, 225, 0.25),
-    0 20px 40px -10px #000;
-  transition: all 0.5s ease;
-  
-  /* Animation for color change - exactly like buttons */
-  animation: borderColorChange 4s linear infinite;
-}
+        .sidebar {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(180deg, #151520, #0f0f18);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.6);
+            transition: right 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 300;
+            padding: 1.8rem 1.2rem;
+            border-left: 1px solid rgba(255,100,255,0.3);
+            overflow-y: auto;
+        }
 
-.profile img:hover {
-  transform: scale(1.02);
-  background-image: linear-gradient(#0e1117, #0e1117), 
-                    linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  box-shadow: 
-    0 0 0 3px #0e1117,
-    0 0 0 8px rgba(212, 175, 55, 0.25),
-    0 25px 45px -8px #000;
-  animation: borderColorChange 2s linear infinite;
-}
+        .sidebar.active {
+            right: 0;
+        }
 
-/* Color change animation - exactly like buttons */
-@keyframes borderColorChange {
-  0% {
-    background-image: linear-gradient(#0e1117, #0e1117), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  25% {
-    background-image: linear-gradient(#0e1117, #0e1117), 
-                      linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  50% {
-    background-image: linear-gradient(#0e1117, #0e1117), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  75% {
-    background-image: linear-gradient(#0e1117, #0e1117), 
-                      linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  100% {
-    background-image: linear-gradient(#0e1117, #0e1117), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-}
+        .close-btn {
+            text-align: right;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+        }
 
-/* Name */
-.name {
-  font-family: 'Playfair Display', serif;
-  font-size: 36px;
-  font-weight: 600;
-  color: #d4af37;
-  text-align: center;
-  letter-spacing: -0.3px;
-  margin-top: 15px;
-  margin-bottom: 6px;
-  text-shadow: 
-    0 2px 15px rgba(212, 175, 55, 0.2),
-    0 0 30px rgba(65, 105, 225, 0.1);
-  line-height: 1.2;
-}
+        .close-btn i {
+            font-size: 1.5rem;
+            color: rgba(255,200,255,0.8);
+            transition: transform 0.3s;
+        }
 
-/* Title - PREMIUMECONOMY and EXECUTIVE */
-.title-container {
-  text-align: center;
-  margin-bottom: 30px;
-  position: relative;
-}
+        .close-btn:hover i {
+            transform: rotate(90deg);
+        }
 
-.premium-title {
-  font-size: 16px;
-  color: #d4af37;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  margin-bottom: 4px;
-}
+        .profile-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,100,255,0.2);
+            margin-bottom: 1.5rem;
+        }
 
-.executive-title {
-  font-size: 14px;
-  color: #8e9cd3;
-  font-weight: 300;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  position: relative;
-  display: inline-block;
-  padding: 0 20px;
-}
+        .avatar-sidebar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff50a0, #a050ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
 
-.executive-title::before,
-.executive-title::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 20px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #d4af37, transparent);
-}
+        .profile-text-sidebar h4 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+            color: #fff;
+        }
 
-.executive-title::before {
-  left: -15px;
-}
+        .profile-text-sidebar p {
+            font-size: 0.7rem;
+            color: rgba(200,200,255,0.7);
+        }
 
-.executive-title::after {
-  right: -15px;
-}
+        .sidebar-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
 
-/* ===== BUTTONS SECTION - ALL SOCIAL MEDIA BUTTONS ===== */
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: relative;
-  z-index: 5;
-}
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            background: rgba(30,30,45,0.6);
+            border-radius: 14px;
+            text-decoration: none;
+            color: rgba(255,255,255,0.9);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,100,200,0.2);
+            cursor: pointer;
+        }
 
-.btn {
-  display: flex;
-  align-items: center;
-  padding: 16px 22px;
-  text-decoration: none;
-  background: rgba(14, 17, 23, 0.8);
-  border-radius: 60px;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 400;
-  backdrop-filter: blur(8px);
-  position: relative;
-  z-index: 2;
-  
-  /* Border with gradient that changes colors */
-  border: 2.5px solid transparent;
-  background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                    linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  
-  /* Animation for color change */
-  animation: btnColorChange 4s linear infinite;
-}
+        .sidebar-link i {
+            width: 28px;
+            font-size: 1.2rem;
+            color: #ffa0ff;
+        }
 
-/* Button color change animation */
-@keyframes btnColorChange {
-  0% {
-    background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  25% {
-    background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                      linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  50% {
-    background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-  75% {
-    background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                      linear-gradient(90deg, #4169e1, #d4af37, #4169e1, #d4af37, #4169e1);
-  }
-  100% {
-    background-image: linear-gradient(rgba(14, 17, 23, 0.8), rgba(14, 17, 23, 0.8)), 
-                      linear-gradient(90deg, #d4af37, #4169e1, #d4af37, #4169e1, #d4af37);
-  }
-}
+        .sidebar-link:hover {
+            background: rgba(55,55,80,0.8);
+            transform: translateX(5px);
+            border-color: rgba(255,100,255,0.5);
+        }
 
-.btn:hover {
-  transform: translateY(-3px) scale(1.01);
-  background: rgba(20, 24, 32, 0.9);
-  box-shadow: 0 18px 30px -12px #000;
-  animation: btnColorChange 2s linear infinite;
-}
+        .sidebar-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,100,255,0.3), transparent);
+            margin: 0.8rem 0;
+        }
 
-.btn-icon {
-  width: 28px;
-  text-align: center;
-  margin-right: 16px;
-  position: relative;
-  z-index: 3;
-}
+        .main-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+        }
 
-.btn-icon img {
-  width: 20px;
-  height: 20px;
-  filter: brightness(0) invert(1);
-  transition: all 0.4s;
-  opacity: 0.9;
-}
+        .profile-main {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-.btn:hover .btn-icon img {
-  filter: brightness(0) invert(0.9) sepia(0.5) hue-rotate(350deg);
-  transform: scale(1.1);
-}
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff50a0, #a050ff, #50a0ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 0 30px rgba(255,100,255,0.5);
+            overflow: hidden;
+        }
 
-.btn-text {
-  flex: 1;
-  color: #f5f5f5;
-  font-weight: 350;
-  letter-spacing: 0.3px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  position: relative;
-  z-index: 3;
-}
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-.btn-arrow {
-  opacity: 0.4;
-  font-size: 18px;
-  color: #d4af37;
-  transition: all 0.3s;
-  margin-left: 8px;
-  font-family: 'Playfair Display', serif;
-  position: relative;
-  z-index: 3;
-}
+        .profile-main h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.3rem;
+        }
 
-.btn:hover .btn-arrow {
-  opacity: 1;
-  color: #4169e1;
-  transform: translateX(3px);
-}
+        .profile-main .title {
+            font-size: 0.85rem;
+            color: rgba(200,200,255,0.8);
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
 
-/* Footer */
-.footer {
-  margin-top: 36px;
-  text-align: center;
-  font-size: 11px;
-  color: #6e7485;
-  line-height: 2;
-  padding-top: 22px;
-  position: relative;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: 0.8px;
-  z-index: 5;
-}
+        .bio-text {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 280px;
+            margin: 0.5rem auto 0;
+        }
 
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 30%;
-  width: 40%;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(212, 175, 55, 0.3), 
-    rgba(65, 105, 225, 0.3), 
-    rgba(212, 175, 55, 0.3), 
-    transparent
-  );
-}
+        /* Link buttons - keeping your original cyber design but with names/logos from your code */
+        .links-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-bottom: 2rem;
+        }
 
-.footer span {
-  font-family: 'Playfair Display', serif;
-  font-size: 12px;
-  color: #d4af37;
-  font-weight: 500;
-  letter-spacing: 1px;
-}
+        .link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            background: rgba(30,30,45,0.7);
+            border-radius: 60px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,100,200,0.3);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+        }
 
-/* Premium badge */
-.premium-badge {
-  text-align: center;
-  margin: 15px 0 -10px;
-  font-size: 10px;
-  color: rgba(212, 175, 55, 0.4);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  font-weight: 200;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  position: relative;
-  z-index: 5;
-}
+        .link-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(50,50,75,0.9);
+            border-color: rgba(255,100,255,0.6);
+            box-shadow: 0 5px 20px rgba(255,100,255,0.2);
+        }
 
-.premium-badge::before,
-.premium-badge::after {
-  content: '✦';
-  margin: 0 10px;
-  color: rgba(65, 105, 225, 0.4);
-}
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
 
-/* Loading animation */
-.loading-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #d4af37, #4169e1, #d4af37);
-  animation: loading 2s ease-out;
-  z-index: 9999;
-}
+        .link-left img {
+            width: 22px;
+            height: 22px;
+            filter: brightness(0) invert(1);
+        }
 
-@keyframes loading {
-  0% { width: 0; opacity: 1; }
-  100% { width: 100%; opacity: 0; }
-}
+        .link-right i {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.5);
+        }
 
-/* Responsive */
-@media (max-width: 380px) {
-  .container { padding: 35px 20px 30px; }
-  .name { font-size: 32px; }
-  .btn { padding: 14px 18px; }
-  .btn-text { font-size: 14px; }
-  .premium-badge::before,
-  .premium-badge::after { display: none; }
-}
-</style>
+        .call-btn {
+            background: linear-gradient(135deg, rgba(255,80,100,0.2), rgba(255,100,150,0.2));
+            border-color: rgba(255,80,120,0.5);
+        }
+
+        .about-section {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1.2rem;
+            background: rgba(20,20,35,0.6);
+            border-radius: 24px;
+            border: 1px solid rgba(255,100,200,0.2);
+            text-align: center;
+        }
+
+        .about-section h3 {
+            font-size: 0.9rem;
+            color: #ffa0ff;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .about-section p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.5;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer p {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            line-height: 1.5;
+        }
+
+        .footer p i {
+            color: #ffa0ff;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 400;
+        }
+
+        .loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,100,255,0.2);
+            border-top: 3px solid #ffa0ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .link-btn {
+            animation: fadeInUp 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .link-btn:nth-child(1) { animation-delay: 0.05s; }
+        .link-btn:nth-child(2) { animation-delay: 0.1s; }
+        .link-btn:nth-child(3) { animation-delay: 0.15s; }
+        .link-btn:nth-child(4) { animation-delay: 0.2s; }
+        .link-btn:nth-child(5) { animation-delay: 0.25s; }
+        .link-btn:nth-child(6) { animation-delay: 0.3s; }
+        .link-btn:nth-child(7) { animation-delay: 0.35s; }
+        .link-btn:nth-child(8) { animation-delay: 0.4s; }
+        .link-btn:nth-child(9) { animation-delay: 0.45s; }
+        .link-btn:nth-child(10) { animation-delay: 0.5s; }
+
+        .profile-main, .about-section {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+    </style>
 </head>
 <body>
-
-<!-- Loading animation -->
-<div class="loading-bar"></div>
-
-<div class="wrapper">
-  <div class="container">
-
-    <!-- Corner Decoration -->
-    <div class="corner-decoration"></div>
-
-    <!-- Profile with SOCIAL MEDIA GRADIENT BORDER -->
-    <div class="profile">
-      <img src="Your_Profile_Picture_Link" alt="Profile">
-    </div>
-
-    <!-- Name -->
-    <div class="name">Your_Name</div>
+    <div class="cyber-bg"></div>
     
-    <!-- Title - PREMIUMECONOMY and EXECUTIVE separate lines -->
-    <div class="title-container">
-      <div class="premium-title">PREMIUMECONOMY</div>
-      <div class="executive-title">EXECUTIVE</div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <div class="app">
+        <header>
+            <div class="logo">
+                <i class="fas fa-crown"></i> Your_Name
+            </div>
+            <div class="menu-btn" onclick="openMenu()">
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </header>
+
+        <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+        <div class="sidebar" id="sidebar">
+            <div class="close-btn" onclick="closeMenu()">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="profile-sidebar">
+                <div class="avatar-sidebar">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <div class="profile-text-sidebar">
+                    <h4>Your_Name</h4>
+                    <p>Your_Title</p>
+                </div>
+            </div>
+            <div class="sidebar-buttons">
+                <a class="sidebar-link" onclick="handleSidebarClick('home')">
+                    <i class="fas fa-home"></i> HOLO HOME
+                </a>
+                <a class="sidebar-link" onclick="handleSidebarClick('test')">
+                    <i class="fas fa-flask"></i> TEST
+                </a>
+                <a class="sidebar-link" onclick="handleSidebarClick('about')">
+                    <i class="fas fa-atom"></i> QUANTUM
+                </a>
+                <a class="sidebar-link" onclick="handleSidebarClick('orbit')">
+                    <i class="fas fa-satellite"></i> ORBIT
+                </a>
+                <div class="sidebar-divider"></div>
+                <a class="sidebar-link" onclick="handleSidebarClick('settings')">
+                    <i class="fas fa-sliders"></i> SETTINGS
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="profile-main">
+                <div class="profile-image">
+                    <img src="Your_Profile_Picture_Link" alt="Profile Picture" onerror="this.src='https://via.placeholder.com/100?text=Profile'">
+                </div>
+                <h2>Your_Name</h2>
+                <div class="title">Your_Title</div>
+                <div class="bio-text">Creative Developer | Digital Creator | Tech Enthusiast</div>
+            </div>
+
+            <div class="links-container">
+                <!-- Facebook - from your code -->
+                <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook">
+                        <span>Facebook</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Facebook Page - from your code -->
+                <a class="link-btn" href="https://www.facebook.com/your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/facebook/ffffff" alt="Facebook Page">
+                        <span>Facebook Page</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Instagram - from your code -->
+                <a class="link-btn" href="https://www.instagram.com/your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+                        <span>Instagram</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- WhatsApp - from your code -->
+                <a class="link-btn" href="https://wa.me/8801234567890" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/whatsapp/ffffff" alt="WhatsApp">
+                        <span>WhatsApp</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- TikTok - from your code -->
+                <a class="link-btn" href="https://www.tiktok.com/@your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/tiktok/ffffff" alt="TikTok">
+                        <span>TikTok</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Telegram - from your code -->
+                <a class="link-btn" href="https://t.me/your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram">
+                        <span>Telegram</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Twitter (X) - from your code -->
+                <a class="link-btn" href="https://x.com/your_username" target="_blank" rel="noopener noreferrer">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/x/ffffff" alt="Twitter X">
+                        <span>Twitter (X)</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- Call Me - from your code -->
+                <a class="link-btn call-btn" href="tel:01234567890">
+                    <div class="link-left">
+                        <img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" alt="Call Me" style="filter: none;">
+                        <span>Call Me</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- About Me - from your code -->
+                <a class="link-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="alert('About Me section coming soon!'); return false;">
+                    <div class="link-left">
+                        <img src="https://cdn.simpleicons.org/aboutdotme/ffffff" alt="About Me">
+                        <span>About Me</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+
+                <!-- My Website - from your code -->
+                <a class="link-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="alert('My Website coming soon!'); return false;">
+                    <div class="link-left">
+                        <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Website" style="filter: none;">
+                        <span>My Website</span>
+                    </div>
+                    <div class="link-right">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </a>
+            </div>
+
+            <div class="about-section">
+                <h3><i class="fas fa-star"></i> About Me <i class="fas fa-star"></i></h3>
+                <p>Hi! I'm Your_Name, a passionate creator sharing my journey, content, and connections. Feel free to reach out through any of my social platforms above!</p>
+            </div>
+
+            <div class="footer">
+                <p>Copyright © 2026 MADE BY <br> "Your_Name". <br> All Rights Reserved.</p>
+            </div>
+        </div>
+
+        <div class="loader" id="loader">
+            <div class="spinner"></div>
+        </div>
     </div>
 
-    <!-- ALL SOCIAL MEDIA BUTTONS -->
-    <div class="buttons">
+    <script>
+        function openMenu() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
 
-      <!-- Facebook -->
-      <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
-        <span class="btn-text">Facebook</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        function closeMenu() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
 
-      <!-- Facebook Page -->
-      <a class="btn" href="https://www.facebook.com/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/facebook/ffffff"></span>
-        <span class="btn-text">Facebook Page</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        function handleSidebarClick(page) {
+            showLoader();
+            setTimeout(() => {
+                alert('Navigating to: ' + page.toUpperCase() + '\n\nAdd your actual page links here!');
+                hideLoader();
+                closeMenu();
+            }, 500);
+        }
 
-      <!-- Instagram -->
-      <a class="btn" href="https://www.instagram.com/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/instagram/ffffff"></span>
-        <span class="btn-text">Instagram</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        function showLoader() {
+            document.getElementById('loader').classList.add('active');
+        }
 
-      <!-- WhatsApp -->
-      <a class="btn" href="https://wa.me/8801234567890" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/whatsapp/ffffff"></span>
-        <span class="btn-text">WhatsApp</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        function hideLoader() {
+            document.getElementById('loader').classList.remove('active');
+        }
 
-      <!-- TikTok -->
-      <a class="btn" href="https://www.tiktok.com/@your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/tiktok/ffffff"></span>
-        <span class="btn-text">TikTok</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeMenu();
+        });
 
-      <!-- Telegram -->
-      <a class="btn" href="https://t.me/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/telegram/ffffff"></span>
-        <span class="btn-text">Telegram</span>
-        <span class="btn-arrow">→</span>
-      </a>
+        let touchStart = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStart = e.changedTouches[0].screenX;
+        });
+        document.addEventListener('touchend', function(e) {
+            const touchEnd = e.changedTouches[0].screenX;
+            const diff = touchEnd - touchStart;
+            if (diff > 50 && !document.getElementById('sidebar').classList.contains('active')) {
+                openMenu();
+            } else if (diff < -50 && document.getElementById('sidebar').classList.contains('active')) {
+                closeMenu();
+            }
+        });
 
-      <!-- Twitter (X) -->
-      <a class="btn" href="https://x.com/your_username" target="_blank">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/x/ffffff"></span>
-        <span class="btn-text">Twitter (X)</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- Call Me -->
-      <a class="btn" href="tel:01234567890">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" style="filter: brightness(0) invert(1); width:20px;"></span>
-        <span class="btn-text">Call Me</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- About Me -->
-      <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn.simpleicons.org/aboutdotme/ffffff"></span>
-        <span class="btn-text">About Me</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-      <!-- My Website -->
-      <a class="btn" href="#">
-        <span class="btn-icon"><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" style="filter: brightness(0) invert(1); width:20px;"></span>
-        <span class="btn-text">My Website</span>
-        <span class="btn-arrow">→</span>
-      </a>
-
-    </div>
-
-    <!-- Premium Badge -->
-    <div class="premium-badge">EXECUTIVE COLLECTION</div>
-
-    <!-- Footer -->
-    <div class="footer">
-      Copyright © 2026 MADE BY <br> <span>"Your_Name"</span>. <br> All Rights Reserved
-    </div>
-
-  </div>
-</div>
-
+        for (let i = 0; i < 12; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.animationDuration = 15 + Math.random() * 25 + 's';
+            p.style.width = 2 + Math.random() * 6 + 'px';
+            p.style.height = p.style.width;
+            p.style.background = `hsl(${Math.random() * 60 + 280}, 80%, 65%)`;
+            document.body.appendChild(p);
+        }
+    </script>
 </body>
 </html>
