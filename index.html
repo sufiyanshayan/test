@@ -194,7 +194,7 @@
             transform: rotate(180deg) scale(1.1);
         }
 
-        /* profile — SOLID */
+        /* profile — SOLID with image support */
         .profile {
             display: flex;
             align-items: center;
@@ -212,11 +212,29 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
-            color: white;
             border: 2px solid rgba(255,255,255,0.5);
             box-shadow: 0 0 30px rgba(255,100,255,0.5);
             animation: avatarPulse 3s infinite;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Fallback icon when no image */
+        .avatar .fallback-icon {
+            font-size: 2.2rem;
+            color: white;
         }
 
         @keyframes avatarPulse {
@@ -530,15 +548,18 @@
         <!-- Overlay - SOLID BLACK -->
         <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
-        <!-- Sidebar — SOLID, NO BLUR -->
+        <!-- Sidebar — SOLID, NO BLUR with Profile Picture -->
         <div class="sidebar" id="sidebar">
             <div class="close-btn" onclick="closeMenu()">
                 <i class="fa-regular fa-xmark"></i>
             </div>
 
             <div class="profile">
-                <div class="avatar">
-                    <i class="fa-regular fa-robot"></i>
+                <div class="avatar" id="profileAvatar">
+                    <!-- Profile Image - Replace YOUR_PROFILE_IMAGE_URL with actual image URL -->
+                    <img id="profileImg" src="YOUR_PROFILE_IMAGE_URL" alt="Profile" onerror="handleImageError()">
+                    <!-- Fallback icon if image fails to load -->
+                    <i id="fallbackIcon" class="fa-regular fa-robot fallback-icon" style="display: none; position: absolute;"></i>
                 </div>
                 <div class="profile-text">
                     <h3>YOUR_NAME</h3>
@@ -592,6 +613,43 @@
 
     <script>
         let touchStartX = 0;
+
+        // Profile Image Configuration
+        // ===========================
+        // REPLACE THIS URL WITH YOUR ACTUAL PROFILE IMAGE URL
+        const PROFILE_IMAGE_URL = "YOUR_PROFILE_IMAGE_URL";
+        
+        // If you want to use a local image, use something like:
+        // const PROFILE_IMAGE_URL = "images/profile.jpg";
+        // Or for online image:
+        // const PROFILE_IMAGE_URL = "https://example.com/your-photo.jpg";
+        
+        // Handle image load error - shows fallback icon
+        function handleImageError() {
+            const img = document.getElementById('profileImg');
+            const fallbackIcon = document.getElementById('fallbackIcon');
+            
+            img.style.display = 'none';
+            fallbackIcon.style.display = 'flex';
+            fallbackIcon.style.alignItems = 'center';
+            fallbackIcon.style.justifyContent = 'center';
+            fallbackIcon.style.width = '100%';
+            fallbackIcon.style.height = '100%';
+            fallbackIcon.style.fontSize = '2.2rem';
+        }
+        
+        // Set profile image on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileImg = document.getElementById('profileImg');
+            
+            // If URL is not the default placeholder, set the image
+            if (PROFILE_IMAGE_URL && PROFILE_IMAGE_URL !== "YOUR_PROFILE_IMAGE_URL") {
+                profileImg.src = PROFILE_IMAGE_URL;
+            } else {
+                // If no custom URL provided, show fallback icon
+                handleImageError();
+            }
+        });
 
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
