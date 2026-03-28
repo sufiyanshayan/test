@@ -606,12 +606,12 @@
         // Get current page name from URL
         function getCurrentPage() {
             const path = window.location.pathname;
-            // Remove leading slash and get first part
-            let pageName = path.replace('/', '').split('/')[0];
-            // If empty or index, treat as home
-            if (pageName === '' || pageName === 'index.html') {
+            // Check if it's home page (index.html or /)
+            if (path === '/' || path === '/index.html' || path === '') {
                 return 'home';
             }
+            // Remove leading slash and get first part
+            let pageName = path.replace('/', '').split('/')[0];
             return pageName;
         }
 
@@ -642,13 +642,16 @@
             
             // HOME PAGE LOGIC  
             if (page === 'home') {
-                // If already on home page, go to /home (this will refresh style navigation)
+                // If already on home page, go to main domain (yourdomain.com)
                 if (currentPage === 'home') {
-                    window.location.href = '/home';
+                    // Get the base domain (yourdomain.com)
+                    const baseUrl = window.location.protocol + '//' + window.location.host;
+                    window.location.href = baseUrl;
                     return;
                 }
-                // Otherwise navigate to home page
-                showLoaderAndNavigate('/home');
+                // Otherwise navigate to home page (main domain)
+                const baseUrl = window.location.protocol + '//' + window.location.host;
+                window.location.href = baseUrl;
                 return;
             }
             
