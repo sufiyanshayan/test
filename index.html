@@ -261,6 +261,7 @@
             transform: translateX(30px);
             animation: neonSlide 0.5s forwards;
             text-shadow: 0 0 8px rgba(255,255,255,0.3);
+            cursor: pointer;
         }
 
         .sidebar a:nth-child(4) { animation-delay: 0.07s; }
@@ -545,22 +546,22 @@
                 </div>
             </div>
 
-            <a onclick="go('home')">
+            <a onclick="navigateTo('home')">
                 <i class="fa-regular fa-crystal"></i> HOLO HOME
             </a>
-            <a onclick="go('test')">
+            <a onclick="navigateTo('test')">
                 <i class="fa-regular fa-flask"></i> TEST
             </a>
-            <a onclick="go('about')">
+            <a onclick="navigateTo('about')">
                 <i class="fa-regular fa-atom"></i> QUANTUM
             </a>
-            <a onclick="go('orbit')">
+            <a onclick="navigateTo('orbit')">
                 <i class="fa-regular fa-satellite"></i> ORBIT
             </a>
 
             <div class="divider"></div>
 
-            <a onclick="go('settings')">
+            <a onclick="navigateTo('settings')">
                 <i class="fa-regular fa-sliders"></i> SETTINGS
             </a>
         </div>
@@ -602,6 +603,60 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
+        // Get current page name from URL
+        function getCurrentPage() {
+            const path = window.location.pathname;
+            // Remove leading slash and get first part
+            let pageName = path.replace('/', '').split('/')[0];
+            // If empty or index, treat as home
+            if (pageName === '' || pageName === 'index.html') {
+                return 'home';
+            }
+            return pageName;
+        }
+
+        // Show loader and navigate
+        function showLoaderAndNavigate(url) {
+            const loader = document.getElementById('loader');
+            loader.classList.add('active');
+            setTimeout(() => {
+                window.location.href = url;
+            }, 600);
+        }
+
+        // Main navigation function with your requirements
+        function navigateTo(page) {
+            const currentPage = getCurrentPage();
+            
+            // TEST PAGE LOGIC
+            if (page === 'test') {
+                // If already on test page, refresh the page
+                if (currentPage === 'test') {
+                    window.location.reload();
+                    return;
+                }
+                // Otherwise navigate to test page
+                showLoaderAndNavigate('/test');
+                return;
+            }
+            
+            // HOME PAGE LOGIC  
+            if (page === 'home') {
+                // If already on home page, go to /home (this will refresh style navigation)
+                if (currentPage === 'home') {
+                    window.location.href = '/home';
+                    return;
+                }
+                // Otherwise navigate to home page
+                showLoaderAndNavigate('/home');
+                return;
+            }
+            
+            // FOR ALL OTHER PAGES (about, orbit, settings)
+            // Normal navigation with loader
+            showLoaderAndNavigate('/' + page);
+        }
+
         // colorful swipe gesture
         document.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
@@ -617,14 +672,6 @@
                 closeMenu();
             }
         }, { passive: true });
-
-        // navigation with loader
-        function go(page) {
-            document.getElementById('loader').classList.add('active');
-            setTimeout(() => {
-                window.location.href = page;
-            }, 600);
-        }
 
         // keyboard close
         document.addEventListener('keydown', e => {
