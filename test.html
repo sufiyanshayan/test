@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MD ABU SUFIYAN MRIDHA</title>
+    <title>Your_Name | Link in Bio</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -192,16 +192,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.6rem;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.5);
             overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.5);
         }
 
         .avatar-sidebar img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        /* যখন ইমেজ লোড না হয় তখন আইকন দেখাবে */
+        .avatar-sidebar .fallback-icon {
+            font-size: 1.6rem;
+            color: white;
         }
 
         .profile-text-sidebar h4 {
@@ -475,7 +479,7 @@
     <div class="app">
         <header>
             <div class="logo">
-                <i class="fas fa-crown"></i> MD ABU SUFIYAN MRIDHA SHAYAN
+                <i class="fas fa-crown"></i> Your_Name
             </div>
             <div class="menu-btn" onclick="openMenu()">
                 <div class="line"></div>
@@ -490,8 +494,8 @@
                 <i class="fas fa-times"></i>
             </div>
             <div class="profile-sidebar">
-                <div class="avatar-sidebar">
-                    <img src="https://via.placeholder.com/55x55?text=Profile" alt="Profile Picture" id="sidebarProfileImg">
+                <div class="avatar-sidebar" id="sidebarAvatar">
+                    <i class="fas fa-user-astronaut fallback-icon"></i>
                 </div>
                 <div class="profile-text-sidebar">
                     <h4>Your_Name</h4>
@@ -500,13 +504,13 @@
             </div>
             <div class="sidebar-buttons">
                 <a class="sidebar-link" onclick="goToPage('home')">
-                    <i class="fas fa-home"></i> HOME
+                    <i class="fas fa-home"></i> HOLO HOME
                 </a>
-                <a class="sidebar-link" onclick="goToPage('sufiyan_shayan')">
-                    <i class="fas fa-flask"></i> ABU SUFIYAN
+                <a class="sidebar-link" onclick="goToPage('test')">
+                    <i class="fas fa-flask"></i> TEST
                 </a>
                 <a class="sidebar-link" onclick="goToPage('about')">
-                    <i class="fas fa-atom"></i> ABOUT
+                    <i class="fas fa-atom"></i> QUANTUM
                 </a>
                 <a class="sidebar-link" onclick="goToPage('orbit')">
                     <i class="fas fa-satellite"></i> ORBIT
@@ -520,9 +524,9 @@
 
         <div class="main-content">
             <div class="profile-main">
-                <div class="profile-image">
-                    <!-- এখানে আপনার প্রোফাইল পিকচারের URL দিন -->
-                    <img src="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg" alt="Profile Picture" id="mainProfileImg">
+                <div class="profile-image" id="mainProfileImage">
+                    <img src="" alt="Profile Picture" id="mainProfileImg" style="display: none;">
+                    <i class="fas fa-user-astronaut" style="font-size: 3rem; color: white;"></i>
                 </div>
                 <h2>Your_Name</h2>
                 <div class="title">Your_Title</div>
@@ -657,28 +661,68 @@
     </div>
 
     <script>
+        // ==================== আপনার প্রোফাইল পিকচারের URL এখানে দিন ====================
+        // 👇👇👇 এই লাইনটিতে আপনার ইমেজ URL লিখুন 👇👇👇
+        const MY_PROFILE_PICTURE_URL = "https://via.placeholder.com/200/ff50a0/ffffff?text=Your+Photo";
+        
+        // যদি আপনার ইমেজ URL থাকে, তাহলে উপরের লাইনটি Replace করুন
+        // উদাহরণ: const MY_PROFILE_PICTURE_URL = "https://i.ibb.co/your-image.jpg";
+        // ============================================================================
+        
         // প্রোফাইল পিকচার সেট করার ফাংশন
         function setProfilePicture(imageUrl) {
-            // মেইন প্রোফাইল ইমেজ
-            const mainImg = document.getElementById('mainProfileImg');
-            if(mainImg) {
-                mainImg.src = imageUrl;
+            if (!imageUrl || imageUrl === "") {
+                console.log("No image URL provided");
+                return;
             }
             
-            // সাইডবার প্রোফাইল ইমেজ
-            const sidebarImg = document.getElementById('sidebarProfileImg');
-            if(sidebarImg) {
-                sidebarImg.src = imageUrl;
+            console.log("Setting profile picture:", imageUrl);
+            
+            // 1. মেইন প্রোফাইল ইমেজ সেট করা
+            const mainProfileDiv = document.getElementById('mainProfileImage');
+            const mainImg = document.getElementById('mainProfileImg');
+            const mainIcon = mainProfileDiv.querySelector('i');
+            
+            if (mainImg && mainProfileDiv) {
+                mainImg.src = imageUrl;
+                mainImg.onload = function() {
+                    // ইমেজ লোড হলে আইকন hide করে ইমেজ show করবে
+                    mainImg.style.display = 'block';
+                    if (mainIcon) mainIcon.style.display = 'none';
+                    console.log("Main profile image loaded successfully");
+                };
+                mainImg.onerror = function() {
+                    console.log("Failed to load main profile image");
+                    mainImg.style.display = 'none';
+                    if (mainIcon) mainIcon.style.display = 'flex';
+                };
+            }
+            
+            // 2. সাইডবার প্রোফাইল ইমেজ সেট করা
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            if (sidebarAvatar) {
+                // পুরনো কন্টেন্ট ক্লিয়ার করে নতুন ইমেজ অ্যাড করা
+                sidebarAvatar.innerHTML = '';
+                const newImg = document.createElement('img');
+                newImg.src = imageUrl;
+                newImg.alt = "Profile Picture";
+                newImg.onload = function() {
+                    console.log("Sidebar profile image loaded successfully");
+                };
+                newImg.onerror = function() {
+                    console.log("Failed to load sidebar image, showing fallback icon");
+                    sidebarAvatar.innerHTML = '<i class="fas fa-user-astronaut fallback-icon"></i>';
+                };
+                sidebarAvatar.appendChild(newImg);
             }
         }
         
-        // 👇 এখানে আপনার প্রোফাইল পিকচারের URL দিন
-        // আপনি এখানে আপনার ইমেজের URL লিখুন
-        const MY_PROFILE_PICTURE_URL = "https://via.placeholder.com/100x100?text=Your+Photo";
-        
-        // পেজ লোড হলে প্রোফাইল পিকচার সেট করবে
-        document.addEventListener('DOMContentLoaded', function() {
-            setProfilePicture(MY_PROFILE_PICTURE_URL);
+        // পেজ সম্পূর্ণ লোড হলে প্রোফাইল পিকচার সেট করবে
+        window.addEventListener('load', function() {
+            // একটু delay দিয়ে set করছি确保 DOM পুরোপুরি ready
+            setTimeout(function() {
+                setProfilePicture(MY_PROFILE_PICTURE_URL);
+            }, 100);
         });
         
         // URL ক্লিন করার ফাংশন - GLITCH ফ্রি
@@ -692,7 +736,7 @@
                 return;
             }
             
-            // অন্য .html সরানো - শুধু যদি .html থাকে
+            // অন্য .html সরানো
             if (currentPath.includes('.html') && !currentPath.includes('index.html')) {
                 let cleanUrl = currentUrl.replace(/\.html$/, '');
                 window.location.replace(cleanUrl);
@@ -729,7 +773,7 @@
             return '';
         }
 
-        // পেজ রিফ্রেশ করার ফাংশন (কোনো .html দেখা যাবে না)
+        // পেজ রিফ্রেশ করার ফাংশন
         function refreshCurrentPage() {
             let currentPage = getCurrentPage();
             if (currentPage === 'home') {
@@ -749,10 +793,8 @@
 
         // পেজে নিয়ে যাওয়ার ফাংশন
         function goToPage(pageName) {
-            // বর্তমান পেজ চেক করা
             let currentPage = getCurrentPage();
             
-            // যদি একই পেজে ক্লিক করে, তাহলে পেজ রিফ্রেশ করবে (GLITCH ফ্রি)
             if (currentPage === pageName) {
                 closeMenu();
                 showLoader();
@@ -762,7 +804,6 @@
                 return;
             }
             
-            // আলাদা পেজ হলে রিডাইরেক্ট করবে
             showLoader();
             
             setTimeout(function() {
