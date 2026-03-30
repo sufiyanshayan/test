@@ -520,34 +520,6 @@
         .particle:nth-child(4) { background: #ffa050; left: 70%; animation-duration: 18s; width: 3px; height: 3px; }
         .particle:nth-child(5) { background: #50a0ff; left: 90%; animation-duration: 22s; }
         .particle:nth-child(6) { background: #ff50ff; left: 20%; animation-duration: 30s; width: 8px; height: 8px; }
-        
-        /* Page content styles */
-        .page-content {
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Active menu item style */
-        .sidebar a.active {
-            background: #353549;
-            border-color: rgba(255,100,255,0.8);
-            box-shadow: 0 0 20px rgba(255,100,255,0.3);
-        }
-        
-        .sidebar a.active i {
-            color: #fff;
-            filter: drop-shadow(0 0 12px #ffa0ff);
-        }
     </style>
 </head>
 <body>
@@ -595,29 +567,42 @@
                 </div>
             </div>
 
-            <a onclick="navigateTo('home')" id="nav-home">
+            <a onclick="navigateTo('home')">
                 <i class="fa-regular fa-crystal"></i> HOME
             </a>
-            <a onclick="navigateTo('test')" id="nav-test">
-                <i class="fa-regular fa-flask"></i> TEST
+            <a onclick="navigateTo('login')">
+                <i class="fa-regular fa-flask"></i> LOGIN
             </a>
-            <a onclick="navigateTo('about')" id="nav-about">
+            <a onclick="navigateTo('about')">
                 <i class="fa-regular fa-atom"></i> QUANTUM
             </a>
-            <a onclick="navigateTo('orbit')" id="nav-orbit">
+            <a onclick="navigateTo('orbit')">
                 <i class="fa-regular fa-satellite"></i> ORBIT
             </a>
 
             <div class="divider"></div>
 
-            <a onclick="navigateTo('settings')" id="nav-settings">
+            <a onclick="navigateTo('settings')">
                 <i class="fa-regular fa-sliders"></i> SETTINGS
             </a>
         </div>
 
         <!-- Main Content -->
-        <div class="main" id="mainContent">
-            <!-- Content will be dynamically loaded here -->
+        <div class="main">
+            <div class="card">
+                <h2>Your_Name<br>Your_Title</h2>
+                <p>Your_Description</p>
+                
+                <div class="economy-chip">
+                    <i class="fa-regular fa-bolt"></i> WELCOME
+                </div>
+
+                <div class="gesture-hint">
+                    <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
+                    <i class="fa-regular fa-hand-back-point-left"></i>
+                </div>
+                <div class="cyber-status">✦ YOUR_NAME ✦</div>
+            </div>
         </div>
 
         <!-- Loader - SOLID -->
@@ -628,46 +613,6 @@
 
     <script>
         let touchStartX = 0;
-        let currentPage = 'home';
-        
-        // Page content definitions - আপনি এখানে যেকোনো পেজের কন্টেন্ট পরিবর্তন করতে পারেন
-        const pages = {
-            home: {
-                title: "Your_Name<br>Your_Title",
-                description: "Your_Description",
-                chipText: "WELCOME",
-                chipIcon: "fa-bolt",
-                statusText: "✦ YOUR_NAME ✦"
-            },
-            test: {
-                title: "TEST MODE<br>ACTIVE",
-                description: "Testing your quantum capabilities and holographic systems",
-                chipText: "TEST MODE",
-                chipIcon: "fa-flask",
-                statusText: "✦ TESTING ✦"
-            },
-            about: {
-                title: "QUANTUM<br>IDENTITY",
-                description: "Exploring the boundaries of digital consciousness and holographic existence",
-                chipText: "QUANTUM STATE",
-                chipIcon: "fa-atom",
-                statusText: "✦ QUANTUM ✦"
-            },
-            orbit: {
-                title: "ORBIT<br>SYSTEM",
-                description: "Tracking satellite trajectories and cosmic data streams",
-                chipText: "ORBIT ACTIVE",
-                chipIcon: "fa-satellite",
-                statusText: "✦ ORBITING ✦"
-            },
-            settings: {
-                title: "SETTINGS<br>CONFIG",
-                description: "Adjust your holographic parameters and system preferences",
-                chipText: "CONFIG MODE",
-                chipIcon: "fa-sliders",
-                statusText: "✦ SETTINGS ✦"
-            }
-        };
 
         // Profile Image Configuration
         const PROFILE_IMAGE_URL = "YOUR_PROFILE_IMAGE_URL";
@@ -685,139 +630,6 @@
             fallbackIcon.style.fontSize = '2.2rem';
         }
         
-        // Update active menu item
-        function updateActiveMenu(pageName) {
-            // Remove active class from all menu items
-            const menuItems = ['home', 'test', 'about', 'orbit', 'settings'];
-            menuItems.forEach(item => {
-                const element = document.getElementById(`nav-${item}`);
-                if (element) {
-                    element.classList.remove('active');
-                }
-            });
-            
-            // Add active class to current page menu item
-            const currentMenuItem = document.getElementById(`nav-${pageName}`);
-            if (currentMenuItem) {
-                currentMenuItem.classList.add('active');
-            }
-        }
-        
-        // Load page content
-        function loadPage(pageName) {
-            const page = pages[pageName];
-            if (!page) return;
-            
-            const mainContent = document.getElementById('mainContent');
-            
-            // Create the page content HTML
-            const contentHTML = `
-                <div class="card page-content">
-                    <h2>${page.title}</h2>
-                    <p>${page.description}</p>
-                    
-                    <div class="economy-chip">
-                        <i class="fa-regular ${page.chipIcon}"></i> ${page.chipText}
-                    </div>
-    
-                    <div class="gesture-hint">
-                        <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
-                        <i class="fa-regular fa-hand-back-point-left"></i>
-                    </div>
-                    <div class="cyber-status">${page.statusText}</div>
-                </div>
-            `;
-            
-            // Animate content change
-            mainContent.style.opacity = '0';
-            setTimeout(() => {
-                mainContent.innerHTML = contentHTML;
-                mainContent.style.opacity = '1';
-            }, 200);
-            
-            // Update current page
-            currentPage = pageName;
-            
-            // Update active menu item
-            updateActiveMenu(pageName);
-        }
-        
-        function openMenu() {
-            document.getElementById('sidebar').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        }
-
-        function closeMenu() {
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        }
-        
-        // Show loader function
-        function showLoader() {
-            const loader = document.getElementById('loader');
-            loader.classList.add('active');
-            setTimeout(() => {
-                loader.classList.remove('active');
-            }, 500);
-        }
-
-        // Main navigation function - আপনার রিকোয়ারমেন্ট অনুযায়ী
-        function navigateTo(page) {
-            closeMenu(); // Close sidebar after navigation
-            
-            // TEST PAGE LOGIC
-            if (page === 'test') {
-                // If already on test page, refresh the content (reload the same page content)
-                if (currentPage === 'test') {
-                    showLoader();
-                    setTimeout(() => {
-                        loadPage('test');
-                    }, 300);
-                    return;
-                }
-                // Otherwise load test page
-                showLoader();
-                setTimeout(() => {
-                    loadPage('test');
-                }, 300);
-                return;
-            }
-            
-            // HOME PAGE LOGIC  
-            if (page === 'home') {
-                // If already on home page, refresh the content (reload the same page content)
-                if (currentPage === 'home') {
-                    showLoader();
-                    setTimeout(() => {
-                        loadPage('home');
-                    }, 300);
-                    return;
-                }
-                // Otherwise load home page
-                showLoader();
-                setTimeout(() => {
-                    loadPage('home');
-                }, 300);
-                return;
-            }
-            
-            // FOR ALL OTHER PAGES (about, orbit, settings)
-            // Normal navigation with loader
-            if (currentPage === page) {
-                // If already on the same page, refresh it
-                showLoader();
-                setTimeout(() => {
-                    loadPage(page);
-                }, 300);
-            } else {
-                // Navigate to new page
-                showLoader();
-                setTimeout(() => {
-                    loadPage(page);
-                }, 300);
-            }
-        }
-
         // Set profile image on page load
         document.addEventListener('DOMContentLoaded', function() {
             const profileImg = document.getElementById('profileImg');
@@ -827,10 +639,71 @@
             } else {
                 handleImageError();
             }
-            
-            // Load home page by default
-            loadPage('home');
         });
+
+        function openMenu() {
+            document.getElementById('sidebar').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
+        function closeMenu() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Get current page name from URL path
+        function getCurrentPage() {
+            const path = window.location.pathname;
+            
+            // Check if it's home page
+            if (path === '/' || path === '/index.html' || path === '') {
+                return 'home';
+            }
+            
+            // Get the page name from path (remove leading slash and any query/hash)
+            let pageName = path.replace('/', '').split('/')[0].split('?')[0].split('#')[0];
+            
+            // Remove .html extension if present
+            if (pageName.endsWith('.html')) {
+                pageName = pageName.replace('.html', '');
+            }
+            
+            return pageName;
+        }
+
+        // Show loader animation
+        function showLoader() {
+            const loader = document.getElementById('loader');
+            loader.classList.add('active');
+            setTimeout(() => {
+                loader.classList.remove('active');
+            }, 600);
+        }
+
+        // Main navigation function - আপনার রিকোয়ারমেন্ট অনুযায়ী
+        function navigateTo(page) {
+            closeMenu(); // Close sidebar after clicking
+            const currentPage = getCurrentPage();
+            
+            // If current page matches the clicked button page, then refresh
+            if (currentPage === page) {
+                showLoader();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 300);
+                return;
+            }
+            
+            // Otherwise navigate to the new page
+            showLoader();
+            setTimeout(() => {
+                if (page === 'home') {
+                    window.location.href = '/';
+                } else {
+                    window.location.href = '/' + page;
+                }
+            }, 300);
+        }
 
         // colorful swipe gesture
         document.addEventListener('touchstart', e => {
