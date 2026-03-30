@@ -520,6 +520,34 @@
         .particle:nth-child(4) { background: #ffa050; left: 70%; animation-duration: 18s; width: 3px; height: 3px; }
         .particle:nth-child(5) { background: #50a0ff; left: 90%; animation-duration: 22s; }
         .particle:nth-child(6) { background: #ff50ff; left: 20%; animation-duration: 30s; width: 8px; height: 8px; }
+        
+        /* Page content styles */
+        .page-content {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Active menu item style */
+        .sidebar a.active {
+            background: #353549;
+            border-color: rgba(255,100,255,0.8);
+            box-shadow: 0 0 20px rgba(255,100,255,0.3);
+        }
+        
+        .sidebar a.active i {
+            color: #fff;
+            filter: drop-shadow(0 0 12px #ffa0ff);
+        }
     </style>
 </head>
 <body>
@@ -567,42 +595,29 @@
                 </div>
             </div>
 
-            <a onclick="navigateTo('home')">
-                <i class="fa-regular fa-crystal"></i> HOLO HOME
+            <a onclick="navigateTo('home')" id="nav-home">
+                <i class="fa-regular fa-crystal"></i> HOME
             </a>
-            <a onclick="navigateTo('test')">
-                <i class="fa-regular fa-flask"></i> TEST
+            <a onclick="navigateTo('login')" id="nav-login">
+                <i class="fa-regular fa-flask"></i> LOGIN
             </a>
-            <a onclick="navigateTo('about')">
+            <a onclick="navigateTo('about')" id="nav-about">
                 <i class="fa-regular fa-atom"></i> QUANTUM
             </a>
-            <a onclick="navigateTo('orbit')">
+            <a onclick="navigateTo('orbit')" id="nav-orbit">
                 <i class="fa-regular fa-satellite"></i> ORBIT
             </a>
 
             <div class="divider"></div>
 
-            <a onclick="navigateTo('settings')">
+            <a onclick="navigateTo('settings')" id="nav-settings">
                 <i class="fa-regular fa-sliders"></i> SETTINGS
             </a>
         </div>
 
         <!-- Main Content -->
-        <div class="main">
-            <div class="card">
-                <h2>Your_Name<br>Your_Title</h2>
-                <p>Your_Description</p>
-                
-                <div class="economy-chip">
-                    <i class="fa-regular fa-bolt"></i> WELCOME
-                </div>
-
-                <div class="gesture-hint">
-                    <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
-                    <i class="fa-regular fa-hand-back-point-left"></i>
-                </div>
-                <div class="cyber-status">✦ YOUR_NAME ✦</div>
-            </div>
+        <div class="main" id="mainContent">
+            <!-- Content will be dynamically loaded here -->
         </div>
 
         <!-- Loader - SOLID -->
@@ -613,18 +628,50 @@
 
     <script>
         let touchStartX = 0;
+        let currentPage = 'home';
+        
+        // Page content definitions - আপনি এখানে যেকোনো পেজের কন্টেন্ট পরিবর্তন করতে পারেন
+        const pages = {
+            home: {
+                title: "Your_Name<br>Your_Title",
+                description: "Your_Description",
+                chipText: "WELCOME",
+                chipIcon: "fa-bolt",
+                statusText: "✦ YOUR_NAME ✦"
+            },
+            test: {
+                title: "TEST MODE<br>ACTIVE",
+                description: "Testing your quantum capabilities and holographic systems",
+                chipText: "TEST MODE",
+                chipIcon: "fa-flask",
+                statusText: "✦ TESTING ✦"
+            },
+            about: {
+                title: "QUANTUM<br>IDENTITY",
+                description: "Exploring the boundaries of digital consciousness and holographic existence",
+                chipText: "QUANTUM STATE",
+                chipIcon: "fa-atom",
+                statusText: "✦ QUANTUM ✦"
+            },
+            orbit: {
+                title: "ORBIT<br>SYSTEM",
+                description: "Tracking satellite trajectories and cosmic data streams",
+                chipText: "ORBIT ACTIVE",
+                chipIcon: "fa-satellite",
+                statusText: "✦ ORBITING ✦"
+            },
+            settings: {
+                title: "SETTINGS<br>CONFIG",
+                description: "Adjust your holographic parameters and system preferences",
+                chipText: "CONFIG MODE",
+                chipIcon: "fa-sliders",
+                statusText: "✦ SETTINGS ✦"
+            }
+        };
 
         // Profile Image Configuration
-        // ===========================
-        // REPLACE THIS URL WITH YOUR ACTUAL PROFILE IMAGE URL
         const PROFILE_IMAGE_URL = "YOUR_PROFILE_IMAGE_URL";
         
-        // If you want to use a local image, use something like:
-        // const PROFILE_IMAGE_URL = "images/profile.jpg";
-        // Or for online image:
-        // const PROFILE_IMAGE_URL = "https://example.com/your-photo.jpg";
-        
-        // Handle image load error - shows fallback icon
         function handleImageError() {
             const img = document.getElementById('profileImg');
             const fallbackIcon = document.getElementById('fallbackIcon');
@@ -638,19 +685,63 @@
             fallbackIcon.style.fontSize = '2.2rem';
         }
         
-        // Set profile image on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const profileImg = document.getElementById('profileImg');
+        // Update active menu item
+        function updateActiveMenu(pageName) {
+            // Remove active class from all menu items
+            const menuItems = ['home', 'test', 'about', 'orbit', 'settings'];
+            menuItems.forEach(item => {
+                const element = document.getElementById(`nav-${item}`);
+                if (element) {
+                    element.classList.remove('active');
+                }
+            });
             
-            // If URL is not the default placeholder, set the image
-            if (PROFILE_IMAGE_URL && PROFILE_IMAGE_URL !== "YOUR_PROFILE_IMAGE_URL") {
-                profileImg.src = PROFILE_IMAGE_URL;
-            } else {
-                // If no custom URL provided, show fallback icon
-                handleImageError();
+            // Add active class to current page menu item
+            const currentMenuItem = document.getElementById(`nav-${pageName}`);
+            if (currentMenuItem) {
+                currentMenuItem.classList.add('active');
             }
-        });
-
+        }
+        
+        // Load page content
+        function loadPage(pageName) {
+            const page = pages[pageName];
+            if (!page) return;
+            
+            const mainContent = document.getElementById('mainContent');
+            
+            // Create the page content HTML
+            const contentHTML = `
+                <div class="card page-content">
+                    <h2>${page.title}</h2>
+                    <p>${page.description}</p>
+                    
+                    <div class="economy-chip">
+                        <i class="fa-regular ${page.chipIcon}"></i> ${page.chipText}
+                    </div>
+    
+                    <div class="gesture-hint">
+                        <i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT
+                        <i class="fa-regular fa-hand-back-point-left"></i>
+                    </div>
+                    <div class="cyber-status">${page.statusText}</div>
+                </div>
+            `;
+            
+            // Animate content change
+            mainContent.style.opacity = '0';
+            setTimeout(() => {
+                mainContent.innerHTML = contentHTML;
+                mainContent.style.opacity = '1';
+            }, 200);
+            
+            // Update current page
+            currentPage = pageName;
+            
+            // Update active menu item
+            updateActiveMenu(pageName);
+        }
+        
         function openMenu() {
             document.getElementById('sidebar').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -660,63 +751,86 @@
             document.getElementById('sidebar').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
         }
-
-        // Get current page name from URL
-        function getCurrentPage() {
-            const path = window.location.pathname;
-            // Check if it's home page (index.html or /)
-            if (path === '/' || path === '/index.html' || path === '') {
-                return 'home';
-            }
-            // Remove leading slash and get first part
-            let pageName = path.replace('/', '').split('/')[0];
-            return pageName;
-        }
-
-        // Show loader and navigate
-        function showLoaderAndNavigate(url) {
+        
+        // Show loader function
+        function showLoader() {
             const loader = document.getElementById('loader');
             loader.classList.add('active');
             setTimeout(() => {
-                window.location.href = url;
-            }, 600);
+                loader.classList.remove('active');
+            }, 500);
         }
 
-        // Main navigation function with your requirements
+        // Main navigation function - আপনার রিকোয়ারমেন্ট অনুযায়ী
         function navigateTo(page) {
-            const currentPage = getCurrentPage();
+            closeMenu(); // Close sidebar after navigation
             
             // TEST PAGE LOGIC
             if (page === 'test') {
-                // If already on test page, refresh the page
+                // If already on test page, refresh the content (reload the same page content)
                 if (currentPage === 'test') {
-                    window.location.reload();
+                    showLoader();
+                    setTimeout(() => {
+                        loadPage('test');
+                    }, 300);
                     return;
                 }
-                // Otherwise navigate to test page
-                showLoaderAndNavigate('/test');
+                // Otherwise load test page
+                showLoader();
+                setTimeout(() => {
+                    loadPage('test');
+                }, 300);
                 return;
             }
             
             // HOME PAGE LOGIC  
             if (page === 'home') {
-                // If already on home page, go to main domain (yourdomain.com)
+                // If already on home page, refresh the content (reload the same page content)
                 if (currentPage === 'home') {
-                    // Get the base domain (yourdomain.com)
-                    const baseUrl = window.location.protocol + '//' + window.location.host;
-                    window.location.href = baseUrl;
+                    showLoader();
+                    setTimeout(() => {
+                        loadPage('home');
+                    }, 300);
                     return;
                 }
-                // Otherwise navigate to home page (main domain)
-                const baseUrl = window.location.protocol + '//' + window.location.host;
-                window.location.href = baseUrl;
+                // Otherwise load home page
+                showLoader();
+                setTimeout(() => {
+                    loadPage('home');
+                }, 300);
                 return;
             }
             
             // FOR ALL OTHER PAGES (about, orbit, settings)
             // Normal navigation with loader
-            showLoaderAndNavigate('/' + page);
+            if (currentPage === page) {
+                // If already on the same page, refresh it
+                showLoader();
+                setTimeout(() => {
+                    loadPage(page);
+                }, 300);
+            } else {
+                // Navigate to new page
+                showLoader();
+                setTimeout(() => {
+                    loadPage(page);
+                }, 300);
+            }
         }
+
+        // Set profile image on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileImg = document.getElementById('profileImg');
+            
+            if (PROFILE_IMAGE_URL && PROFILE_IMAGE_URL !== "YOUR_PROFILE_IMAGE_URL") {
+                profileImg.src = PROFILE_IMAGE_URL;
+            } else {
+                handleImageError();
+            }
+            
+            // Load home page by default
+            loadPage('home');
+        });
 
         // colorful swipe gesture
         document.addEventListener('touchstart', e => {
