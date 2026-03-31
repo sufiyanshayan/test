@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delicious Bites Restaurant</title>
+<style>
+  /* ====== BASIC RESET ====== */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
+  body { background:#fff; color:#333; }
+  a { text-decoration:none; color:inherit; }
+
+  /* ====== HEADER ====== */
+  header {
+    background:#ff4d4d;
+    color:#fff;
+    padding:20px 0;
+    text-align:center;
+  }
+  header h1 { font-size:2.5em; margin-bottom:10px;}
+  header p { font-size:1.2em; }
+
+  /* ====== NAV ====== */
+  nav { background:#333; }
+  nav ul { list-style:none; display:flex; justify-content:center; }
+  nav ul li { margin:0 15px; }
+  nav ul li a { color:#fff; padding:15px 0; display:block; }
+
+  /* ====== SECTIONS ====== */
+  section { padding:60px 20px; max-width:1200px; margin:0 auto;}
+  h2 { text-align:center; margin-bottom:40px; font-size:2em; }
+
+  /* ====== MENU ====== */
+  .menu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+  .menu-item { border:1px solid #ddd; border-radius:10px; overflow:hidden; text-align:center; transition:0.3s; }
+  .menu-item:hover { transform:scale(1.05); }
+  .menu-item img { width:100%; height:200px; object-fit:cover; }
+  .menu-item h3 { margin:15px 0 5px; }
+  .menu-item p { margin-bottom:15px; font-weight:bold; color:#ff4d4d; }
+
+  /* ====== GALLERY ====== */
+  .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; }
+  .gallery img { width:100%; border-radius:10px; }
+
+  /* ====== CONTACT ====== */
+  .contact-form { max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:15px; }
+  .contact-form input, .contact-form textarea { padding:10px; border:1px solid #ccc; border-radius:5px; width:100%; }
+  .contact-form button { padding:12px; border:none; border-radius:5px; background:#ff4d4d; color:#fff; font-size:1em; cursor:pointer; }
+
+  /* ====== FOOTER ====== */
+  footer { text-align:center; padding:20px 0; background:#333; color:#fff; }
+  footer a { margin:0 10px; color:#ff4d4d; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <h1>Delicious Bites</h1>
+  <p>Best Food in Town</p>
+</header>
+
+<!-- NAVIGATION -->
+<nav>
+  <ul>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+</nav>
+
+<!-- MENU SECTION -->
+<section id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <img src="https://via.placeholder.com/300x200" alt="Dish 1">
+      <h3>Chicken Burger</h3>
+      <p>$8.99</p>
+    </div>
+    <div class="menu-item">
+      <img src="https://via.placeholder.com/300x200" alt="Dish 2">
+      <h3>Veggie Pizza</h3>
+      <p>$12.50</p>
+    </div>
+    <div class="menu-item">
+      <img src="https://via.placeholder.com/300x200" alt="Dish 3">
+      <h3>Pasta Alfredo</h3>
+      <p>$10.75</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY SECTION -->
+<section id="gallery">
+  <h2>Gallery</h2>
+  <div class="gallery">
+    <img src="https://via.placeholder.com/300x200" alt="Gallery 1">
+    <img src="https://via.placeholder.com/300x200" alt="Gallery 2">
+    <img src="https://via.placeholder.com/300x200" alt="Gallery 3">
+    <img src="https://via.placeholder.com/300x200" alt="Gallery 4">
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact">
+  <h2>Contact Us / Reservation</h2>
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <input type="tel" placeholder="Phone Number" required>
+    <textarea placeholder="Your Message" rows="5" required></textarea>
+    <button type="submit">Send Message</button>
+  </form>
+</section>
+
+<!-- LOCATION SECTION -->
+<section id="location">
+  <h2>Our Location</h2>
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.902914632962!2d90.39945251536266!3d23.810332684586704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755bf45b5f4b1a1%3A0x7f29f8e7c0a17d0a!2sDhaka!5e0!3m2!1sen!2sbd!4v1614690172525!5m2!1sen!2sbd" 
+    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Delicious Bites</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Twitter</a>
+</footer>
+
+</body>
+</html>
