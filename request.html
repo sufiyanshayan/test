@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Form to Gmail</title>
+<title>Secure Form</title>
 
 <style>
 body{
@@ -29,7 +29,7 @@ body{
 input{
     width:100%;
     padding:10px;
-    margin:5px 0;
+    margin:6px 0;
     border:none;
     border-radius:8px;
 }
@@ -41,6 +41,12 @@ button{
     border:none;
     border-radius:10px;
     color:white;
+    margin-top:8px;
+}
+
+.disabled{
+    opacity:0.5;
+    pointer-events:none;
 }
 </style>
 </head>
@@ -50,12 +56,14 @@ button{
 <div class="container">
 
 <!-- FORM -->
-<div class="box">
+<div class="box" id="formBox">
 <h3>Submit Your Links</h3>
 
 <form id="form">
 
 <input type="email" id="email" placeholder="Your Email" required>
+<input type="text" id="profile" placeholder="Profile Picture Link">
+
 <input type="text" id="facebook" placeholder="Facebook">
 <input type="text" id="instagram" placeholder="Instagram">
 <input type="text" id="tiktok" placeholder="TikTok">
@@ -64,6 +72,8 @@ button{
 <button type="submit">Submit</button>
 
 </form>
+
+<p id="msg"></p>
 </div>
 
 <!-- LOGIN -->
@@ -80,58 +90,75 @@ button{
 </div>
 
 <script>
-// login system
+// USER DATABASE
 const users = {
     "admin":"1234",
-    "user1":"1111"
+    "user1":"1111",
+    "user2":"2222"
 };
 
-function login(){
-    let u = document.getElementById("loginUser").value;
-    let p = document.getElementById("loginPass").value;
+// form disable by default
+const formBox = document.getElementById("formBox");
 
-    if(users[u] && users[u] === p){
-        localStorage.setItem("user", u);
-        alert("Login Success");
+function checkLogin(){
+    if(!localStorage.getItem("user")){
+        formBox.classList.add("disabled");
     } else {
-        alert("Wrong login");
+        formBox.classList.remove("disabled");
     }
 }
 
-function logout(){
-    localStorage.removeItem("user");
+// LOGIN
+function login(){
+    let u = document.getElementById("loginUser").value.trim();
+    let p = document.getElementById("loginPass").value.trim();
+
+    if(users[u] && users[u] === p){
+        localStorage.setItem("user", u);
+        document.getElementById("msg").innerText = "Login Successful ✅";
+        checkLogin();
+    } else {
+        document.getElementById("msg").innerText = "Wrong Login ❌";
+    }
 }
 
-// form submit
+// LOGOUT
+function logout(){
+    localStorage.removeItem("user");
+    document.getElementById("msg").innerText = "Logged out";
+    checkLogin();
+}
+
+// SUBMIT CONTROL
 document.getElementById("form").addEventListener("submit", function(e){
     e.preventDefault();
 
-    if(!localStorage.getItem("user")){
-        alert("Login first!");
+    let user = localStorage.getItem("user");
+
+    if(!user){
+        document.getElementById("msg").innerText = "Login required ❌";
         return;
     }
 
     let email = document.getElementById("email").value;
-    let fb = document.getElementById("facebook").value;
-    let ig = document.getElementById("instagram").value;
-    let tt = document.getElementById("tiktok").value;
-    let web = document.getElementById("website").value;
+    let facebook = document.getElementById("facebook").value;
+    let instagram = document.getElementById("instagram").value;
 
-    let body =
-`New Submission:
+    let body = `
+User: ${user}
+Email: ${email}
 
-User Email: ${email}
-
-Facebook: ${fb}
-Instagram: ${ig}
-TikTok: ${tt}
-Website: ${web}
+Facebook: ${facebook}
+Instagram: ${instagram}
 `;
 
-    let gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=YOUR_EMAIL@gmail.com&su=New Submission&body=${encodeURIComponent(body)}`;
+    let url = `https://mail.google.com/mail/?view=cm&fs=1&to=YOUR_EMAIL@gmail.com&su=Submission&body=${encodeURIComponent(body)}`;
 
-    window.open(gmailURL, "_blank");
+    window.open(url, "_blank");
 });
+
+// run on load
+checkLogin();
 </script>
 
 </body>
