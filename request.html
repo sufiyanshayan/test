@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Submit Form</title>
+<title>Form to Gmail</title>
 
 <style>
 body{
@@ -26,10 +26,6 @@ body{
     margin-bottom:20px;
 }
 
-h3{
-    text-align:center;
-}
-
 input{
     width:100%;
     padding:10px;
@@ -45,7 +41,6 @@ button{
     border:none;
     border-radius:10px;
     color:white;
-    margin-top:8px;
 }
 </style>
 </head>
@@ -54,42 +49,24 @@ button{
 
 <div class="container">
 
-<!-- 🔥 FORM -->
+<!-- FORM -->
 <div class="box">
 <h3>Submit Your Links</h3>
 
-<form id="form" action="https://formsubmit.co/inyt_444@outlook.com" method="POST">
+<form id="form">
 
-<!-- USER EMAIL -->
-<input type="email" name="email" placeholder="Your Email" required>
-
-<!-- YOUR FIELDS -->
-<input type="text" name="profile_pic" placeholder="Profile Picture Link">
-
-<input type="text" name="facebook" placeholder="Facebook">
-<input type="text" name="facebook_page" placeholder="Facebook Page">
-<input type="text" name="instagram" placeholder="Instagram">
-<input type="text" name="whatsapp" placeholder="WhatsApp">
-<input type="text" name="tiktok" placeholder="TikTok">
-<input type="text" name="telegram" placeholder="Telegram">
-<input type="text" name="twitter" placeholder="Twitter (X)">
-<input type="text" name="call" placeholder="Phone Number">
-<input type="text" name="about" placeholder="About">
-<input type="text" name="website" placeholder="Website">
-
-<!-- HIDDEN SETTINGS -->
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_subject" value="New User Submission">
-<input type="hidden" name="_template" value="table">
+<input type="email" id="email" placeholder="Your Email" required>
+<input type="text" id="facebook" placeholder="Facebook">
+<input type="text" id="instagram" placeholder="Instagram">
+<input type="text" id="tiktok" placeholder="TikTok">
+<input type="text" id="website" placeholder="Website">
 
 <button type="submit">Submit</button>
 
 </form>
-
-<p id="msg" style="text-align:center;"></p>
 </div>
 
-<!-- 🔐 LOGIN -->
+<!-- LOGIN -->
 <div class="box">
 <h3>Login</h3>
 
@@ -103,41 +80,57 @@ button{
 </div>
 
 <script>
-// 🔐 USER DATABASE
+// login system
 const users = {
-    "admin":"admin",
-    "user1":"1111",
-    "user2":"2222"
+    "admin":"1234",
+    "user1":"1111"
 };
 
-// LOGIN
 function login(){
-    let u = document.getElementById("loginUser").value.trim();
-    let p = document.getElementById("loginPass").value.trim();
+    let u = document.getElementById("loginUser").value;
+    let p = document.getElementById("loginPass").value;
 
     if(users[u] && users[u] === p){
         localStorage.setItem("user", u);
-        alert("Login Successful ✅");
+        alert("Login Success");
     } else {
-        alert("Wrong Username or Password ❌");
+        alert("Wrong login");
     }
 }
 
-// LOGOUT
 function logout(){
     localStorage.removeItem("user");
-    alert("Logged out 🚪");
 }
 
-// SUBMIT CONTROL
+// form submit
 document.getElementById("form").addEventListener("submit", function(e){
+    e.preventDefault();
 
     if(!localStorage.getItem("user")){
-        e.preventDefault();
-        alert("Login required ❌");
+        alert("Login first!");
         return;
     }
 
+    let email = document.getElementById("email").value;
+    let fb = document.getElementById("facebook").value;
+    let ig = document.getElementById("instagram").value;
+    let tt = document.getElementById("tiktok").value;
+    let web = document.getElementById("website").value;
+
+    let body =
+`New Submission:
+
+User Email: ${email}
+
+Facebook: ${fb}
+Instagram: ${ig}
+TikTok: ${tt}
+Website: ${web}
+`;
+
+    let gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=YOUR_EMAIL@gmail.com&su=New Submission&body=${encodeURIComponent(body)}`;
+
+    window.open(gmailURL, "_blank");
 });
 </script>
 
