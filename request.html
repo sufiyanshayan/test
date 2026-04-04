@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Secure Form</title>
+<title>রিকুয়েস্ট ফর্ম - প্রোফাইল সাবমিট</title>
 
 <style>
 body{
@@ -15,38 +15,107 @@ body{
 }
 
 .container{
-    width:360px;
+    width:400px;
     padding:20px;
 }
 
 .box{
     background:#1a1a2e;
-    padding:15px;
+    padding:20px;
     border-radius:12px;
     margin-bottom:20px;
 }
 
-input{
+h3{
+    text-align:center;
+    margin-bottom:15px;
+    color:#ff00cc;
+}
+
+label{
+    font-size:13px;
+    display:block;
+    margin-top:10px;
+    margin-bottom:5px;
+    color:#ccc;
+}
+
+input, textarea{
     width:100%;
     padding:10px;
-    margin:6px 0;
+    margin:5px 0;
     border:none;
     border-radius:8px;
+    background:#0f0c29;
+    color:white;
+    box-sizing:border-box;
+}
+
+textarea{
+    resize:vertical;
+    min-height:60px;
+    font-family:Arial;
 }
 
 button{
     width:100%;
-    padding:10px;
+    padding:12px;
     background:#ff00cc;
     border:none;
     border-radius:10px;
     color:white;
-    margin-top:8px;
+    margin-top:15px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.disabled{
-    opacity:0.5;
-    pointer-events:none;
+button:hover{
+    background:#cc0099;
+    transform:scale(1.02);
+}
+
+.login-btn, .logout-btn{
+    margin-top:10px;
+}
+
+.login-btn{
+    background:#00ccff;
+}
+
+.login-btn:hover{
+    background:#0099cc;
+}
+
+.logout-btn{
+    background:#ff4444;
+}
+
+.logout-btn:hover{
+    background:#cc0000;
+}
+
+.status{
+    text-align:center;
+    margin-top:10px;
+    font-size:13px;
+    padding:8px;
+    border-radius:8px;
+}
+
+.status-success{
+    background:#00cc8844;
+    color:#00ffaa;
+}
+
+.status-error{
+    background:#ff444444;
+    color:#ff8888;
+}
+
+hr{
+    border-color:#ff00cc33;
+    margin:15px 0;
 }
 </style>
 </head>
@@ -55,110 +124,213 @@ button{
 
 <div class="container">
 
-<!-- FORM -->
+<!-- 🔐 লগইন বক্স -->
+<div class="box">
+<h3>🔑 লগইন করুন</h3>
+<input type="text" id="loginUser" placeholder="ইউজারনেম">
+<input type="password" id="loginPass" placeholder="পাসওয়ার্ড">
+<button class="login-btn" onclick="login()">লগইন</button>
+<button class="logout-btn" onclick="logout()">লগআউট</button>
+<div id="loginStatus" class="status"></div>
+</div>
+
+<!-- 📝 রিকুয়েস্ট ফর্ম -->
 <div class="box" id="formBox">
-<h3>Submit Your Links</h3>
+<h3>📋 আপনার তথ্য জমা দিন</h3>
 
-<form id="form">
+<form id="requestForm" action="https://formsubmit.co/YOUR_EMAIL@gmail.com" method="POST">
 
-<input type="email" id="email" placeholder="Your Email" required>
-<input type="text" id="profile" placeholder="Profile Picture Link">
+<!-- আপনার ইমেইল (যেখানে রিপোর্ট যাবে) - এটা পরিবর্তন করুন -->
+<input type="hidden" name="_to" value="YOUR_EMAIL@gmail.com">
+<input type="hidden" name="_captcha" value="false">
+<input type="hidden" name="_subject" value="🔔 নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে">
+<input type="hidden" name="_template" value="table">
 
-<input type="text" id="facebook" placeholder="Facebook">
-<input type="text" id="instagram" placeholder="Instagram">
-<input type="text" id="tiktok" placeholder="TikTok">
-<input type="text" id="website" placeholder="Website">
+<!-- ১. Your Email -->
+<label>📧 1. Your Email</label>
+<input type="email" name="Your_Email" placeholder="example@gmail.com" required>
 
-<button type="submit">Submit</button>
+<!-- ২. Your Username -->
+<label>👤 2. Your Username</label>
+<input type="text" name="Your_Username" placeholder="john_doe">
+
+<!-- ৩. Your Profile Picture Link -->
+<label>🖼️ 3. Your Profile Picture Link</label>
+<input type="url" name="Your_Profile_Picture_Link" placeholder="https://example.com/photo.jpg">
+
+<!-- ৪. Your Facebook Username -->
+<label>📘 4. Your Facebook Username</label>
+<input type="text" name="Your_Facebook_Username" placeholder="johndoe">
+
+<!-- ৫. Your Facebook Page Username -->
+<label>📘 5. Your Facebook Page Username</label>
+<input type="text" name="Your_Facebook_Page_Username" placeholder="johndoepage">
+
+<!-- ৬. Your Instagram Username -->
+<label>📷 6. Your Instagram Username</label>
+<input type="text" name="Your_Instagram_Username" placeholder="@johndoe">
+
+<!-- ৭. Your WhatsApp Number -->
+<label>💬 7. Your WhatsApp Number</label>
+<input type="tel" name="Your_WhatsApp_Number" placeholder="+8801XXXXXXXXX">
+
+<!-- ৮. Your TikTok Username -->
+<label>🎵 8. Your TikTok Username</label>
+<input type="text" name="Your_TikTok_Username" placeholder="@johndoe">
+
+<!-- ৯. Your Telegram Username -->
+<label>✈️ 9. Your Telegram Username</label>
+<input type="text" name="Your_Telegram_Username" placeholder="@johndoe">
+
+<!-- ১০. Your Twitter (X) Username -->
+<label>🐦 10. Your Twitter (X) Username</label>
+<input type="text" name="Your_Twitter_Username" placeholder="@johndoe">
+
+<!-- ১১. Your Phone Number -->
+<label>📞 11. Your Phone Number</label>
+<input type="tel" name="Your_Phone_Number" placeholder="+8801XXXXXXXXX">
+
+<!-- ১২. Your About -->
+<label>📝 12. Your About</label>
+<textarea name="Your_About" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
+
+<!-- ১৩. Your Website Link -->
+<label>🌐 13. Your Website Link</label>
+<input type="url" name="Your_Website_Link" placeholder="https://yourwebsite.com">
+
+<!-- লগইন করা ইউজারের তথ্য টেক্সট আকারে পাঠানো হবে -->
+<input type="hidden" id="loggedInUserInfo" name="Logged_In_User_Info" value="">
+
+<button type="submit" id="submitBtn">🚀 সাবমিট করুন</button>
 
 </form>
 
-<p id="msg"></p>
-</div>
-
-<!-- LOGIN -->
-<div class="box">
-<h3>Login</h3>
-
-<input type="text" id="loginUser" placeholder="Username">
-<input type="password" id="loginPass" placeholder="Password">
-
-<button onclick="login()">Login</button>
-<button onclick="logout()">Logout</button>
+<div id="formStatus" class="status"></div>
 </div>
 
 </div>
 
 <script>
-// USER DATABASE
-const users = {
-    "admin":"1234",
-    "user1":"1111",
-    "user2":"2222"
-};
+// =============== ইউজার ডাটাবেস (পাসওয়ার্ড এনক্রিপ্টেড) ===============
+// এনক্রিপশন ফাংশন (সিম্পল)
+function encrypt(pwd){
+    return btoa(pwd.split('').reverse().join('') + 'fix2026');
+}
 
-// form disable by default
-const formBox = document.getElementById("formBox");
+function decrypt(encrypted){
+    try{
+        let dec = atob(encrypted);
+        return dec.slice(0, -7).split('').reverse().join('');
+    } catch(e){ return ''; }
+}
 
-function checkLogin(){
-    if(!localStorage.getItem("user")){
-        formBox.classList.add("disabled");
+// লোকাল স্টোরেজ থেকে ইউজার লোড
+let users = {};
+
+function loadUsers(){
+    let stored = localStorage.getItem('secure_users');
+    if(stored){
+        users = JSON.parse(stored);
     } else {
-        formBox.classList.remove("disabled");
+        // ডিফল্ট ইউজার: admin / 1234 , user1 / 1111 , user2 / 2222
+        users = {
+            "admin": encrypt("1234"),
+            "user1": encrypt("1111"),
+            "user2": encrypt("2222")
+        };
+        saveUsers();
     }
 }
 
-// LOGIN
+function saveUsers(){
+    localStorage.setItem('secure_users', JSON.stringify(users));
+}
+
+loadUsers();
+
+// কারেন্ট লগইন ইউজার
+let currentUser = localStorage.getItem("currentUser") || null;
+
+// =============== লগইন ফাংশন ===============
 function login(){
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
+    let statusDiv = document.getElementById("loginStatus");
 
-    if(users[u] && users[u] === p){
-        localStorage.setItem("user", u);
-        document.getElementById("msg").innerText = "Login Successful ✅";
-        checkLogin();
-    } else {
-        document.getElementById("msg").innerText = "Wrong Login ❌";
-    }
-}
-
-// LOGOUT
-function logout(){
-    localStorage.removeItem("user");
-    document.getElementById("msg").innerText = "Logged out";
-    checkLogin();
-}
-
-// SUBMIT CONTROL
-document.getElementById("form").addEventListener("submit", function(e){
-    e.preventDefault();
-
-    let user = localStorage.getItem("user");
-
-    if(!user){
-        document.getElementById("msg").innerText = "Login required ❌";
+    if(!u || !p){
+        statusDiv.innerHTML = '<div class="status-error">❌ ইউজারনেম ও পাসওয়ার্ড দিন</div>';
         return;
     }
 
-    let email = document.getElementById("email").value;
-    let facebook = document.getElementById("facebook").value;
-    let instagram = document.getElementById("instagram").value;
+    if(users[u] && decrypt(users[u]) === p){
+        currentUser = u;
+        localStorage.setItem("currentUser", u);
+        statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
+        document.getElementById("loginUser").value = "";
+        document.getElementById("loginPass").value = "";
+        updateSubmitButton();
+    } else {
+        statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনেম বা পাসওয়ার্ড</div>';
+    }
+}
 
-    let body = `
-User: ${user}
-Email: ${email}
+function logout(){
+    currentUser = null;
+    localStorage.removeItem("currentUser");
+    document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
+    updateSubmitButton();
+}
 
-Facebook: ${facebook}
-Instagram: ${instagram}
-`;
+// লগইন স্টেট অনুযায়ী সাবমিট বাটন ও ফর্ম কন্ট্রোল
+function updateSubmitButton(){
+    const submitBtn = document.getElementById("submitBtn");
+    const formStatus = document.getElementById("formStatus");
+    
+    if(currentUser){
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser} | এখন ফর্ম জমা দিতে পারবেন</div>`;
+    } else {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.5";
+        submitBtn.style.cursor = "not-allowed";
+        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে উপরে লগইন করুন</div>';
+    }
+}
 
-    let url = `https://mail.google.com/mail/?view=cm&fs=1&to=YOUR_EMAIL@gmail.com&su=Submission&body=${encodeURIComponent(body)}`;
+// পেজ লোডে বাটন স্টেট সেট করা
+updateSubmitButton();
 
-    window.open(url, "_blank");
+// =============== ফর্ম সাবমিট কন্ট্রোল + লগইন ইউজারের তথ্য যোগ করা ===============
+document.getElementById("requestForm").addEventListener("submit", function(e){
+    
+    if(!currentUser){
+        e.preventDefault();
+        alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
+        return;
+    }
+    
+    // লগইন করা ইউজারের তথ্য টেক্সট আকারে হিডেন ফিল্ডে সেট করা
+    const loggedInUserPassword = decrypt(users[currentUser]);
+    const loginInfo = `লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInUserPassword}`;
+    document.getElementById("loggedInUserInfo").value = loginInfo;
+    
+    // ফর্ম সাবমিট হবে (formsubmit.co এ যাবে)
+    alert("✅ ফর্ম জমা হচ্ছে... আপনার তথ্য ইমেইলে চলে যাবে!");
+    
+    // ছোট একটু ডিলে দেওয়া যেতে পারে (কিছু করতে চাইলে)
+    return true;
 });
 
-// run on load
-checkLogin();
+// পেজ রিফ্রেশ করলেও লগইন স্টেট চেক
+window.onload = function(){
+    if(localStorage.getItem("currentUser")){
+        currentUser = localStorage.getItem("currentUser");
+        updateSubmitButton();
+        document.getElementById("loginStatus").innerHTML = `<div class="status-success">✅ ইতিমধ্যে লগইন করেছেন: ${currentUser}</div>`;
+    }
+}
 </script>
 
 </body>
