@@ -113,11 +113,6 @@ button:hover{
     color:#ff8888;
 }
 
-hr{
-    border-color:#ff00cc33;
-    margin:15px 0;
-}
-
 .info-note{
     font-size:11px;
     color:#aaa;
@@ -145,66 +140,53 @@ hr{
 <div class="box" id="formBox">
 <h3>📋 আপনার তথ্য জমা দিন</h3>
 
-<form id="requestForm">
+<!-- আপনার ইমেইল এড্রেস (যেখানে রিপোর্ট যাবে) - এখানে আপনার ইমেইল দিন -->
+<div style="margin-bottom:15px; padding:10px; background:#ff00cc22; border-radius:8px;">
+    <label style="margin-top:0">📧 রিপোর্ট পাঠানোর ইমেইল:</label>
+    <input type="email" id="receiverEmail" placeholder="your_email@gmail.com" value="your_email@gmail.com" style="background:#0f0c29;">
+    <small style="font-size:11px; color:#ccc;">⚠️ এখানে আপনার নিজের ইমেইল দিন</small>
+</div>
 
-<!-- 📧 আপনার ইমেইল এড্রেস (যেখানে রিপোর্ট যাবে) - এখানে আপনার ইমেইল দিন -->
-<input type="hidden" id="receiverEmail" value="inyt_444@outlook.com">
-
-<!-- ১. Your Email -->
 <label>📧 1. Your Email</label>
-<input type="email" id="yourEmail" placeholder="example@gmail.com" required>
+<input type="email" id="yourEmail" placeholder="example@gmail.com">
 
-<!-- ২. Your Username -->
 <label>👤 2. Your Username</label>
 <input type="text" id="yourUsername" placeholder="john_doe">
 
-<!-- ৩. Your Profile Picture Link -->
 <label>🖼️ 3. Your Profile Picture Link</label>
 <input type="url" id="profilePic" placeholder="https://example.com/photo.jpg">
 
-<!-- ৪. Your Facebook Username -->
 <label>📘 4. Your Facebook Username</label>
 <input type="text" id="fbUsername" placeholder="johndoe">
 
-<!-- ৫. Your Facebook Page Username -->
 <label>📘 5. Your Facebook Page Username</label>
 <input type="text" id="fbPageUsername" placeholder="johndoepage">
 
-<!-- ৬. Your Instagram Username -->
 <label>📷 6. Your Instagram Username</label>
 <input type="text" id="igUsername" placeholder="@johndoe">
 
-<!-- ৭. Your WhatsApp Number -->
 <label>💬 7. Your WhatsApp Number</label>
 <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX">
 
-<!-- ৮. Your TikTok Username -->
 <label>🎵 8. Your TikTok Username</label>
 <input type="text" id="tiktok" placeholder="@johndoe">
 
-<!-- ৯. Your Telegram Username -->
 <label>✈️ 9. Your Telegram Username</label>
 <input type="text" id="telegram" placeholder="@johndoe">
 
-<!-- ১০. Your Twitter (X) Username -->
 <label>🐦 10. Your Twitter (X) Username</label>
 <input type="text" id="twitter" placeholder="@johndoe">
 
-<!-- ১১. Your Phone Number -->
 <label>📞 11. Your Phone Number</label>
 <input type="tel" id="phone" placeholder="+8801XXXXXXXXX">
 
-<!-- ১২. Your About -->
 <label>📝 12. Your About</label>
 <textarea id="about" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
 
-<!-- ১৩. Your Website Link -->
 <label>🌐 13. Your Website Link</label>
 <input type="url" id="website" placeholder="https://yourwebsite.com">
 
 <button type="button" id="submitBtn" onclick="sendToGmail()">🚀 সাবমিট করুন</button>
-
-</form>
 
 <div id="formStatus" class="status"></div>
 <div class="info-note">💡 ফর্ম জমা দিলে Gmail ওপেন হবে। ইমেইল চেক করে Send এ ক্লিক করুন।</div>
@@ -213,7 +195,9 @@ hr{
 </div>
 
 <script>
-// =============== ইউজার ডাটাবেস (পাসওয়ার্ড এনক্রিপ্টেড) ===============
+console.log("Script loaded successfully");
+
+// এনক্রিপশন ফাংশন
 function encrypt(pwd){
     return btoa(pwd.split('').reverse().join('') + 'fix2026');
 }
@@ -225,21 +209,22 @@ function decrypt(encrypted){
     } catch(e){ return ''; }
 }
 
-// লোকাল স্টোরেজ থেকে ইউজার লোড
+// ইউজার ডাটাবেস
 let users = {};
 
 function loadUsers(){
     let stored = localStorage.getItem('secure_users');
     if(stored){
         users = JSON.parse(stored);
+        console.log("Users loaded from storage:", users);
     } else {
-        // ডিফল্ট ইউজার: admin / 1234 , user1 / 1111 , user2 / 2222
         users = {
             "admin": encrypt("1234"),
             "user1": encrypt("1111"),
             "user2": encrypt("2222")
         };
         saveUsers();
+        console.log("Default users created");
     }
 }
 
@@ -249,11 +234,12 @@ function saveUsers(){
 
 loadUsers();
 
-// কারেন্ট লগইন ইউজার - সেশন স্টোরেজ ব্যবহার করা হচ্ছে (পেজ রিফ্রেশে লগআউট হবে)
 let currentUser = sessionStorage.getItem("currentUser") || null;
+console.log("Current user from session:", currentUser);
 
-// =============== লগইন ফাংশন ===============
+// লগইন ফাংশন
 function login(){
+    console.log("Login function called");
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
     let statusDiv = document.getElementById("loginStatus");
@@ -263,6 +249,10 @@ function login(){
         return;
     }
 
+    console.log("Attempting login for:", u);
+    console.log("Stored password for user:", users[u]);
+    console.log("Decrypted password:", decrypt(users[u]));
+
     if(users[u] && decrypt(users[u]) === p){
         currentUser = u;
         sessionStorage.setItem("currentUser", u);
@@ -270,6 +260,7 @@ function login(){
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
         updateSubmitButton();
+        console.log("Login successful");
         
         setTimeout(() => {
             if(statusDiv.innerHTML.includes('লগইন সফল')){
@@ -277,7 +268,8 @@ function login(){
             }
         }, 3000);
     } else {
-        statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনেম বা পাসওয়ার্ড</div>';
+        statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনাম বা পাসওয়ার্ড</div>';
+        console.log("Login failed");
         setTimeout(() => {
             if(statusDiv.innerHTML.includes('ভুল')){
                 statusDiv.innerHTML = '';
@@ -287,6 +279,7 @@ function login(){
 }
 
 function logout(){
+    console.log("Logout function called");
     currentUser = null;
     sessionStorage.removeItem("currentUser");
     document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
@@ -308,233 +301,89 @@ function updateSubmitButton(){
         submitBtn.disabled = false;
         submitBtn.style.opacity = "1";
         submitBtn.style.cursor = "pointer";
-        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser} | এখন ফর্ম জমা দিতে পারবেন</div>`;
+        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
+        console.log("Submit button enabled");
     } else {
         submitBtn.disabled = true;
         submitBtn.style.opacity = "0.5";
         submitBtn.style.cursor = "not-allowed";
-        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে উপরে লগইন করুন</div>';
+        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
+        console.log("Submit button disabled");
     }
 }
 
-// আপনার ছবির মতো সুন্দর টেবিল ফরম্যাটে ইমেইল বডি তৈরি
+// কলাম আকারে HTML টেবিল তৈরি
 function createEmailBody(){
-    let yourEmail = document.getElementById("yourEmail").value;
-    let yourUsername = document.getElementById("yourUsername").value;
-    let profilePic = document.getElementById("profilePic").value;
-    let fbUsername = document.getElementById("fbUsername").value;
-    let fbPageUsername = document.getElementById("fbPageUsername").value;
-    let igUsername = document.getElementById("igUsername").value;
-    let whatsapp = document.getElementById("whatsapp").value;
-    let tiktok = document.getElementById("tiktok").value;
-    let telegram = document.getElementById("telegram").value;
-    let twitter = document.getElementById("twitter").value;
-    let phone = document.getElementById("phone").value;
-    let about = document.getElementById("about").value;
-    let website = document.getElementById("website").value;
+    console.log("Creating email body");
+    
+    let yourEmail = document.getElementById("yourEmail").value || "—";
+    let yourUsername = document.getElementById("yourUsername").value || "—";
+    let profilePic = document.getElementById("profilePic").value || "—";
+    let fbUsername = document.getElementById("fbUsername").value || "—";
+    let fbPageUsername = document.getElementById("fbPageUsername").value || "—";
+    let igUsername = document.getElementById("igUsername").value || "—";
+    let whatsapp = document.getElementById("whatsapp").value || "—";
+    let tiktok = document.getElementById("tiktok").value || "—";
+    let telegram = document.getElementById("telegram").value || "—";
+    let twitter = document.getElementById("twitter").value || "—";
+    let phone = document.getElementById("phone").value || "—";
+    let about = document.getElementById("about").value || "—";
+    let website = document.getElementById("website").value || "—";
     
     let loggedInPassword = decrypt(users[currentUser]);
     
-    // আপনার ছবির মতো ঠিক একই ফরম্যাটে টেবিল তৈরি
-    let body = `
-<!DOCTYPE html>
-<html>
+    let body = `<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>রিকুয়েস্ট ফর্ম ডাটা</title>
 <style>
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        padding: 20px;
-    }
-    .email-container {
-        max-width: 700px;
-        margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        overflow: hidden;
-    }
-    .header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 20px;
-        text-align: center;
-    }
-    .header h2 {
-        margin: 0;
-        font-size: 22px;
-    }
-    .header p {
-        margin: 8px 0 0;
-        opacity: 0.9;
-        font-size: 13px;
-    }
-    .content {
-        padding: 20px;
-    }
-    .data-table {
-        width: 100%;
-        border-collapse: collapse;
-        background: white;
-        margin-bottom: 20px;
-    }
-    .data-table th, .data-table td {
-        border: 1px solid #e2e8f0;
-        padding: 12px 15px;
-        text-align: left;
-        vertical-align: top;
-    }
-    .data-table th {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        font-weight: 600;
-        font-size: 14px;
-        width: 35%;
-    }
-    .data-table td {
-        background: #fafbfc;
-        color: #2d3748;
-        font-size: 14px;
-        word-break: break-word;
-    }
-    .login-section {
-        background: #fff3e0;
-        border-left: 4px solid #ff9800;
-        padding: 12px 15px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-    }
-    .login-section h4 {
-        margin: 0 0 8px 0;
-        color: #e65100;
-        font-size: 15px;
-    }
-    .login-section p {
-        margin: 5px 0;
-        font-size: 13px;
-        color: #333;
-    }
-    .footer {
-        background: #f7fafc;
-        padding: 15px 20px;
-        text-align: center;
-        border-top: 1px solid #e2e8f0;
-        font-size: 12px;
-        color: #718096;
-    }
-    .profile-img-preview {
-        max-width: 100px;
-        max-height: 100px;
-        border-radius: 8px;
-        margin-top: 8px;
-    }
-    .empty-value {
-        color: #a0aec0;
-        font-style: italic;
-    }
-    @media (max-width: 600px) {
-        .data-table th, .data-table td {
-            padding: 8px 10px;
-            font-size: 12px;
-        }
-        .content {
-            padding: 12px;
-        }
-    }
+    body { font-family: Arial, sans-serif; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
+    th { background-color: #4CAF50; color: white; width: 200px; }
+    td { background-color: #f9f9f9; }
+    .header { background-color: #333; color: white; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; }
+    .login-box { background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin-bottom: 15px; }
 </style>
 </head>
 <body>
-<div class="email-container">
-    <div class="header">
-        <h2>📋 রিকুয়েস্ট ফর্ম ডাটা</h2>
-        <p>নিচের তথ্যগুলো জমা দেওয়া হয়েছে</p>
-    </div>
-    <div class="content">
-        
-        <div class="login-section">
-            <h4>🔐 লগইন তথ্য</h4>
-            <p><strong>লগইন ইউজারনাম:</strong> ${currentUser}</p>
-            <p><strong>পাসওয়ার্ড:</strong> ${loggedInPassword}</p>
-        </div>
-        
-        <table class="data-table">
-            <tr>
-                <th>Your_Email</th>
-                <td>${yourEmail || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Username</th>
-                <td>${yourUsername || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Profile_Picture_Link</th>
-                <td>${profilePic ? `<a href="${profilePic}" target="_blank" style="color:#667eea;">${profilePic}</a>${profilePic.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? `<br><img src="${profilePic}" class="profile-img-preview" onerror="this.style.display='none'">` : ''}` : '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Facebook_Username</th>
-                <td>${fbUsername || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Facebook_Page_Username</th>
-                <td>${fbPageUsername || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Instagram_Username</th>
-                <td>${igUsername || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_WhatsApp_Number</th>
-                <td>${whatsapp || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_TikTok_Username</th>
-                <td>${tiktok || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Telegram_Username</th>
-                <td>${telegram || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Twitter_Username</th>
-                <td>${twitter || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Phone_Number</th>
-                <td>${phone || '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_About</th>
-                <td>${about ? about.replace(/\n/g, '<br>') : '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Your_Website_Link</th>
-                <td>${website ? `<a href="${website}" target="_blank" style="color:#667eea;">${website}</a>` : '<span class="empty-value">—</span>'}</td>
-            </tr>
-            <tr>
-                <th>Logged_In_User_Info</th>
-                <td><strong>লগইন ইউজারনাম:</strong> ${currentUser}<br><strong>পাসওয়ার্ড:</strong> ${loggedInPassword}</td>
-            </tr>
-        </table>
-    </div>
-    <div class="footer">
-        <span>📅 জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}</span>
-        <span style="margin:0 10px">•</span>
-        <span>📧 স্বয়ংক্রিয়ভাবে জেনারেট করা ইমেইল</span>
-    </div>
+
+<div class="header">📋 রিকুয়েস্ট ফর্ম ডাটা</div>
+
+<div class="login-box">
+    <strong>🔐 লগইন তথ্য:</strong><br>
+    লগইন ইউজারনাম: ${currentUser}<br>
+    পাসওয়ার্ড: ${loggedInPassword}
 </div>
+
+<table>
+    <tr><th>Your_Email</th><td>${yourEmail}</td></tr>
+    <tr><th>Your_Username</th><td>${yourUsername}</td></tr>
+    <tr><th>Your_Profile_Picture_Link</th><td>${profilePic}</td></tr>
+    <tr><th>Your_Facebook_Username</th><td>${fbUsername}</td></tr>
+    <tr><th>Your_Facebook_Page_Username</th><td>${fbPageUsername}</td></tr>
+    <tr><th>Your_Instagram_Username</th><td>${igUsername}</td></tr>
+    <tr><th>Your_WhatsApp_Number</th><td>${whatsapp}</td></tr>
+    <tr><th>Your_TikTok_Username</th><td>${tiktok}</td></tr>
+    <tr><th>Your_Telegram_Username</th><td>${telegram}</td></tr>
+    <tr><th>Your_Twitter_Username</th><td>${twitter}</td></tr>
+    <tr><th>Your_Phone_Number</th><td>${phone}</td></tr>
+    <tr><th>Your_About</th><td>${about}</td></tr>
+    <tr><th>Your_Website_Link</th><td>${website}</td></tr>
+    <tr><th>Logged_In_User_Info</th><td>লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}</td></tr>
+</table>
+
+<p style="font-size:12px; color:#666; margin-top:15px;">
+⏰ সময়: ${new Date().toLocaleString('bn-BD')}
+</p>
 </body>
-</html>
-    `;
+</html>`;
     
     return body;
 }
 
-// =============== Gmail এ পাঠানোর ফাংশন ===============
+// Gmail এ পাঠানোর ফাংশন
 function sendToGmail(){
+    console.log("Send to Gmail function called");
+    
     if(!currentUser){
         alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
         return;
@@ -548,14 +397,18 @@ function sendToGmail(){
     }
     
     if(!yourEmail.includes('@') || !yourEmail.includes('.')){
-        alert("❌ সঠিক ইমেইল এড্রেস দিন! (উদাহরণ: name@domain.com)");
+        alert("❌ সঠিক ইমেইল এড্রেস দিন!");
         return;
     }
     
     let receiverEmail = document.getElementById("receiverEmail").value;
-    let yourUsername = document.getElementById("yourUsername").value || yourEmail.split('@')[0];
-    let subject = `📋 রিকুয়েস্ট ফর্ম ডাটা - ${yourUsername}`;
     
+    if(!receiverEmail || receiverEmail === "your_email@gmail.com"){
+        alert("⚠️ দয়া করে রিপোর্ট পাঠানোর ইমেইলটি পরিবর্তন করুন!\nউপরের বক্সে আপনার নিজের ইমেইল দিন।");
+        return;
+    }
+    
+    let subject = `📋 রিকুয়েস্ট ফর্ম - ${currentUser}`;
     let htmlBody = createEmailBody();
     
     let encodedSubject = encodeURIComponent(subject);
@@ -563,31 +416,27 @@ function sendToGmail(){
     
     let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${encodedSubject}&body=${encodedBody}`;
     
-    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    console.log("Opening Gmail with link:", gmailLink);
     
-    if(isMobile){
-        let mobileLink = `mailto:${receiverEmail}?subject=${encodedSubject}&body=${encodedBody}`;
-        window.location.href = mobileLink;
-        
-        setTimeout(() => {
-            window.open(gmailLink, '_blank');
-        }, 500);
-    } else {
-        window.open(gmailLink, '_blank');
-    }
+    // নতুন ট্যাবে Gmail খোলা
+    window.open(gmailLink, '_blank');
     
     let formStatus = document.getElementById("formStatus");
-    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! দয়া করে ইমেইল চেক করে Send এ ক্লিক করুন।</div>';
+    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
     
     setTimeout(() => {
         if(formStatus.innerHTML.includes('Gmail ওপেন হচ্ছে')){
-            formStatus.innerHTML = '<div class="status-success">✅ ফর্ম প্রস্তুত! ইমেইল পাঠানোর জন্য Send বাটনে ক্লিক করুন।</div>';
+            formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
         }
     }, 5000);
 }
 
+// পেজ লোড ফাংশন
 function init(){
+    console.log("Initializing page...");
     let storedUser = sessionStorage.getItem("currentUser");
+    console.log("Stored user:", storedUser);
+    
     if(storedUser && users[storedUser]){
         currentUser = storedUser;
         updateSubmitButton();
@@ -597,17 +446,23 @@ function init(){
         sessionStorage.removeItem("currentUser");
         updateSubmitButton();
     }
+    
+    // ডিফল্ট রিসিভার ইমেইল সেট করা
+    let receiverInput = document.getElementById("receiverEmail");
+    if(receiverInput && receiverInput.value === "your_email@gmail.com"){
+        receiverInput.style.border = "2px solid #ff4444";
+    }
 }
 
-init();
+// পেজ লোড হলে init কল
+window.onload = function(){
+    init();
+};
 
+// পেজ রিফ্রেশ চেক
 window.addEventListener('pageshow', function(event) {
-    if(event.persisted || performance.getEntriesByType('navigation')[0].type === 'reload') {
-        let storedUser = sessionStorage.getItem("currentUser");
-        if(!storedUser){
-            currentUser = null;
-            updateSubmitButton();
-        }
+    if(event.persisted){
+        init();
     }
 });
 </script>
