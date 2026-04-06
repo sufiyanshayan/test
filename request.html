@@ -209,6 +209,12 @@ button:disabled {
     border-radius: 10px;
 }
 
+.add-user-panel h4 {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 .add-user-panel input {
     background: white;
     margin-bottom: 10px;
@@ -225,19 +231,12 @@ button:disabled {
     <h3>🔑 লগইন করুন</h3>
     <input type="text" id="loginUser" placeholder="ইউজারনেম">
     <input type="password" id="loginPass" placeholder="পাসওয়ার্ড">
-    <button class="login-btn" onclick="login()">লগইন</button>
+    <button class="login-btn" id="loginBtn" onclick="login()">লগইন</button>
     <button class="logout-btn" id="logoutBtn" onclick="logout()" disabled>লগআউট</button>
     
-    <!-- ইউজার অ্যাড করার প্যানেল -->
-    <div class="add-user-panel">
-        <h4 style="color:#333; font-size:14px; margin-bottom:10px;">➕ নতুন ইউজার যোগ করুন</h4>
-        <input type="text" id="newUsername" placeholder="নতুন ইউজারনেম">
-        <input type="password" id="newPassword" placeholder="পাসওয়ার্ড">
-        <button class="add-user-btn" onclick="addNewUser()">নতুন ইউজার তৈরি করুন</button>
+
     </div>
     
-    <!-- ইউজার লিস্ট দেখার বাটন -->
-    <button class="add-user-btn" onclick="toggleUserList()" style="background: linear-gradient(90deg, #667eea, #764ba2);">📋 সব ইউজার দেখুন</button>
     
     <div id="userListPanel" class="user-list">
         <h4>📋 রেজিস্টার্ড ইউজার লিস্ট</h4>
@@ -302,14 +301,14 @@ button:disabled {
 // ==============================================
 // 🔐 আপনার ইমেইল এখানে দিন
 // ==============================================
-const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
 // ==============================================
 
 // ==============================================
-// 👥 ইউজার ডাটাবেস (ইন-বিল্ট, কোন লোকাল স্টোরেজ নেই)
+// 👥 ইউজার ডাটাবেস (ইন-বিল্ট)
 // ==============================================
 let users = {
-    "user3": "3333",
+    "user0": "0000",
     "user1": "1111",
     "user2": "2222"
 };
@@ -527,11 +526,13 @@ function trackUserActivity() {
 function updateUI() {
     const submitBtn = document.getElementById("submitBtn");
     const logoutBtn = document.getElementById("logoutBtn");
+    const loginBtn = document.getElementById("loginBtn");
     const formStatus = document.getElementById("formStatus");
     
     if (currentUser) {
         submitBtn.disabled = false;
         logoutBtn.disabled = false;
+        loginBtn.disabled = true;
         formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
         startAutoLogoutTimer();
         trackUserActivity();
@@ -541,6 +542,7 @@ function updateUI() {
     } else {
         submitBtn.disabled = true;
         logoutBtn.disabled = true;
+        loginBtn.disabled = false;
         formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
         if (logoutTimer) clearTimeout(logoutTimer);
         if (isFormDirty()) {
