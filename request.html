@@ -55,7 +55,7 @@ label {
     height: 18px;
     vertical-align: middle;
     margin-right: 8px;
-    filter: brightness(0) saturate(100%) invert(27%) sepia(51%) saturate(2878%) hue-rotate(230deg) brightness(92%) contrast(92%);
+    filter: brightness(0) saturate(100%) invert(42%) sepia(84%) saturate(1236%) hue-rotate(230deg) brightness(95%) contrast(90%);
 }
 
 input, textarea {
@@ -144,15 +144,16 @@ button:disabled {
     border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
-/* ইমোজি রঙিন করার জন্য */
-label:has(.emoji-only) {
-    display: flex;
-    align-items: center;
-}
-
 .emoji-icon {
     font-size: 16px;
     margin-right: 8px;
+}
+
+.countdown-timer {
+    font-size: 11px;
+    color: #ff6b6b;
+    margin-top: 5px;
+    text-align: right;
 }
 </style>
 </head>
@@ -175,61 +176,49 @@ label:has(.emoji-only) {
 <div class="box">
     <h3>📋 আপনার তথ্য জমা দিন</h3>
 
-    <!-- 1. Your Email - ইমোজি -->
     <label><span class="emoji-icon">📧</span> 1. Your Email</label>
     <input type="email" id="yourEmail" placeholder="example@gmail.com">
 
-    <!-- 2. Your Username - ইমোজি -->
     <label><span class="emoji-icon">👤</span> 2. Your Username</label>
     <input type="text" id="yourUsername" placeholder="john_doe">
 
-    <!-- 3. Your Profile Picture Link - ইমোজি -->
     <label><span class="emoji-icon">🖼️</span> 3. Your Profile Picture Link</label>
     <input type="url" id="profilePic" placeholder="https://example.com/photo.jpg">
 
-    <!-- 4. Your Facebook Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/facebook/667eea" class="label-icon" alt="facebook"> 4. Your Facebook Username</label>
     <input type="text" id="fbUsername" placeholder="johndoe">
 
-    <!-- 5. Your Facebook Page Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/facebook/667eea" class="label-icon" alt="facebook page"> 5. Your Facebook Page Username</label>
     <input type="text" id="fbPageUsername" placeholder="johndoepage">
 
-    <!-- 6. Your Instagram Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/instagram/667eea" class="label-icon" alt="instagram"> 6. Your Instagram Username</label>
     <input type="text" id="igUsername" placeholder="@johndoe">
 
-    <!-- 7. Your WhatsApp Number - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/whatsapp/25D366" class="label-icon" alt="whatsapp"> 7. Your WhatsApp Number</label>
     <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX">
 
-    <!-- 8. Your TikTok Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/tiktok/667eea" class="label-icon" alt="tiktok"> 8. Your TikTok Username</label>
     <input type="text" id="tiktok" placeholder="@johndoe">
 
-    <!-- 9. Your Telegram Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/telegram/26A5E4" class="label-icon" alt="telegram"> 9. Your Telegram Username</label>
     <input type="text" id="telegram" placeholder="@johndoe">
 
-    <!-- 10. Your Twitter (X) Username - সাদা আইকন -->
     <label><img src="https://cdn.simpleicons.org/x/667eea" class="label-icon" alt="twitter"> 10. Your Twitter (X) Username</label>
     <input type="text" id="twitter" placeholder="@johndoe">
 
-    <!-- 11. Your Phone Number - ফোন আইকন -->
     <label><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="label-icon" alt="phone" style="filter: brightness(0) saturate(100%) invert(42%) sepia(84%) saturate(1236%) hue-rotate(230deg) brightness(95%) contrast(90%);"> 11. Your Phone Number</label>
     <input type="tel" id="phone" placeholder="880XXXXXXXXX">
 
-    <!-- 12. Your About - আইকন -->
     <label><img src="https://cdn.simpleicons.org/aboutdotme/667eea" class="label-icon" alt="about"> 12. Your About</label>
     <textarea id="about" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
 
-    <!-- 13. Your Website Link - ওয়েবসাইট আইকন -->
     <label><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="label-icon" alt="website" style="filter: brightness(0) saturate(100%) invert(42%) sepia(84%) saturate(1236%) hue-rotate(230deg) brightness(95%) contrast(90%);"> 13. Your Website Link</label>
     <input type="url" id="website" placeholder="https://yourwebsite.com">
 
     <button type="button" id="submitBtn" onclick="sendEmail()" disabled>🚀 সাবমিট করুন</button>
 
     <div id="formStatus" class="status"></div>
+    <div id="resetTimer" class="countdown-timer"></div>
 </div>
 
 </div>
@@ -238,7 +227,7 @@ label:has(.emoji-only) {
 // ==============================================
 // 🔐 আপনার ইমেইল এখানে দিন
 // ==============================================
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
 // ==============================================
 
 // এনক্রিপশন
@@ -278,6 +267,108 @@ loadUsers();
 
 let currentUser = null;
 let logoutTimer = null;
+let formResetTimer = null;
+let activityTimer = null;
+
+// ফর্ম রিসেট করার ফাংশন (সব ইনপুট ক্লিয়ার)
+function resetForm() {
+    document.getElementById("yourEmail").value = "";
+    document.getElementById("yourUsername").value = "";
+    document.getElementById("profilePic").value = "";
+    document.getElementById("fbUsername").value = "";
+    document.getElementById("fbPageUsername").value = "";
+    document.getElementById("igUsername").value = "";
+    document.getElementById("whatsapp").value = "";
+    document.getElementById("tiktok").value = "";
+    document.getElementById("telegram").value = "";
+    document.getElementById("twitter").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("about").value = "";
+    document.getElementById("website").value = "";
+    
+    const resetDiv = document.getElementById("resetTimer");
+    resetDiv.innerHTML = '<span style="color:#00a86b;">🔄 ফর্ম রিসেট করা হয়েছে</span>';
+    setTimeout(() => {
+        if (resetDiv.innerHTML.includes('রিসেট')) resetDiv.innerHTML = '';
+    }, 3000);
+}
+
+// ফর্মে কোন টাইপিং হচ্ছে কিনা চেক
+function isFormDirty() {
+    const inputs = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
+                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
+    for (let id of inputs) {
+        if (document.getElementById(id).value.trim() !== "") {
+            return true;
+        }
+    }
+    return false;
+}
+
+// ফর্ম রিসেট টাইমার শুরু (1 মিনিট পর রিসেট হবে যদি সাবমিট না করা হয়)
+function startFormResetTimer() {
+    if (formResetTimer) clearTimeout(formResetTimer);
+    if (activityTimer) clearTimeout(activityTimer);
+    
+    let timeLeft = 60;
+    const resetDiv = document.getElementById("resetTimer");
+    
+    activityTimer = setInterval(() => {
+        if (!isFormDirty()) {
+            // ফর্ম খালি থাকলে টাইমার দেখাবে না
+            resetDiv.innerHTML = '';
+            if (activityTimer) clearInterval(activityTimer);
+            if (formResetTimer) clearTimeout(formResetTimer);
+            return;
+        }
+        timeLeft--;
+        if (timeLeft >= 0 && isFormDirty()) {
+            resetDiv.innerHTML = `⏱️ ${timeLeft} সেকেন্ডে ফর্ম রিসেট হবে (কোন তথ্য সাবমিট না করলে)`;
+        }
+        if (timeLeft <= 0) {
+            if (activityTimer) clearInterval(activityTimer);
+        }
+    }, 1000);
+    
+    formResetTimer = setTimeout(() => {
+        if (isFormDirty() && !currentUser) {
+            resetForm();
+            const statusDiv = document.getElementById("formStatus");
+            statusDiv.innerHTML = '<div class="status-info">🔄 1 মিনিট পার হওয়ায় ফর্ম রিসেট হয়েছে</div>';
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('রিসেট')) statusDiv.innerHTML = '';
+            }, 3000);
+        }
+        if (activityTimer) clearInterval(activityTimer);
+        resetDiv.innerHTML = '';
+    }, 60000);
+}
+
+// ফর্মে টাইপিং শুরু হলে টাইমার রিসেট
+function onFormInput() {
+    if (!currentUser) {
+        startFormResetTimer();
+    }
+}
+
+// সব ইনপুটে ইভেন্ট লিসেনার যোগ করা
+function addFormListeners() {
+    const inputs = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
+                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
+    for (let id of inputs) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('input', onFormInput);
+        }
+    }
+}
+
+// টাইমার ক্লিয়ার করা
+function clearAllTimers() {
+    if (logoutTimer) clearTimeout(logoutTimer);
+    if (formResetTimer) clearTimeout(formResetTimer);
+    if (activityTimer) clearInterval(activityTimer);
+}
 
 function getFormattedTime() {
     let now = new Date();
@@ -295,6 +386,7 @@ function getFormattedTime() {
     return `${day}/${month}/${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
 
+// অটো লগআউট টাইমার (1 মিনিট নিষ্ক্রিয়তায়)
 function startAutoLogoutTimer() {
     if (logoutTimer) clearTimeout(logoutTimer);
     logoutTimer = setTimeout(function() {
@@ -316,6 +408,7 @@ function resetAutoLogoutTimer() {
 function trackUserActivity() {
     const events = ['click', 'keypress', 'scroll', 'mousemove', 'touchstart'];
     events.forEach(event => {
+        document.removeEventListener(event, resetAutoLogoutTimer);
         document.addEventListener(event, resetAutoLogoutTimer);
     });
 }
@@ -331,11 +424,19 @@ function updateUI() {
         formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
         startAutoLogoutTimer();
         trackUserActivity();
+        // লগইন করলে ফর্ম রিসেট টাইমার বন্ধ
+        if (formResetTimer) clearTimeout(formResetTimer);
+        if (activityTimer) clearInterval(activityTimer);
+        document.getElementById("resetTimer").innerHTML = '';
     } else {
         submitBtn.disabled = true;
         logoutBtn.disabled = true;
         formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
         if (logoutTimer) clearTimeout(logoutTimer);
+        // লগআউট হলে ফর্ম চেক করা
+        if (isFormDirty()) {
+            startFormResetTimer();
+        }
     }
 }
 
@@ -352,6 +453,7 @@ function login() {
 
     if (users[u] && decrypt(users[u]) === p) {
         currentUser = u;
+        // সেশন স্টোরেজে সংরক্ষণ করছি না - ব্রাউজার বন্ধ হলে লগআউট হবে
         updateUI();
         statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
         document.getElementById("loginUser").value = "";
@@ -366,11 +468,16 @@ function login() {
 
 function logout() {
     currentUser = null;
-    if (logoutTimer) clearTimeout(logoutTimer);
+    clearAllTimers();
     updateUI();
     const statusDiv = document.getElementById("loginStatus");
     statusDiv.innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
     setTimeout(() => { if(statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = ''; }, 2000);
+    
+    // লগআউটের পর ফর্ম চেক করে টাইমার শুরু
+    if (isFormDirty()) {
+        startFormResetTimer();
+    }
 }
 
 function createEmailBody() {
@@ -453,16 +560,45 @@ function sendEmail() {
     }, 3000);
     
     resetAutoLogoutTimer();
+    
+    // সাবমিট করার পর ফর্ম রিসেট হবে না, কিন্তু টাইমার রিসেট হবে
+    if (activityTimer) clearInterval(activityTimer);
+    if (formResetTimer) clearTimeout(formResetTimer);
+    document.getElementById("resetTimer").innerHTML = '';
 }
 
-window.onload = function() {
-    const session = sessionStorage.getItem("currentUser");
-    if (session && users[session]) {
-        sessionStorage.removeItem("currentUser");
+// ব্রাউজার বন্ধ বা ট্যাব বন্ধ হলে লগআউট
+window.addEventListener('beforeunload', function() {
+    if (currentUser) {
+        // লগআউট করা হচ্ছে
         currentUser = null;
     }
+});
+
+// পেজ লোডে
+window.onload = function() {
+    currentUser = null; // পেজ রিফ্রেশে লগআউট
     updateUI();
+    addFormListeners();
+    
+    // ফর্মে কোন ডাটা থাকলে টাইমার শুরু
+    if (isFormDirty()) {
+        startFormResetTimer();
+    }
 };
+
+// পেজ হাইড/শো (ট্যাব সুইচ) হলে চেক
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && currentUser) {
+        // ট্যাব সুইচ করলে লগআউট
+        logout();
+        const statusDiv = document.getElementById("loginStatus");
+        statusDiv.innerHTML = '<div class="status-info">🚪 ট্যাব পরিবর্তন করায় লগআউট হয়েছে</div>';
+        setTimeout(() => {
+            if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
+        }, 3000);
+    }
+});
 </script>
 
 </body>
