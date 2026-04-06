@@ -251,9 +251,9 @@ function loadUsers() {
         users = JSON.parse(stored);
     } else {
         users = {
-            "user0": encrypt("0000"),
             "user1": encrypt("1111"),
-            "user2": encrypt("2222")
+            "user2": encrypt("2222"),
+            "user3": encrypt("3333")
         };
         saveUsers();
     }
