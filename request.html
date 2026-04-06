@@ -77,11 +77,18 @@ button {
     font-weight: bold;
     font-size: 16px;
     cursor: pointer;
+    transition: all 0.3s;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255, 0, 204, 0.4);
 }
 
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    transform: none;
 }
 
 .login-btn {
@@ -135,7 +142,7 @@ button:disabled {
     <input type="text" id="loginUser" placeholder="ইউজারনেম">
     <input type="password" id="loginPass" placeholder="পাসওয়ার্ড">
     <button class="login-btn" onclick="login()">লগইন</button>
-    <button class="logout-btn" onclick="logout()">লগআউট</button>
+    <button class="logout-btn" id="logoutBtn" onclick="logout()" disabled>লগআউট</button>
     <div id="loginStatus" class="status"></div>
 </div>
 
@@ -182,10 +189,9 @@ button:disabled {
     <label>🌐 13. Your Website Link</label>
     <input type="url" id="website" placeholder="https://yourwebsite.com">
 
-    <button type="button" id="submitBtn" onclick="sendEmail()">🚀 সাবমিট করুন</button>
+    <button type="button" id="submitBtn" onclick="sendEmail()" disabled>🚀 সাবমিট করুন</button>
 
     <div id="formStatus" class="status"></div>
-    <div class="note">💡 ফর্ম জমা দিলে Gmail ওপেন হবে। Send বাটনে ক্লিক করুন।</div>
 </div>
 
 </div>
@@ -232,7 +238,8 @@ function saveUsers() {
 
 loadUsers();
 
-let currentUser = sessionStorage.getItem("currentUser") || null;
+let currentUser = null;
+let logoutTimer = null;
 
 // ফরম্যাট সময় তৈরি (DD/MM/YYYY Hour:Minute:Second AM/PM)
 function getFormattedTime() {
@@ -251,6 +258,76 @@ function getFormattedTime() {
     return `${day}/${month}/${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
 
+// অটো লগআউট টাইমার শুরু
+function startAutoLogoutTimer() {
+    if (logoutTimer) {
+        clearTimeout(logoutTimer);
+    }
+    logoutTimer = setTimeout(function() {
+        if (currentUser) {
+            console.log("অটো লগআউট: 1 মিনিট নিষ্ক্রিয়তা");
+            logout();
+            const statusDiv = document.getElementById("loginStatus");
+            statusDiv.innerHTML = '<div class="status-info">⏰ 1 মিনিট নিষ্ক্রিয়তার কারণে লগআউট হয়েছে</div>';
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
+            }, 3000);
+        }
+    }, 60000); // 1 মিনিট = 60000 মিলিসেকেন্ড
+}
+
+// ইউজারের কার্যকলাপ ট্র্যাক করা
+function resetAutoLogoutTimer() {
+    if (currentUser) {
+        startAutoLogoutTimer();
+    }
+}
+
+// ইউজারের কার্যকলাপ ট্র্যাক করার জন্য ইভেন্ট লিসেনার
+function trackUserActivity() {
+    const events = ['click', 'keypress', 'scroll', 'mousemove', 'touchstart'];
+    events.forEach(event => {
+        document.addEventListener(event, resetAutoLogoutTimer);
+    });
+}
+
+// লগইন চেক করা (পেজ রিফ্রেশ বা ব্রাউজার বন্ধ হলে লগআউট)
+function checkSession() {
+    const session = sessionStorage.getItem("currentUser");
+    if (session && users[session]) {
+        // সেশন থাকলেও পেজ রিফ্রেশে লগআউট হবে (সেশন ক্লিয়ার)
+        sessionStorage.removeItem("currentUser");
+        currentUser = null;
+        updateUI();
+    } else {
+        currentUser = null;
+        updateUI();
+    }
+}
+
+// UI আপডেট করা
+function updateUI() {
+    const submitBtn = document.getElementById("submitBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const formStatus = document.getElementById("formStatus");
+    
+    if (currentUser) {
+        submitBtn.disabled = false;
+        logoutBtn.disabled = false;
+        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
+        startAutoLogoutTimer();
+        trackUserActivity();
+    } else {
+        submitBtn.disabled = true;
+        logoutBtn.disabled = true;
+        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
+        if (logoutTimer) {
+            clearTimeout(logoutTimer);
+            logoutTimer = null;
+        }
+    }
+}
+
 // লগইন
 function login() {
     let u = document.getElementById("loginUser").value.trim();
@@ -259,16 +336,17 @@ function login() {
 
     if (!u || !p) {
         statusDiv.innerHTML = '<div class="status-error">❌ ইউজারনেম ও পাসওয়ার্ড দিন</div>';
+        setTimeout(() => { if(statusDiv.innerHTML.includes('দিন')) statusDiv.innerHTML = ''; }, 3000);
         return;
     }
 
     if (users[u] && decrypt(users[u]) === p) {
         currentUser = u;
-        sessionStorage.setItem("currentUser", u);
+        updateUI();
         statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
-        updateSubmitButton();
+        
         setTimeout(() => { if(statusDiv.innerHTML.includes('সফল')) statusDiv.innerHTML = ''; }, 3000);
     } else {
         statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনাম বা পাসওয়ার্ড</div>';
@@ -279,27 +357,17 @@ function login() {
 function logout() {
     currentUser = null;
     sessionStorage.removeItem("currentUser");
-    document.getElementById("loginStatus").innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
-    updateSubmitButton();
-    setTimeout(() => { if(document.getElementById("loginStatus").innerHTML.includes('লগআউট')) document.getElementById("loginStatus").innerHTML = ''; }, 2000);
-}
-
-function updateSubmitButton() {
-    const submitBtn = document.getElementById("submitBtn");
-    const formStatus = document.getElementById("formStatus");
-    
-    if (currentUser) {
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
-    } else {
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = "0.5";
-        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
+    if (logoutTimer) {
+        clearTimeout(logoutTimer);
+        logoutTimer = null;
     }
+    updateUI();
+    const statusDiv = document.getElementById("loginStatus");
+    statusDiv.innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
+    setTimeout(() => { if(statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = ''; }, 2000);
 }
 
-// লিস্ট আকারে ইমেইল বডি তৈরি (কোন কলাম নেই)
+// লিস্ট আকারে ইমেইল বডি তৈরি
 function createEmailBody() {
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
@@ -339,7 +407,6 @@ function createEmailBody() {
 15. Submission Time : ${submissionTime}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে
 `;
 }
 
@@ -357,7 +424,7 @@ function sendEmail() {
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ কোডের উপরে আপনার ইমেইল দিন!");
+        alert("⚠️ দয়া করে কোডের উপরে আপনার নিজের ইমেইল দিন!");
         return;
     }
     
@@ -375,23 +442,20 @@ function sendEmail() {
         window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`, '_blank');
     }
     
-    document.getElementById("formStatus").innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send করুন।</div>';
+    const formStatus = document.getElementById("formStatus");
+    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send করুন।</div>';
     setTimeout(() => {
-        const fs = document.getElementById("formStatus");
-        if (fs.innerHTML.includes('ওপেন')) fs.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
+        if (formStatus.innerHTML.includes('ওপেন')) formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
     }, 3000);
+    
+    // ফর্ম জমা দেওয়ার পর টাইমার রিসেট
+    resetAutoLogoutTimer();
 }
 
-function init() {
-    let storedUser = sessionStorage.getItem("currentUser");
-    if (storedUser && users[storedUser]) {
-        currentUser = storedUser;
-        updateSubmitButton();
-        document.getElementById("loginStatus").innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
-    }
-}
-
-window.onload = init;
+// পেজ লোডে সেশন চেক
+window.onload = function() {
+    checkSession();
+};
 </script>
 
 </body>
