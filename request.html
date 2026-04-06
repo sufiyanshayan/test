@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>রিকুয়েস্ট ফর্ম - প্রোফাইল সাবমিট</title>
 
+<!-- EmailJS CDN -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <style>
 * {
     margin: 0;
@@ -123,11 +126,36 @@ button:disabled {
     color: #00ccff;
 }
 
-.note {
-    font-size: 11px;
-    color: #aaa;
+.loading {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 0.6s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.signature-box {
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(255, 0, 204, 0.1);
+    border-radius: 10px;
+    border: 1px dashed rgba(255, 0, 204, 0.3);
     text-align: center;
-    margin-top: 12px;
+}
+
+.signature-text {
+    font-family: monospace;
+    font-size: 14px;
+    color: #ff00cc;
+    letter-spacing: 2px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -189,7 +217,12 @@ button:disabled {
     <label>🌐 13. Your Website Link</label>
     <input type="url" id="website" placeholder="https://yourwebsite.com">
 
-    <button type="button" id="submitBtn" onclick="sendEmail()" disabled>🚀 সাবমিট করুন</button>
+    <button type="button" id="submitBtn" onclick="sendEmailDirect()" disabled>🚀 সাবমিট করুন</button>
+
+    <!-- ডিজিটাল সাইন - ফর্মের নিচে দেখাবে -->
+    <div class="signature-box">
+        <span class="signature-text">🔒 MR INYT 444</span>
+    </div>
 
     <div id="formStatus" class="status"></div>
 </div>
@@ -198,10 +231,22 @@ button:disabled {
 
 <script>
 // ==============================================
-// 🔐 আপনার ইমেইল এখানে দিন
+// 🔐 EmailJS কনফিগারেশন
 // ==============================================
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
+// 👇 নিচের তথ্য EmailJS থেকে নিয়ে পূরণ করুন
+const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";     // EmailJS Public Key
+const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";     // EmailJS Service ID  
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";   // EmailJS Template ID
+const RECEIVER_EMAIL = "your_email@outlook.com";  // আপনার Outlook ইমেইল
+
+// 🔐 ডিজিটাল সাইন (এটি ইমেইলের সাথে যুক্ত হবে)
+const DIGITAL_SIGNATURE = "MR INYT 444";
 // ==============================================
+
+// EmailJS Initialize
+if (EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+}
 
 // এনক্রিপশন
 function encrypt(pwd) {
@@ -241,7 +286,6 @@ loadUsers();
 let currentUser = null;
 let logoutTimer = null;
 
-// ফরম্যাট সময় তৈরি (DD/MM/YYYY Hour:Minute:Second AM/PM)
 function getFormattedTime() {
     let now = new Date();
     let day = String(now.getDate()).padStart(2, '0');
@@ -258,14 +302,10 @@ function getFormattedTime() {
     return `${day}/${month}/${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
 }
 
-// অটো লগআউট টাইমার শুরু
 function startAutoLogoutTimer() {
-    if (logoutTimer) {
-        clearTimeout(logoutTimer);
-    }
+    if (logoutTimer) clearTimeout(logoutTimer);
     logoutTimer = setTimeout(function() {
         if (currentUser) {
-            console.log("অটো লগআউট: 1 মিনিট নিষ্ক্রিয়তা");
             logout();
             const statusDiv = document.getElementById("loginStatus");
             statusDiv.innerHTML = '<div class="status-info">⏰ 1 মিনিট নিষ্ক্রিয়তার কারণে লগআউট হয়েছে</div>';
@@ -273,17 +313,13 @@ function startAutoLogoutTimer() {
                 if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
             }, 3000);
         }
-    }, 60000); // 1 মিনিট = 60000 মিলিসেকেন্ড
+    }, 60000);
 }
 
-// ইউজারের কার্যকলাপ ট্র্যাক করা
 function resetAutoLogoutTimer() {
-    if (currentUser) {
-        startAutoLogoutTimer();
-    }
+    if (currentUser) startAutoLogoutTimer();
 }
 
-// ইউজারের কার্যকলাপ ট্র্যাক করার জন্য ইভেন্ট লিসেনার
 function trackUserActivity() {
     const events = ['click', 'keypress', 'scroll', 'mousemove', 'touchstart'];
     events.forEach(event => {
@@ -291,21 +327,6 @@ function trackUserActivity() {
     });
 }
 
-// লগইন চেক করা (পেজ রিফ্রেশ বা ব্রাউজার বন্ধ হলে লগআউট)
-function checkSession() {
-    const session = sessionStorage.getItem("currentUser");
-    if (session && users[session]) {
-        // সেশন থাকলেও পেজ রিফ্রেশে লগআউট হবে (সেশন ক্লিয়ার)
-        sessionStorage.removeItem("currentUser");
-        currentUser = null;
-        updateUI();
-    } else {
-        currentUser = null;
-        updateUI();
-    }
-}
-
-// UI আপডেট করা
 function updateUI() {
     const submitBtn = document.getElementById("submitBtn");
     const logoutBtn = document.getElementById("logoutBtn");
@@ -321,14 +342,10 @@ function updateUI() {
         submitBtn.disabled = true;
         logoutBtn.disabled = true;
         formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
-        if (logoutTimer) {
-            clearTimeout(logoutTimer);
-            logoutTimer = null;
-        }
+        if (logoutTimer) clearTimeout(logoutTimer);
     }
 }
 
-// লগইন
 function login() {
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
@@ -356,18 +373,14 @@ function login() {
 
 function logout() {
     currentUser = null;
-    sessionStorage.removeItem("currentUser");
-    if (logoutTimer) {
-        clearTimeout(logoutTimer);
-        logoutTimer = null;
-    }
+    if (logoutTimer) clearTimeout(logoutTimer);
     updateUI();
     const statusDiv = document.getElementById("loginStatus");
     statusDiv.innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
     setTimeout(() => { if(statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = ''; }, 2000);
 }
 
-// লিস্ট আকারে ইমেইল বডি তৈরি
+// ইমেইল বডি তৈরি (সাইন সহ)
 function createEmailBody() {
     let yourEmail = document.getElementById("yourEmail").value || "—";
     let yourUsername = document.getElementById("yourUsername").value || "—";
@@ -387,8 +400,9 @@ function createEmailBody() {
     let submissionTime = getFormattedTime();
     
     return `
-📋 রিকুয়েস্ট ফর্ম ডাটা
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+╔══════════════════════════════════════════════════════════════════╗
+║                    📋 রিকুয়েস্ট ফর্ম ডাটা                        ║
+╚══════════════════════════════════════════════════════════════════╝
 
 1. Your_Email : ${yourEmail}
 2. Your_Username : ${yourUsername}
@@ -406,12 +420,29 @@ function createEmailBody() {
 14. Logged_In_User_Info : ইউজারনেম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}
 15. Submission Time : ${submissionTime}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 ডিজিটাল সাইন / ভেরিফিকেশন কোড
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║                    🔒 ${DIGITAL_SIGNATURE} 🔒                    ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
+   
+   এই সাইনটি যাচাই করে নিশ্চিত হোন যে ফর্মটি অফিসিয়াল ওয়েবসাইট থেকে জমা হয়েছে।
+   যদি এই সাইনটি না থাকে, তাহলে ফর্মটি ভুয়া বা অন্য উৎস থেকে আসা।
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 এই ইমেইলটি স্বয়ংক্রিয়ভাবে জেনারেট করা হয়েছে
+   বৈধতা: ✅ অফিসিয়াল সোর্স (MR INYT 444)
 `;
 }
 
-// ইমেইল পাঠানো
-function sendEmail() {
+// সরাসরি ইমেইল পাঠানো
+async function sendEmailDirect() {
     if (!currentUser) {
         alert("❌ ফর্ম জমা দিতে লগইন করুন!");
         return;
@@ -423,38 +454,53 @@ function sendEmail() {
         return;
     }
     
-    if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ দয়া করে কোডের উপরে আপনার নিজের ইমেইল দিন!");
+    if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+        alert("⚠️ দয়া করে EmailJS এ রেজিস্টার করে নিচের তথ্য পূরণ করুন!\n\n1. https://www.emailjs.com/ এ সাইনআপ করুন\n2. Service যোগ করুন (Outlook/Gmail)\n3. Template তৈরি করুন\n4. PUBLIC_KEY, SERVICE_ID, TEMPLATE_ID দিন");
         return;
     }
     
-    const subject = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";
-    const body = createEmailBody();
-    
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-    
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-        window.location.href = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-    } else {
-        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`, '_blank');
-    }
-    
     const formStatus = document.getElementById("formStatus");
-    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send করুন।</div>';
-    setTimeout(() => {
-        if (formStatus.innerHTML.includes('ওপেন')) formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
-    }, 3000);
+    const emailBody = createEmailBody();
+    const submitTime = getFormattedTime();
     
-    // ফর্ম জমা দেওয়ার পর টাইমার রিসেট
-    resetAutoLogoutTimer();
+    formStatus.innerHTML = '<div class="status-info"><span class="loading"></span> ইমেইল পাঠানো হচ্ছে...</div>';
+    
+    const templateParams = {
+        to_email: RECEIVER_EMAIL,
+        from_email: yourEmail,
+        username: document.getElementById("yourUsername").value || "—",
+        form_data: emailBody,
+        submit_time: submitTime,
+        sender_name: currentUser,
+        digital_signature: DIGITAL_SIGNATURE
+    };
+    
+    try {
+        const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+        console.log("Success:", response);
+        formStatus.innerHTML = '<div class="status-success">✅ ইমেইল সফলভাবে পাঠানো হয়েছে! আপনার Outlook চেক করুন।</div>';
+        
+        setTimeout(() => {
+            if (formStatus.innerHTML.includes('সফলভাবে')) {
+                formStatus.innerHTML = '<div class="status-success">✅ ধন্যবাদ! আপনার তথ্য গ্রহণ করা হয়েছে।</div>';
+            }
+        }, 5000);
+        
+        resetAutoLogoutTimer();
+        
+    } catch(error) {
+        console.error("Error:", error);
+        formStatus.innerHTML = '<div class="status-error">❌ ইমেইল পাঠাতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।</div>';
+    }
 }
 
-// পেজ লোডে সেশন চেক
 window.onload = function() {
-    checkSession();
+    const session = sessionStorage.getItem("currentUser");
+    if (session && users[session]) {
+        sessionStorage.removeItem("currentUser");
+        currentUser = null;
+    }
+    updateUI();
 };
 </script>
 
