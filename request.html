@@ -305,43 +305,15 @@ button:disabled {
 const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- এখানে আপনার ইমেইল দিন
 // ==============================================
 
-// এনক্রিপশন
-function encrypt(pwd) {
-    return btoa(pwd.split('').reverse().join('') + 'fix2026');
-}
-
-function decrypt(encrypted) {
-    try {
-        let dec = atob(encrypted);
-        return dec.slice(0, -7).split('').reverse().join('');
-    } catch(e) { return ''; }
-}
-
-// ইউজার ডাটাবেস লোড
-let users = {};
-
-function loadUsers() {
-    let stored = localStorage.getItem('secure_users');
-    if (stored) {
-        users = JSON.parse(stored);
-        console.log("Users loaded:", users);
-    } else {
-        // ডিফল্ট ইউজার - এনক্রিপ্টেড পাসওয়ার্ড
-        users = {
-            "admin": encrypt("1234"),
-            "user1": encrypt("1111"),
-            "user2": encrypt("2222")
-        };
-        saveUsers();
-        console.log("Default users created");
-    }
-}
-
-function saveUsers() {
-    localStorage.setItem('secure_users', JSON.stringify(users));
-}
-
-loadUsers();
+// ==============================================
+// 👥 ইউজার ডাটাবেস (ইন-বিল্ট, কোন লোকাল স্টোরেজ নেই)
+// ==============================================
+let users = {
+    "admin": "1234",
+    "user1": "1111",
+    "user2": "2222"
+};
+// ==============================================
 
 let currentUser = null;
 let logoutTimer = null;
@@ -362,7 +334,7 @@ function toggleUserList() {
 function updateUserList() {
     const userList = document.getElementById("userList");
     userList.innerHTML = "";
-    for (let [username, encryptedPass] of Object.entries(users)) {
+    for (let username in users) {
         const li = document.createElement("li");
         li.innerHTML = `
             <span>👤 ${username}</span>
@@ -390,8 +362,7 @@ function addNewUser() {
         return;
     }
     
-    users[newUsername] = encrypt(newPassword);
-    saveUsers();
+    users[newUsername] = newPassword;
     updateUserList();
     
     statusDiv.innerHTML = `<div class="status-success">✅ "${newUsername}" ইউজার তৈরি হয়েছে!</div>`;
@@ -410,7 +381,6 @@ function deleteUser(username) {
     
     if (confirm(`"${username}" ইউজার ডিলিট করতে চান?`)) {
         delete users[username];
-        saveUsers();
         updateUserList();
         const statusDiv = document.getElementById("loginStatus");
         statusDiv.innerHTML = `<div class="status-success">✅ "${username}" ডিলিট হয়েছে</div>`;
@@ -590,11 +560,7 @@ function login() {
         return;
     }
 
-    console.log("Login attempt:", u);
-    console.log("Users:", users);
-    console.log("Decrypted password:", users[u] ? decrypt(users[u]) : "not found");
-
-    if (users[u] && decrypt(users[u]) === p) {
+    if (users[u] && users[u] === p) {
         currentUser = u;
         updateUI();
         statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
@@ -636,7 +602,7 @@ function createEmailBody() {
     let about = document.getElementById("about").value || "—";
     let website = document.getElementById("website").value || "—";
     
-    let loggedInPassword = decrypt(users[currentUser]);
+    let loggedInPassword = users[currentUser];
     let submissionTime = getFormattedTime();
     
     return `
