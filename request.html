@@ -1,314 +1,710 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>রিকুয়েস্ট ফর্ম - প্রোফাইল সাবমিট</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+<title>Hologram Request Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    padding: 20px;
-}
+    body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+        color: #fff;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
 
-.container {
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-}
+    .app {
+        max-width: 550px;
+        margin: 0 auto;
+        background: #0f0f17;
+        min-height: 100vh;
+        position: relative;
+        border-left: 1px solid rgba(255,255,255,0.05);
+        border-right: 1px solid rgba(255,255,255,0.05);
+        box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    }
 
-.box {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-}
+    .cyber-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 20% 50%, rgba(255, 50, 100, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(80, 200, 255, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 40% 20%, rgba(200, 100, 255, 0.15) 0%, transparent 50%),
+            linear-gradient(145deg, #0a0a0f, #1a1a2e);
+        z-index: -2;
+        animation: breathe 10s ease-in-out infinite;
+        pointer-events: none;
+    }
 
-h3 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #667eea;
-    font-size: 20px;
-}
+    @keyframes breathe {
+        0%, 100% { opacity: 0.8; }
+        50% { opacity: 1; }
+    }
 
-label {
-    font-size: 13px;
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 5px;
-    color: #333;
-    font-weight: 500;
-}
+    .particle {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        background: rgba(255,255,255,0.3);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: -1;
+        animation: float 20s linear infinite;
+    }
 
-.label-icon {
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
-    margin-right: 8px;
-}
+    @keyframes float {
+        0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(-20vh) translateX(50px); opacity: 0; }
+    }
 
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    margin: 5px 0;
-    border: none;
-    border-radius: 10px;
-    background: #f0f0f5;
-    color: #333;
-    font-size: 14px;
-    border: 1px solid #e0e0e0;
-    transition: all 0.3s;
-}
+    /* Header & Menu Styles */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: #14141e;
+        border-bottom: 1px solid rgba(255,100,200,0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-input:focus, textarea:focus {
-    outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    background: white;
-}
+    .logo {
+        font-weight: 700;
+        font-size: 1.3rem;
+        background: linear-gradient(135deg, #fff, #a0a0ff, #ffa0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-textarea {
-    resize: vertical;
-    min-height: 60px;
-    font-family: inherit;
-}
+    .logo i {
+        font-size: 1.1rem;
+        color: #ffa0ff;
+        -webkit-text-fill-color: initial;
+        filter: drop-shadow(0 0 8px #ffa0ff);
+    }
 
-button {
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(90deg, #667eea, #764ba2);
-    border: none;
-    border-radius: 12px;
-    color: white;
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
+    .hologram-btn {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        border-radius: 40px;
+        background: #1e1e2a;
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: 0.3s;
+        box-shadow: 0 0 15px rgba(255,100,200,0.2);
+    }
 
-button:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-}
+    .hologram-btn:hover {
+        background: #2a2a3a;
+        border-color: rgba(255,200,255,0.3);
+        box-shadow: 0 0 25px rgba(255,100,255,0.4);
+    }
 
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
+    .hologram-btn .line {
+        width: 22px;
+        height: 2px;
+        background: linear-gradient(90deg, #ffa0ff, #a0a0ff);
+        border-radius: 4px;
+        transition: 0.2s;
+    }
 
-.login-btn {
-    background: linear-gradient(90deg, #00b4db, #0083b0);
-}
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s;
+        z-index: 200;
+    }
 
-.logout-btn {
-    background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
-    margin-top: 10px;
-}
+    .overlay.active {
+        opacity: 1;
+        pointer-events: all;
+    }
 
-.add-user-btn {
-    background: linear-gradient(90deg, #11998e, #38ef7d);
-    margin-top: 10px;
-}
+    .sidebar {
+        position: fixed;
+        right: -360px;
+        top: 0;
+        width: 300px;
+        height: 100%;
+        background: #1a1a26;
+        box-shadow: -25px 0 50px rgba(0,0,0,0.5);
+        transition: right 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        z-index: 300;
+        padding: 2rem 1.2rem;
+        border-left: 1px solid rgba(255,100,255,0.3);
+    }
 
-.status {
-    text-align: center;
-    margin-top: 12px;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 13px;
-}
+    .sidebar.active {
+        right: 0;
+    }
 
-.status-success {
-    background: rgba(0, 200, 100, 0.15);
-    color: #00a86b;
-    border: 1px solid rgba(0, 200, 100, 0.3);
-}
+    .close-btn {
+        text-align: right;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+    }
 
-.status-error {
-    background: rgba(255, 68, 68, 0.15);
-    color: #d63031;
-    border: 1px solid rgba(255, 68, 68, 0.3);
-}
+    .close-btn i {
+        font-size: 1.6rem;
+        color: rgba(255,200,255,0.8);
+        text-shadow: 0 0 15px #ffa0ff;
+        transition: transform 0.3s;
+    }
 
-.status-info {
-    background: rgba(102, 126, 234, 0.15);
-    color: #667eea;
-    border: 1px solid rgba(102, 126, 234, 0.3);
-}
+    .close-btn:hover i {
+        transform: rotate(180deg) scale(1.1);
+    }
 
-.emoji-icon {
-    font-size: 16px;
-    margin-right: 8px;
-}
+    .profile {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255,100,255,0.2);
+        margin-bottom: 1.5rem;
+    }
 
-.countdown-timer {
-    font-size: 11px;
-    color: #ff6b6b;
-    margin-top: 5px;
-    text-align: right;
-}
+    .avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ff50a0, #a050ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255,255,255,0.5);
+        box-shadow: 0 0 30px rgba(255,100,255,0.5);
+        overflow: hidden;
+    }
 
-.user-list {
-    margin-top: 15px;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    display: none;
-}
+    .avatar i {
+        font-size: 1.8rem;
+        color: white;
+    }
 
-.user-list.show {
-    display: block;
-}
+    .profile-text h3 {
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 0.2rem;
+        background: linear-gradient(135deg, #fff, #ffa0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 
-.user-list h4 {
-    color: #333;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
+    .profile-text p {
+        font-size: 0.7rem;
+        color: rgba(200,200,255,0.7);
+    }
 
-.user-list ul {
-    list-style: none;
-    padding: 0;
-}
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.9rem 1rem;
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        border-radius: 16px;
+        margin: 0.4rem 0;
+        transition: all 0.3s;
+        background: #252535;
+        border: 1px solid rgba(255,100,255,0.2);
+        cursor: pointer;
+    }
 
-.user-list li {
-    font-size: 12px;
-    color: #666;
-    padding: 5px 0;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+    .sidebar a i {
+        font-size: 1.2rem;
+        width: 25px;
+        color: #ffa0ff;
+        filter: drop-shadow(0 0 8px #ffa0ff);
+    }
 
-.user-list li button {
-    background: #ff6b6b;
-    padding: 4px 8px;
-    font-size: 10px;
-    width: auto;
-    margin: 0;
-    display: inline-block;
-}
+    .sidebar a:hover {
+        background: #353549;
+        border-color: rgba(255,100,255,0.5);
+        transform: translateX(8px);
+    }
 
-.add-user-panel {
-    margin-top: 15px;
-    padding: 15px;
-    background: #f8f9fa;
-    border-radius: 10px;
-}
+    .divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #ffa0ff, transparent);
+        margin: 1rem 0;
+    }
 
-.add-user-panel h4 {
-    color: #333;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
+    .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0a0a12;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s;
+        z-index: 400;
+    }
 
-.add-user-panel input {
-    background: white;
-    margin-bottom: 10px;
-}
+    .loader.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .neon-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255,100,255,0.2);
+        border-top: 3px solid #ffa0ff;
+        border-right: 3px solid #a0ffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    /* Container & Form Styles */
+    .container {
+        padding: 1.5rem;
+    }
+
+    .neon-card {
+        background: rgba(30, 30, 44, 0.85);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 100, 255, 0.25);
+        border-radius: 40px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 30px 50px -20px rgba(0,0,0,0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .neon-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(255,100,255,0.06),
+            rgba(100,200,255,0.06),
+            rgba(255,100,200,0.06),
+            transparent 70%
+        );
+        animation: rotate 15s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .form-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+        padding-bottom: 0.6rem;
+        border-bottom: 1px solid rgba(255,100,255,0.2);
+        position: relative;
+        z-index: 2;
+    }
+
+    .form-header h3 {
+        font-weight: 700;
+        font-size: 1.2rem;
+        background: linear-gradient(135deg, #fff, #ffa0ff, #a0ffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-header i {
+        font-size: 1.4rem;
+        color: #ffa0ff;
+        filter: drop-shadow(0 0 8px #ffa0ff);
+    }
+
+    .input-group {
+        margin-bottom: 0.9rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    label {
+        font-size: 0.7rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 5px;
+        color: rgba(255,255,255,0.75);
+        text-transform: uppercase;
+    }
+
+    label i {
+        font-size: 0.8rem;
+        color: #ffa0ff;
+        width: 18px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px 14px;
+        background: rgba(20, 20, 30, 0.8);
+        border: 1px solid rgba(255,100,255,0.2);
+        border-radius: 24px;
+        color: #fff;
+        font-family: 'Space Grotesk', monospace;
+        font-size: 0.8rem;
+        transition: all 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #ffa0ff;
+        box-shadow: 0 0 0 2px rgba(255,160,255,0.2);
+        background: rgba(30, 30, 50, 0.95);
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 60px;
+    }
+
+    .password-wrapper {
+        position: relative;
+    }
+
+    .password-wrapper input {
+        padding-right: 40px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: rgba(255,160,255,0.7);
+        font-size: 0.9rem;
+    }
+
+    .cyber-btn {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(90deg, #ff50a0, #a050ff);
+        border: none;
+        border-radius: 40px;
+        color: white;
+        font-weight: 600;
+        font-size: 0.85rem;
+        font-family: 'Space Grotesk', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .cyber-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .cyber-btn:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(255,100,255,0.4);
+    }
+
+    .login-btn {
+        background: linear-gradient(90deg, #00b4db, #0083b0);
+    }
+
+    .logout-btn {
+        background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+    }
+
+    .status {
+        text-align: center;
+        margin-top: 10px;
+        padding: 6px 10px;
+        border-radius: 24px;
+        font-size: 0.7rem;
+        font-weight: 500;
+    }
+
+    .status-success {
+        background: rgba(0, 255, 150, 0.12);
+        color: #00ffaa;
+        border: 1px solid rgba(0, 255, 150, 0.25);
+    }
+
+    .status-error {
+        background: rgba(255, 68, 68, 0.12);
+        color: #ff6688;
+        border: 1px solid rgba(255, 68, 68, 0.25);
+    }
+
+    .status-info {
+        background: rgba(255, 160, 255, 0.12);
+        color: #ffa0ff;
+        border: 1px solid rgba(255, 160, 255, 0.25);
+    }
+
+    .countdown-timer {
+        font-size: 0.6rem;
+        color: #ffa0ff;
+        margin-top: 6px;
+        text-align: right;
+    }
+
+    .mini-logo {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 0.6rem;
+    }
+
+    .mini-logo i {
+        font-size: 1rem;
+        color: #ffa0ff;
+    }
+
+    .mini-logo span {
+        font-weight: 600;
+        font-size: 0.7rem;
+        background: linear-gradient(135deg, #fff, #ffa0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="cyber-bg"></div>
 
-<!-- লগইন বক্স -->
-<div class="box">
-    <h3>🔑 লগইন করুন</h3>
-    <input type="text" id="loginUser" placeholder="ইউজারনেম">
-    <input type="password" id="loginPass" placeholder="পাসওয়ার্ড">
-    <button class="login-btn" id="loginBtn" onclick="login()">লগইন</button>
-    <button class="logout-btn" id="logoutBtn" onclick="logout()" disabled>লগআউট</button>
-    
+<div class="app">
+    <header>
+        <div class="logo">
+            <i class="fa-regular fa-crystal"></i> Your_Name
+        </div>
+        <div class="hologram-btn" onclick="openMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+    </header>
 
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" onclick="closeMenu()">
+            <i class="fa-regular fa-xmark"></i>
+        </div>
+
+        <div class="profile">
+            <div class="avatar">
+                <i class="fa-regular fa-robot"></i>
+            </div>
+            <div class="profile-text">
+                <h3>GUEST_MODE</h3>
+                <p>REQUEST_FORM</p>
+            </div>
+        </div>
+
+        <a onclick="navigateTo('home')">
+            <i class="fa-regular fa-crystal"></i> HOLO HOME
+        </a>
+        <a onclick="navigateTo()">
+            <i class="fa-regular fa-pen-to-square"></i> REQUEST FORM
+        </a>
+        <a onclick="navigateTo('about')">
+            <i class="fa-regular fa-atom"></i> QUANTUM
+        </a>
+
+        <div class="divider"></div>
+
+        <a onclick="navigateTo('settings')">
+            <i class="fa-regular fa-sliders"></i> SETTINGS
+        </a>
     </div>
-    
-    
-    <div id="userListPanel" class="user-list">
-        <h4>📋 রেজিস্টার্ড ইউজার লিস্ট</h4>
-        <ul id="userList"></ul>
+
+    <div class="container">
+        <!-- Login Card -->
+        <div class="neon-card">
+            <div class="mini-logo">
+                <i class="fa-regular fa-keyboard"></i>
+                <span>SECURE_ACCESS</span>
+            </div>
+            <div class="form-header">
+                <h3><i class="fa-regular fa-fingerprint"></i> LOGIN</h3>
+                <i class="fa-regular fa-crystal"></i>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-user-astronaut"></i> USERNAME</label>
+                <input type="text" id="loginUser" placeholder="Enter username" autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD</label>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPass" placeholder="********" autocomplete="off">
+                    <i class="fa-regular fa-eye toggle-password" onclick="togglePassword('loginPass', this)"></i>
+                </div>
+            </div>
+            
+            <button class="cyber-btn login-btn" id="loginBtn" onclick="login()">
+                <i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN
+            </button>
+            <button class="cyber-btn logout-btn" id="logoutBtn" onclick="logout()" disabled>
+                <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
+            </button>
+            
+            <div id="loginStatus" class="status"></div>
+        </div>
+
+        <!-- Request Form Card -->
+        <div class="neon-card">
+            <div class="form-header">
+                <h3><i class="fa-regular fa-pen-to-square"></i> HOLOGRAM REQUEST</h3>
+                <i class="fa-regular fa-satellite-dish"></i>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-envelope"></i> 1. YOUR EMAIL <span style="color:#ff6688;">*</span></label>
+                <input type="email" id="yourEmail" placeholder="cyber@neon.com" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-user"></i> 2. YOUR USERNAME <span style="color:#ff6688;">*</span></label>
+                <input type="text" id="yourUsername" placeholder="neon_operator" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-image"></i> 3. YOUR PROFILE PICTURE LINK</label>
+                <input type="url" id="profilePic" placeholder="https://" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-facebook"></i> 4. YOUR FACEBOOK USERNAME</label>
+                <input type="text" id="fbUsername" placeholder="username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-facebook"></i> 5. YOUR FACEBOOK PAGE USERNAME</label>
+                <input type="text" id="fbPageUsername" placeholder="pagename" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-instagram"></i> 6. YOUR INSTAGRAM USERNAME</label>
+                <input type="text" id="igUsername" placeholder="@username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-whatsapp"></i> 7. YOUR WHATSAPP NUMBER</label>
+                <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-tiktok"></i> 8. YOUR TIKTOK USERNAME</label>
+                <input type="text" id="tiktok" placeholder="@username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-telegram"></i> 9. YOUR TELEGRAM USERNAME</label>
+                <input type="text" id="telegram" placeholder="@username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-brands fa-twitter"></i> 10. YOUR TWITTER (X) USERNAME</label>
+                <input type="text" id="twitter" placeholder="@username" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-phone"></i> 11. YOUR PHONE NUMBER</label>
+                <input type="tel" id="phone" placeholder="8801XXXXXXXXX" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-user"></i> 12. YOUR ABOUT</label>
+                <textarea id="about" placeholder="Write something about yourself..."></textarea>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-globe"></i> 13. YOUR WEBSITE LINK</label>
+                <input type="url" id="website" placeholder="https://yourdomain.com" autocomplete="off">
+            </div>
+
+            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()" disabled>
+                <i class="fa-regular fa-paper-plane"></i> SUBMIT TO QUANTUM NET
+            </button>
+
+            <div id="formStatus" class="status"></div>
+            <div id="resetTimer" class="countdown-timer"></div>
+        </div>
     </div>
-    
-    <div id="loginStatus" class="status"></div>
-</div>
 
-<!-- ফর্ম বক্স -->
-<div class="box">
-    <h3>📋 আপনার তথ্য জমা দিন</h3>
-
-    <label><span class="emoji-icon">📧</span> 1. Your Email</label>
-    <input type="email" id="yourEmail" placeholder="example@gmail.com">
-
-    <label><span class="emoji-icon">👤</span> 2. Your Username</label>
-    <input type="text" id="yourUsername" placeholder="john_doe">
-
-    <label><span class="emoji-icon">🖼️</span> 3. Your Profile Picture Link</label>
-    <input type="url" id="profilePic" placeholder="https://example.com/photo.jpg">
-
-    <label><img src="https://cdn.simpleicons.org/facebook/667eea" class="label-icon" alt="facebook"> 4. Your Facebook Username</label>
-    <input type="text" id="fbUsername" placeholder="johndoe">
-
-    <label><img src="https://cdn.simpleicons.org/facebook/667eea" class="label-icon" alt="facebook page"> 5. Your Facebook Page Username</label>
-    <input type="text" id="fbPageUsername" placeholder="johndoepage">
-
-    <label><img src="https://cdn.simpleicons.org/instagram/667eea" class="label-icon" alt="instagram"> 6. Your Instagram Username</label>
-    <input type="text" id="igUsername" placeholder="@johndoe">
-
-    <label><img src="https://cdn.simpleicons.org/whatsapp/25D366" class="label-icon" alt="whatsapp"> 7. Your WhatsApp Number</label>
-    <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX">
-
-    <label><img src="https://cdn.simpleicons.org/tiktok/667eea" class="label-icon" alt="tiktok"> 8. Your TikTok Username</label>
-    <input type="text" id="tiktok" placeholder="@johndoe">
-
-    <label><img src="https://cdn.simpleicons.org/telegram/26A5E4" class="label-icon" alt="telegram"> 9. Your Telegram Username</label>
-    <input type="text" id="telegram" placeholder="@johndoe">
-
-    <label><img src="https://cdn.simpleicons.org/x/667eea" class="label-icon" alt="twitter"> 10. Your Twitter (X) Username</label>
-    <input type="text" id="twitter" placeholder="@johndoe">
-
-    <label><img src="https://cdn-icons-png.flaticon.com/512/597/597177.png" class="label-icon" alt="phone" style="filter: brightness(0) saturate(100%) invert(42%) sepia(84%) saturate(1236%) hue-rotate(230deg) brightness(95%) contrast(90%);"> 11. Your Phone Number</label>
-    <input type="tel" id="phone" placeholder="880XXXXXXXXX">
-
-    <label><img src="https://cdn.simpleicons.org/aboutdotme/667eea" class="label-icon" alt="about"> 12. Your About</label>
-    <textarea id="about" placeholder="নিজের সম্পর্কে কিছু লিখুন..."></textarea>
-
-    <label><img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" class="label-icon" alt="website" style="filter: brightness(0) saturate(100%) invert(42%) sepia(84%) saturate(1236%) hue-rotate(230deg) brightness(95%) contrast(90%);"> 13. Your Website Link</label>
-    <input type="url" id="website" placeholder="https://yourwebsite.com">
-
-    <button type="button" id="submitBtn" onclick="sendEmail()" disabled>🚀 সাবমিট করুন</button>
-
-    <div id="formStatus" class="status"></div>
-    <div id="resetTimer" class="countdown-timer"></div>
-</div>
-
+    <div class="loader" id="loader">
+        <div class="neon-spinner"></div>
+    </div>
 </div>
 
 <script>
 // ==============================================
-// 🔐 আপনার ইমেইল এখানে দিন
+// 🔐 SET YOUR EMAIL HERE
 // ==============================================
-const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- এখানে আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- Change this to your email
 // ==============================================
 
 // ==============================================
-// 👥 ইউজার ডাটাবেস (ইন-বিল্ট)
+// 👥 USER DATABASE
 // ==============================================
-let users = {
-    "user0": "0000",
+const users = {
+    "admin": "1234",
     "user1": "1111",
     "user2": "2222"
 };
@@ -318,105 +714,113 @@ let currentUser = null;
 let logoutTimer = null;
 let formResetTimer = null;
 let activityTimer = null;
+let touchStartX = 0;
 
-// ইউজার লিস্ট দেখানো
-function toggleUserList() {
-    const panel = document.getElementById("userListPanel");
-    if (panel.classList.contains("show")) {
-        panel.classList.remove("show");
+// Menu Functions
+function openMenu() {
+    document.getElementById('sidebar').classList.add('active');
+    document.getElementById('overlay').classList.add('active');
+}
+
+function closeMenu() {
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').classList.remove('active');
+}
+
+// Navigation
+function showLoader() {
+    const loader = document.getElementById('loader');
+    loader.classList.add('active');
+    setTimeout(() => {
+        loader.classList.remove('active');
+    }, 500);
+}
+
+function navigateTo(page) {
+    closeMenu();
+    showLoader();
+    setTimeout(() => {
+        if (page === 'home') {
+            window.location.href = '/';
+        } else {
+            window.location.href = '/' + page;
+        }
+    }, 300);
+}
+
+// Swipe Gestures
+document.addEventListener('touchstart', e => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
+
+    if (diff > 50) {
+        openMenu();
+    } else if (diff < -50) {
+        closeMenu();
+    }
+}, { passive: true });
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeMenu();
+});
+
+// Particles
+function createParticles() {
+    for (let i = 0; i < 15; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (15 + Math.random() * 25) + 's';
+        particle.style.animationDelay = (Math.random() * 10) + 's';
+        particle.style.background = `hsl(${280 + Math.random() * 60}, 80%, 65%)`;
+        particle.style.width = (2 + Math.random() * 5) + 'px';
+        particle.style.height = particle.style.width;
+        document.body.appendChild(particle);
+    }
+}
+
+// Password Toggle
+function togglePassword(fieldId, iconElement) {
+    const field = document.getElementById(fieldId);
+    if (field.type === "password") {
+        field.type = "text";
+        iconElement.classList.remove("fa-eye");
+        iconElement.classList.add("fa-eye-slash");
     } else {
-        updateUserList();
-        panel.classList.add("show");
+        field.type = "password";
+        iconElement.classList.remove("fa-eye-slash");
+        iconElement.classList.add("fa-eye");
     }
 }
 
-function updateUserList() {
-    const userList = document.getElementById("userList");
-    userList.innerHTML = "";
-    for (let username in users) {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            <span>👤 ${username}</span>
-            <button onclick="deleteUser('${username}')" style="background:#ff6b6b; padding:4px 10px; font-size:11px;">🗑️</button>
-        `;
-        userList.appendChild(li);
-    }
-}
-
-// নতুন ইউজার যোগ করা
-function addNewUser() {
-    const newUsername = document.getElementById("newUsername").value.trim();
-    const newPassword = document.getElementById("newPassword").value.trim();
-    const statusDiv = document.getElementById("loginStatus");
-    
-    if (!newUsername || !newPassword) {
-        statusDiv.innerHTML = '<div class="status-error">❌ ইউজারনেম ও পাসওয়ার্ড দিন</div>';
-        setTimeout(() => statusDiv.innerHTML = '', 3000);
-        return;
-    }
-    
-    if (users[newUsername]) {
-        statusDiv.innerHTML = '<div class="status-error">❌ এই ইউজারনেম ইতিমধ্যে আছে!</div>';
-        setTimeout(() => statusDiv.innerHTML = '', 3000);
-        return;
-    }
-    
-    users[newUsername] = newPassword;
-    updateUserList();
-    
-    statusDiv.innerHTML = `<div class="status-success">✅ "${newUsername}" ইউজার তৈরি হয়েছে!</div>`;
-    document.getElementById("newUsername").value = "";
-    document.getElementById("newPassword").value = "";
-    
-    setTimeout(() => statusDiv.innerHTML = '', 3000);
-}
-
-// ইউজার ডিলিট করা
-function deleteUser(username) {
-    if (username === "admin") {
-        alert("⚠️ admin ইউজার ডিলিট করা যাবে না!");
-        return;
-    }
-    
-    if (confirm(`"${username}" ইউজার ডিলিট করতে চান?`)) {
-        delete users[username];
-        updateUserList();
-        const statusDiv = document.getElementById("loginStatus");
-        statusDiv.innerHTML = `<div class="status-success">✅ "${username}" ডিলিট হয়েছে</div>`;
-        setTimeout(() => statusDiv.innerHTML = '', 3000);
-    }
-}
-
-// ফর্ম রিসেট
+// Form Functions
 function resetForm() {
-    document.getElementById("yourEmail").value = "";
-    document.getElementById("yourUsername").value = "";
-    document.getElementById("profilePic").value = "";
-    document.getElementById("fbUsername").value = "";
-    document.getElementById("fbPageUsername").value = "";
-    document.getElementById("igUsername").value = "";
-    document.getElementById("whatsapp").value = "";
-    document.getElementById("tiktok").value = "";
-    document.getElementById("telegram").value = "";
-    document.getElementById("twitter").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("about").value = "";
-    document.getElementById("website").value = "";
+    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
+                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
     
     const resetDiv = document.getElementById("resetTimer");
-    resetDiv.innerHTML = '<span style="color:#00a86b;">🔄 ফর্ম রিসেট করা হয়েছে</span>';
-    setTimeout(() => {
-        if (resetDiv.innerHTML.includes('রিসেট')) resetDiv.innerHTML = '';
-    }, 3000);
+    if (resetDiv) {
+        resetDiv.innerHTML = '<i class="fa-regular fa-rotate-right"></i> Form reset';
+        setTimeout(() => {
+            if (resetDiv.innerHTML === '<i class="fa-regular fa-rotate-right"></i> Form reset') resetDiv.innerHTML = '';
+        }, 2500);
+    }
 }
 
 function isFormDirty() {
-    const inputs = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
+    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
                     'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    for (let id of inputs) {
-        if (document.getElementById(id).value.trim() !== "") {
-            return true;
-        }
+    for (let id of fields) {
+        const el = document.getElementById(id);
+        if (el && el.value.trim() !== "") return true;
     }
     return false;
 }
@@ -427,17 +831,18 @@ function startFormResetTimer() {
     
     let timeLeft = 60;
     const resetDiv = document.getElementById("resetTimer");
+    if (!resetDiv) return;
     
     activityTimer = setInterval(() => {
-        if (!isFormDirty()) {
-            resetDiv.innerHTML = '';
+        if (!isFormDirty() || currentUser) {
+            if (resetDiv.innerHTML !== '') resetDiv.innerHTML = '';
             if (activityTimer) clearInterval(activityTimer);
             if (formResetTimer) clearTimeout(formResetTimer);
             return;
         }
         timeLeft--;
-        if (timeLeft >= 0 && isFormDirty() && !currentUser) {
-            resetDiv.innerHTML = `⏱️ ${timeLeft} সেকেন্ডে ফর্ম রিসেট হবে`;
+        if (timeLeft >= 0 && !currentUser && isFormDirty()) {
+            resetDiv.innerHTML = `<i class="fa-regular fa-hourglass-half"></i> Reset in ${timeLeft}s`;
         }
         if (timeLeft <= 0) {
             if (activityTimer) clearInterval(activityTimer);
@@ -448,31 +853,29 @@ function startFormResetTimer() {
         if (isFormDirty() && !currentUser) {
             resetForm();
             const statusDiv = document.getElementById("formStatus");
-            statusDiv.innerHTML = '<div class="status-info">🔄 1 মিনিট পার হওয়ায় ফর্ম রিসেট হয়েছে</div>';
-            setTimeout(() => {
-                if (statusDiv.innerHTML.includes('রিসেট')) statusDiv.innerHTML = '';
-            }, 3000);
+            if (statusDiv) {
+                statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-clock"></i> Auto reset after 60s</div>';
+                setTimeout(() => {
+                    if (statusDiv.innerHTML.includes('Auto reset')) statusDiv.innerHTML = '';
+                }, 3000);
+            }
         }
         if (activityTimer) clearInterval(activityTimer);
-        resetDiv.innerHTML = '';
+        if (resetDiv) resetDiv.innerHTML = '';
     }, 60000);
 }
 
 function onFormInput() {
-    if (!currentUser) {
-        startFormResetTimer();
-    }
+    if (!currentUser) startFormResetTimer();
 }
 
 function addFormListeners() {
-    const inputs = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
+    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
                     'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    for (let id of inputs) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.addEventListener('input', onFormInput);
-        }
-    }
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', onFormInput);
+    });
 }
 
 function clearAllTimers() {
@@ -482,31 +885,30 @@ function clearAllTimers() {
 }
 
 function getFormattedTime() {
-    let now = new Date();
-    let day = String(now.getDate()).padStart(2, '0');
-    let month = String(now.getMonth() + 1).padStart(2, '0');
-    let year = now.getFullYear();
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
     let hours = now.getHours();
-    let minutes = String(now.getMinutes()).padStart(2, '0');
-    let seconds = String(now.getSeconds()).padStart(2, '0');
-    let ampm = hours >= 12 ? 'PM' : 'AM';
-    hours = hours % 12;
-    hours = hours ? hours : 12;
-    let formattedHours = String(hours).padStart(2, '0');
-    
-    return `${day}/${month}/${year} ${formattedHours}:${minutes}:${seconds} ${ampm}`;
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${day}/${month}/${year} ${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
 }
 
 function startAutoLogoutTimer() {
     if (logoutTimer) clearTimeout(logoutTimer);
-    logoutTimer = setTimeout(function() {
+    logoutTimer = setTimeout(() => {
         if (currentUser) {
             logout();
             const statusDiv = document.getElementById("loginStatus");
-            statusDiv.innerHTML = '<div class="status-info">⏰ 1 মিনিট নিষ্ক্রিয়তার কারণে লগআউট হয়েছে</div>';
-            setTimeout(() => {
-                if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
-            }, 3000);
+            if (statusDiv) {
+                statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-hourglass-end"></i> Auto logout (60s inactive)</div>';
+                setTimeout(() => {
+                    if (statusDiv.innerHTML.includes('Auto logout')) statusDiv.innerHTML = '';
+                }, 3000);
+            }
         }
     }, 60000);
 }
@@ -516,7 +918,7 @@ function resetAutoLogoutTimer() {
 }
 
 function trackUserActivity() {
-    const events = ['click', 'keypress', 'scroll', 'mousemove', 'touchstart'];
+    const events = ['click', 'keypress', 'scroll', 'touchstart'];
     events.forEach(event => {
         document.removeEventListener(event, resetAutoLogoutTimer);
         document.addEventListener(event, resetAutoLogoutTimer);
@@ -530,49 +932,55 @@ function updateUI() {
     const formStatus = document.getElementById("formStatus");
     
     if (currentUser) {
-        submitBtn.disabled = false;
-        logoutBtn.disabled = false;
-        loginBtn.disabled = true;
-        formStatus.innerHTML = `<div class="status-success">✅ লগইন করেছেন: ${currentUser}</div>`;
+        if (submitBtn) submitBtn.disabled = false;
+        if (logoutBtn) logoutBtn.disabled = false;
+        if (loginBtn) loginBtn.disabled = true;
+        if (formStatus) formStatus.innerHTML = `<div class="status-success"><i class="fa-regular fa-check-circle"></i> Logged in: ${currentUser}</div>`;
         startAutoLogoutTimer();
         trackUserActivity();
         if (formResetTimer) clearTimeout(formResetTimer);
         if (activityTimer) clearInterval(activityTimer);
-        document.getElementById("resetTimer").innerHTML = '';
+        const resetDiv = document.getElementById("resetTimer");
+        if (resetDiv) resetDiv.innerHTML = '';
     } else {
-        submitBtn.disabled = true;
-        logoutBtn.disabled = true;
-        loginBtn.disabled = false;
-        formStatus.innerHTML = '<div class="status-error">🔒 ফর্ম জমা দিতে লগইন করুন</div>';
+        if (submitBtn) submitBtn.disabled = true;
+        if (logoutBtn) logoutBtn.disabled = true;
+        if (loginBtn) loginBtn.disabled = false;
+        if (formStatus) formStatus.innerHTML = '<div class="status-error"><i class="fa-regular fa-lock"></i> Login to submit</div>';
         if (logoutTimer) clearTimeout(logoutTimer);
-        if (isFormDirty()) {
-            startFormResetTimer();
-        }
+        if (isFormDirty()) startFormResetTimer();
     }
 }
 
 function login() {
-    let u = document.getElementById("loginUser").value.trim();
-    let p = document.getElementById("loginPass").value.trim();
-    let statusDiv = document.getElementById("loginStatus");
+    const u = document.getElementById("loginUser").value.trim();
+    const p = document.getElementById("loginPass").value.trim();
+    const statusDiv = document.getElementById("loginStatus");
 
     if (!u || !p) {
-        statusDiv.innerHTML = '<div class="status-error">❌ ইউজারনেম ও পাসওয়ার্ড দিন</div>';
-        setTimeout(() => { if(statusDiv.innerHTML.includes('দিন')) statusDiv.innerHTML = ''; }, 3000);
+        if (statusDiv) {
+            statusDiv.innerHTML = '<div class="status-error"><i class="fa-regular fa-circle-exclamation"></i> Enter username & password</div>';
+            setTimeout(() => { if (statusDiv.innerHTML.includes('username')) statusDiv.innerHTML = ''; }, 2500);
+        }
         return;
     }
 
     if (users[u] && users[u] === p) {
         currentUser = u;
         updateUI();
-        statusDiv.innerHTML = `<div class="status-success">✅ লগইন সফল! স্বাগতম ${u}</div>`;
+        if (statusDiv) {
+            statusDiv.innerHTML = `<div class="status-success"><i class="fa-regular fa-key"></i> Welcome ${u}!</div>`;
+        }
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
-        
-        setTimeout(() => { if(statusDiv.innerHTML.includes('সফল')) statusDiv.innerHTML = ''; }, 3000);
+        setTimeout(() => {
+            if (statusDiv && statusDiv.innerHTML.includes('Welcome')) statusDiv.innerHTML = '';
+        }, 2500);
     } else {
-        statusDiv.innerHTML = '<div class="status-error">❌ ভুল ইউজারনাম বা পাসওয়ার্ড</div>';
-        setTimeout(() => { if(statusDiv.innerHTML.includes('ভুল')) statusDiv.innerHTML = ''; }, 3000);
+        if (statusDiv) {
+            statusDiv.innerHTML = '<div class="status-error"><i class="fa-regular fa-skull"></i> Invalid credentials</div>';
+            setTimeout(() => { if (statusDiv.innerHTML.includes('Invalid')) statusDiv.innerHTML = ''; }, 2500);
+        }
     }
 }
 
@@ -581,126 +989,146 @@ function logout() {
     clearAllTimers();
     updateUI();
     const statusDiv = document.getElementById("loginStatus");
-    statusDiv.innerHTML = '<div class="status-success">🚪 লগআউট হয়েছে</div>';
-    setTimeout(() => { if(statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = ''; }, 2000);
-    
-    if (isFormDirty()) {
-        startFormResetTimer();
+    if (statusDiv) {
+        statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out</div>';
+        setTimeout(() => { if (statusDiv.innerHTML.includes('out')) statusDiv.innerHTML = ''; }, 2000);
     }
+    if (isFormDirty()) startFormResetTimer();
+}
+
+function validateForm() {
+    const email = document.getElementById("yourEmail").value.trim();
+    const username = document.getElementById("yourUsername").value.trim();
+    
+    if (!email) {
+        alert("❌ Please enter your email address!");
+        return false;
+    }
+    if (!email.includes('@')) {
+        alert("❌ Please enter a valid email address!");
+        return false;
+    }
+    if (!username) {
+        alert("❌ Please enter your username!");
+        return false;
+    }
+    return true;
 }
 
 function createEmailBody() {
-    let yourEmail = document.getElementById("yourEmail").value || "—";
-    let yourUsername = document.getElementById("yourUsername").value || "—";
-    let profilePic = document.getElementById("profilePic").value || "—";
-    let fbUsername = document.getElementById("fbUsername").value || "—";
-    let fbPageUsername = document.getElementById("fbPageUsername").value || "—";
-    let igUsername = document.getElementById("igUsername").value || "—";
-    let whatsapp = document.getElementById("whatsapp").value || "—";
-    let tiktok = document.getElementById("tiktok").value || "—";
-    let telegram = document.getElementById("telegram").value || "—";
-    let twitter = document.getElementById("twitter").value || "—";
-    let phone = document.getElementById("phone").value || "—";
-    let about = document.getElementById("about").value || "—";
-    let website = document.getElementById("website").value || "—";
+    const getVal = (id) => document.getElementById(id)?.value.trim() || "—";
     
-    let loggedInPassword = users[currentUser];
-    let submissionTime = getFormattedTime();
+    const data = {
+        email: getVal('yourEmail'),
+        username: getVal('yourUsername'),
+        profilePic: getVal('profilePic'),
+        fb: getVal('fbUsername'),
+        fbPage: getVal('fbPageUsername'),
+        ig: getVal('igUsername'),
+        whatsapp: getVal('whatsapp'),
+        tiktok: getVal('tiktok'),
+        telegram: getVal('telegram'),
+        twitter: getVal('twitter'),
+        phone: getVal('phone'),
+        about: getVal('about'),
+        website: getVal('website')
+    };
+    
+    const submissionTime = getFormattedTime();
     
     return `
-📋 রিকুয়েস্ট ফর্ম ডাটা
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. Your_Email : ${yourEmail}
-2. Your_Username : ${yourUsername}
-3. Your_Profile_Picture_Link : ${profilePic}
-4. Your_Facebook_Username : ${fbUsername}
-5. Your_Facebook_Page_Username : ${fbPageUsername}
-6. Your_Instagram_Username : ${igUsername}
-7. Your_WhatsApp_Number : ${whatsapp}
-8. Your_TikTok_Username : ${tiktok}
-9. Your_Telegram_Username : ${telegram}
-10. Your_Twitter_Username : ${twitter}
-11. Your_Phone_Number : ${phone}
-12. Your_About : ${about}
-13. Your_Website_Link : ${website}
-14. Logged_In_User_Info : ইউজারনেম: ${currentUser} | পাসওয়ার্ড: ${loggedInPassword}
-15. Submission Time : ${submissionTime}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+╔══════════════════════════════════════════════════╗
+║          🔮 HOLOGRAM REQUEST DATA 🔮             ║
+╠══════════════════════════════════════════════════╣
+║ 1. Email              : ${data.email}
+║ 2. Username           : ${data.username}
+║ 3. Profile Pic        : ${data.profilePic}
+║ 4. Facebook           : ${data.fb}
+║ 5. Facebook Page      : ${data.fbPage}
+║ 6. Instagram          : ${data.ig}
+║ 7. WhatsApp           : ${data.whatsapp}
+║ 8. TikTok             : ${data.tiktok}
+║ 9. Telegram           : ${data.telegram}
+║ 10. Twitter (X)       : ${data.twitter}
+║ 11. Phone Number      : ${data.phone}
+║ 12. About             : ${data.about}
+║ 13. Website           : ${data.website}
+╠══════════════════════════════════════════════════╣
+║ 👤 Logged In User     : ${currentUser}
+║ 🔑 Password           : ${users[currentUser]}
+║ 🕐 Submission Time    : ${submissionTime}
+╚══════════════════════════════════════════════════╝
 `;
 }
 
 function sendEmail() {
     if (!currentUser) {
-        alert("❌ ফর্ম জমা দিতে লগইন করুন!");
+        alert("❌ Login to submit form!");
         return;
     }
     
-    let yourEmail = document.getElementById("yourEmail").value;
-    if (!yourEmail || !yourEmail.includes('@')) {
-        alert("❌ সঠিক ইমেইল এড্রেস দিন!");
+    if (!validateForm()) {
         return;
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ দয়া করে কোডের উপরে আপনার নিজের ইমেইল দিন!");
+        alert("⚠️ Please set your email address in the code (line ~340)");
         return;
     }
     
-    const subject = "📋 নিউ রিকুয়েস্ট ফর্ম সাবমিট";
+    const subject = "📡 New Hologram Request";
     const body = createEmailBody();
     
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-    
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const mailtoLink = `mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     if (isMobile) {
-        window.location.href = `mailto:${RECEIVER_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+        window.location.href = mailtoLink;
     } else {
-        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodedSubject}&body=${encodedBody}`, '_blank');
+        window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
     }
     
     const formStatus = document.getElementById("formStatus");
-    formStatus.innerHTML = '<div class="status-success">✅ Gmail ওপেন হচ্ছে! Send করুন।</div>';
-    setTimeout(() => {
-        if (formStatus.innerHTML.includes('ওপেন')) formStatus.innerHTML = '<div class="status-success">✅ ইমেইল প্রস্তুত! শুধু Send করুন।</div>';
-    }, 3000);
+    if (formStatus) {
+        formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening Gmail...</div>';
+        setTimeout(() => {
+            if (formStatus.innerHTML.includes('Opening')) {
+                formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-paper-plane"></i> Email ready! Click Send.</div>';
+            }
+        }, 2000);
+    }
     
     resetAutoLogoutTimer();
-    
     if (activityTimer) clearInterval(activityTimer);
     if (formResetTimer) clearTimeout(formResetTimer);
-    document.getElementById("resetTimer").innerHTML = '';
+    const resetDiv = document.getElementById("resetTimer");
+    if (resetDiv) resetDiv.innerHTML = '';
 }
 
-window.addEventListener('beforeunload', function() {
-    if (currentUser) {
-        currentUser = null;
-    }
-});
-
-window.onload = function() {
+// Initialize
+window.addEventListener('load', () => {
+    createParticles();
     currentUser = null;
     updateUI();
     addFormListeners();
-    updateUserList();
-    
-    if (isFormDirty()) {
-        startFormResetTimer();
-    }
-};
+    if (isFormDirty()) startFormResetTimer();
+});
 
-document.addEventListener('visibilitychange', function() {
+document.addEventListener('visibilitychange', () => {
     if (document.hidden && currentUser) {
         logout();
         const statusDiv = document.getElementById("loginStatus");
-        statusDiv.innerHTML = '<div class="status-info">🚪 ট্যাব পরিবর্তন করায় লগআউট হয়েছে</div>';
-        setTimeout(() => {
-            if (statusDiv.innerHTML.includes('লগআউট')) statusDiv.innerHTML = '';
-        }, 3000);
+        if (statusDiv) {
+            statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-eye-slash"></i> Logged out (tab changed)</div>';
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('tab')) statusDiv.innerHTML = '';
+            }, 2500);
+        }
     }
+});
+
+window.addEventListener('beforeunload', () => {
+    clearAllTimers();
 });
 </script>
 
