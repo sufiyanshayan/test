@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
 <title>Hologram Request Form</title>
+<link rel="icon" href="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
@@ -493,11 +494,8 @@
         border: 1px solid rgba(255, 160, 255, 0.25);
     }
 
-    .countdown-timer {
-        font-size: 0.6rem;
-        color: #ffa0ff;
-        margin-top: 6px;
-        text-align: right;
+    .hidden {
+        display: none;
     }
 
     .mini-logo {
@@ -518,10 +516,6 @@
         background: linear-gradient(135deg, #fff, #ffa0ff);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-    }
-
-    .hidden {
-        display: none;
     }
 </style>
 </head>
@@ -553,7 +547,7 @@
                 <i class="fa-regular fa-robot"></i>
             </div>
             <div class="profile-text">
-                <h3 id="sidebarUserName">GUEST_MODE</h3>
+                <h3 id="sidebarUsername">GUEST_MODE</h3>
                 <p>REQUEST_FORM</p>
             </div>
         </div>
@@ -607,8 +601,8 @@
             <div id="loginStatus" class="status"></div>
         </div>
 
-        <!-- Request Form Card -->
-        <div class="neon-card hidden" id="requestFormCard">
+        <!-- Request Form Card (Hidden by default) -->
+        <div class="neon-card hidden" id="formCard">
             <div class="form-header">
                 <h3><i class="fa-regular fa-pen-to-square"></i> HOLOGRAM REQUEST</h3>
                 <i class="fa-regular fa-satellite-dish"></i>
@@ -625,7 +619,7 @@
             </div>
 
             <div class="input-group">
-                <label><i class="fa-regular fa-signature"></i> 3. YOUR NAME <span style="color:#ff6688;">*</span></label>
+                <label><i class="fa-regular fa-id-card"></i> 3. YOUR NAME <span style="color:#ff6688;">*</span></label>
                 <input type="text" id="yourName" placeholder="John Doe" autocomplete="off">
             </div>
 
@@ -688,12 +682,11 @@
                 <i class="fa-regular fa-paper-plane"></i> SUBMIT TO QUANTUM NET
             </button>
 
-            <button class="cyber-btn logout-btn" id="logoutBtn" onclick="logout()">
+            <button class="cyber-btn logout-btn" id="logoutBtnForm" onclick="logout()">
                 <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
             </button>
 
             <div id="formStatus" class="status"></div>
-            <div id="resetTimer" class="countdown-timer"></div>
         </div>
     </div>
 
@@ -706,7 +699,7 @@
 // ==============================================
 // 🔐 SET YOUR EMAIL HERE
 // ==============================================
-const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- Change this to your email
+const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- Change this to your email
 // ==============================================
 
 // ==============================================
@@ -721,8 +714,6 @@ const users = {
 
 let currentUser = null;
 let logoutTimer = null;
-let formResetTimer = null;
-let activityTimer = null;
 let touchStartX = 0;
 
 // Menu Functions
@@ -759,20 +750,23 @@ function navigateTo(page) {
     }, 300);
 }
 
-// Swipe Gestures
+// Swipe Gestures (without touch icon)
 document.addEventListener('touchstart', e => {
-    touchStartX = e.changedTouches[0].screenX;
+    if (currentUser) {
+        touchStartX = e.changedTouches[0].screenX;
+    }
 }, { passive: true });
 
 document.addEventListener('touchend', e => {
-    if (!currentUser) return;
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchEndX - touchStartX;
+    if (currentUser) {
+        const touchEndX = e.changedTouches[0].screenX;
+        const diff = touchEndX - touchStartX;
 
-    if (diff > 50) {
-        openMenu();
-    } else if (diff < -50) {
-        closeMenu();
+        if (diff > 50) {
+            openMenu();
+        } else if (diff < -50) {
+            closeMenu();
+        }
     }
 }, { passive: true });
 
@@ -809,93 +803,6 @@ function togglePassword(fieldId, iconElement) {
     }
 }
 
-// Form Functions
-function resetForm() {
-    const fields = ['yourEmail', 'yourUsername', 'yourName', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-    });
-    
-    const resetDiv = document.getElementById("resetTimer");
-    if (resetDiv) {
-        resetDiv.innerHTML = '<i class="fa-regular fa-rotate-right"></i> Form reset';
-        setTimeout(() => {
-            if (resetDiv.innerHTML === '<i class="fa-regular fa-rotate-right"></i> Form reset') resetDiv.innerHTML = '';
-        }, 2500);
-    }
-}
-
-function isFormDirty() {
-    const fields = ['yourEmail', 'yourUsername', 'yourName', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    for (let id of fields) {
-        const el = document.getElementById(id);
-        if (el && el.value.trim() !== "") return true;
-    }
-    return false;
-}
-
-function startFormResetTimer() {
-    if (formResetTimer) clearTimeout(formResetTimer);
-    if (activityTimer) clearInterval(activityTimer);
-    
-    let timeLeft = 60;
-    const resetDiv = document.getElementById("resetTimer");
-    if (!resetDiv) return;
-    
-    activityTimer = setInterval(() => {
-        if (!isFormDirty() || !currentUser) {
-            if (resetDiv.innerHTML !== '') resetDiv.innerHTML = '';
-            if (activityTimer) clearInterval(activityTimer);
-            if (formResetTimer) clearTimeout(formResetTimer);
-            return;
-        }
-        timeLeft--;
-        if (timeLeft >= 0 && currentUser && isFormDirty()) {
-            resetDiv.innerHTML = `<i class="fa-regular fa-hourglass-half"></i> Reset in ${timeLeft}s`;
-        }
-        if (timeLeft <= 0) {
-            if (activityTimer) clearInterval(activityTimer);
-        }
-    }, 1000);
-    
-    formResetTimer = setTimeout(() => {
-        if (isFormDirty() && currentUser) {
-            resetForm();
-            const statusDiv = document.getElementById("formStatus");
-            if (statusDiv) {
-                statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-clock"></i> Auto reset after 60s</div>';
-                setTimeout(() => {
-                    if (statusDiv.innerHTML.includes('Auto reset')) statusDiv.innerHTML = '';
-                }, 3000);
-            }
-        }
-        if (activityTimer) clearInterval(activityTimer);
-        if (resetDiv) resetDiv.innerHTML = '';
-    }, 60000);
-}
-
-function onFormInput() {
-    if (currentUser) startFormResetTimer();
-}
-
-function addFormListeners() {
-    const fields = ['yourEmail', 'yourUsername', 'yourName', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', onFormInput);
-    });
-}
-
-function clearAllTimers() {
-    if (logoutTimer) clearTimeout(logoutTimer);
-    if (formResetTimer) clearTimeout(formResetTimer);
-    if (activityTimer) clearInterval(activityTimer);
-}
-
 function getFormattedTime() {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -919,7 +826,10 @@ function startAutoLogoutTimer() {
 }
 
 function resetAutoLogoutTimer() {
-    if (currentUser) startAutoLogoutTimer();
+    if (currentUser) {
+        if (logoutTimer) clearTimeout(logoutTimer);
+        startAutoLogoutTimer();
+    }
 }
 
 function trackUserActivity() {
@@ -930,31 +840,48 @@ function trackUserActivity() {
     });
 }
 
-function updateUI() {
-    const loginCard = document.getElementById("loginCard");
-    const requestFormCard = document.getElementById("requestFormCard");
-    const sidebarUserName = document.getElementById("sidebarUserName");
-    const submitBtn = document.getElementById("submitBtn");
-    const formStatus = document.getElementById("formStatus");
+function updateUIAfterLogin() {
+    const loginCard = document.getElementById('loginCard');
+    const formCard = document.getElementById('formCard');
+    const sidebarUsername = document.getElementById('sidebarUsername');
     
     if (currentUser) {
-        if (loginCard) loginCard.classList.add('hidden');
-        if (requestFormCard) requestFormCard.classList.remove('hidden');
-        if (sidebarUserName) sidebarUserName.textContent = currentUser;
-        if (submitBtn) submitBtn.disabled = false;
-        if (formStatus && formStatus.innerHTML.includes('Login to submit')) formStatus.innerHTML = '';
+        loginCard.classList.add('hidden');
+        formCard.classList.remove('hidden');
+        if (sidebarUsername) sidebarUsername.textContent = currentUser.toUpperCase();
         startAutoLogoutTimer();
         trackUserActivity();
-        if (isFormDirty()) startFormResetTimer();
-    } else {
-        if (loginCard) loginCard.classList.remove('hidden');
-        if (requestFormCard) requestFormCard.classList.add('hidden');
-        if (sidebarUserName) sidebarUserName.textContent = 'GUEST_MODE';
-        if (submitBtn) submitBtn.disabled = true;
-        if (logoutTimer) clearTimeout(logoutTimer);
-        if (formResetTimer) clearTimeout(formResetTimer);
-        if (activityTimer) clearInterval(activityTimer);
     }
+}
+
+function updateUIAfterLogout() {
+    const loginCard = document.getElementById('loginCard');
+    const formCard = document.getElementById('formCard');
+    const sidebarUsername = document.getElementById('sidebarUsername');
+    const loginStatus = document.getElementById('loginStatus');
+    const formStatus = document.getElementById('formStatus');
+    
+    loginCard.classList.remove('hidden');
+    formCard.classList.add('hidden');
+    if (sidebarUsername) sidebarUsername.textContent = 'GUEST_MODE';
+    
+    // Clear form fields
+    const fields = ['yourEmail', 'yourUsername', 'yourName', 'profilePic', 'fbUsername', 'fbPageUsername', 
+                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+    
+    if (formStatus) formStatus.innerHTML = '';
+    if (loginStatus) {
+        loginStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
+        setTimeout(() => {
+            if (loginStatus.innerHTML.includes('Logged out')) loginStatus.innerHTML = '';
+        }, 3000);
+    }
+    
+    if (logoutTimer) clearTimeout(logoutTimer);
 }
 
 function login() {
@@ -972,15 +899,15 @@ function login() {
 
     if (users[u] && users[u] === p) {
         currentUser = u;
-        updateUI();
+        updateUIAfterLogin();
         if (statusDiv) {
-            statusDiv.innerHTML = `<div class="status-success"><i class="fa-regular fa-key"></i> Login successful! Loading form...</div>`;
+            statusDiv.innerHTML = `<div class="status-success"><i class="fa-regular fa-key"></i> Welcome ${u}!</div>`;
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('Welcome')) statusDiv.innerHTML = '';
+            }, 2500);
         }
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
-        setTimeout(() => {
-            if (statusDiv && statusDiv.innerHTML.includes('successful')) statusDiv.innerHTML = '';
-        }, 2500);
     } else {
         if (statusDiv) {
             statusDiv.innerHTML = '<div class="status-error"><i class="fa-regular fa-skull"></i> Invalid credentials</div>';
@@ -990,17 +917,8 @@ function login() {
 }
 
 function logout() {
-    const statusDiv = document.getElementById("formStatus");
     currentUser = null;
-    clearAllTimers();
-    updateUI();
-    resetForm();
-    if (statusDiv) {
-        statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
-        setTimeout(() => {
-            if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
-        }, 3000);
-    }
+    updateUIAfterLogout();
 }
 
 function validateForm() {
@@ -1030,24 +948,41 @@ function validateForm() {
 function createEmailBody() {
     const getVal = (id) => document.getElementById(id)?.value.trim() || "—";
     
+    const data = {
+        email: getVal('yourEmail'),
+        username: getVal('yourUsername'),
+        name: getVal('yourName'),
+        profilePic: getVal('profilePic'),
+        fb: getVal('fbUsername'),
+        fbPage: getVal('fbPageUsername'),
+        ig: getVal('igUsername'),
+        whatsapp: getVal('whatsapp'),
+        tiktok: getVal('tiktok'),
+        telegram: getVal('telegram'),
+        twitter: getVal('twitter'),
+        phone: getVal('phone'),
+        about: getVal('about'),
+        website: getVal('website')
+    };
+    
     const submissionTime = getFormattedTime();
     
     return `🔮 HOLOGRAM REQUEST DATA 🔮
 
-1. Email              : ${getVal('yourEmail')}
-2. Username           : ${getVal('yourUsername')}
-3. Your Name          : ${getVal('yourName')}
-4. Profile Pic        : ${getVal('profilePic')}
-5. Facebook           : ${getVal('fbUsername')}
-6. Facebook Page      : ${getVal('fbPageUsername')}
-7. Instagram          : ${getVal('igUsername')}
-8. WhatsApp           : ${getVal('whatsapp')}
-9. TikTok             : ${getVal('tiktok')}
-10. Telegram          : ${getVal('telegram')}
-11. Twitter (X)       : ${getVal('twitter')}
-12. Phone Number      : ${getVal('phone')}
-13. About             : ${getVal('about')}
-14. Website           : ${getVal('website')}
+1. Email              : ${data.email}
+2. Username           : ${data.username}
+3. Name               : ${data.name}
+4. Profile Pic        : ${data.profilePic}
+5. Facebook           : ${data.fb}
+6. Facebook Page      : ${data.fbPage}
+7. Instagram          : ${data.ig}
+8. WhatsApp           : ${data.whatsapp}
+9. TikTok             : ${data.tiktok}
+10. Telegram          : ${data.telegram}
+11. Twitter (X)       : ${data.twitter}
+12. Phone Number      : ${data.phone}
+13. About             : ${data.about}
+14. Website           : ${data.website}
 
 👤 Logged In User     : ${currentUser}
 🔑 Password           : ${users[currentUser]}
@@ -1056,7 +991,8 @@ function createEmailBody() {
 
 function sendEmail() {
     if (!currentUser) {
-        alert("❌ You must be logged in to submit!");
+        alert("❌ Session expired! Please login again.");
+        logout();
         return;
     }
     
@@ -1065,7 +1001,7 @@ function sendEmail() {
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ Please set your email address in the code (line ~340)");
+        alert("⚠️ Please set your email address in the code");
         return;
     }
     
@@ -1086,24 +1022,19 @@ function sendEmail() {
         formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening Gmail...</div>';
         setTimeout(() => {
             if (formStatus.innerHTML.includes('Opening')) {
-                formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-paper-plane"></i> Email ready! Click Send.</div>';
+                formStatus.innerHTML = '';
             }
-        }, 2000);
+        }, 3000);
     }
     
     resetAutoLogoutTimer();
-    if (activityTimer) clearInterval(activityTimer);
-    if (formResetTimer) clearTimeout(formResetTimer);
-    const resetDiv = document.getElementById("resetTimer");
-    if (resetDiv) resetDiv.innerHTML = '';
 }
 
 // Initialize
 window.addEventListener('load', () => {
     createParticles();
     currentUser = null;
-    updateUI();
-    addFormListeners();
+    updateUIAfterLogout();
 });
 
 document.addEventListener('visibilitychange', () => {
@@ -1113,7 +1044,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 window.addEventListener('beforeunload', () => {
-    clearAllTimers();
+    if (logoutTimer) clearTimeout(logoutTimer);
 });
 </script>
 
