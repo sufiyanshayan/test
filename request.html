@@ -317,6 +317,10 @@
         transition: all 0.3s ease;
     }
 
+    .neon-card.hidden {
+        display: none;
+    }
+
     .neon-card::before {
         content: '';
         position: absolute;
@@ -464,7 +468,6 @@
 
     .logout-btn {
         background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
-        margin-top: 8px;
     }
 
     .status {
@@ -492,10 +495,6 @@
         background: rgba(255, 160, 255, 0.12);
         color: #ffa0ff;
         border: 1px solid rgba(255, 160, 255, 0.25);
-    }
-
-    .hidden {
-        display: none;
     }
 
     .mini-logo {
@@ -547,7 +546,7 @@
                 <i class="fa-regular fa-robot"></i>
             </div>
             <div class="profile-text">
-                <h3 id="sidebarUsername">GUEST_MODE</h3>
+                <h3 id="sidebarUserName">GUEST_MODE</h3>
                 <p>REQUEST_FORM</p>
             </div>
         </div>
@@ -577,7 +576,7 @@
                 <span>SECURE_ACCESS</span>
             </div>
             <div class="form-header">
-                <h3><i class="fa-regular fa-fingerprint"></i> LOGIN REQUIRED</h3>
+                <h3><i class="fa-regular fa-fingerprint"></i> LOGIN</h3>
                 <i class="fa-regular fa-crystal"></i>
             </div>
             
@@ -673,11 +672,11 @@
                 <input type="url" id="website" placeholder="https://yourdomain.com" autocomplete="off">
             </div>
 
-            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()">
+            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()" disabled>
                 <i class="fa-regular fa-paper-plane"></i> SUBMIT TO QUANTUM NET
             </button>
 
-            <button class="cyber-btn logout-btn" id="logoutBtn" onclick="logout()">
+            <button class="cyber-btn logout-btn" id="logoutBtnForm" onclick="logout()" style="margin-top: 10px;">
                 <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
             </button>
 
@@ -708,7 +707,6 @@ const users = {
 // ==============================================
 
 let currentUser = null;
-let logoutTimer = null;
 let touchStartX = 0;
 
 // Menu Functions
@@ -743,7 +741,7 @@ function navigateTo(page) {
     }, 300);
 }
 
-// Swipe Gestures (removed touch icon)
+// Swipe Gestures
 document.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
@@ -792,16 +790,6 @@ function togglePassword(fieldId, iconElement) {
     }
 }
 
-// Form Functions
-function resetForm() {
-    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = "";
-    });
-}
-
 function getFormattedTime() {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -815,44 +803,22 @@ function getFormattedTime() {
     return `${day}/${month}/${year} ${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
 }
 
-function startAutoLogoutTimer() {
-    if (logoutTimer) clearTimeout(logoutTimer);
-    logoutTimer = setTimeout(() => {
-        if (currentUser) {
-            logout();
-        }
-    }, 60000);
-}
-
-function resetAutoLogoutTimer() {
-    if (currentUser) startAutoLogoutTimer();
-}
-
-function trackUserActivity() {
-    const events = ['click', 'keypress', 'scroll', 'touchstart'];
-    events.forEach(event => {
-        document.removeEventListener(event, resetAutoLogoutTimer);
-        document.addEventListener(event, resetAutoLogoutTimer);
-    });
-}
-
 function updateUI() {
     const loginCard = document.getElementById('loginCard');
     const formCard = document.getElementById('formCard');
-    const sidebarUsername = document.getElementById('sidebarUsername');
+    const submitBtn = document.getElementById("submitBtn");
+    const sidebarUserName = document.getElementById("sidebarUserName");
     
     if (currentUser) {
         loginCard.classList.add('hidden');
         formCard.classList.remove('hidden');
-        if (sidebarUsername) sidebarUsername.innerText = currentUser.toUpperCase();
-        startAutoLogoutTimer();
-        trackUserActivity();
+        if (submitBtn) submitBtn.disabled = false;
+        if (sidebarUserName) sidebarUserName.innerHTML = currentUser.toUpperCase();
     } else {
         loginCard.classList.remove('hidden');
         formCard.classList.add('hidden');
-        if (sidebarUsername) sidebarUsername.innerText = 'GUEST_MODE';
-        if (logoutTimer) clearTimeout(logoutTimer);
-        resetForm();
+        if (submitBtn) submitBtn.disabled = true;
+        if (sidebarUserName) sidebarUserName.innerHTML = 'GUEST_MODE';
     }
 }
 
@@ -876,7 +842,7 @@ function login() {
             statusDiv.innerHTML = `<div class="status-success"><i class="fa-regular fa-key"></i> Welcome ${u}!</div>`;
             setTimeout(() => {
                 if (statusDiv.innerHTML.includes('Welcome')) statusDiv.innerHTML = '';
-            }, 2000);
+            }, 2500);
         }
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
@@ -889,20 +855,21 @@ function login() {
 }
 
 function logout() {
-    const wasLoggedIn = currentUser !== null;
     currentUser = null;
-    if (logoutTimer) clearTimeout(logoutTimer);
     updateUI();
+    const statusDiv = document.getElementById("formStatus");
+    if (statusDiv) {
+        statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
+        setTimeout(() => {
+            if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
+        }, 2500);
+    }
     
-    // Show logout message only when actually logging out
-    if (wasLoggedIn) {
-        const statusDiv = document.getElementById("formStatus");
-        if (statusDiv) {
-            statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
-            setTimeout(() => {
-                if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
-            }, 2500);
-        }
+    const loginStatusDiv = document.getElementById("loginStatus");
+    if (loginStatusDiv && loginStatusDiv.innerHTML !== '') {
+        setTimeout(() => {
+            loginStatusDiv.innerHTML = '';
+        }, 2500);
     }
 }
 
@@ -911,15 +878,15 @@ function validateForm() {
     const username = document.getElementById("yourUsername").value.trim();
     
     if (!email) {
-        alert("❌ Please enter your email address!");
+        alert("Please enter your email address!");
         return false;
     }
     if (!email.includes('@')) {
-        alert("❌ Please enter a valid email address!");
+        alert("Please enter a valid email address!");
         return false;
     }
     if (!username) {
-        alert("❌ Please enter your username!");
+        alert("Please enter your username!");
         return false;
     }
     return true;
@@ -946,34 +913,30 @@ function createEmailBody() {
     
     const submissionTime = getFormattedTime();
     
-    return `
-╔══════════════════════════════════════════════════╗
-║          🔮 HOLOGRAM REQUEST DATA 🔮             ║
-╠══════════════════════════════════════════════════╣
-║ 1. Email              : ${data.email}
-║ 2. Username           : ${data.username}
-║ 3. Profile Pic        : ${data.profilePic}
-║ 4. Facebook           : ${data.fb}
-║ 5. Facebook Page      : ${data.fbPage}
-║ 6. Instagram          : ${data.ig}
-║ 7. WhatsApp           : ${data.whatsapp}
-║ 8. TikTok             : ${data.tiktok}
-║ 9. Telegram           : ${data.telegram}
-║ 10. Twitter (X)       : ${data.twitter}
-║ 11. Phone Number      : ${data.phone}
-║ 12. About             : ${data.about}
-║ 13. Website           : ${data.website}
-╠══════════════════════════════════════════════════╣
-║ 👤 Logged In User     : ${currentUser}
-║ 🔑 Password           : ${users[currentUser]}
-║ 🕐 Submission Time    : ${submissionTime}
-╚══════════════════════════════════════════════════╝
-`;
+    return `🔮 HOLOGRAM REQUEST DATA 🔮
+
+1. Email: ${data.email}
+2. Username: ${data.username}
+3. Profile Pic: ${data.profilePic}
+4. Facebook: ${data.fb}
+5. Facebook Page: ${data.fbPage}
+6. Instagram: ${data.ig}
+7. WhatsApp: ${data.whatsapp}
+8. TikTok: ${data.tiktok}
+9. Telegram: ${data.telegram}
+10. Twitter (X): ${data.twitter}
+11. Phone Number: ${data.phone}
+12. About: ${data.about}
+13. Website: ${data.website}
+
+Logged In User: ${currentUser}
+Password: ${users[currentUser]}
+Submission Time: ${submissionTime}`;
 }
 
 function sendEmail() {
     if (!currentUser) {
-        alert("❌ You must be logged in to submit!");
+        alert("Please login to submit form!");
         return;
     }
     
@@ -982,11 +945,11 @@ function sendEmail() {
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ Please set your email address in the code (line ~530)");
+        alert("Please set your email address in the code");
         return;
     }
     
-    const subject = "📡 New Hologram Request";
+    const subject = "New Hologram Request";
     const body = createEmailBody();
     
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -1000,15 +963,13 @@ function sendEmail() {
     
     const formStatus = document.getElementById("formStatus");
     if (formStatus) {
-        formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening email client...</div>';
+        formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening Gmail...</div>';
         setTimeout(() => {
             if (formStatus.innerHTML.includes('Opening')) {
                 formStatus.innerHTML = '';
             }
         }, 3000);
     }
-    
-    resetAutoLogoutTimer();
 }
 
 // Initialize
@@ -1018,14 +979,8 @@ window.addEventListener('load', () => {
     updateUI();
 });
 
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden && currentUser) {
-        logout();
-    }
-});
-
 window.addEventListener('beforeunload', () => {
-    if (logoutTimer) clearTimeout(logoutTimer);
+    // Cleanup if needed
 });
 </script>
 
