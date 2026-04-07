@@ -546,7 +546,7 @@
                 <i class="fa-regular fa-robot"></i>
             </div>
             <div class="profile-text">
-                <h3 id="sidebarUserName">GUEST_MODE</h3>
+                <h3 id="sidebarUsername">GUEST_MODE</h3>
                 <p>REQUEST_FORM</p>
             </div>
         </div>
@@ -593,7 +593,7 @@
                 </div>
             </div>
             
-            <button class="cyber-btn login-btn" id="loginBtn" onclick="login()">
+            <button class="cyber-btn login-btn" onclick="login()">
                 <i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN
             </button>
             
@@ -618,65 +618,70 @@
             </div>
 
             <div class="input-group">
-                <label><i class="fa-regular fa-image"></i> 3. YOUR PROFILE PICTURE LINK</label>
+                <label><i class="fa-regular fa-signature"></i> 3. YOUR FULL NAME</label>
+                <input type="text" id="fullName" placeholder="John Doe" autocomplete="off">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-regular fa-image"></i> 4. YOUR PROFILE PICTURE LINK</label>
                 <input type="url" id="profilePic" placeholder="https://" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-facebook"></i> 4. YOUR FACEBOOK USERNAME</label>
+                <label><i class="fa-brands fa-facebook"></i> 5. YOUR FACEBOOK USERNAME</label>
                 <input type="text" id="fbUsername" placeholder="username" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-facebook"></i> 5. YOUR FACEBOOK PAGE USERNAME</label>
+                <label><i class="fa-brands fa-facebook"></i> 6. YOUR FACEBOOK PAGE USERNAME</label>
                 <input type="text" id="fbPageUsername" placeholder="pagename" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-instagram"></i> 6. YOUR INSTAGRAM USERNAME</label>
+                <label><i class="fa-brands fa-instagram"></i> 7. YOUR INSTAGRAM USERNAME</label>
                 <input type="text" id="igUsername" placeholder="@username" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-whatsapp"></i> 7. YOUR WHATSAPP NUMBER</label>
+                <label><i class="fa-brands fa-whatsapp"></i> 8. YOUR WHATSAPP NUMBER</label>
                 <input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-tiktok"></i> 8. YOUR TIKTOK USERNAME</label>
+                <label><i class="fa-brands fa-tiktok"></i> 9. YOUR TIKTOK USERNAME</label>
                 <input type="text" id="tiktok" placeholder="@username" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-telegram"></i> 9. YOUR TELEGRAM USERNAME</label>
+                <label><i class="fa-brands fa-telegram"></i> 10. YOUR TELEGRAM USERNAME</label>
                 <input type="text" id="telegram" placeholder="@username" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-brands fa-twitter"></i> 10. YOUR TWITTER (X) USERNAME</label>
+                <label><i class="fa-brands fa-twitter"></i> 11. YOUR TWITTER (X) USERNAME</label>
                 <input type="text" id="twitter" placeholder="@username" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-solid fa-phone"></i> 11. YOUR PHONE NUMBER</label>
+                <label><i class="fa-solid fa-phone"></i> 12. YOUR PHONE NUMBER</label>
                 <input type="tel" id="phone" placeholder="8801XXXXXXXXX" autocomplete="off">
             </div>
 
             <div class="input-group">
-                <label><i class="fa-regular fa-user"></i> 12. YOUR ABOUT</label>
+                <label><i class="fa-regular fa-user"></i> 13. YOUR ABOUT</label>
                 <textarea id="about" placeholder="Write something about yourself..."></textarea>
             </div>
 
             <div class="input-group">
-                <label><i class="fa-solid fa-globe"></i> 13. YOUR WEBSITE LINK</label>
+                <label><i class="fa-solid fa-globe"></i> 14. YOUR WEBSITE LINK</label>
                 <input type="url" id="website" placeholder="https://yourdomain.com" autocomplete="off">
             </div>
 
-            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()" disabled>
+            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()">
                 <i class="fa-regular fa-paper-plane"></i> SUBMIT TO QUANTUM NET
             </button>
 
-            <button class="cyber-btn logout-btn" id="logoutBtnForm" onclick="logout()" style="margin-top: 10px;">
+            <button class="cyber-btn logout-btn" id="logoutBtnForm" onclick="logout()">
                 <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
             </button>
 
@@ -707,6 +712,7 @@ const users = {
 // ==============================================
 
 let currentUser = null;
+let logoutTimer = null;
 let touchStartX = 0;
 
 // Menu Functions
@@ -741,7 +747,7 @@ function navigateTo(page) {
     }, 300);
 }
 
-// Swipe Gestures
+// Swipe Gestures - Only for menu, no icon shown
 document.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
@@ -790,6 +796,15 @@ function togglePassword(fieldId, iconElement) {
     }
 }
 
+function clearForm() {
+    const fields = ['yourEmail', 'yourUsername', 'fullName', 'profilePic', 'fbUsername', 'fbPageUsername', 
+                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+    });
+}
+
 function getFormattedTime() {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -803,22 +818,43 @@ function getFormattedTime() {
     return `${day}/${month}/${year} ${String(hours).padStart(2, '0')}:${minutes}:${seconds} ${ampm}`;
 }
 
+function startAutoLogoutTimer() {
+    if (logoutTimer) clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(() => {
+        if (currentUser) {
+            logout();
+        }
+    }, 60000);
+}
+
+function resetAutoLogoutTimer() {
+    if (currentUser) startAutoLogoutTimer();
+}
+
+function trackUserActivity() {
+    const events = ['click', 'keypress', 'scroll', 'touchstart'];
+    events.forEach(event => {
+        document.removeEventListener(event, resetAutoLogoutTimer);
+        document.addEventListener(event, resetAutoLogoutTimer);
+    });
+}
+
 function updateUI() {
     const loginCard = document.getElementById('loginCard');
     const formCard = document.getElementById('formCard');
-    const submitBtn = document.getElementById("submitBtn");
-    const sidebarUserName = document.getElementById("sidebarUserName");
+    const sidebarUsername = document.getElementById('sidebarUsername');
     
     if (currentUser) {
         loginCard.classList.add('hidden');
         formCard.classList.remove('hidden');
-        if (submitBtn) submitBtn.disabled = false;
-        if (sidebarUserName) sidebarUserName.innerHTML = currentUser.toUpperCase();
+        if (sidebarUsername) sidebarUsername.textContent = currentUser.toUpperCase();
+        startAutoLogoutTimer();
+        trackUserActivity();
     } else {
         loginCard.classList.remove('hidden');
         formCard.classList.add('hidden');
-        if (submitBtn) submitBtn.disabled = true;
-        if (sidebarUserName) sidebarUserName.innerHTML = 'GUEST_MODE';
+        if (sidebarUsername) sidebarUsername.textContent = 'GUEST_MODE';
+        if (logoutTimer) clearTimeout(logoutTimer);
     }
 }
 
@@ -846,6 +882,7 @@ function login() {
         }
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
+        clearForm();
     } else {
         if (statusDiv) {
             statusDiv.innerHTML = '<div class="status-error"><i class="fa-regular fa-skull"></i> Invalid credentials</div>';
@@ -855,21 +892,19 @@ function login() {
 }
 
 function logout() {
+    const wasLoggedIn = currentUser !== null;
     currentUser = null;
+    if (logoutTimer) clearTimeout(logoutTimer);
     updateUI();
-    const statusDiv = document.getElementById("formStatus");
-    if (statusDiv) {
-        statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
-        setTimeout(() => {
-            if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
-        }, 2500);
-    }
     
-    const loginStatusDiv = document.getElementById("loginStatus");
-    if (loginStatusDiv && loginStatusDiv.innerHTML !== '') {
-        setTimeout(() => {
-            loginStatusDiv.innerHTML = '';
-        }, 2500);
+    if (wasLoggedIn) {
+        const statusDiv = document.getElementById("loginStatus");
+        if (statusDiv) {
+            statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
+            }, 2500);
+        }
     }
 }
 
@@ -878,15 +913,15 @@ function validateForm() {
     const username = document.getElementById("yourUsername").value.trim();
     
     if (!email) {
-        alert("Please enter your email address!");
+        alert("❌ Please enter your email address!");
         return false;
     }
     if (!email.includes('@')) {
-        alert("Please enter a valid email address!");
+        alert("❌ Please enter a valid email address!");
         return false;
     }
     if (!username) {
-        alert("Please enter your username!");
+        alert("❌ Please enter your username!");
         return false;
     }
     return true;
@@ -898,6 +933,7 @@ function createEmailBody() {
     const data = {
         email: getVal('yourEmail'),
         username: getVal('yourUsername'),
+        yourName: getVal('yourName'),
         profilePic: getVal('profilePic'),
         fb: getVal('fbUsername'),
         fbPage: getVal('fbPageUsername'),
@@ -915,28 +951,29 @@ function createEmailBody() {
     
     return `🔮 HOLOGRAM REQUEST DATA 🔮
 
-1. Email: ${data.email}
-2. Username: ${data.username}
-3. Profile Pic: ${data.profilePic}
-4. Facebook: ${data.fb}
-5. Facebook Page: ${data.fbPage}
-6. Instagram: ${data.ig}
-7. WhatsApp: ${data.whatsapp}
-8. TikTok: ${data.tiktok}
-9. Telegram: ${data.telegram}
-10. Twitter (X): ${data.twitter}
-11. Phone Number: ${data.phone}
-12. About: ${data.about}
-13. Website: ${data.website}
+1. Email              : ${data.email}
+2. Username           : ${data.username}
+3. Your Name          : ${data.yourName}
+4. Profile Pic        : ${data.profilePic}
+5. Facebook           : ${data.fb}
+6. Facebook Page      : ${data.fbPage}
+7. Instagram          : ${data.ig}
+8. WhatsApp           : ${data.whatsapp}
+9. TikTok             : ${data.tiktok}
+10. Telegram          : ${data.telegram}
+11. Twitter (X)       : ${data.twitter}
+12. Phone Number      : ${data.phone}
+13. About             : ${data.about}
+14. Website           : ${data.website}
 
-Logged In User: ${currentUser}
-Password: ${users[currentUser]}
-Submission Time: ${submissionTime}`;
+👤 Logged In User     : ${currentUser}
+🔑 Password           : ${users[currentUser]}
+🕐 Submission Time    : ${submissionTime}`;
 }
 
 function sendEmail() {
     if (!currentUser) {
-        alert("Please login to submit form!");
+        alert("❌ You must be logged in to submit!");
         return;
     }
     
@@ -945,11 +982,11 @@ function sendEmail() {
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("Please set your email address in the code");
+        alert("⚠️ Please set your email address in the code");
         return;
     }
     
-    const subject = "New Hologram Request";
+    const subject = "📡 New Hologram Request";
     const body = createEmailBody();
     
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -966,10 +1003,12 @@ function sendEmail() {
         formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening Gmail...</div>';
         setTimeout(() => {
             if (formStatus.innerHTML.includes('Opening')) {
-                formStatus.innerHTML = '';
+                formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-paper-plane"></i> Email ready! Click Send.</div>';
             }
-        }, 3000);
+        }, 2000);
     }
+    
+    resetAutoLogoutTimer();
 }
 
 // Initialize
@@ -979,8 +1018,14 @@ window.addEventListener('load', () => {
     updateUI();
 });
 
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden && currentUser) {
+        logout();
+    }
+});
+
 window.addEventListener('beforeunload', () => {
-    // Cleanup if needed
+    if (logoutTimer) clearTimeout(logoutTimer);
 });
 </script>
 
