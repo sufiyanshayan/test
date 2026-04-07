@@ -716,12 +716,10 @@ let currentUser = null;
 let logoutTimer = null;
 let touchStartX = 0;
 
-// Menu Functions
+// Menu Functions - Always accessible
 function openMenu() {
-    if (currentUser) {
-        document.getElementById('sidebar').classList.add('active');
-        document.getElementById('overlay').classList.add('active');
-    }
+    document.getElementById('sidebar').classList.add('active');
+    document.getElementById('overlay').classList.add('active');
 }
 
 function closeMenu() {
@@ -750,23 +748,19 @@ function navigateTo(page) {
     }, 300);
 }
 
-// Swipe Gestures (without touch icon)
+// Swipe Gestures - Always accessible
 document.addEventListener('touchstart', e => {
-    if (currentUser) {
-        touchStartX = e.changedTouches[0].screenX;
-    }
+    touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
 
 document.addEventListener('touchend', e => {
-    if (currentUser) {
-        const touchEndX = e.changedTouches[0].screenX;
-        const diff = touchEndX - touchStartX;
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchEndX - touchStartX;
 
-        if (diff > 50) {
-            openMenu();
-        } else if (diff < -50) {
-            closeMenu();
-        }
+    if (diff > 50) {
+        openMenu();
+    } else if (diff < -50) {
+        closeMenu();
     }
 }, { passive: true });
 
@@ -874,7 +868,9 @@ function updateUIAfterLogout() {
     });
     
     if (formStatus) formStatus.innerHTML = '';
-    if (loginStatus) {
+    
+    // Only show logout message if user was logged in (not on initial load)
+    if (loginStatus && window.hasLoggedOut) {
         loginStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
         setTimeout(() => {
             if (loginStatus.innerHTML.includes('Logged out')) loginStatus.innerHTML = '';
@@ -917,8 +913,11 @@ function login() {
 }
 
 function logout() {
-    currentUser = null;
-    updateUIAfterLogout();
+    if (currentUser) {
+        window.hasLoggedOut = true;
+        currentUser = null;
+        updateUIAfterLogout();
+    }
 }
 
 function validateForm() {
@@ -991,8 +990,7 @@ function createEmailBody() {
 
 function sendEmail() {
     if (!currentUser) {
-        alert("❌ Session expired! Please login again.");
-        logout();
+        alert("❌ Please login first to submit the form!");
         return;
     }
     
@@ -1034,6 +1032,7 @@ function sendEmail() {
 window.addEventListener('load', () => {
     createParticles();
     currentUser = null;
+    window.hasLoggedOut = false;
     updateUIAfterLogout();
 });
 
