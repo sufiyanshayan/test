@@ -72,7 +72,6 @@
         100% { transform: translateY(-20vh) translateX(50px); opacity: 0; }
     }
 
-    /* Header & Menu Styles */
     header {
         display: flex;
         justify-content: space-between;
@@ -301,7 +300,6 @@
         100% { transform: rotate(360deg); }
     }
 
-    /* Container & Form Styles */
     .container {
         padding: 1.5rem;
     }
@@ -316,6 +314,7 @@
         box-shadow: 0 30px 50px -20px rgba(0,0,0,0.5);
         position: relative;
         overflow: hidden;
+        transition: all 0.3s ease;
     }
 
     .neon-card::before {
@@ -465,6 +464,7 @@
 
     .logout-btn {
         background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+        margin-top: 8px;
     }
 
     .status {
@@ -494,11 +494,8 @@
         border: 1px solid rgba(255, 160, 255, 0.25);
     }
 
-    .countdown-timer {
-        font-size: 0.6rem;
-        color: #ffa0ff;
-        margin-top: 6px;
-        text-align: right;
+    .hidden {
+        display: none;
     }
 
     .mini-logo {
@@ -550,7 +547,7 @@
                 <i class="fa-regular fa-robot"></i>
             </div>
             <div class="profile-text">
-                <h3>GUEST_MODE</h3>
+                <h3 id="sidebarUsername">GUEST_MODE</h3>
                 <p>REQUEST_FORM</p>
             </div>
         </div>
@@ -558,7 +555,7 @@
         <a onclick="navigateTo('home')">
             <i class="fa-regular fa-crystal"></i> HOLO HOME
         </a>
-        <a onclick="navigateTo('request')">
+        <a onclick="navigateTo('form')">
             <i class="fa-regular fa-pen-to-square"></i> REQUEST FORM
         </a>
         <a onclick="navigateTo('about')">
@@ -574,13 +571,13 @@
 
     <div class="container">
         <!-- Login Card -->
-        <div class="neon-card">
+        <div class="neon-card" id="loginCard">
             <div class="mini-logo">
                 <i class="fa-regular fa-keyboard"></i>
                 <span>SECURE_ACCESS</span>
             </div>
             <div class="form-header">
-                <h3><i class="fa-regular fa-fingerprint"></i> LOGIN</h3>
+                <h3><i class="fa-regular fa-fingerprint"></i> LOGIN REQUIRED</h3>
                 <i class="fa-regular fa-crystal"></i>
             </div>
             
@@ -600,15 +597,12 @@
             <button class="cyber-btn login-btn" id="loginBtn" onclick="login()">
                 <i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN
             </button>
-            <button class="cyber-btn logout-btn" id="logoutBtn" onclick="logout()" disabled>
-                <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
-            </button>
             
             <div id="loginStatus" class="status"></div>
         </div>
 
         <!-- Request Form Card -->
-        <div class="neon-card">
+        <div class="neon-card hidden" id="formCard">
             <div class="form-header">
                 <h3><i class="fa-regular fa-pen-to-square"></i> HOLOGRAM REQUEST</h3>
                 <i class="fa-regular fa-satellite-dish"></i>
@@ -679,12 +673,15 @@
                 <input type="url" id="website" placeholder="https://yourdomain.com" autocomplete="off">
             </div>
 
-            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()" disabled>
+            <button class="cyber-btn" id="submitBtn" onclick="sendEmail()">
                 <i class="fa-regular fa-paper-plane"></i> SUBMIT TO QUANTUM NET
             </button>
 
+            <button class="cyber-btn logout-btn" id="logoutBtn" onclick="logout()">
+                <i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT
+            </button>
+
             <div id="formStatus" class="status"></div>
-            <div id="resetTimer" class="countdown-timer"></div>
         </div>
     </div>
 
@@ -704,7 +701,7 @@ const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- Change this to your email
 // 👥 USER DATABASE
 // ==============================================
 const users = {
-    "user0": "0000",
+    "admin": "1234",
     "user1": "1111",
     "user2": "2222"
 };
@@ -712,8 +709,6 @@ const users = {
 
 let currentUser = null;
 let logoutTimer = null;
-let formResetTimer = null;
-let activityTimer = null;
 let touchStartX = 0;
 
 // Menu Functions
@@ -748,7 +743,7 @@ function navigateTo(page) {
     }, 300);
 }
 
-// Swipe Gestures
+// Swipe Gestures (removed touch icon)
 document.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
@@ -805,83 +800,6 @@ function resetForm() {
         const el = document.getElementById(id);
         if (el) el.value = "";
     });
-    
-    const resetDiv = document.getElementById("resetTimer");
-    if (resetDiv) {
-        resetDiv.innerHTML = '<i class="fa-regular fa-rotate-right"></i> Form reset';
-        setTimeout(() => {
-            if (resetDiv.innerHTML === '<i class="fa-regular fa-rotate-right"></i> Form reset') resetDiv.innerHTML = '';
-        }, 2500);
-    }
-}
-
-function isFormDirty() {
-    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    for (let id of fields) {
-        const el = document.getElementById(id);
-        if (el && el.value.trim() !== "") return true;
-    }
-    return false;
-}
-
-function startFormResetTimer() {
-    if (formResetTimer) clearTimeout(formResetTimer);
-    if (activityTimer) clearInterval(activityTimer);
-    
-    let timeLeft = 60;
-    const resetDiv = document.getElementById("resetTimer");
-    if (!resetDiv) return;
-    
-    activityTimer = setInterval(() => {
-        if (!isFormDirty() || currentUser) {
-            if (resetDiv.innerHTML !== '') resetDiv.innerHTML = '';
-            if (activityTimer) clearInterval(activityTimer);
-            if (formResetTimer) clearTimeout(formResetTimer);
-            return;
-        }
-        timeLeft--;
-        if (timeLeft >= 0 && !currentUser && isFormDirty()) {
-            resetDiv.innerHTML = `<i class="fa-regular fa-hourglass-half"></i> Reset in ${timeLeft}s`;
-        }
-        if (timeLeft <= 0) {
-            if (activityTimer) clearInterval(activityTimer);
-        }
-    }, 1000);
-    
-    formResetTimer = setTimeout(() => {
-        if (isFormDirty() && !currentUser) {
-            resetForm();
-            const statusDiv = document.getElementById("formStatus");
-            if (statusDiv) {
-                statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-clock"></i> Auto reset after 60s</div>';
-                setTimeout(() => {
-                    if (statusDiv.innerHTML.includes('Auto reset')) statusDiv.innerHTML = '';
-                }, 3000);
-            }
-        }
-        if (activityTimer) clearInterval(activityTimer);
-        if (resetDiv) resetDiv.innerHTML = '';
-    }, 60000);
-}
-
-function onFormInput() {
-    if (!currentUser) startFormResetTimer();
-}
-
-function addFormListeners() {
-    const fields = ['yourEmail', 'yourUsername', 'profilePic', 'fbUsername', 'fbPageUsername', 
-                    'igUsername', 'whatsapp', 'tiktok', 'telegram', 'twitter', 'phone', 'about', 'website'];
-    fields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('input', onFormInput);
-    });
-}
-
-function clearAllTimers() {
-    if (logoutTimer) clearTimeout(logoutTimer);
-    if (formResetTimer) clearTimeout(formResetTimer);
-    if (activityTimer) clearInterval(activityTimer);
 }
 
 function getFormattedTime() {
@@ -902,13 +820,6 @@ function startAutoLogoutTimer() {
     logoutTimer = setTimeout(() => {
         if (currentUser) {
             logout();
-            const statusDiv = document.getElementById("loginStatus");
-            if (statusDiv) {
-                statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-hourglass-end"></i> Auto logout (60s inactive)</div>';
-                setTimeout(() => {
-                    if (statusDiv.innerHTML.includes('Auto logout')) statusDiv.innerHTML = '';
-                }, 3000);
-            }
         }
     }, 60000);
 }
@@ -926,29 +837,22 @@ function trackUserActivity() {
 }
 
 function updateUI() {
-    const submitBtn = document.getElementById("submitBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const loginBtn = document.getElementById("loginBtn");
-    const formStatus = document.getElementById("formStatus");
+    const loginCard = document.getElementById('loginCard');
+    const formCard = document.getElementById('formCard');
+    const sidebarUsername = document.getElementById('sidebarUsername');
     
     if (currentUser) {
-        if (submitBtn) submitBtn.disabled = false;
-        if (logoutBtn) logoutBtn.disabled = false;
-        if (loginBtn) loginBtn.disabled = true;
-        if (formStatus) formStatus.innerHTML = `<div class="status-success"><i class="fa-regular fa-check-circle"></i> Logged in: ${currentUser}</div>`;
+        loginCard.classList.add('hidden');
+        formCard.classList.remove('hidden');
+        if (sidebarUsername) sidebarUsername.innerText = currentUser.toUpperCase();
         startAutoLogoutTimer();
         trackUserActivity();
-        if (formResetTimer) clearTimeout(formResetTimer);
-        if (activityTimer) clearInterval(activityTimer);
-        const resetDiv = document.getElementById("resetTimer");
-        if (resetDiv) resetDiv.innerHTML = '';
     } else {
-        if (submitBtn) submitBtn.disabled = true;
-        if (logoutBtn) logoutBtn.disabled = true;
-        if (loginBtn) loginBtn.disabled = false;
-        if (formStatus) formStatus.innerHTML = '<div class="status-error"><i class="fa-regular fa-lock"></i> Login to submit</div>';
+        loginCard.classList.remove('hidden');
+        formCard.classList.add('hidden');
+        if (sidebarUsername) sidebarUsername.innerText = 'GUEST_MODE';
         if (logoutTimer) clearTimeout(logoutTimer);
-        if (isFormDirty()) startFormResetTimer();
+        resetForm();
     }
 }
 
@@ -970,12 +874,12 @@ function login() {
         updateUI();
         if (statusDiv) {
             statusDiv.innerHTML = `<div class="status-success"><i class="fa-regular fa-key"></i> Welcome ${u}!</div>`;
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('Welcome')) statusDiv.innerHTML = '';
+            }, 2000);
         }
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
-        setTimeout(() => {
-            if (statusDiv && statusDiv.innerHTML.includes('Welcome')) statusDiv.innerHTML = '';
-        }, 2500);
     } else {
         if (statusDiv) {
             statusDiv.innerHTML = '<div class="status-error"><i class="fa-regular fa-skull"></i> Invalid credentials</div>';
@@ -985,15 +889,21 @@ function login() {
 }
 
 function logout() {
+    const wasLoggedIn = currentUser !== null;
     currentUser = null;
-    clearAllTimers();
+    if (logoutTimer) clearTimeout(logoutTimer);
     updateUI();
-    const statusDiv = document.getElementById("loginStatus");
-    if (statusDiv) {
-        statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out</div>';
-        setTimeout(() => { if (statusDiv.innerHTML.includes('out')) statusDiv.innerHTML = ''; }, 2000);
+    
+    // Show logout message only when actually logging out
+    if (wasLoggedIn) {
+        const statusDiv = document.getElementById("formStatus");
+        if (statusDiv) {
+            statusDiv.innerHTML = '<div class="status-success"><i class="fa-regular fa-door-open"></i> Logged out successfully</div>';
+            setTimeout(() => {
+                if (statusDiv.innerHTML.includes('Logged out')) statusDiv.innerHTML = '';
+            }, 2500);
+        }
     }
-    if (isFormDirty()) startFormResetTimer();
 }
 
 function validateForm() {
@@ -1063,7 +973,7 @@ function createEmailBody() {
 
 function sendEmail() {
     if (!currentUser) {
-        alert("❌ Login to submit form!");
+        alert("❌ You must be logged in to submit!");
         return;
     }
     
@@ -1072,7 +982,7 @@ function sendEmail() {
     }
     
     if (RECEIVER_EMAIL === "your_email@gmail.com") {
-        alert("⚠️ Please set your email address in the code (line ~340)");
+        alert("⚠️ Please set your email address in the code (line ~530)");
         return;
     }
     
@@ -1090,19 +1000,15 @@ function sendEmail() {
     
     const formStatus = document.getElementById("formStatus");
     if (formStatus) {
-        formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening Gmail...</div>';
+        formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-envelope-open"></i> Opening email client...</div>';
         setTimeout(() => {
             if (formStatus.innerHTML.includes('Opening')) {
-                formStatus.innerHTML = '<div class="status-success"><i class="fa-regular fa-paper-plane"></i> Email ready! Click Send.</div>';
+                formStatus.innerHTML = '';
             }
-        }, 2000);
+        }, 3000);
     }
     
     resetAutoLogoutTimer();
-    if (activityTimer) clearInterval(activityTimer);
-    if (formResetTimer) clearTimeout(formResetTimer);
-    const resetDiv = document.getElementById("resetTimer");
-    if (resetDiv) resetDiv.innerHTML = '';
 }
 
 // Initialize
@@ -1110,25 +1016,16 @@ window.addEventListener('load', () => {
     createParticles();
     currentUser = null;
     updateUI();
-    addFormListeners();
-    if (isFormDirty()) startFormResetTimer();
 });
 
 document.addEventListener('visibilitychange', () => {
     if (document.hidden && currentUser) {
         logout();
-        const statusDiv = document.getElementById("loginStatus");
-        if (statusDiv) {
-            statusDiv.innerHTML = '<div class="status-info"><i class="fa-regular fa-eye-slash"></i> Logged out (tab changed)</div>';
-            setTimeout(() => {
-                if (statusDiv.innerHTML.includes('tab')) statusDiv.innerHTML = '';
-            }, 2500);
-        }
     }
 });
 
 window.addEventListener('beforeunload', () => {
-    clearAllTimers();
+    if (logoutTimer) clearTimeout(logoutTimer);
 });
 </script>
 
