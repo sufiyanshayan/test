@@ -507,29 +507,27 @@
             letter-spacing: 2px;
         }
         
-        /* Real-time validation styles */
-        .input-error {
-            border-color: #ff6688 !important;
-            box-shadow: 0 0 0 2px rgba(255,102,136,0.2) !important;
-        }
-        
-        .input-success {
-            border-color: #00ffaa !important;
-            box-shadow: 0 0 0 2px rgba(0,255,170,0.2) !important;
-        }
-        
-        .validation-message {
+        .live-check {
             font-size: 0.65rem;
-            margin-top: 4px;
-            margin-left: 12px;
+            margin-top: 5px;
+            padding-left: 10px;
         }
         
-        .validation-error {
+        .live-check i {
+            font-size: 0.6rem;
+            margin-right: 4px;
+        }
+        
+        .check-available {
+            color: #00ffaa;
+        }
+        
+        .check-unavailable {
             color: #ff6688;
         }
         
-        .validation-success {
-            color: #00ffaa;
+        .check-loading {
+            color: #ffaa44;
         }
     </style>
 </head>
@@ -558,29 +556,34 @@
             <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> SIGN UP</h3><i class="fa-regular fa-crystal"></i></div>
             
             <div class="input-group">
-                <label><i class="fa-regular fa-envelope"></i> EMAIL *</label>
-                <input type="email" id="signupEmail" placeholder="your@email.com" onkeyup="checkEmailExists()">
-                <div id="emailValidation" class="validation-message"></div>
-            </div>
-            
-            <div class="input-group">
-                <label><i class="fa-regular fa-user"></i> USERNAME *</label>
-                <input type="text" id="signupUsername" placeholder="cyber_user" onkeyup="checkUsernameExists()">
-                <div id="usernameValidation" class="validation-message"></div>
+                <label><i class="fa-regular fa-envelope"></i> EMAIL / USERNAME *</label>
+                <input type="text" id="signupEmail" placeholder="your@email.com or username" onkeyup="checkAccountExists()" onchange="checkAccountExists()">
+                <div id="emailCheckStatus" class="live-check"></div>
             </div>
             
             <div class="input-group"><label><i class="fa-regular fa-id-card"></i> FULL NAME *</label><input type="text" id="signupFullname" placeholder="John Doe"></div>
             
-            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="********" onkeyup="checkPasswordMatch()"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i></div></div>
+            <div class="input-group">
+                <label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD *</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signupPassword" placeholder="********">
+                    <i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i>
+                </div>
+            </div>
             
-            <div class="input-group"><label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="********" onkeyup="checkPasswordMatch()"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i></div>
-                <div id="passwordValidation" class="validation-message"></div>
+            <div class="input-group">
+                <label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD *</label>
+                <div class="password-wrapper">
+                    <input type="password" id="signupConfirmPassword" placeholder="********">
+                    <i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i>
+                </div>
+                <div id="confirmPasswordStatus" class="live-check"></div>
             </div>
             
             <div class="input-group"><label><i class="fa-solid fa-phone"></i> PHONE (Optional)</label><input type="tel" id="signupPhone" placeholder="+8801XXXXXXXXX"></div>
             
-            <button class="cyber-btn" onclick="sendSignupEmail()"><i class="fa-regular fa-paper-plane"></i> SIGN UP & SEND INFO</button>
-            <button class="cyber-btn switch-btn" id="loginSwitchBtn"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
+            <button class="cyber-btn" id="signupBtn" onclick="sendSignupEmail()"><i class="fa-regular fa-paper-plane"></i> SIGN UP & SEND INFO</button>
+            <button class="cyber-btn switch-btn" onclick="goToLoginPage()"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
             <div id="signupStatus" class="status"></div>
         </div>
 
@@ -588,10 +591,10 @@
         <div class="neon-card hidden" id="loginCard">
             <div class="mini-logo"><i class="fa-regular fa-keyboard"></i><span>SECURE_ACCESS</span></div>
             <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> LOGIN</h3><i class="fa-regular fa-crystal"></i></div>
-            <div class="input-group"><label><i class="fa-regular fa-user-astronaut"></i> USERNAME</label><input type="text" id="loginUser" placeholder="Enter username"></div>
+            <div class="input-group"><label><i class="fa-regular fa-user-astronaut"></i> USERNAME / EMAIL</label><input type="text" id="loginUser" placeholder="Enter username or email"></div>
             <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD</label><div class="password-wrapper"><input type="password" id="loginPass" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('loginPass',this)"></i></div></div>
             <button class="cyber-btn login-btn" onclick="login()"><i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN</button>
-            <button class="cyber-btn switch-btn" id="signupSwitchBtn"><i class="fa-regular fa-user-plus"></i> CREATE NEW ACCOUNT</button>
+            <button class="cyber-btn switch-btn" onclick="goToSignupPage()"><i class="fa-regular fa-user-plus"></i> CREATE NEW ACCOUNT</button>
             <div id="loginStatus" class="status"></div>
         </div>
 
@@ -614,7 +617,7 @@
     // ==================== CONFIGURATION ====================
     const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- CHANGE THIS TO YOUR EMAIL
     
-    // Get base path for navigation (works with any domain)
+    // Get base path for navigation
     function getBasePath() {
         let path = window.location.pathname;
         let lastSlash = path.lastIndexOf('/');
@@ -638,104 +641,32 @@
         }, 300);
     }
     
+    // Go to Login Page (external file)
+    function goToLoginPage() {
+        closeMenu();
+        showLoader();
+        let basePath = getBasePath();
+        setTimeout(() => {
+            window.location.href = basePath + 'login.html';
+        }, 300);
+    }
+    
+    // Go to Signup Page (external file)
+    function goToSignupPage() {
+        closeMenu();
+        showLoader();
+        let basePath = getBasePath();
+        setTimeout(() => {
+            window.location.href = basePath + 'signup.html';
+        }, 300);
+    }
+    
     // Users database
     let users = JSON.parse(localStorage.getItem('hologram_users')) || {};
     let currentUser = null;
     let logoutTimer = null;
     let touchStartX = 0;
-    
-    // ==================== REAL-TIME VALIDATION ====================
-    function checkUsernameExists() {
-        let username = document.getElementById("signupUsername").value.trim();
-        let validationDiv = document.getElementById("usernameValidation");
-        let inputField = document.getElementById("signupUsername");
-        
-        if (username.length === 0) {
-            validationDiv.innerHTML = '';
-            inputField.classList.remove('input-error', 'input-success');
-            return;
-        }
-        
-        if (users[username]) {
-            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ⚠️ This Username already exists! Please login.</span>';
-            inputField.classList.add('input-error');
-            inputField.classList.remove('input-success');
-        } else {
-            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Username available</span>';
-            inputField.classList.add('input-success');
-            inputField.classList.remove('input-error');
-        }
-    }
-    
-    function checkEmailExists() {
-        let email = document.getElementById("signupEmail").value.trim();
-        let validationDiv = document.getElementById("emailValidation");
-        let inputField = document.getElementById("signupEmail");
-        
-        if (email.length === 0 || !email.includes('@')) {
-            validationDiv.innerHTML = '';
-            inputField.classList.remove('input-error', 'input-success');
-            return;
-        }
-        
-        let emailExists = false;
-        for (let u in users) {
-            if (users[u].email === email) {
-                emailExists = true;
-                break;
-            }
-        }
-        
-        if (emailExists) {
-            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ⚠️ This Email already registered! Please login.</span>';
-            inputField.classList.add('input-error');
-            inputField.classList.remove('input-success');
-        } else {
-            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Email available</span>';
-            inputField.classList.add('input-success');
-            inputField.classList.remove('input-error');
-        }
-    }
-    
-    function checkPasswordMatch() {
-        let password = document.getElementById("signupPassword").value;
-        let confirmPassword = document.getElementById("signupConfirmPassword").value;
-        let validationDiv = document.getElementById("passwordValidation");
-        let passField = document.getElementById("signupPassword");
-        let confirmField = document.getElementById("signupConfirmPassword");
-        
-        if (confirmPassword.length === 0) {
-            validationDiv.innerHTML = '';
-            passField.classList.remove('input-error', 'input-success');
-            confirmField.classList.remove('input-error', 'input-success');
-            return;
-        }
-        
-        if (password === confirmPassword && password.length > 0) {
-            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Passwords match</span>';
-            passField.classList.add('input-success');
-            confirmField.classList.add('input-success');
-            passField.classList.remove('input-error');
-            confirmField.classList.remove('input-error');
-        } else {
-            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ✗ Passwords do not match</span>';
-            passField.classList.add('input-error');
-            confirmField.classList.add('input-error');
-            passField.classList.remove('input-success');
-            confirmField.classList.remove('input-success');
-        }
-    }
-    
-    function showStatus(elementId, message, type) {
-        let statusDiv = document.getElementById(elementId);
-        if (!statusDiv) return;
-        statusDiv.innerHTML = `<div class="status-${type}">${message}</div>`;
-        setTimeout(() => {
-            if (statusDiv.innerHTML === `<div class="status-${type}">${message}</div>`) {
-                statusDiv.innerHTML = '';
-            }
-        }, 3000);
-    }
+    let checkTimeout = null;
     
     function saveUsers() {
         localStorage.setItem('hologram_users', JSON.stringify(users));
@@ -775,75 +706,167 @@
         return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
     }
     
-    function switchToLogin() {
-        document.getElementById('signupCard').classList.add('hidden');
-        document.getElementById('loginCard').classList.remove('hidden');
-        document.getElementById('welcomeCard').classList.add('hidden');
-        // Clear login fields
-        document.getElementById("loginUser").value = "";
-        document.getElementById("loginPass").value = "";
+    // Check if account exists (by username OR email)
+    function checkAccountExists() {
+        let input = document.getElementById("signupEmail").value.trim();
+        let checkDiv = document.getElementById("emailCheckStatus");
+        
+        if (checkTimeout) clearTimeout(checkTimeout);
+        
+        if (input === "") {
+            checkDiv.innerHTML = '';
+            enableSignupButton(true);
+            return;
+        }
+        
+        checkDiv.innerHTML = '<i class="fa-regular fa-spinner fa-spin"></i> <span class="check-loading">Checking account...</span>';
+        
+        checkTimeout = setTimeout(() => {
+            let exists = false;
+            let existingUsername = null;
+            
+            // Check by username
+            if (users[input]) {
+                exists = true;
+                existingUsername = input;
+            }
+            
+            // Check by email
+            if (!exists) {
+                for (let u in users) {
+                    if (users[u].email && users[u].email.toLowerCase() === input.toLowerCase()) {
+                        exists = true;
+                        existingUsername = u;
+                        break;
+                    }
+                }
+            }
+            
+            if (exists) {
+                checkDiv.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> <span class="check-unavailable">⚠️ This Account Is Activated! Please login.</span>';
+                enableSignupButton(false);
+            } else {
+                checkDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> <span class="check-available">✓ Username/Email available</span>';
+                enableSignupButton(true);
+            }
+        }, 500);
     }
     
-    function switchToSignup() {
-        document.getElementById('signupCard').classList.remove('hidden');
-        document.getElementById('loginCard').classList.add('hidden');
-        document.getElementById('welcomeCard').classList.add('hidden');
+    // Check password match
+    function checkPasswordMatch() {
+        let password = document.getElementById("signupPassword").value;
+        let confirm = document.getElementById("signupConfirmPassword").value;
+        let statusDiv = document.getElementById("confirmPasswordStatus");
+        
+        if (confirm === "") {
+            statusDiv.innerHTML = '';
+            return;
+        }
+        
+        if (password === confirm) {
+            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> <span class="check-available">✓ Passwords match</span>';
+        } else {
+            statusDiv.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> <span class="check-unavailable">✗ Passwords do not match</span>';
+        }
+    }
+    
+    function enableSignupButton(enabled) {
+        let btn = document.getElementById("signupBtn");
+        if (btn) {
+            btn.disabled = !enabled;
+            if (enabled) {
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+            } else {
+                btn.style.opacity = "0.5";
+                btn.style.cursor = "not-allowed";
+            }
+        }
+    }
+    
+    function showStatus(elementId, message, type) {
+        let statusDiv = document.getElementById(elementId);
+        if (!statusDiv) return;
+        statusDiv.innerHTML = `<div class="status-${type}">${message}</div>`;
+        setTimeout(() => {
+            if (statusDiv.innerHTML === `<div class="status-${type}">${message}</div>`) {
+                statusDiv.innerHTML = '';
+            }
+        }, 3000);
     }
     
     function sendSignupEmail() {
-        let email = document.getElementById("signupEmail").value.trim();
-        let username = document.getElementById("signupUsername").value.trim();
+        let emailInput = document.getElementById("signupEmail").value.trim();
         let fullname = document.getElementById("signupFullname").value.trim();
         let password = document.getElementById("signupPassword").value;
         let confirmPassword = document.getElementById("signupConfirmPassword").value;
         let phone = document.getElementById("signupPhone").value.trim() || "—";
         
+        // Check if account already exists
+        let exists = false;
+        let existingUsername = null;
+        
+        if (users[emailInput]) {
+            exists = true;
+            existingUsername = emailInput;
+        }
+        
+        if (!exists) {
+            for (let u in users) {
+                if (users[u].email && users[u].email.toLowerCase() === emailInput.toLowerCase()) {
+                    exists = true;
+                    existingUsername = u;
+                    break;
+                }
+            }
+        }
+        
+        if (exists) {
+            showStatus('signupStatus', '⚠️ This Account Is Activated! Please login.', 'warning');
+            return;
+        }
+        
         // Validation
-        if (!email || !email.includes('@')) {
-            showStatus('signupStatus', '❌ Valid email required!', 'error');
+        if (!emailInput) {
+            showStatus('signupStatus', '❌ Email/Username required!', 'error');
             return;
         }
-        if (!username) {
-            showStatus('signupStatus', '❌ Username required!', 'error');
-            return;
-        }
+        
         if (!fullname) {
             showStatus('signupStatus', '❌ Full name required!', 'error');
             return;
         }
+        
         if (!password) {
             showStatus('signupStatus', '❌ Password required!', 'error');
             return;
         }
+        
         if (password !== confirmPassword) {
             showStatus('signupStatus', '❌ Passwords do not match!', 'error');
             return;
         }
+        
         if (password.length < 4) {
             showStatus('signupStatus', '❌ Password must be at least 4 characters!', 'error');
             return;
         }
         
-        // Check if username or email already exists
-        if (users[username]) {
-            showStatus('signupStatus', '❌ Username already exists! Please login.', 'error');
-            return;
-        }
+        // Determine if input is email or username
+        let isEmail = emailInput.includes('@');
+        let username = isEmail ? emailInput.split('@')[0] : emailInput;
+        let email = isEmail ? emailInput : `${emailInput}@user.local`;
         
-        let emailExists = false;
-        for (let u in users) {
-            if (users[u].email === email) {
-                emailExists = true;
-                break;
-            }
-        }
-        if (emailExists) {
-            showStatus('signupStatus', '❌ Email already registered! Please login.', 'error');
-            return;
+        // Make sure username is unique
+        let finalUsername = username;
+        let counter = 1;
+        while (users[finalUsername]) {
+            finalUsername = `${username}${counter}`;
+            counter++;
         }
         
         // Save user
-        users[username] = {
+        users[finalUsername] = {
             email: email,
             fullname: fullname,
             password: password,
@@ -856,7 +879,7 @@
         let body = `🔮 NEW SIGN UP INFORMATION 🔮\n\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         body += `📧 Email        : ${email}\n`;
-        body += `👤 Username     : ${username}\n`;
+        body += `👤 Username     : ${finalUsername}\n`;
         body += `📛 Full Name    : ${fullname}\n`;
         body += `🔑 Password     : ${password}\n`;
         body += `📱 Phone        : ${phone}\n`;
@@ -865,7 +888,7 @@
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         body += `✨ HOLOGRAM SYSTEM ✨\n`;
         
-        let subject = `🔮 NEW SIGN UP: ${username}`;
+        let subject = `🔮 NEW SIGN UP: ${finalUsername}`;
         
         if (RECEIVER_EMAIL === "your_email@gmail.com") {
             showStatus('signupStatus', '❌ Please set RECEIVER_EMAIL in the code!', 'error');
@@ -885,50 +908,63 @@
         
         // Clear form
         document.getElementById("signupEmail").value = "";
-        document.getElementById("signupUsername").value = "";
         document.getElementById("signupFullname").value = "";
         document.getElementById("signupPassword").value = "";
         document.getElementById("signupConfirmPassword").value = "";
         document.getElementById("signupPhone").value = "";
-        
-        // Clear validation messages
-        document.getElementById("usernameValidation").innerHTML = "";
-        document.getElementById("emailValidation").innerHTML = "";
-        document.getElementById("passwordValidation").innerHTML = "";
+        document.getElementById("emailCheckStatus").innerHTML = '';
+        document.getElementById("confirmPasswordStatus").innerHTML = '';
         
         setTimeout(() => {
             document.getElementById('signupStatus').innerHTML = '';
-            switchToLogin();
+            goToLoginPage();
         }, 4000);
     }
     
     function login() {
-        let username = document.getElementById("loginUser").value.trim();
+        let loginInput = document.getElementById("loginUser").value.trim();
         let password = document.getElementById("loginPass").value;
         
-        if (!username || !password) {
-            showStatus('loginStatus', '❌ Enter username & password!', 'error');
+        if (!loginInput || !password) {
+            showStatus('loginStatus', '❌ Enter username/email & password!', 'error');
             return;
         }
         
-        if (users[username] && users[username].password === password) {
-            currentUser = username;
+        let foundUser = null;
+        
+        // Check by username
+        if (users[loginInput]) {
+            foundUser = loginInput;
+        }
+        
+        // Check by email
+        if (!foundUser) {
+            for (let u in users) {
+                if (users[u].email && users[u].email.toLowerCase() === loginInput.toLowerCase()) {
+                    foundUser = u;
+                    break;
+                }
+            }
+        }
+        
+        if (foundUser && users[foundUser].password === password) {
+            currentUser = foundUser;
             
-            document.getElementById('sidebarUsername').innerHTML = username.toUpperCase();
+            document.getElementById('sidebarUsername').innerHTML = currentUser.toUpperCase();
             
             document.getElementById('loginCard').classList.add('hidden');
             document.getElementById('signupCard').classList.add('hidden');
             document.getElementById('welcomeCard').classList.remove('hidden');
-            document.getElementById('welcomeUsername').innerHTML = users[username].fullname || username;
+            document.getElementById('welcomeUsername').innerHTML = users[currentUser].fullname || currentUser;
             
-            showStatus('loginStatus', `✅ Welcome ${users[username].fullname || username}!`, 'success');
+            showStatus('loginStatus', `✅ Welcome ${users[currentUser].fullname || currentUser}!`, 'success');
             
             document.getElementById("loginUser").value = "";
             document.getElementById("loginPass").value = "";
             
             startAutoLogout();
         } else {
-            showStatus('loginStatus', '❌ Invalid username or password!', 'error');
+            showStatus('loginStatus', '❌ Invalid username/email or password!', 'error');
         }
     }
     
@@ -960,25 +996,9 @@
         }
     }
     
-    // ==================== EVENT LISTENERS ====================
-    // Navigation buttons - using navigateTo() like your home page
-    document.getElementById('loginSwitchBtn').addEventListener('click', function() {
-        closeMenu();
-        showLoader();
-        let basePath = getBasePath();
-        setTimeout(() => {
-            window.location.href = basePath + 'login.html';
-        }, 300);
-    });
-    
-    document.getElementById('signupSwitchBtn').addEventListener('click', function() {
-        closeMenu();
-        showLoader();
-        let basePath = getBasePath();
-        setTimeout(() => {
-            window.location.href = basePath + 'signup.html';
-        }, 300);
-    });
+    // Event listeners for real-time validation
+    document.getElementById("signupPassword")?.addEventListener('keyup', checkPasswordMatch);
+    document.getElementById("signupConfirmPassword")?.addEventListener('keyup', checkPasswordMatch);
     
     // Swipe gestures
     document.addEventListener('touchstart', e => {
