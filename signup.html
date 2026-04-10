@@ -549,16 +549,6 @@
             justify-content: center;
             gap: 0.8rem;
         }
-
-        .gesture-hint i {
-            font-size: 0.9rem;
-            color: #ffa0ff;
-        }
-
-        /* Hidden Admin Setup - শুধুমাত্র কোডে থাকবে, কেউ দেখতে পাবে না */
-        .hidden-setup {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -619,7 +609,7 @@
                 <div id="emailStatus" class="field-status"></div>
             </div>
             
-            <!-- USERNAME (with preset check) -->
+            <!-- USERNAME -->
             <div class="input-group">
                 <label><i class="fa-regular fa-user"></i> USERNAME <span class="required-star">*</span></label>
                 <input type="text" id="signupUsername" placeholder="cyber_user" autocomplete="off">
@@ -679,21 +669,14 @@
     </div>
 </div>
 
-<!-- Hidden Setup Area - এখানে আপনি আপনার প্রি-সেট ইউজারনাম সেটআপ করবেন -->
-<div class="hidden-setup">
-    <!-- 
-        =======================================================
-        🔴 এখানে আপনি যেসব ইউজারনাম ব্লক করতে চান সেগুলো লিখুন
-        =======================================================
-    -->
-</div>
-
 <script>
-    // ==================== 🔴 প্রি-সেট ইউজারনাম লিস্ট (এখানে আপনি ইউজারনাম সেটআপ করবেন) ====================
-    // যেসব ইউজারনাম কেউ নিতে পারবে না, সেগুলো এখানে লিখুন
-    const PRESET_USERNAMES = [
+    // =====================================================
+    // 🔴 শুধুমাত্র এখানে আপনার blocked ইউজারনাম গুলো লিখুন
+    // যে সকল ইউজারনাম কেউ নিতে পারবে না সেগুলো এখানে দিন
+    // =====================================================
+    const BLOCKED_USERNAMES = [
         "admin",
-        "administrator",
+        "administrator", 
         "root",
         "superuser",
         "moderator",
@@ -706,84 +689,60 @@
         "support",
         "helpdesk",
         "official",
-        "verified"
+        "verified",
+        "12",      // আপনার想要的 ইউজারনাম
+        "11"         // আপনার想要的 ইউজারনাম
     ];
+    // =====================================================
     
     // ==================== CONFIGURATION ====================
-    const RECEIVER_EMAIL = "inyt_	444.com";  // 🔴 আপনার ইমেইল দিন
+    const RECEIVER_EMAIL = "inyt_444@outlook.com";  // 🔴 আপনার ইমেইল দিন
     
-    // ==================== ACTIVE ACCOUNTS DATABASE (যারা একবার সাইনআপ করেছে) ====================
-    let activeAccounts = JSON.parse(localStorage.getItem('signup_active_accounts')) || {};
+    // ==================== STORAGE KEYS ====================
+    const STORAGE_KEY = 'signup_users';
     
-    // ==================== ডিফল্ট ইউজার যোগ করা (প্রি-সেট ইউজারনাম সহ) ====================
-    function initializeDefaultUsers() {
-        let defaultUsers = [];
-        
-        // প্রি-সেট ইউজারনাম গুলো ডিফল্ট এক্টিভ অ্যাকাউন্ট হিসেবে যোগ করা
-        PRESET_USERNAMES.forEach(username => {
-            defaultUsers.push({
-                email: username + "@preset.com",
-                username: username,
-                fullname: "System " + username.charAt(0).toUpperCase() + username.slice(1),
-                password: "preset123",
-                phone: "—"
-            });
-        });
-        
-        let changed = false;
-        defaultUsers.forEach(user => {
-            let exists = false;
-            for(let key in activeAccounts) {
-                if(activeAccounts[key].username === user.username) {
-                    exists = true;
-                    break;
-                }
-            }
-            if(!exists) {
-                let accountId = Date.now().toString() + Math.random();
-                activeAccounts[accountId] = {
-                    email: user.email,
-                    username: user.username,
-                    fullname: user.fullname,
-                    password: user.password,
-                    phone: user.phone,
-                    createdAt: new Date().toLocaleString()
-                };
-                changed = true;
-            }
-        });
-        
-        if(changed) {
-            localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
-            console.log("✅ Preset usernames added to active accounts!");
+    // ==================== GET ALL REGISTERED USERS ====================
+    function getRegisteredUsers() {
+        let users = localStorage.getItem(STORAGE_KEY);
+        if (users) {
+            return JSON.parse(users);
         }
+        return {};
     }
     
-    initializeDefaultUsers();
+    // ==================== SAVE REGISTERED USERS ====================
+    function saveRegisteredUsers(users) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+    }
+    
+    // ==================== CHECK IF USERNAME IS BLOCKED ====================
+    function isUsernameBlocked(username) {
+        return BLOCKED_USERNAMES.includes(username.toLowerCase());
+    }
+    
+    // ==================== CHECK IF USERNAME ALREADY REGISTERED ====================
+    function isUsernameRegistered(username) {
+        let users = getRegisteredUsers();
+        for (let key in users) {
+            if (users[key].username === username) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // ==================== CHECK IF EMAIL ALREADY REGISTERED ====================
+    function isEmailRegistered(email) {
+        let users = getRegisteredUsers();
+        for (let key in users) {
+            if (users[key].email === email) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     // ==================== HELPER FUNCTIONS ====================
-    function isUsernamePreset(username) {
-        return PRESET_USERNAMES.includes(username.toLowerCase());
-    }
-    
-    function isUsernameAlreadyTaken(username) {
-        for (let key in activeAccounts) {
-            if (activeAccounts[key].username === username) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    function isEmailExists(email) {
-        for (let key in activeAccounts) {
-            if (activeAccounts[key].email === email) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     function getTime() {
         let d = new Date();
         return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
@@ -879,7 +838,7 @@
             return false;
         }
         
-        if (isEmailExists(email)) {
+        if (isEmailRegistered(email)) {
             emailField.classList.add("error-border");
             emailField.classList.remove("success-border");
             statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
@@ -916,8 +875,8 @@
             return false;
         }
         
-        // চেক করা হচ্ছে ইউজারনাম প্রি-সেট লিস্টে আছে কিনা অথবা আগে কেউ নিয়েছে কিনা
-        if (isUsernamePreset(username) || isUsernameAlreadyTaken(username)) {
+        // Check if username is blocked OR already registered
+        if (isUsernameBlocked(username) || isUsernameRegistered(username)) {
             usernameField.classList.add("error-border");
             usernameField.classList.remove("success-border");
             statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
@@ -1048,7 +1007,7 @@
         
         let username = document.getElementById("signupUsername").value.trim();
         
-        if (isUsernamePreset(username) || isUsernameAlreadyTaken(username)) {
+        if (isUsernameBlocked(username) || isUsernameRegistered(username)) {
             document.getElementById("submitBtn").disabled = true;
             return false;
         }
@@ -1060,8 +1019,9 @@
     
     // ==================== SAVE NEW USER ====================
     function saveNewUser(email, username, fullname, password, phone) {
-        let accountId = Date.now().toString();
-        activeAccounts[accountId] = {
+        let users = getRegisteredUsers();
+        let userId = Date.now().toString();
+        users[userId] = {
             email: email,
             username: username,
             fullname: fullname,
@@ -1069,7 +1029,7 @@
             phone: phone,
             createdAt: getTime()
         };
-        localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+        saveRegisteredUsers(users);
         return true;
     }
     
@@ -1103,20 +1063,22 @@
             return;
         }
         
-        // Check if username is preset or already taken
-        if (isUsernamePreset(username)) {
+        // Check if username is blocked
+        if (isUsernameBlocked(username)) {
             showStatus('⚠️ This username is reserved and cannot be used!', 'error');
             document.getElementById("activeAccountMessage").style.display = "block";
             return;
         }
         
-        if (isUsernameAlreadyTaken(username)) {
+        // Check if username already registered
+        if (isUsernameRegistered(username)) {
             showStatus('⚠️ This username is already taken! Please choose another.', 'error');
             document.getElementById("activeAccountMessage").style.display = "block";
             return;
         }
         
-        if (isEmailExists(email)) {
+        // Check if email already registered
+        if (isEmailRegistered(email)) {
             showStatus('⚠️ This email is already registered!', 'error');
             return;
         }
@@ -1227,9 +1189,10 @@
         document.body.appendChild(p);
     }
     
+    // Clear any old localStorage data that might be causing issues
     console.log("✅ Signup page ready!");
-    console.log("📌 Preset usernames:", PRESET_USERNAMES);
-    console.log("📌 To add more usernames, edit the PRESET_USERNAMES array in the code.");
+    console.log("📌 Blocked usernames:", BLOCKED_USERNAMES);
+    console.log("📌 To add more blocked usernames, edit the BLOCKED_USERNAMES array in the code.");
 </script>
 </body>
 </html>
