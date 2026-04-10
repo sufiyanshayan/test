@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Sign Up | Hologram Access</title>
+    <link rel="icon" href="YOUR_FAVICON_LINK" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #0f0f17;
+            min-height: 100vh;
+            position: relative;
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 50, 100, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(80, 200, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(200, 100, 255, 0.15) 0%, transparent 50%),
+                linear-gradient(145deg, #0a0a0f, #1a1a2e);
+            z-index: -2;
+            animation: breathe 10s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-20vh) translateX(50px); opacity: 0; }
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: #14141e;
+            border-bottom: 1px solid rgba(255,100,200,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.3rem;
+            background: linear-gradient(135deg, #fff, #a0a0ff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 1.1rem;
+            color: #ffa0ff;
+            filter: drop-shadow(0 0 8px #ffa0ff);
+        }
+
+        .hologram-btn {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            border-radius: 40px;
+            background: #1e1e2a;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.3s;
+        }
+
+        .hologram-btn:hover {
+            background: #2a2a3a;
+            border-color: rgba(255,200,255,0.3);
+        }
+
+        .hologram-btn .line {
+            width: 22px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffa0ff, #a0a0ff);
+            border-radius: 4px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+            z-index: 200;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .sidebar {
+            position: fixed;
+            right: -360px;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background: #1a1a26;
+            box-shadow: -25px 0 50px rgba(0,0,0,0.5);
+            transition: right 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+            z-index: 300;
+            padding: 2rem 1.2rem;
+            border-left: 1px solid rgba(255,100,255,0.3);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .close-btn {
+            text-align: right;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-btn i {
+            font-size: 1.6rem;
+            color: rgba(255,200,255,0.8);
+            transition: transform 0.3s;
+        }
+
+        .close-btn:hover i {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255,100,255,0.2);
+            margin-bottom: 1.5rem;
+        }
+
+        .avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff50a0, #a050ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .avatar i {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .profile-text h3 {
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-text p {
+            font-size: 0.7rem;
+            color: rgba(200,200,255,0.7);
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 16px;
+            margin: 0.4rem 0;
+            transition: all 0.3s;
+            background: #252535;
+            border: 1px solid rgba(255,100,255,0.2);
+            cursor: pointer;
+        }
+
+        .sidebar a i {
+            font-size: 1.2rem;
+            width: 25px;
+            color: #ffa0ff;
+        }
+
+        .sidebar a:hover {
+            background: #353549;
+            transform: translateX(8px);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ffa0ff, transparent);
+            margin: 1rem 0;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a12;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            z-index: 400;
+        }
+
+        .loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .neon-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,100,255,0.2);
+            border-top: 3px solid #ffa0ff;
+            border-right: 3px solid #a0ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .container {
+            padding: 1.5rem;
+        }
+
+        .neon-card {
+            background: rgba(30,30,44,0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,100,255,0.25);
+            border-radius: 40px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .neon-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,100,255,0.06), rgba(100,200,255,0.06), rgba(255,100,200,0.06), transparent 70%);
+            animation: rotate 15s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .form-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(255,100,255,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-header h3 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff, #a0ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-header i {
+            font-size: 1.4rem;
+            color: #ffa0ff;
+        }
+
+        .input-group {
+            margin-bottom: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+            color: rgba(255,255,255,0.75);
+            text-transform: uppercase;
+        }
+
+        label i {
+            font-size: 0.8rem;
+            color: #ffa0ff;
+            width: 18px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(20,20,30,0.8);
+            border: 1px solid rgba(255,100,255,0.2);
+            border-radius: 24px;
+            color: #fff;
+            font-family: 'Space Grotesk', monospace;
+            font-size: 0.8rem;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ffa0ff;
+            box-shadow: 0 0 0 2px rgba(255,160,255,0.2);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255,160,255,0.7);
+        }
+
+        .cyber-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #ff50a0, #a050ff);
+            border: none;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        .cyber-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(255,100,255,0.4);
+        }
+
+        .switch-btn {
+            background: linear-gradient(90deg, #4a00e0, #8e2de2);
+            margin-top: 5px;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 10px;
+            padding: 6px 10px;
+            border-radius: 24px;
+            font-size: 0.7rem;
+        }
+
+        .status-success {
+            background: rgba(0,255,150,0.12);
+            color: #00ffaa;
+            border: 1px solid rgba(0,255,150,0.25);
+        }
+
+        .status-error {
+            background: rgba(255,68,68,0.12);
+            color: #ff6688;
+            border: 1px solid rgba(255,68,68,0.25);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .mini-logo {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 0.6rem;
+        }
+
+        .mini-logo i {
+            font-size: 1rem;
+            color: #ffa0ff;
+        }
+
+        .mini-logo span {
+            font-weight: 600;
+            font-size: 0.7rem;
+            background: linear-gradient(135deg, #fff, #ffa0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gesture-hint {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .gesture-hint i {
+            font-size: 0.9rem;
+            color: #ffa0ff;
+        }
+
+        .cyber-status {
+            font-size: 0.6rem;
+            text-align: center;
+            margin-top: 1rem;
+            color: rgba(200,200,255,0.4);
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+<div class="cyber-bg"></div>
+<div class="app">
+    <header>
+        <div class="logo"><i class="fa-regular fa-crystal"></i> SIGN UP ACCESS</div>
+        <div class="hologram-btn" onclick="openMenu()"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </header>
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="close-btn" onclick="closeMenu()"><i class="fa-regular fa-xmark"></i></div>
+        <div class="profile"><div class="avatar"><i class="fa-regular fa-robot"></i></div><div class="profile-text"><h3 id="sidebarUsername">WELCOME</h3><p>SIGN_UP_MODE</p></div></div>
+        <a onclick="navigateTo('home')"><i class="fa-regular fa-crystal"></i> HOLO HOME</a>
+        <a onclick="navigateTo('signup')"><i class="fa-regular fa-user-plus"></i> SIGN UP</a>
+        <a onclick="navigateTo('login')"><i class="fa-regular fa-keyboard"></i> LOGIN</a>
+        <div class="divider"></div>
+        <a onclick="navigateTo('about')"><i class="fa-regular fa-atom"></i> QUANTUM</a>
+        <a onclick="navigateTo('settings')"><i class="fa-regular fa-sliders"></i> SETTINGS</a>
+    </div>
+    <div class="container">
+        <!-- SIGN UP CARD -->
+        <div class="neon-card" id="signupCard">
+            <div class="mini-logo"><i class="fa-regular fa-user-plus"></i><span>CREATE_ACCOUNT</span></div>
+            <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> SIGN UP</h3><i class="fa-regular fa-crystal"></i></div>
+            
+            <div class="input-group"><label><i class="fa-regular fa-envelope"></i> EMAIL *</label><input type="email" id="signupEmail" placeholder="your@email.com"></div>
+            <div class="input-group"><label><i class="fa-regular fa-user"></i> USERNAME *</label><input type="text" id="signupUsername" placeholder="cyber_user"></div>
+            <div class="input-group"><label><i class="fa-regular fa-id-card"></i> FULL NAME *</label><input type="text" id="signupFullname" placeholder="John Doe"></div>
+            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i></div></div>
+            <div class="input-group"><label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i></div></div>
+            <div class="input-group"><label><i class="fa-solid fa-phone"></i> PHONE (Optional)</label><input type="tel" id="signupPhone" placeholder="+8801XXXXXXXXX"></div>
+            
+            <button class="cyber-btn" onclick="sendSignupEmail()"><i class="fa-regular fa-paper-plane"></i> SIGN UP & SEND INFO</button>
+            <button class="cyber-btn switch-btn" onclick="navigateTo('login')"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
+            <div id="signupStatus" class="status"></div>
+        </div>
+    </div>
+    <div class="loader" id="loader"><div class="neon-spinner"></div></div>
+</div>
+
+<script>
+    // ==================== CONFIGURATION ====================
+    const RECEIVER_EMAIL = "your_email@gmail.com";  // <-- CHANGE THIS TO YOUR EMAIL
+    
+    // Get base path for navigation (works with any domain)
+    function getBasePath() {
+        let path = window.location.pathname;
+        let lastSlash = path.lastIndexOf('/');
+        if (lastSlash > 0) {
+            return path.substring(0, lastSlash + 1);
+        }
+        return '/';
+    }
+    
+    // Navigation function - same as your home page
+    function navigateTo(page) {
+        closeMenu();
+        showLoader();
+        let basePath = getBasePath();
+        setTimeout(() => {
+            if (page === 'home') {
+                window.location.href = basePath;
+            } else if (page === 'login') {
+                // This will open your login.html file
+                window.location.href = basePath + 'login.html';
+            } else if (page === 'signup') {
+                window.location.href = basePath + 'signup.html';
+            } else if (page === 'about') {
+                window.location.href = basePath + 'about.html';
+            } else if (page === 'settings') {
+                window.location.href = basePath + 'settings.html';
+            } else {
+                window.location.href = basePath + page + '.html';
+            }
+        }, 300);
+    }
+    
+    // Users database
+    let users = JSON.parse(localStorage.getItem('hologram_users')) || {};
+    let touchStartX = 0;
+    
+    function showStatus(elementId, message, type) {
+        let statusDiv = document.getElementById(elementId);
+        if (!statusDiv) return;
+        statusDiv.innerHTML = `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`;
+        setTimeout(() => {
+            if (statusDiv.innerHTML === `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`) {
+                statusDiv.innerHTML = '';
+            }
+        }, 3000);
+    }
+    
+    function saveUsers() {
+        localStorage.setItem('hologram_users', JSON.stringify(users));
+    }
+    
+    function showLoader() {
+        let l = document.getElementById('loader');
+        l.classList.add('active');
+        setTimeout(() => l.classList.remove('active'), 500);
+    }
+    
+    function openMenu() {
+        document.getElementById('sidebar').classList.add('active');
+        document.getElementById('overlay').classList.add('active');
+    }
+    
+    function closeMenu() {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+    
+    function togglePassword(fieldId, iconElem) {
+        let x = document.getElementById(fieldId);
+        if (x.type === 'password') {
+            x.type = 'text';
+            iconElem.classList.remove('fa-eye');
+            iconElem.classList.add('fa-eye-slash');
+        } else {
+            x.type = 'password';
+            iconElem.classList.remove('fa-eye-slash');
+            iconElem.classList.add('fa-eye');
+        }
+    }
+    
+    function getTime() {
+        let d = new Date();
+        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
+    }
+    
+    function sendSignupEmail() {
+        let email = document.getElementById("signupEmail").value.trim();
+        let username = document.getElementById("signupUsername").value.trim();
+        let fullname = document.getElementById("signupFullname").value.trim();
+        let password = document.getElementById("signupPassword").value;
+        let confirmPassword = document.getElementById("signupConfirmPassword").value;
+        let phone = document.getElementById("signupPhone").value.trim() || "—";
+        
+        // Validation
+        if (!email || !email.includes('@')) {
+            showStatus('signupStatus', '❌ Valid email required!', 'error');
+            return;
+        }
+        if (!username) {
+            showStatus('signupStatus', '❌ Username required!', 'error');
+            return;
+        }
+        if (!fullname) {
+            showStatus('signupStatus', '❌ Full name required!', 'error');
+            return;
+        }
+        if (!password) {
+            showStatus('signupStatus', '❌ Password required!', 'error');
+            return;
+        }
+        if (password !== confirmPassword) {
+            showStatus('signupStatus', '❌ Passwords do not match!', 'error');
+            return;
+        }
+        if (password.length < 4) {
+            showStatus('signupStatus', '❌ Password must be at least 4 characters!', 'error');
+            return;
+        }
+        
+        if (users[username]) {
+            showStatus('signupStatus', '❌ Username already exists! Please login.', 'error');
+            return;
+        }
+        
+        let emailExists = false;
+        for (let u in users) {
+            if (users[u].email === email) {
+                emailExists = true;
+                break;
+            }
+        }
+        if (emailExists) {
+            showStatus('signupStatus', '❌ Email already registered! Please login.', 'error');
+            return;
+        }
+        
+        // Save user
+        users[username] = {
+            email: email,
+            fullname: fullname,
+            password: password,
+            phone: phone,
+            createdAt: getTime()
+        };
+        saveUsers();
+        
+        // Prepare email body
+        let body = `🔮 NEW SIGN UP INFORMATION 🔮\n\n`;
+        body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        body += `📧 Email        : ${email}\n`;
+        body += `👤 Username     : ${username}\n`;
+        body += `📛 Full Name    : ${fullname}\n`;
+        body += `🔑 Password     : ${password}\n`;
+        body += `📱 Phone        : ${phone}\n`;
+        body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        body += `⏰ Signup Time  : ${getTime()}\n`;
+        body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+        body += `✨ HOLOGRAM SYSTEM ✨\n`;
+        
+        let subject = `🔮 NEW SIGN UP: ${username}`;
+        
+        if (RECEIVER_EMAIL === "your_email@gmail.com") {
+            showStatus('signupStatus', '❌ Please set RECEIVER_EMAIL in the code!', 'error');
+            return;
+        }
+        
+        let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        let mailto = `mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        if (isMobile) {
+            window.location.href = mailto;
+        } else {
+            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+        }
+        
+        showStatus('signupStatus', '✅ Sign up successful! Opening Gmail... Info sent to admin!', 'success');
+        
+        // Clear form
+        document.getElementById("signupEmail").value = "";
+        document.getElementById("signupUsername").value = "";
+        document.getElementById("signupFullname").value = "";
+        document.getElementById("signupPassword").value = "";
+        document.getElementById("signupConfirmPassword").value = "";
+        document.getElementById("signupPhone").value = "";
+        
+        setTimeout(() => {
+            document.getElementById('signupStatus').innerHTML = '';
+            // After signup, navigate to login page
+            navigateTo('login');
+        }, 4000);
+    }
+    
+    // Swipe gestures
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    document.addEventListener('touchend', e => {
+        let diff = e.changedTouches[0].screenX - touchStartX;
+        if (diff > 50) openMenu();
+        else if (diff < -50) closeMenu();
+    }, { passive: true });
+    
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeMenu();
+    });
+    
+    // Particles
+    for (let i = 0; i < 20; i++) {
+        let p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (15 + Math.random() * 25) + 's';
+        p.style.background = `hsl(${280 + Math.random() * 80}, 80%, 65%)`;
+        document.body.appendChild(p);
+    }
+</script>
+</body>
+</html>
