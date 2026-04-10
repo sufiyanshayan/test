@@ -368,7 +368,7 @@
             width: 18px;
         }
 
-        input {
+        input, textarea {
             width: 100%;
             padding: 10px 14px;
             background: rgba(20,20,30,0.8);
@@ -379,7 +379,7 @@
             font-size: 0.8rem;
         }
 
-        input:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: #ffa0ff;
             box-shadow: 0 0 0 2px rgba(255,160,255,0.2);
@@ -421,6 +421,14 @@
             box-shadow: 0 0 20px rgba(255,100,255,0.4);
         }
 
+        .login-btn {
+            background: linear-gradient(90deg, #00b4db, #0083b0);
+        }
+
+        .logout-btn {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a5a);
+        }
+
         .switch-btn {
             background: linear-gradient(90deg, #4a00e0, #8e2de2);
             margin-top: 5px;
@@ -444,6 +452,12 @@
             background: rgba(255,68,68,0.12);
             color: #ff6688;
             border: 1px solid rgba(255,68,68,0.25);
+        }
+        
+        .status-warning {
+            background: rgba(255,160,0,0.12);
+            color: #ffaa44;
+            border: 1px solid rgba(255,160,0,0.25);
         }
 
         .hidden {
@@ -492,6 +506,31 @@
             color: rgba(200,200,255,0.4);
             letter-spacing: 2px;
         }
+        
+        /* Real-time validation styles */
+        .input-error {
+            border-color: #ff6688 !important;
+            box-shadow: 0 0 0 2px rgba(255,102,136,0.2) !important;
+        }
+        
+        .input-success {
+            border-color: #00ffaa !important;
+            box-shadow: 0 0 0 2px rgba(0,255,170,0.2) !important;
+        }
+        
+        .validation-message {
+            font-size: 0.65rem;
+            margin-top: 4px;
+            margin-left: 12px;
+        }
+        
+        .validation-error {
+            color: #ff6688;
+        }
+        
+        .validation-success {
+            color: #00ffaa;
+        }
     </style>
 </head>
 <body>
@@ -518,16 +557,54 @@
             <div class="mini-logo"><i class="fa-regular fa-user-plus"></i><span>CREATE_ACCOUNT</span></div>
             <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> SIGN UP</h3><i class="fa-regular fa-crystal"></i></div>
             
-            <div class="input-group"><label><i class="fa-regular fa-envelope"></i> EMAIL *</label><input type="email" id="signupEmail" placeholder="your@email.com"></div>
-            <div class="input-group"><label><i class="fa-regular fa-user"></i> USERNAME *</label><input type="text" id="signupUsername" placeholder="cyber_user"></div>
+            <div class="input-group">
+                <label><i class="fa-regular fa-envelope"></i> EMAIL *</label>
+                <input type="email" id="signupEmail" placeholder="your@email.com" onkeyup="checkEmailExists()">
+                <div id="emailValidation" class="validation-message"></div>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-user"></i> USERNAME *</label>
+                <input type="text" id="signupUsername" placeholder="cyber_user" onkeyup="checkUsernameExists()">
+                <div id="usernameValidation" class="validation-message"></div>
+            </div>
+            
             <div class="input-group"><label><i class="fa-regular fa-id-card"></i> FULL NAME *</label><input type="text" id="signupFullname" placeholder="John Doe"></div>
-            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i></div></div>
-            <div class="input-group"><label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i></div></div>
+            
+            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="********" onkeyup="checkPasswordMatch()"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i></div></div>
+            
+            <div class="input-group"><label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD *</label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="********" onkeyup="checkPasswordMatch()"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i></div>
+                <div id="passwordValidation" class="validation-message"></div>
+            </div>
+            
             <div class="input-group"><label><i class="fa-solid fa-phone"></i> PHONE (Optional)</label><input type="tel" id="signupPhone" placeholder="+8801XXXXXXXXX"></div>
             
             <button class="cyber-btn" onclick="sendSignupEmail()"><i class="fa-regular fa-paper-plane"></i> SIGN UP & SEND INFO</button>
-            <button class="cyber-btn switch-btn" onclick="navigateTo('login')"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
+            <button class="cyber-btn switch-btn" id="loginSwitchBtn"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
             <div id="signupStatus" class="status"></div>
+        </div>
+
+        <!-- LOGIN CARD (Hidden by default) -->
+        <div class="neon-card hidden" id="loginCard">
+            <div class="mini-logo"><i class="fa-regular fa-keyboard"></i><span>SECURE_ACCESS</span></div>
+            <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> LOGIN</h3><i class="fa-regular fa-crystal"></i></div>
+            <div class="input-group"><label><i class="fa-regular fa-user-astronaut"></i> USERNAME</label><input type="text" id="loginUser" placeholder="Enter username"></div>
+            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD</label><div class="password-wrapper"><input type="password" id="loginPass" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('loginPass',this)"></i></div></div>
+            <button class="cyber-btn login-btn" onclick="login()"><i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN</button>
+            <button class="cyber-btn switch-btn" id="signupSwitchBtn"><i class="fa-regular fa-user-plus"></i> CREATE NEW ACCOUNT</button>
+            <div id="loginStatus" class="status"></div>
+        </div>
+
+        <!-- WELCOME CARD (After Login) -->
+        <div class="neon-card hidden" id="welcomeCard">
+            <div class="form-header"><h3><i class="fa-regular fa-circle-check"></i> WELCOME</h3><i class="fa-regular fa-crystal"></i></div>
+            <p style="text-align:center; margin-bottom:1rem;">You are now logged in as <strong id="welcomeUsername"></strong></p>
+            <div class="economy-chip" style="display:flex; justify-content:center; margin-bottom:1rem;">
+                <i class="fa-regular fa-bolt"></i> ACCESS GRANTED
+            </div>
+            <button class="cyber-btn logout-btn" onclick="logout()"><i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT</button>
+            <div class="gesture-hint"><i class="fa-regular fa-hand-back-point-right"></i> DRAG FROM LEFT TO RIGHT <i class="fa-regular fa-hand-back-point-left"></i></div>
+            <div class="cyber-status">✦ HOLOGRAM SYSTEM ✦</div>
         </div>
     </div>
     <div class="loader" id="loader"><div class="neon-spinner"></div></div>
@@ -555,15 +632,6 @@
         setTimeout(() => {
             if (page === 'home') {
                 window.location.href = basePath;
-            } else if (page === 'login') {
-                // This will open your login.html file
-                window.location.href = basePath + 'request';
-            } else if (page === 'signup') {
-                window.location.href = basePath + 'signup';
-            } else if (page === 'about') {
-                window.location.href = basePath + 'about.html';
-            } else if (page === 'settings') {
-                window.location.href = basePath + 'settings.html';
             } else {
                 window.location.href = basePath + page + '.html';
             }
@@ -572,14 +640,98 @@
     
     // Users database
     let users = JSON.parse(localStorage.getItem('hologram_users')) || {};
+    let currentUser = null;
+    let logoutTimer = null;
     let touchStartX = 0;
+    
+    // ==================== REAL-TIME VALIDATION ====================
+    function checkUsernameExists() {
+        let username = document.getElementById("signupUsername").value.trim();
+        let validationDiv = document.getElementById("usernameValidation");
+        let inputField = document.getElementById("signupUsername");
+        
+        if (username.length === 0) {
+            validationDiv.innerHTML = '';
+            inputField.classList.remove('input-error', 'input-success');
+            return;
+        }
+        
+        if (users[username]) {
+            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ⚠️ This Username already exists! Please login.</span>';
+            inputField.classList.add('input-error');
+            inputField.classList.remove('input-success');
+        } else {
+            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Username available</span>';
+            inputField.classList.add('input-success');
+            inputField.classList.remove('input-error');
+        }
+    }
+    
+    function checkEmailExists() {
+        let email = document.getElementById("signupEmail").value.trim();
+        let validationDiv = document.getElementById("emailValidation");
+        let inputField = document.getElementById("signupEmail");
+        
+        if (email.length === 0 || !email.includes('@')) {
+            validationDiv.innerHTML = '';
+            inputField.classList.remove('input-error', 'input-success');
+            return;
+        }
+        
+        let emailExists = false;
+        for (let u in users) {
+            if (users[u].email === email) {
+                emailExists = true;
+                break;
+            }
+        }
+        
+        if (emailExists) {
+            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ⚠️ This Email already registered! Please login.</span>';
+            inputField.classList.add('input-error');
+            inputField.classList.remove('input-success');
+        } else {
+            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Email available</span>';
+            inputField.classList.add('input-success');
+            inputField.classList.remove('input-error');
+        }
+    }
+    
+    function checkPasswordMatch() {
+        let password = document.getElementById("signupPassword").value;
+        let confirmPassword = document.getElementById("signupConfirmPassword").value;
+        let validationDiv = document.getElementById("passwordValidation");
+        let passField = document.getElementById("signupPassword");
+        let confirmField = document.getElementById("signupConfirmPassword");
+        
+        if (confirmPassword.length === 0) {
+            validationDiv.innerHTML = '';
+            passField.classList.remove('input-error', 'input-success');
+            confirmField.classList.remove('input-error', 'input-success');
+            return;
+        }
+        
+        if (password === confirmPassword && password.length > 0) {
+            validationDiv.innerHTML = '<span class="validation-success"><i class="fa-regular fa-circle-check"></i> ✓ Passwords match</span>';
+            passField.classList.add('input-success');
+            confirmField.classList.add('input-success');
+            passField.classList.remove('input-error');
+            confirmField.classList.remove('input-error');
+        } else {
+            validationDiv.innerHTML = '<span class="validation-error"><i class="fa-regular fa-circle-exclamation"></i> ✗ Passwords do not match</span>';
+            passField.classList.add('input-error');
+            confirmField.classList.add('input-error');
+            passField.classList.remove('input-success');
+            confirmField.classList.remove('input-success');
+        }
+    }
     
     function showStatus(elementId, message, type) {
         let statusDiv = document.getElementById(elementId);
         if (!statusDiv) return;
-        statusDiv.innerHTML = `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`;
+        statusDiv.innerHTML = `<div class="status-${type}">${message}</div>`;
         setTimeout(() => {
-            if (statusDiv.innerHTML === `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`) {
+            if (statusDiv.innerHTML === `<div class="status-${type}">${message}</div>`) {
                 statusDiv.innerHTML = '';
             }
         }, 3000);
@@ -623,6 +775,21 @@
         return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
     }
     
+    function switchToLogin() {
+        document.getElementById('signupCard').classList.add('hidden');
+        document.getElementById('loginCard').classList.remove('hidden');
+        document.getElementById('welcomeCard').classList.add('hidden');
+        // Clear login fields
+        document.getElementById("loginUser").value = "";
+        document.getElementById("loginPass").value = "";
+    }
+    
+    function switchToSignup() {
+        document.getElementById('signupCard').classList.remove('hidden');
+        document.getElementById('loginCard').classList.add('hidden');
+        document.getElementById('welcomeCard').classList.add('hidden');
+    }
+    
     function sendSignupEmail() {
         let email = document.getElementById("signupEmail").value.trim();
         let username = document.getElementById("signupUsername").value.trim();
@@ -657,6 +824,7 @@
             return;
         }
         
+        // Check if username or email already exists
         if (users[username]) {
             showStatus('signupStatus', '❌ Username already exists! Please login.', 'error');
             return;
@@ -723,12 +891,94 @@
         document.getElementById("signupConfirmPassword").value = "";
         document.getElementById("signupPhone").value = "";
         
+        // Clear validation messages
+        document.getElementById("usernameValidation").innerHTML = "";
+        document.getElementById("emailValidation").innerHTML = "";
+        document.getElementById("passwordValidation").innerHTML = "";
+        
         setTimeout(() => {
             document.getElementById('signupStatus').innerHTML = '';
-            // After signup, navigate to login page
-            navigateTo('login');
+            switchToLogin();
         }, 4000);
     }
+    
+    function login() {
+        let username = document.getElementById("loginUser").value.trim();
+        let password = document.getElementById("loginPass").value;
+        
+        if (!username || !password) {
+            showStatus('loginStatus', '❌ Enter username & password!', 'error');
+            return;
+        }
+        
+        if (users[username] && users[username].password === password) {
+            currentUser = username;
+            
+            document.getElementById('sidebarUsername').innerHTML = username.toUpperCase();
+            
+            document.getElementById('loginCard').classList.add('hidden');
+            document.getElementById('signupCard').classList.add('hidden');
+            document.getElementById('welcomeCard').classList.remove('hidden');
+            document.getElementById('welcomeUsername').innerHTML = users[username].fullname || username;
+            
+            showStatus('loginStatus', `✅ Welcome ${users[username].fullname || username}!`, 'success');
+            
+            document.getElementById("loginUser").value = "";
+            document.getElementById("loginPass").value = "";
+            
+            startAutoLogout();
+        } else {
+            showStatus('loginStatus', '❌ Invalid username or password!', 'error');
+        }
+    }
+    
+    function logout() {
+        if (currentUser) {
+            currentUser = null;
+            document.getElementById('sidebarUsername').innerHTML = 'WELCOME';
+            document.getElementById('welcomeCard').classList.add('hidden');
+            document.getElementById('signupCard').classList.remove('hidden');
+            document.getElementById('loginCard').classList.add('hidden');
+            
+            showStatus('loginStatus', '✅ Logged out successfully!', 'success');
+            
+            if (logoutTimer) clearTimeout(logoutTimer);
+        }
+    }
+    
+    function startAutoLogout() {
+        if (logoutTimer) clearTimeout(logoutTimer);
+        logoutTimer = setTimeout(() => {
+            if (currentUser) logout();
+        }, 60000);
+    }
+    
+    function resetAutoLogout() {
+        if (currentUser) {
+            if (logoutTimer) clearTimeout(logoutTimer);
+            startAutoLogout();
+        }
+    }
+    
+    // ==================== EVENT LISTENERS ====================
+    // Navigation buttons - using navigateTo() like your home page
+    document.getElementById('loginSwitchBtn').addEventListener('click', function() {
+        closeMenu();
+        showLoader();
+        let basePath = getBasePath();
+        setTimeout(() => {
+            window.location.href = basePath + 'login.html';
+        }, 300);
+    });
+    
+    document.getElementById('signupSwitchBtn').addEventListener('click', function() {
+        closeMenu();
+        showLoader();
+        let basePath = getBasePath();
+        setTimeout(() => {
+            window.location.href = basePath + 'signup.html';
+        }, 300);
+    });
     
     // Swipe gestures
     document.addEventListener('touchstart', e => {
@@ -744,6 +994,8 @@
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') closeMenu();
     });
+    
+    ['click', 'keypress', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetAutoLogout));
     
     // Particles
     for (let i = 0; i < 20; i++) {
