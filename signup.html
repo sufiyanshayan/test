@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Sign Up | Hologram Access</title>
-    <link rel="icon" href="YOUR_FAVICON_LINK" type="image/x-icon">
+    <link rel="icon" href="#" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -494,10 +494,6 @@
             border: 1px solid rgba(255,68,68,0.25);
         }
 
-        .hidden {
-            display: none;
-        }
-
         .mini-logo {
             display: flex;
             align-items: center;
@@ -516,29 +512,6 @@
             background: linear-gradient(135deg, #fff, #ffa0ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-
-        .gesture-hint {
-            margin-top: 1rem;
-            font-size: 0.7rem;
-            color: rgba(255,255,255,0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-        }
-
-        .gesture-hint i {
-            font-size: 0.9rem;
-            color: #ffa0ff;
-        }
-
-        .cyber-status {
-            font-size: 0.6rem;
-            text-align: center;
-            margin-top: 1rem;
-            color: rgba(200,200,255,0.4);
-            letter-spacing: 2px;
         }
 
         .active-account-badge {
@@ -567,9 +540,13 @@
             font-weight: 500;
         }
 
-        /* Hidden Admin Panel - শুধুমাত্র কোড থেকে accessible */
+        /* Hidden Admin Panel - only visible when ?admin=true */
         .hidden-admin-panel {
             display: none;
+        }
+
+        .hidden-admin-panel.show {
+            display: block;
         }
     </style>
 </head>
@@ -618,12 +595,6 @@
                 <i class="fa-regular fa-crystal"></i>
             </div>
             
-            <!-- Active Account Message -->
-            <div id="activeAccountMessage" class="active-account-badge" style="display: none;">
-                <i class="fa-regular fa-circle-check"></i>
-                <span>This Account Is Active! Please Login.</span>
-            </div>
-            
             <!-- EMAIL -->
             <div class="input-group">
                 <label><i class="fa-regular fa-envelope"></i> EMAIL <span class="required-star">*</span></label>
@@ -631,7 +602,7 @@
                 <div id="emailStatus" class="field-status"></div>
             </div>
             
-            <!-- USERNAME -->
+            <!-- USERNAME - This will show "This Account is Active! Please Login." if exists -->
             <div class="input-group">
                 <label><i class="fa-regular fa-user"></i> USERNAME <span class="required-star">*</span></label>
                 <input type="text" id="signupUsername" placeholder="cyber_user" autocomplete="off">
@@ -686,26 +657,110 @@
         </div>
     </div>
     
+    <!-- HIDDEN ADMIN PANEL - শুধুমাত্র URL এ ?admin=true দিলে দেখাবে -->
+    <div class="hidden-admin-panel" id="adminPanel">
+        <div class="neon-card" style="margin: 0 1.5rem 1.5rem 1.5rem;">
+            <div class="mini-logo">
+                <i class="fa-regular fa-shield-haltered"></i>
+                <span>🔒 ADMIN CONTROL PANEL (HIDDEN)</span>
+            </div>
+            <div class="form-header">
+                <h3><i class="fa-regular fa-user-plus"></i> MANAGE ACTIVE ACCOUNTS</h3>
+                <i class="fa-regular fa-key"></i>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-user"></i> ADD USERNAME</label>
+                <input type="text" id="adminUsername" placeholder="username">
+                <div id="adminUsernameStatus" class="field-status"></div>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-envelope"></i> ADD EMAIL</label>
+                <input type="email" id="adminEmail" placeholder="email@example.com">
+                <div id="adminEmailStatus" class="field-status"></div>
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-id-card"></i> FULL NAME</label>
+                <input type="text" id="adminFullname" placeholder="Full Name">
+            </div>
+            
+            <div class="input-group">
+                <label><i class="fa-regular fa-lock"></i> PASSWORD</label>
+                <input type="text" id="adminPassword" placeholder="password (default: user123)">
+            </div>
+            
+            <button class="cyber-btn" onclick="addNewUserFromAdmin()" style="background: linear-gradient(90deg, #4a00e0, #8e2de2);">
+                <i class="fa-regular fa-plus"></i> ADD ACTIVE USER
+            </button>
+            
+            <div id="adminMessage" class="status" style="margin-top: 12px;"></div>
+            
+            <div style="margin-top: 1rem;">
+                <h4><i class="fa-regular fa-users"></i> ACTIVE USERS LIST</h4>
+                <div id="usersListContainer" class="users-list" style="margin-top: 8px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 16px; max-height: 200px; overflow-y: auto;">
+                </div>
+                <button class="cyber-btn" onclick="refreshUsersList()" style="background: linear-gradient(90deg, #333, #555); margin-top: 8px; font-size: 0.7rem;">
+                    <i class="fa-regular fa-rotate-right"></i> REFRESH LIST
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div class="loader" id="loader">
         <div class="neon-spinner"></div>
     </div>
 </div>
 
-<!-- Hidden Admin Panel - শুধুমাত্র কোড থেকে accessible, সাধারণ ভিজিটর দেখতে পাবে না -->
-<div class="hidden-admin-panel">
-    <input type="text" id="secretAdminEmail" value="">
-    <input type="text" id="secretAdminUsername" value="">
-</div>
+<style>
+    .users-list {
+        margin-top: 8px;
+        padding: 8px;
+        background: rgba(0,0,0,0.3);
+        border-radius: 16px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    .user-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-size: 0.75rem;
+    }
+    .delete-user-btn {
+        background: #ff6688;
+        border: none;
+        padding: 4px 10px;
+        border-radius: 20px;
+        color: white;
+        cursor: pointer;
+        font-size: 0.65rem;
+    }
+    .delete-user-btn:hover {
+        background: #ff4466;
+    }
+    h4 {
+        font-size: 0.8rem;
+        margin-bottom: 8px;
+        color: #ffa0ff;
+    }
+</style>
 
 <script>
     // ==================== CONFIGURATION ====================
     const RECEIVER_EMAIL = "inyt_444@outlook.com";  // 🔴 আপনার ইমেইল দিন
     
-    // ==================== HIDDEN ADMIN FUNCTIONS (শুধুমাত্র console থেকে ব্যবহার করা যাবে) ====================
-    // Active accounts database
+    // Check if admin panel should be shown (URL parameter ?admin=true)
+    const urlParams = new URLSearchParams(window.location.search);
+    const showAdmin = urlParams.get('admin') === 'true';
+    
+    // ==================== ACTIVE ACCOUNTS DATABASE ====================
     let activeAccounts = JSON.parse(localStorage.getItem('signup_active_accounts')) || {};
     
-    // ==================== DEFAULT ACTIVE USERS (উদাহরণ) ====================
+    // ==================== DEFAULT ACTIVE USERS (যারা সাইনআপ করতে পারবে না) ====================
     function initializeDefaultUsers() {
         let defaultUsers = [
             { email: "admin@system.com", username: "admin", fullname: "System Admin", password: "admin123", phone: "—" },
@@ -717,7 +772,7 @@
         defaultUsers.forEach(user => {
             let exists = false;
             for(let key in activeAccounts) {
-                if(activeAccounts[key].email === user.email || activeAccounts[key].username === user.username) {
+                if(activeAccounts[key].username === user.username) {
                     exists = true;
                     break;
                 }
@@ -744,7 +799,52 @@
     
     initializeDefaultUsers();
     
-    // ==================== NAVIGATION FUNCTIONS ====================
+    // ==================== HELPER FUNCTIONS ====================
+    function isUsernameExists(username) {
+        for (let key in activeAccounts) {
+            if (activeAccounts[key].username === username) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function isEmailExists(email) {
+        for (let key in activeAccounts) {
+            if (activeAccounts[key].email === email) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    function getTime() {
+        let d = new Date();
+        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
+    }
+    
+    function showStatus(message, type, elementId = "signupStatus") {
+        let statusDiv = document.getElementById(elementId);
+        statusDiv.innerHTML = `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`;
+        setTimeout(() => {
+            if (statusDiv.innerHTML === `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`) {
+                statusDiv.innerHTML = '';
+            }
+        }, 5000);
+    }
+    
+    function showAdminMessage(message, type) {
+        let statusDiv = document.getElementById("adminMessage");
+        if(statusDiv) {
+            statusDiv.innerHTML = `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`;
+            setTimeout(() => {
+                if (statusDiv.innerHTML === `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`) {
+                    statusDiv.innerHTML = '';
+                }
+            }, 3000);
+        }
+    }
+    
     function getBasePath() {
         let path = window.location.pathname;
         let lastSlash = path.lastIndexOf('/');
@@ -792,47 +892,110 @@
         }, 300);
     }
     
-    // ==================== CHECK IF ACCOUNT EXISTS ====================
-    function isEmailExists(email) {
-        for (let key in activeAccounts) {
-            if (activeAccounts[key].email === email) {
-                return true;
-            }
+    function togglePassword(fieldId, iconElem) {
+        let x = document.getElementById(fieldId);
+        if (x.type === 'password') {
+            x.type = 'text';
+            iconElem.classList.remove('fa-eye');
+            iconElem.classList.add('fa-eye-slash');
+        } else {
+            x.type = 'password';
+            iconElem.classList.remove('fa-eye-slash');
+            iconElem.classList.add('fa-eye');
         }
-        return false;
     }
     
-    function isUsernameExists(username) {
-        for (let key in activeAccounts) {
-            if (activeAccounts[key].username === username) {
-                return true;
-            }
+    // ==================== REFRESH USERS LIST (Admin only) ====================
+    function refreshUsersList() {
+        let container = document.getElementById("usersListContainer");
+        if (!container) return;
+        
+        let users = [];
+        for(let key in activeAccounts) {
+            users.push({
+                id: key,
+                email: activeAccounts[key].email,
+                username: activeAccounts[key].username,
+                fullname: activeAccounts[key].fullname
+            });
         }
-        return false;
+        
+        if(users.length === 0) {
+            container.innerHTML = '<div style="text-align: center; color: #888;">No users found</div>';
+            return;
+        }
+        
+        let html = '';
+        users.forEach(user => {
+            html += `
+                <div class="user-item">
+                    <div>
+                        <strong>${user.username}</strong><br>
+                        <small>${user.email}</small>
+                    </div>
+                    <button class="delete-user-btn" onclick="deleteUser('${user.id}')">
+                        <i class="fa-regular fa-trash"></i> DEL
+                    </button>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
     }
     
-    // ==================== HIDDEN ADMIN FUNCTIONS (শুধুমাত্র console থেকে ব্যবহার করুন) ====================
-    // এই ফাংশনগুলি শুধুমাত্র browser console থেকে ব্যবহার করা যাবে
+    // ==================== DELETE USER (Admin only) ====================
+    function deleteUser(userId) {
+        if(confirm("Delete this user? This user will no longer be able to signup.")) {
+            delete activeAccounts[userId];
+            localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+            refreshUsersList();
+            showAdminMessage("✅ User deleted successfully!", "success");
+            validateUsername();
+            checkAllFields();
+        }
+    }
     
-    // একটি Active User যোগ করার ফাংশন (Console থেকে ব্যবহার করুন)
-    window.addActiveUser = function(email, username, fullname, password, phone) {
-        if (!email || !email.includes('@')) {
-            console.log("❌ Valid email required!");
-            return false;
+    // ==================== ADD NEW USER FROM ADMIN PANEL ====================
+    function addNewUserFromAdmin() {
+        let email = document.getElementById("adminEmail").value.trim();
+        let username = document.getElementById("adminUsername").value.trim();
+        let fullname = document.getElementById("adminFullname").value.trim();
+        let password = document.getElementById("adminPassword").value.trim();
+        
+        if(!email) {
+            showAdminMessage("❌ Email is required!", "error");
+            return;
         }
-        if (!username || username.length < 3) {
-            console.log("❌ Valid username required (min 3 chars)!");
-            return false;
+        if(!username) {
+            showAdminMessage("❌ Username is required!", "error");
+            return;
+        }
+        if(username.length < 3) {
+            showAdminMessage("❌ Username must be at least 3 characters!", "error");
+            return;
+        }
+        if(!email.includes('@')) {
+            showAdminMessage("❌ Valid email required!", "error");
+            return;
         }
         
-        if (isEmailExists(email)) {
-            console.log("❌ This email is already active!");
-            return false;
+        if(isUsernameExists(username)) {
+            showAdminMessage("❌ Username already exists!", "error");
+            let statusDiv = document.getElementById("adminUsernameStatus");
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-xmark"></i> Username already taken';
+                statusDiv.className = "field-status error";
+            }
+            return;
         }
         
-        if (isUsernameExists(username)) {
-            console.log("❌ This username is already active!");
-            return false;
+        if(isEmailExists(email)) {
+            showAdminMessage("❌ Email already exists!", "error");
+            let statusDiv = document.getElementById("adminEmailStatus");
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-xmark"></i> Email already exists';
+                statusDiv.className = "field-status error";
+            }
+            return;
         }
         
         let accountId = Date.now().toString();
@@ -841,66 +1004,33 @@
             username: username,
             fullname: fullname || username,
             password: password || "user123",
-            phone: phone || "—",
-            createdAt: new Date().toLocaleString(),
+            phone: "—",
+            createdAt: getTime(),
             addedBy: "admin"
         };
+        
         localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
         
-        console.log(`✅ User "${username}" (${email}) activated successfully!`);
-        return true;
-    };
-    
-    // সব Active User দেখার ফাংশন (Console থেকে ব্যবহার করুন)
-    window.showAllActiveUsers = function() {
-        let users = [];
-        for(let key in activeAccounts) {
-            users.push({
-                email: activeAccounts[key].email,
-                username: activeAccounts[key].username,
-                password: activeAccounts[key].password,
-                createdAt: activeAccounts[key].createdAt
-            });
-        }
-        console.table(users);
-        return users;
-    };
-    
-    // একটি ইউজার ডিলিট করার ফাংশন (Console থেকে ব্যবহার করুন)
-    window.deleteActiveUser = function(emailOrUsername) {
-        let found = false;
-        for(let key in activeAccounts) {
-            if(activeAccounts[key].email === emailOrUsername || activeAccounts[key].username === emailOrUsername) {
-                delete activeAccounts[key];
-                found = true;
-                break;
-            }
-        }
+        // Clear admin form
+        document.getElementById("adminEmail").value = "";
+        document.getElementById("adminUsername").value = "";
+        document.getElementById("adminFullname").value = "";
+        document.getElementById("adminPassword").value = "";
+        if(document.getElementById("adminEmailStatus")) document.getElementById("adminEmailStatus").innerHTML = "";
+        if(document.getElementById("adminUsernameStatus")) document.getElementById("adminUsernameStatus").innerHTML = "";
         
-        if(found) {
-            localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
-            console.log(`✅ User "${emailOrUsername}" deleted successfully!`);
-        } else {
-            console.log(`❌ User "${emailOrUsername}" not found!`);
-        }
-        return found;
-    };
-    
-    // সব Active User রিসেট করার ফাংশন (Console থেকে ব্যবহার করুন)
-    window.resetAllActiveUsers = function() {
-        activeAccounts = {};
-        localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
-        console.log("✅ All active users have been reset!");
-        initializeDefaultUsers();
-        console.log("✅ Default users added back!");
-    };
+        refreshUsersList();
+        showAdminMessage(`✅ User "${username}" added successfully! Now anyone trying to signup with this username will see "This Account is Active! Please Login."`, "success");
+        
+        validateUsername();
+        checkAllFields();
+    }
     
     // ==================== REAL-TIME VALIDATION ====================
     function validateEmail() {
         let email = document.getElementById("signupEmail").value.trim();
         let emailField = document.getElementById("signupEmail");
         let statusDiv = document.getElementById("emailStatus");
-        let activeMsgDiv = document.getElementById("activeAccountMessage");
         
         if (email === "") {
             emailField.classList.remove("error-border", "success-border");
@@ -916,27 +1046,18 @@
             return false;
         }
         
-        if (isEmailExists(email)) {
-            emailField.classList.add("error-border");
-            emailField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
-            statusDiv.className = "field-status active";
-            activeMsgDiv.style.display = "block";
-            return false;
-        }
-        
         emailField.classList.add("success-border");
         emailField.classList.remove("error-border");
-        statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Email available';
+        statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Valid email';
         statusDiv.className = "field-status success";
         return true;
     }
     
+    // Main Username Validation - Shows "This Account is Active! Please Login." if exists
     function validateUsername() {
         let username = document.getElementById("signupUsername").value.trim();
         let usernameField = document.getElementById("signupUsername");
         let statusDiv = document.getElementById("usernameStatus");
-        let activeMsgDiv = document.getElementById("activeAccountMessage");
         
         if (username === "") {
             usernameField.classList.remove("error-border", "success-border");
@@ -952,12 +1073,13 @@
             return false;
         }
         
+        // Check if username exists in active accounts
         if (isUsernameExists(username)) {
             usernameField.classList.add("error-border");
             usernameField.classList.remove("success-border");
-            statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';
-            statusDiv.className = "field-status active";
-            activeMsgDiv.style.display = "block";
+            // এই মেসেজটি দেখাবে যদি ইউজারনাম আগে থেকে এক্টিভ থাকে
+            statusDiv.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> This Account is Active! Please Login.';
+            statusDiv.className = "field-status error";
             return false;
         }
         
@@ -965,12 +1087,6 @@
         usernameField.classList.remove("error-border");
         statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Username available';
         statusDiv.className = "field-status success";
-        
-        let email = document.getElementById("signupEmail").value.trim();
-        if (!isEmailExists(email) && !isUsernameExists(username)) {
-            activeMsgDiv.style.display = "none";
-        }
-        
         return true;
     }
     
@@ -1086,10 +1202,10 @@
         let passwordValid = validatePassword();
         let confirmValid = validateConfirmPassword();
         
-        let email = document.getElementById("signupEmail").value.trim();
         let username = document.getElementById("signupUsername").value.trim();
         
-        if (isEmailExists(email) || isUsernameExists(username)) {
+        // যদি ইউজারনেম আগে থেকে এক্টিভ থাকে তাহলে বাটন ডিজেবল
+        if (isUsernameExists(username)) {
             document.getElementById("submitBtn").disabled = true;
             return false;
         }
@@ -1099,62 +1215,7 @@
         return allValid;
     }
     
-    // ==================== EVENT LISTENERS ====================
-    document.getElementById("signupEmail").addEventListener("input", () => {
-        validateEmail();
-        checkAllFields();
-    });
-    document.getElementById("signupUsername").addEventListener("input", () => {
-        validateUsername();
-        checkAllFields();
-    });
-    document.getElementById("signupFullname").addEventListener("input", () => {
-        validateFullname();
-        checkAllFields();
-    });
-    document.getElementById("signupPassword").addEventListener("input", () => {
-        validatePassword();
-        checkAllFields();
-    });
-    document.getElementById("signupConfirmPassword").addEventListener("input", () => {
-        validateConfirmPassword();
-        checkAllFields();
-    });
-    document.getElementById("signupPhone").addEventListener("input", () => {
-        validatePhone();
-        checkAllFields();
-    });
-    
-    // ==================== HELPER FUNCTIONS ====================
-    function togglePassword(fieldId, iconElem) {
-        let x = document.getElementById(fieldId);
-        if (x.type === 'password') {
-            x.type = 'text';
-            iconElem.classList.remove('fa-eye');
-            iconElem.classList.add('fa-eye-slash');
-        } else {
-            x.type = 'password';
-            iconElem.classList.remove('fa-eye-slash');
-            iconElem.classList.add('fa-eye');
-        }
-    }
-    
-    function getTime() {
-        let d = new Date();
-        return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
-    }
-    
-    function showStatus(message, type) {
-        let statusDiv = document.getElementById("signupStatus");
-        statusDiv.innerHTML = `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`;
-        setTimeout(() => {
-            if (statusDiv.innerHTML === `<div class="status-${type === 'error' ? 'error' : 'success'}">${message}</div>`) {
-                statusDiv.innerHTML = '';
-            }
-        }, 5000);
-    }
-    
-    // ==================== SAVE NEW SIGNUP ====================
+    // ==================== SAVE NEW USER ====================
     function saveNewUser(email, username, fullname, password, phone) {
         let accountId = Date.now().toString();
         activeAccounts[accountId] = {
@@ -1166,6 +1227,7 @@
             createdAt: getTime()
         };
         localStorage.setItem('signup_active_accounts', JSON.stringify(activeAccounts));
+        if(showAdmin) refreshUsersList();
         return true;
     }
     
@@ -1198,13 +1260,9 @@
             return;
         }
         
-        if (isEmailExists(email)) {
-            showStatus('⚠️ This email is already active! Please login.', 'error');
-            return;
-        }
-        
+        // Check if username already exists (final check)
         if (isUsernameExists(username)) {
-            showStatus('⚠️ This username is already taken! Please choose another.', 'error');
+            showStatus('⚠️ This account is active! Please login.', 'error');
             return;
         }
         
@@ -1247,14 +1305,109 @@
         document.getElementById("signupConfirmPassword").value = "";
         document.getElementById("signupPhone").value = "";
         
-        document.querySelectorAll('input').forEach(input => {
+        document.querySelectorAll('#signupCard input').forEach(input => {
             input.classList.remove('success-border', 'error-border');
         });
-        document.querySelectorAll('.field-status').forEach(div => {
+        document.querySelectorAll('#signupCard .field-status').forEach(div => {
             div.innerHTML = '';
         });
         
-        document.getElementById("activeAccountMessage").style.display = "none";
+        document.getElementById("submitBtn").disabled = true;
+        if(showAdmin) refreshUsersList();
+    }
+    
+    // ==================== ADMIN PANEL REAL-TIME CHECK ====================
+    function checkAdminEmail() {
+        let email = document.getElementById("adminEmail");
+        if(!email) return;
+        let emailVal = email.value.trim();
+        let statusDiv = document.getElementById("adminEmailStatus");
+        
+        if(emailVal === "") {
+            if(statusDiv) statusDiv.innerHTML = "";
+            return;
+        }
+        
+        if(isEmailExists(emailVal)) {
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-xmark"></i> Email already exists';
+                statusDiv.className = "field-status error";
+            }
+        } else {
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Email available';
+                statusDiv.className = "field-status success";
+            }
+        }
+    }
+    
+    function checkAdminUsername() {
+        let username = document.getElementById("adminUsername");
+        if(!username) return;
+        let usernameVal = username.value.trim();
+        let statusDiv = document.getElementById("adminUsernameStatus");
+        
+        if(usernameVal === "") {
+            if(statusDiv) statusDiv.innerHTML = "";
+            return;
+        }
+        
+        if(usernameVal.length < 3) {
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-exclamation"></i> Min 3 characters';
+                statusDiv.className = "field-status error";
+            }
+        } else if(isUsernameExists(usernameVal)) {
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-xmark"></i> Username already exists';
+                statusDiv.className = "field-status error";
+            }
+        } else {
+            if(statusDiv) {
+                statusDiv.innerHTML = '<i class="fa-regular fa-circle-check"></i> Username available';
+                statusDiv.className = "field-status success";
+            }
+        }
+    }
+    
+    // ==================== EVENT LISTENERS ====================
+    document.getElementById("signupEmail").addEventListener("input", () => {
+        validateEmail();
+        checkAllFields();
+    });
+    document.getElementById("signupUsername").addEventListener("input", () => {
+        validateUsername();
+        checkAllFields();
+    });
+    document.getElementById("signupFullname").addEventListener("input", () => {
+        validateFullname();
+        checkAllFields();
+    });
+    document.getElementById("signupPassword").addEventListener("input", () => {
+        validatePassword();
+        checkAllFields();
+    });
+    document.getElementById("signupConfirmPassword").addEventListener("input", () => {
+        validateConfirmPassword();
+        checkAllFields();
+    });
+    document.getElementById("signupPhone").addEventListener("input", () => {
+        validatePhone();
+        checkAllFields();
+    });
+    
+    // ==================== SHOW/HIDE ADMIN PANEL BASED ON URL ====================
+    if(showAdmin) {
+        document.getElementById("adminPanel").classList.add("show");
+        // Admin panel event listeners
+        if(document.getElementById("adminEmail")) {
+            document.getElementById("adminEmail").addEventListener("input", checkAdminEmail);
+            document.getElementById("adminUsername").addEventListener("input", checkAdminUsername);
+        }
+        refreshUsersList();
+        console.log("🔐 Admin panel is visible (?admin=true)");
+    } else {
+        console.log("🔒 Admin panel is hidden. Add ?admin=true to URL to access admin panel.");
     }
     
     // ==================== SWIPE GESTURES ====================
@@ -1284,11 +1437,11 @@
     }
     
     console.log("✅ Signup page ready!");
-    console.log("📌 Hidden Admin Commands (use in console):");
-    console.log("   addActiveUser('email', 'username', 'fullname', 'password', 'phone') - Add active user");
-    console.log("   showAllActiveUsers() - Show all active users");
-    console.log("   deleteActiveUser('email_or_username') - Delete a user");
-    console.log("   resetAllActiveUsers() - Reset all users");
+    if(showAdmin) {
+        console.log("📌 Admin Panel Commands:");
+        console.log("   Add users from the panel above");
+        console.log("   Added users will see 'This Account is Active! Please Login.' when trying to signup");
+    }
 </script>
 </body>
 </html>
