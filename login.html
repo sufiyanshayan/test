@@ -1,168 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>INYT 444 SIGNUP</title>
-    <link rel="icon" href="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box;}
-        body{font-family:'Space Grotesk',sans-serif;background:linear-gradient(145deg,#0a0a0f,#1a1a2e);color:#fff;overflow-x:hidden;min-height:100vh;}
-        .app{max-width:480px;margin:0 auto;background:#0f0f17;min-height:100vh;position:relative;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);box-shadow:0 0 50px rgba(0,0,0,0.5);}
-        .cyber-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(255,50,100,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(80,200,255,0.15) 0%,transparent 50%),radial-gradient(circle at 40% 20%,rgba(200,100,255,0.15) 0%,transparent 50%),linear-gradient(145deg,#0a0a0f,#1a1a2e);z-index:-2;animation:breathe 10s ease-in-out infinite;}
-        @keyframes breathe{0%,100%{opacity:0.8;}50%{opacity:1;}}
-        .particle{position:fixed;width:4px;height:4px;background:rgba(255,255,255,0.3);border-radius:50%;pointer-events:none;z-index:-1;animation:float 20s linear infinite;}
-        @keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-20vh) translateX(50px);opacity:0;}}
-        header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:#14141e;border-bottom:1px solid rgba(255,100,200,0.2);position:sticky;top:0;z-index:100;}
-        .logo{font-weight:700;font-size:1.3rem;background:linear-gradient(135deg,#fff,#a0a0ff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:8px;}
-        .logo i{font-size:1.1rem;color:#ffa0ff;filter:drop-shadow(0 0 8px #ffa0ff);}
-        .hologram-btn{width:48px;height:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;border-radius:40px;background:#1e1e2a;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
-        .hologram-btn:hover{background:#2a2a3a;border-color:rgba(255,200,255,0.3);}
-        .hologram-btn .line{width:22px;height:2px;background:linear-gradient(90deg,#ffa0ff,#a0a0ff);border-radius:4px;}
-        .overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);opacity:0;pointer-events:none;transition:opacity 0.5s;z-index:200;}
-        .overlay.active{opacity:1;pointer-events:all;}
-        .sidebar{position:fixed;right:-360px;top:0;width:300px;height:100%;background:#1a1a26;box-shadow:-25px 0 50px rgba(0,0,0,0.5);transition:right 0.6s cubic-bezier(0.22,1,0.36,1);z-index:300;padding:2rem 1.2rem;border-left:1px solid rgba(255,100,255,0.3);}
-        .sidebar.active{right:0;}
-        .close-btn{text-align:right;margin-bottom:1.5rem;cursor:pointer;}
-        .close-btn i{font-size:1.6rem;color:rgba(255,200,255,0.8);transition:transform 0.3s;}
-        .close-btn:hover i{transform:rotate(180deg) scale(1.1);}
-        .profile{display:flex;align-items:center;gap:1rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,100,255,0.2);margin-bottom:1.5rem;}
-        .avatar{width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#ff50a0,#a050ff);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.5);}
-        .avatar i{font-size:1.8rem;color:white;}
-        .profile-text h3{font-weight:700;font-size:1.1rem;background:linear-gradient(135deg,#fff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .profile-text p{font-size:0.7rem;color:rgba(200,200,255,0.7);}
-        .sidebar a{display:flex;align-items:center;gap:1rem;padding:0.9rem 1rem;color:rgba(255,255,255,0.9);text-decoration:none;font-weight:500;font-size:0.9rem;border-radius:16px;margin:0.4rem 0;transition:all 0.3s;background:#252535;border:1px solid rgba(255,100,255,0.2);cursor:pointer;}
-        .sidebar a i{font-size:1.2rem;width:25px;color:#ffa0ff;}
-        .sidebar a:hover{background:#353549;transform:translateX(8px);}
-        .divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,#ffa0ff,transparent);margin:1rem 0;}
-        .loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a12;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.4s;z-index:400;}
-        .loader.active{opacity:1;pointer-events:all;}
-        .neon-spinner{width:50px;height:50px;border:3px solid rgba(255,100,255,0.2);border-top:3px solid #ffa0ff;border-right:3px solid #a0ffff;border-radius:50%;animation:spin 1s linear infinite;}
-        @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
-        .container{padding:1.5rem;}
-        .neon-card{background:rgba(30,30,44,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,100,255,0.25);border-radius:40px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
-        .neon-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(255,100,255,0.06),rgba(100,200,255,0.06),rgba(255,100,200,0.06),transparent 70%);animation:rotate 15s linear infinite;pointer-events:none;}
-        @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-        .form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(255,100,255,0.2);position:relative;z-index:2;}
-        .form-header h3{font-weight:700;font-size:1.2rem;background:linear-gradient(135deg,#fff,#ffa0ff,#a0ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .form-header i{font-size:1.4rem;color:#ffa0ff;}
-        .input-group{margin-bottom:1rem;position:relative;z-index:2;}
-        label{font-size:0.7rem;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:5px;color:rgba(255,255,255,0.75);text-transform:uppercase;}
-        label i{font-size:0.8rem;color:#ffa0ff;width:18px;}
-        label .required-star{color:#ff6688;margin-left:4px;}
-        input{width:100%;padding:12px 14px;background:rgba(20,20,30,0.8);border:2px solid rgba(255,100,255,0.2);border-radius:24px;color:#fff;font-family:'Space Grotesk',monospace;font-size:0.85rem;transition:all 0.3s ease;}
-        input:focus{outline:none;border-color:#ffa0ff;box-shadow:0 0 0 2px rgba(255,160,255,0.2);}
-        input.error-border{border-color:#ff6688;background:rgba(255,68,68,0.1);}
-        input.success-border{border-color:#00ffaa;background:rgba(0,255,170,0.05);}
-        .field-status{font-size:0.65rem;margin-top:5px;margin-left:12px;display:flex;align-items:center;gap:5px;}
-        .field-status.success{color:#00ffaa;}
-        .field-status.error{color:#ff6688;}
-        .field-status.active{color:#00ffaa;}
-        .password-wrapper{position:relative;}
-        .password-wrapper input{padding-right:45px;}
-        .toggle-password{position:absolute;right:16px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,160,255,0.7);font-size:1rem;}
-        .cyber-btn{width:100%;padding:12px;background:linear-gradient(90deg,#ff50a0,#a050ff);border:none;border-radius:40px;color:white;font-weight:600;font-size:0.85rem;cursor:pointer;margin-top:8px;text-transform:uppercase;transition:all 0.3s ease;}
-        .cyber-btn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,100,255,0.4);}
-        .cyber-btn:disabled{opacity:0.5;cursor:not-allowed;}
-        .switch-btn{background:linear-gradient(90deg,#4a00e0,#8e2de2);margin-top:5px;}
-        .status{text-align:center;margin-top:12px;padding:8px 12px;border-radius:24px;font-size:0.75rem;}
-        .status-success{background:rgba(0,255,150,0.12);color:#00ffaa;border:1px solid rgba(0,255,150,0.25);}
-        .status-error{background:rgba(255,68,68,0.12);color:#ff6688;border:1px solid rgba(255,68,68,0.25);}
-        .mini-logo{display:flex;align-items:center;gap:6px;margin-bottom:0.6rem;}
-        .mini-logo i{font-size:1rem;color:#ffa0ff;}
-        .mini-logo span{font-weight:600;font-size:0.7rem;background:linear-gradient(135deg,#fff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-        .active-account-badge{background:rgba(0,255,170,0.15);border:1px solid rgba(0,255,170,0.3);border-radius:20px;padding:10px 12px;margin-bottom:15px;text-align:center;animation:pulse 2s infinite;}
-        @keyframes pulse{0%,100%{opacity:0.8;}50%{opacity:1;}}
-        .active-account-badge i{color:#00ffaa;margin-right:8px;}
-        .active-account-badge span{color:#00ffaa;font-size:0.8rem;font-weight:500;}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Hologram Request</title>
+<link rel="icon" href="YOUR_FAVICON_LINK">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Space Grotesk',sans-serif;background:linear-gradient(145deg,#0a0a0f,#1a1a2e);color:#fff;min-height:100vh;overflow-x:hidden;}
+.app{max-width:550px;margin:0 auto;background:#0f0f17;min-height:100vh;border-left:1px solid rgba(255,255,255,0.05);border-right:1px solid rgba(255,255,255,0.05);}
+.cyber-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(255,50,100,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(80,200,255,0.15) 0%,transparent 50%),radial-gradient(circle at 40% 20%,rgba(200,100,255,0.15) 0%,transparent 50%),linear-gradient(145deg,#0a0a0f,#1a1a2e);z-index:-2;animation:breathe 10s ease-in-out infinite;}
+@keyframes breathe{0%,100%{opacity:0.8;}50%{opacity:1;}}
+.particle{position:fixed;width:4px;height:4px;background:rgba(255,255,255,0.3);border-radius:50%;pointer-events:none;z-index:-1;animation:float 20s linear infinite;}
+@keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-20vh) translateX(50px);opacity:0;}}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:#14141e;border-bottom:1px solid rgba(255,100,200,0.2);position:sticky;top:0;z-index:100;}
+.logo{font-weight:700;font-size:1.3rem;background:linear-gradient(135deg,#fff,#a0a0ff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:8px;}
+.logo i{font-size:1.1rem;color:#ffa0ff;filter:drop-shadow(0 0 8px #ffa0ff);}
+.hologram-btn{width:48px;height:48px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;border-radius:40px;background:#1e1e2a;border:1px solid rgba(255,255,255,0.1);transition:0.3s;}
+.hologram-btn:hover{background:#2a2a3a;border-color:rgba(255,200,255,0.3);}
+.hologram-btn .line{width:22px;height:2px;background:linear-gradient(90deg,#ffa0ff,#a0a0ff);border-radius:4px;}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);opacity:0;pointer-events:none;transition:opacity 0.5s;z-index:200;}
+.overlay.active{opacity:1;pointer-events:all;}
+.sidebar{position:fixed;right:-360px;top:0;width:300px;height:100%;background:#1a1a26;box-shadow:-25px 0 50px rgba(0,0,0,0.5);transition:right 0.6s cubic-bezier(0.22,1,0.36,1);z-index:300;padding:2rem 1.2rem;border-left:1px solid rgba(255,100,255,0.3);}
+.sidebar.active{right:0;}
+.close-btn{text-align:right;margin-bottom:1.5rem;cursor:pointer;}
+.close-btn i{font-size:1.6rem;color:rgba(255,200,255,0.8);transition:transform 0.3s;}
+.close-btn:hover i{transform:rotate(180deg) scale(1.1);}
+.profile{display:flex;align-items:center;gap:1rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(255,100,255,0.2);margin-bottom:1.5rem;}
+.avatar{width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#ff50a0,#a050ff);display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.5);overflow:hidden;}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.avatar i{font-size:1.8rem;color:white;}
+.profile-text h3{font-weight:700;font-size:1.1rem;background:linear-gradient(135deg,#fff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.profile-text p{font-size:0.7rem;color:rgba(200,200,255,0.7);}
+.sidebar a{display:flex;align-items:center;gap:1rem;padding:0.9rem 1rem;color:rgba(255,255,255,0.9);text-decoration:none;font-weight:500;font-size:0.9rem;border-radius:16px;margin:0.4rem 0;transition:all 0.3s;background:#252535;border:1px solid rgba(255,100,255,0.2);cursor:pointer;}
+.sidebar a i{font-size:1.2rem;width:25px;color:#ffa0ff;}
+.sidebar a:hover{background:#353549;transform:translateX(8px);}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,#ffa0ff,transparent);margin:1rem 0;}
+.loader{position:fixed;top:0;left:0;width:100%;height:100%;background:#0a0a12;display:flex;justify-content:center;align-items:center;opacity:0;pointer-events:none;transition:opacity 0.4s;z-index:400;}
+.loader.active{opacity:1;pointer-events:all;}
+.neon-spinner{width:50px;height:50px;border:3px solid rgba(255,100,255,0.2);border-top:3px solid #ffa0ff;border-right:3px solid #a0ffff;border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+.container{padding:1.5rem;}
+
+/* NEW LOGIN CARD DESIGN */
+.login-card-new{
+  background: rgba(20,20,35,0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 2rem;
+  border: 1px solid rgba(255,100,200,0.2);
+  box-shadow: 0 0 40px rgba(255,100,255,0.2);
+  text-align: center;
+}
+.login-card-new h2{
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fff, #ffa0ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.login-card-new .input-group{
+  margin-bottom: 1rem;
+}
+.login-card-new input{
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 50px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(30,30,45,0.7);
+  color: white;
+  outline: none;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+.login-card-new input:focus{
+  border-color: #ffa0ff;
+  box-shadow: 0 0 10px rgba(255,100,255,0.3);
+}
+.login-card-new button{
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ff50a0, #a050ff);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.login-card-new button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255,100,255,0.4);
+}
+.login-card-new .password-wrapper{
+  position: relative;
+}
+.login-card-new .toggle-password{
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: rgba(255,160,255,0.7);
+  font-size: 1rem;
+}
+.login-card-new .toggle-password:hover{
+  color: #ffa0ff;
+}
+
+.neon-card{background:rgba(30,30,44,0.85);backdrop-filter:blur(10px);border:1px solid rgba(255,100,255,0.25);border-radius:40px;padding:1.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;}
+.neon-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:conic-gradient(from 0deg,transparent,rgba(255,100,255,0.06),rgba(100,200,255,0.06),rgba(255,100,200,0.06),transparent 70%);animation:rotate 15s linear infinite;pointer-events:none;}
+@keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.form-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(255,100,255,0.2);position:relative;z-index:2;}
+.form-header h3{font-weight:700;font-size:1.2rem;background:linear-gradient(135deg,#fff,#ffa0ff,#a0ffff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.form-header i{font-size:1.4rem;color:#ffa0ff;}
+.input-group{margin-bottom:0.9rem;position:relative;z-index:2;}
+label{font-size:0.7rem;font-weight:500;display:flex;align-items:center;gap:8px;margin-bottom:5px;color:rgba(255,255,255,0.75);text-transform:uppercase;}
+label i{font-size:0.8rem;color:#ffa0ff;width:18px;}
+input,textarea{width:100%;padding:10px 14px;background:rgba(20,20,30,0.8);border:1px solid rgba(255,100,255,0.2);border-radius:24px;color:#fff;font-family:'Space Grotesk',monospace;font-size:0.8rem;}
+input:focus,textarea:focus{outline:none;border-color:#ffa0ff;box-shadow:0 0 0 2px rgba(255,160,255,0.2);}
+textarea{resize:vertical;min-height:60px;}
+.password-wrapper{position:relative;}
+.password-wrapper input{padding-right:40px;}
+.toggle-password{position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,160,255,0.7);}
+.cyber-btn{width:100%;padding:12px;background:linear-gradient(90deg,#ff50a0,#a050ff);border:none;border-radius:40px;color:white;font-weight:600;font-size:0.85rem;cursor:pointer;margin-top:8px;text-transform:uppercase;}
+.cyber-btn:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,100,255,0.4);}
+.login-btn{background:linear-gradient(90deg,#00b4db,#0083b0);}
+.logout-btn{background:linear-gradient(90deg,#ff6b6b,#ee5a5a);}
+.status{text-align:center;margin-top:10px;padding:6px 10px;border-radius:24px;font-size:0.7rem;}
+.status-success{background:rgba(0,255,150,0.12);color:#00ffaa;border:1px solid rgba(0,255,150,0.25);}
+.status-error{background:rgba(255,68,68,0.12);color:#ff6688;border:1px solid rgba(255,68,68,0.25);}
+.hidden{display:none;}
+.mini-logo{display:flex;align-items:center;gap:6px;margin-bottom:0.6rem;}
+.mini-logo i{font-size:1rem;color:#ffa0ff;}
+.mini-logo span{font-weight:600;font-size:0.7rem;background:linear-gradient(135deg,#fff,#ffa0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.theme-selector{position:relative;width:100%;cursor:pointer;}
+.theme-display{width:100%;padding:10px 14px;background:rgba(20,20,30,0.8);border:1px solid rgba(255,100,255,0.2);border-radius:24px;color:#fff;font-family:'Space Grotesk',monospace;font-size:0.8rem;display:flex;justify-content:space-between;align-items:center;}
+.theme-display i{color:#ffa0ff;transition:transform 0.3s;}
+.theme-popup{position:absolute;bottom:100%;left:0;right:0;background:#1e1e2e;border:1px solid rgba(255,100,255,0.3);border-radius:16px;margin-bottom:8px;overflow:hidden;z-index:100;display:none;box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+.theme-popup.active{display:block;animation:slideUp 0.2s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.theme-option{padding:12px 14px;display:flex;align-items:center;gap:10px;transition:0.2s;border-bottom:1px solid rgba(255,100,255,0.1);cursor:pointer;}
+.theme-option:last-child{border-bottom:none;}
+.theme-option:hover{background:#2a2a3e;}
+.theme-option i{width:20px;color:#ffa0ff;}
+.theme-option span{flex:1;}
+</style>
 </head>
 <body>
 <div class="cyber-bg"></div>
 <div class="app">
-    <header>
-        <div class="logo"><i class="fa-regular fa-crystal"></i> MR INYT 444</div>
-        <div class="hologram-btn" onclick="openMenu()">
-            <div class="line"></div><div class="line"></div><div class="line"></div>
-        </div>
-    </header>
+    <header><div class="logo"><i class="fa-regular fa-crystal"></i> Your_Name</div><div class="hologram-btn" onclick="openMenu()"><div class="line"></div><div class="line"></div><div class="line"></div></div></header>
     <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+    
+    <!-- SIDEBAR WITH MATCHING LOGOS -->
     <div class="sidebar" id="sidebar">
         <div class="close-btn" onclick="closeMenu()"><i class="fa-regular fa-xmark"></i></div>
-        <div class="profile"><div class="avatar"><i class="fa-regular fa-robot"></i></div><div class="profile-text"><h3>MR INYT 444</h3><p>TRIPLE FOUR</p></div></div>
-        <a onclick="navigateTo('home')"><i class="fa-regular fa-crystal"></i> HOME</a>
-        <a onclick="navigateTo('')"><i class="fa-regular fa-user-plus"></i> SIGN UP</a>
-        <a onclick="navigateTo('login')"><i class="fa-regular fa-keyboard"></i> LOGIN</a>
-        <div class="divider"></div>
+        <div class="profile">
+            <div class="avatar" id="sidebarAvatar">
+                <img id="avatarImg" src="YOUR_THREE_LINE_PROFILE_PICTURE_LINK" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                <i id="avatarIcon" class="fa-regular fa-robot" style="font-size:1.8rem; color:white; display:none;"></i>
+            </div>
+            <div class="profile-text"><h3 id="sidebarUsername">GUEST_MODE</h3><p>REQUEST_FORM</p></div>
+        </div>
+        <!-- HOLO HOME and QUANTUM have SAME icon (fa-atom) -->
+        <a onclick="navigateTo('home')"><i class="fa-regular fa-atom"></i> HOLO HOME</a>
+        <!-- REQUEST FORM and QUANTUM LAB have SAME icon (fa-microchip) -->
+        <a onclick="navigateTo('form')"><i class="fa-regular fa-microchip"></i> REQUEST FORM</a>
         <a onclick="navigateTo('about')"><i class="fa-regular fa-atom"></i> QUANTUM</a>
+        <a onclick="navigateTo('quantumlab')"><i class="fa-regular fa-microchip"></i> QUANTUM LAB</a>
+        <div class="divider"></div>
         <a onclick="navigateTo('settings')"><i class="fa-regular fa-sliders"></i> SETTINGS</a>
+        <a onclick="navigateTo('extras')"><i class="fa-regular fa-cube"></i> EXTRAS</a>
     </div>
+    
     <div class="container">
-        <div class="neon-card">
-            <div class="mini-logo"><i class="fa-regular fa-user-plus"></i><span>CREATE_ACCOUNT</span></div>
-            <div class="form-header"><h3><i class="fa-regular fa-fingerprint"></i> SIGN UP</h3><i class="fa-regular fa-crystal"></i></div>
-            <div id="activeAccountMessage" class="active-account-badge" style="display:none;"><i class="fa-regular fa-circle-check"></i><span>This Account Is Active! Please Login.</span></div>
-            <div class="input-group"><label><i class="fa-regular fa-envelope"></i> EMAIL <span class="required-star">*</span></label><input type="email" id="signupEmail" placeholder="your@email.com"><div id="emailStatus" class="field-status"></div></div>
-            <div class="input-group"><label><i class="fa-regular fa-user"></i> USERNAME <span class="required-star">*</span></label><input type="text" id="signupUsername" placeholder="cyber_user"><div id="usernameStatus" class="field-status"></div></div>
-            <div class="input-group"><label><i class="fa-regular fa-id-card"></i> FULL NAME <span class="required-star">*</span></label><input type="text" id="signupFullname" placeholder="John Doe"><div id="fullnameStatus" class="field-status"></div></div>
-            <div class="input-group"><label><i class="fa-regular fa-lock-keyhole"></i> PASSWORD <span class="required-star">*</span></label><div class="password-wrapper"><input type="password" id="signupPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupPassword',this)"></i></div><div id="passwordStatus" class="field-status"></div></div>
-            <div class="input-group"><label><i class="fa-regular fa-lock"></i> CONFIRM PASSWORD <span class="required-star">*</span></label><div class="password-wrapper"><input type="password" id="signupConfirmPassword" placeholder="********"><i class="fa-regular fa-eye toggle-password" onclick="togglePassword('signupConfirmPassword',this)"></i></div><div id="confirmStatus" class="field-status"></div></div>
-            <div class="input-group"><label><i class="fa-solid fa-phone"></i> PHONE</label><input type="tel" id="signupPhone" placeholder="+8801XXXXXXXXX"><div id="phoneStatus" class="field-status"></div></div>
-            <button class="cyber-btn" id="submitBtn" onclick="sendSignupEmail()"><i class="fa-regular fa-paper-plane"></i> SIGN UP & SEND INFO</button>
-            <button class="cyber-btn switch-btn" onclick="goToLoginPage()"><i class="fa-regular fa-arrow-right-to-bracket"></i> ALREADY HAVE AN ACCOUNT? LOGIN</button>
-            <div id="signupStatus" class="status"></div>
+        <div class="login-card-new" id="loginCard">
+            <h2>🔐 Login</h2>
+            <div class="input-group">
+                <input type="text" id="loginUser" placeholder="Username">
+            </div>
+            <div class="input-group password-wrapper">
+                <input type="password" id="loginPass" placeholder="Password">
+                <i class="fa-regular fa-eye toggle-password" onclick="toggleLoginPassword()"></i>
+            </div>
+            <button onclick="login()">Login</button>
+            <div id="loginStatus" class="status"></div>
+        </div>
+
+        <div class="neon-card hidden" id="formCard">
+            <div class="form-header"><h3><i class="fa-regular fa-pen-to-square"></i> HOLOGRAM REQUEST</h3><i class="fa-regular fa-satellite-dish"></i></div>
+            <div class="input-group"><label><i class="fa-regular fa-envelope"></i> 1. EMAIL <span style="color:#ff6688;">*</span></label><input type="email" id="yourEmail" placeholder="cyber@neon.com"></div>
+            <div class="input-group"><label><i class="fa-regular fa-user"></i> 2. USERNAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourUsername" placeholder="neon_operator"></div>
+            <div class="input-group"><label><i class="fa-regular fa-id-card"></i> 3. YOUR NAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourName" placeholder="John Doe"></div>
+            <div class="input-group"><label><i class="fa-regular fa-image"></i> 4. PROFILE PIC LINK</label><input type="url" id="profilePic" placeholder="https://"></div>
+            <div class="input-group"><label><i class="fa-brands fa-facebook"></i> 5. FACEBOOK</label><input type="text" id="fbUsername" placeholder="username"></div>
+            <div class="input-group"><label><i class="fa-brands fa-facebook"></i> 6. FB PAGE</label><input type="text" id="fbPageUsername" placeholder="pagename"></div>
+            <div class="input-group"><label><i class="fa-brands fa-instagram"></i> 7. INSTAGRAM</label><input type="text" id="igUsername" placeholder="@username"></div>
+            <div class="input-group"><label><i class="fa-brands fa-whatsapp"></i> 8. WHATSAPP</label><input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX"></div>
+            <div class="input-group"><label><i class="fa-brands fa-tiktok"></i> 9. TIKTOK</label><input type="text" id="tiktok" placeholder="@username"></div>
+            <div class="input-group"><label><i class="fa-brands fa-telegram"></i> 10. TELEGRAM</label><input type="text" id="telegram" placeholder="@username"></div>
+            <div class="input-group"><label><i class="fa-brands fa-twitter"></i> 11. TWITTER(X)</label><input type="text" id="twitter" placeholder="@username"></div>
+            <div class="input-group"><label><i class="fa-solid fa-phone"></i> 12. PHONE</label><input type="tel" id="phone" placeholder="8801XXXXXXXXX"></div>
+            <div class="input-group"><label><i class="fa-regular fa-user"></i> 13. ABOUT</label><textarea id="about" placeholder="Write about yourself..."></textarea></div>
+            <div class="input-group"><label><i class="fa-solid fa-globe"></i> 14. WEBSITE</label><input type="url" id="website" placeholder="https://yourdomain.com"></div>
+            <div class="input-group">
+                <label><i class="fa-solid fa-palette"></i> 15. THEME <span style="color:#ff6688;">*</span></label>
+                <div class="theme-selector" onclick="toggleThemePopup()">
+                    <div class="theme-display" id="themeDisplay"><span><i class="fa-regular fa-circle-question"></i> Choose Your Theme</span><i class="fa-solid fa-chevron-up" id="themeArrow"></i></div>
+                    <div class="theme-popup" id="themePopup">
+                        <div class="theme-option" onclick="selectTheme('LINK-IN-BIO-WHITE-THEME', event)"><i class="fa-regular fa-sun"></i><span>LINK-IN-BIO-WHITE-THEME</span></div>
+                        <div class="theme-option" onclick="selectTheme('LINK-IN-BIO-BLACK-THEME', event)"><i class="fa-regular fa-moon"></i><span>LINK-IN-BIO-BLACK-THEME</span></div>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedTheme" value="">
+            </div>
+            <button class="cyber-btn" onclick="sendEmail()"><i class="fa-regular fa-paper-plane"></i> SUBMIT</button>
+            <button class="cyber-btn logout-btn" onclick="logout()"><i class="fa-regular fa-arrow-right-from-bracket"></i> LOGOUT</button>
+            <div id="formStatus" class="status"></div>
         </div>
     </div>
     <div class="loader" id="loader"><div class="neon-spinner"></div></div>
 </div>
-
 <script>
-// 🔴🔴🔴 ব্লক করা ইউজারনাম লিস্ট - এখানে আপনার desired ইউজারনাম যোগ করুন 🔴🔴🔴
-const BLOCKED_USERNAMES = ["admin","administrator","root","superuser","moderator","hologram","system","owner","ceo","founder","webmaster","support","helpdesk","official","verified"];
-// উপরের লিস্টে যত ইচ্ছা ইউজারনাম যোগ করুন, যেমন: "ps_y_co","psyco"
+const RECEIVER_EMAIL="inyt_444@outlook.com";
+const users={admin:"1234",user1:"1111",user2:"2222"};
+let currentUser=null,logoutTimer=null,touchStartX=0;
 
-const RECEIVER_EMAIL = "inyt_444@outlook.com"; // আপনার ইমেইল দিন
-
-function isUsernameBlocked(u){return BLOCKED_USERNAMES.includes(u.toLowerCase());}
-function getTime(){let d=new Date();return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${(d.getHours()%12||12).toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;}
-function showStatus(m,t,e="signupStatus"){let s=document.getElementById(e);s.innerHTML=`<div class="status-${t==='error'?'error':'success'}">${m}</div>`;setTimeout(()=>{if(s.innerHTML===`<div class="status-${t==='error'?'error':'success'}">${m}</div>`)s.innerHTML='';},5000);}
-function getBasePath(){let p=window.location.pathname,l=p.lastIndexOf('/');return l>0?p.substring(0,l+1):'/';}
-function showLoader(){let l=document.getElementById('loader');l.classList.add('active');setTimeout(()=>l.classList.remove('active'),500);}
 function openMenu(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');}
 function closeMenu(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');}
-function navigateTo(p){closeMenu();showLoader();let b=getBasePath();setTimeout(()=>{p==='home'?window.location.href=b:window.location.href=b+p+'.html';},300);}
-function goToLoginPage(){closeMenu();showLoader();let b=getBasePath();setTimeout(()=>window.location.href=b+'login.html',300);}
-function togglePassword(f,i){let x=document.getElementById(f);x.type==='password'?(x.type='text',i.classList.remove('fa-eye'),i.classList.add('fa-eye-slash')):(x.type='password',i.classList.remove('fa-eye-slash'),i.classList.add('fa-eye'));}
+function showLoader(){let l=document.getElementById('loader');l.classList.add('active');setTimeout(()=>l.classList.remove('active'),500);}
+function navigateTo(p){
+    closeMenu();
+    showLoader();
+    setTimeout(()=>{
+        window.location.href = '/' + p;
+        alert('Navigating to: ' + p + '\n\nYou can create this page and replace this alert with actual content.');
+    },300);
+}
 
-function validateEmail(){let e=document.getElementById("signupEmail").value.trim(),f=document.getElementById("signupEmail"),s=document.getElementById("emailStatus");if(e===""){f.classList.remove("error-border","success-border");s.innerHTML="";return false;}if(!e.includes('@')||!e.includes('.')){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Invalid email format';s.className="field-status error";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Valid email';s.className="field-status success";return true;}
+function toggleLoginPassword(){
+    let passInput = document.getElementById('loginPass');
+    let icon = event.target;
+    if(passInput.type === 'password'){
+        passInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        passInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
 
-function validateUsername(){let u=document.getElementById("signupUsername").value.trim(),f=document.getElementById("signupUsername"),s=document.getElementById("usernameStatus"),a=document.getElementById("activeAccountMessage");if(u===""){f.classList.remove("error-border","success-border");s.innerHTML="";a.style.display="none";return false;}if(u.length<3){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Username must be at least 3 characters';s.className="field-status error";a.style.display="none";return false;}if(isUsernameBlocked(u)){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> This Account Is Active! Please Login.';s.className="field-status active";a.style.display="block";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Username available';s.className="field-status success";a.style.display="none";return true;}
+document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;});
+document.addEventListener('touchend',e=>{let diff=e.changedTouches[0].screenX-touchStartX;if(diff>50)openMenu();else if(diff<-50)closeMenu();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 
-function validateFullname(){let n=document.getElementById("signupFullname").value.trim(),f=document.getElementById("signupFullname"),s=document.getElementById("fullnameStatus");if(n===""){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Full name required';s.className="field-status error";return false;}if(n.length<2){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Enter valid name';s.className="field-status error";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Valid name';s.className="field-status success";return true;}
+for(let i=0;i<15;i++){let p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(15+Math.random()*25)+'s';p.style.background=`hsl(${280+Math.random()*60},80%,65%)`;document.body.appendChild(p);}
 
-function validatePassword(){let p=document.getElementById("signupPassword").value,f=document.getElementById("signupPassword"),s=document.getElementById("passwordStatus");if(p===""){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Password required';s.className="field-status error";return false;}if(p.length<4){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Password must be at least 4 characters';s.className="field-status error";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Password OK';s.className="field-status success";validateConfirmPassword();return true;}
+function updateAvatar(picLink){
+    let img=document.getElementById('avatarImg'),icon=document.getElementById('avatarIcon');
+    if(picLink&&picLink.trim()!==''&&picLink!=='YOUR_THREE_LINE_PROFILE_PICTURE_LINK'){
+        img.src=picLink.trim();
+        img.style.display='block';
+        icon.style.display='none';
+        img.onerror=()=>{img.style.display='none';icon.style.display='flex';};
+    }else{img.style.display='none';icon.style.display='flex';}
+}
 
-function validateConfirmPassword(){let p=document.getElementById("signupPassword").value,c=document.getElementById("signupConfirmPassword").value,f=document.getElementById("signupConfirmPassword"),s=document.getElementById("confirmStatus");if(c===""){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Please confirm password';s.className="field-status error";return false;}if(p!==c){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Passwords do not match';s.className="field-status error";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Passwords match';s.className="field-status success";return true;}
+function saveAndUpdateAvatar(){
+    let pic=document.getElementById('profilePic').value.trim();
+    if(pic&&pic!==''){localStorage.setItem('profilePicLink',pic);updateAvatar(pic);}
+}
 
-function validatePhone(){let p=document.getElementById("signupPhone").value.trim(),f=document.getElementById("signupPhone"),s=document.getElementById("phoneStatus");if(p===""){f.classList.remove("error-border","success-border");s.innerHTML="";return true;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Optional';s.className="field-status success";return true;}
+function loadAvatar(){let saved=localStorage.getItem('profilePicLink');if(saved)updateAvatar(saved);}
 
-function checkAllFields(){let e=validateEmail(),u=validateUsername(),n=validateFullname(),p=validatePassword(),c=validateConfirmPassword(),un=document.getElementById("signupUsername").value.trim();if(isUsernameBlocked(un)){document.getElementById("submitBtn").disabled=true;return false;}let a=e&&u&&n&&p&&c;document.getElementById("submitBtn").disabled=!a;return a;}
+function toggleThemePopup(){
+    let popup=document.getElementById('themePopup'),arrow=document.getElementById('themeArrow');
+    popup.classList.toggle('active');
+    arrow.classList.toggle('fa-chevron-up');
+    arrow.classList.toggle('fa-chevron-down');
+    if(!popup.classList.contains('active')){arrow.classList.add('fa-chevron-up');arrow.classList.remove('fa-chevron-down');}
+}
 
-function sendSignupEmail(){let e=document.getElementById("signupEmail").value.trim(),u=document.getElementById("signupUsername").value.trim(),n=document.getElementById("signupFullname").value.trim(),p=document.getElementById("signupPassword").value,ph=document.getElementById("signupPhone").value.trim()||"—";if(!e||!e.includes('@')){showStatus('❌ Valid email required!','error');return;}if(!u||u.length<3){showStatus('❌ Valid username required (min 3 characters)!','error');return;}if(!n){showStatus('❌ Full name required!','error');return;}if(!p||p.length<4){showStatus('❌ Password must be at least 4 characters!','error');return;}if(document.getElementById("signupPassword").value!==document.getElementById("signupConfirmPassword").value){showStatus('❌ Passwords do not match!','error');return;}if(isUsernameBlocked(u)){showStatus('⚠️ This username is reserved and cannot be used!','error');document.getElementById("activeAccountMessage").style.display="block";return;}let body=`★ SIGN UP INFORMATION SUBMITTED ★\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📧 Email        : ${e}\n👤 Username     : ${u}\n📛 Full Name    : ${n}\n🔑 Password     : ${p}\n📱 Phone        : ${ph}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ Signup Time  : ${getTime()}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✨ HOLOGRAM SYSTEM ✨\n`,sub=`🔮 NEW SIGN UP: ${u}`;if(RECEIVER_EMAIL==="your_email@gmail.com"){showStatus('❌ Please set RECEIVER_EMAIL in the code!','error');return;}let isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),mailto=`mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;isMobile?window.location.href=mailto:window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`,'_blank');showStatus('✅ Sign up successful! Info sent to email.','success');document.getElementById("signupEmail").value="";document.getElementById("signupUsername").value="";document.getElementById("signupFullname").value="";document.getElementById("signupPassword").value="";document.getElementById("signupConfirmPassword").value="";document.getElementById("signupPhone").value="";document.querySelectorAll('#signupCard input').forEach(i=>i.classList.remove('success-border','error-border'));document.querySelectorAll('#signupCard .field-status').forEach(d=>d.innerHTML='');document.getElementById("activeAccountMessage").style.display="none";document.getElementById("submitBtn").disabled=true;}
+function selectTheme(theme,event){
+    event.stopPropagation();
+    document.getElementById('selectedTheme').value=theme;
+    let icon=theme==='LINK-IN-BIO-WHITE-THEME'?'<i class="fa-regular fa-sun"></i> ':'<i class="fa-regular fa-moon"></i> ';
+    document.querySelector('#themeDisplay span').innerHTML=icon+theme;
+    document.getElementById('themePopup').classList.remove('active');
+    let arrow=document.getElementById('themeArrow');
+    arrow.classList.add('fa-chevron-up');
+    arrow.classList.remove('fa-chevron-down');
+}
 
-document.getElementById("signupEmail").addEventListener("input",()=>{validateEmail();checkAllFields();});
-document.getElementById("signupUsername").addEventListener("input",()=>{validateUsername();checkAllFields();});
-document.getElementById("signupFullname").addEventListener("input",()=>{validateFullname();checkAllFields();});
-document.getElementById("signupPassword").addEventListener("input",()=>{validatePassword();checkAllFields();});
-document.getElementById("signupConfirmPassword").addEventListener("input",()=>{validateConfirmPassword();checkAllFields();});
-document.getElementById("signupPhone").addEventListener("input",()=>{validatePhone();checkAllFields();});
+document.addEventListener('click',function(e){
+    let selector=document.querySelector('.theme-selector');
+    if(selector&&!selector.contains(e.target)){
+        document.getElementById('themePopup').classList.remove('active');
+        let arrow=document.getElementById('themeArrow');
+        arrow.classList.add('fa-chevron-up');
+        arrow.classList.remove('fa-chevron-down');
+    }
+});
 
-let touchStartX=0;document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});document.addEventListener('touchend',e=>{let diff=e.changedTouches[0].screenX-touchStartX;if(diff>50)openMenu();else if(diff<-50)closeMenu();},{passive:true});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+function getTime(){let d=new Date();return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;}
+function startAutoLogout(){if(logoutTimer)clearTimeout(logoutTimer);logoutTimer=setTimeout(()=>{if(currentUser)logout();},60000);}
+function resetAutoLogout(){if(currentUser){if(logoutTimer)clearTimeout(logoutTimer);startAutoLogout();}}
+['click','keypress','scroll','touchstart'].forEach(e=>document.addEventListener(e,resetAutoLogout));
 
-for(let i=0;i<20;i++){let p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(15+Math.random()*25)+'s';p.style.background=`hsl(${280+Math.random()*80},80%,65%)`;document.body.appendChild(p);}
-console.log("✅ Ready! Blocked usernames:",BLOCKED_USERNAMES);
+function login(){
+    let u=document.getElementById("loginUser").value.trim(),p=document.getElementById("loginPass").value.trim(),s=document.getElementById("loginStatus");
+    if(!u||!p){s.innerHTML='<div class="status-error">Enter username & password</div>';setTimeout(()=>s.innerHTML='',2500);return;}
+    if(users[u]&&users[u]===p){
+        currentUser=u;
+        document.getElementById('loginCard').classList.add('hidden');
+        document.getElementById('formCard').classList.remove('hidden');
+        document.getElementById('sidebarUsername').innerHTML=u.toUpperCase();
+        s.innerHTML=`<div class="status-success">Welcome ${u}!</div>`;
+        setTimeout(()=>s.innerHTML='',2500);
+        document.getElementById("loginUser").value="";
+        document.getElementById("loginPass").value="";
+        loadAvatar();
+        startAutoLogout();
+    }else{s.innerHTML='<div class="status-error">Invalid credentials</div>';setTimeout(()=>s.innerHTML='',2500);}
+}
+
+function logout(){
+    if(currentUser){
+        currentUser=null;
+        document.getElementById('loginCard').classList.remove('hidden');
+        document.getElementById('formCard').classList.add('hidden');
+        document.getElementById('sidebarUsername').innerHTML='GUEST_MODE';
+        document.getElementById('loginStatus').innerHTML='<div class="status-success">Logged out</div>';
+        setTimeout(()=>{let x=document.getElementById('loginStatus');if(x.innerHTML.includes('Logged out'))x.innerHTML='';},3000);
+        ['yourEmail','yourUsername','yourName','profilePic','fbUsername','fbPageUsername','igUsername','whatsapp','tiktok','telegram','twitter','phone','about','website'].forEach(id=>{let e=document.getElementById(id);if(e)e.value="";});
+        document.getElementById('selectedTheme').value="";
+        document.querySelector('#themeDisplay span').innerHTML='<i class="fa-regular fa-circle-question"></i> Choose Your Theme';
+        updateAvatar('');
+        if(logoutTimer)clearTimeout(logoutTimer);
+    }
+}
+
+function sendEmail(){
+    if(!currentUser){alert("Please login first!");return;}
+    saveAndUpdateAvatar();
+    let e=document.getElementById("yourEmail").value.trim(),u=document.getElementById("yourUsername").value.trim(),n=document.getElementById("yourName").value.trim(),theme=document.getElementById("selectedTheme").value.trim();
+    if(!e||!e.includes('@')){alert("Valid email required!");return;}
+    if(!u){alert("Username required!");return;}
+    if(!n){alert("Name required!");return;}
+    if(!theme){alert("❌ Please select a theme!");return;}
+    if(RECEIVER_EMAIL==="your_email@gmail.com"){alert("Set your email in code!");return;}
+    let g=(id)=>document.getElementById(id)?.value.trim()||"—",body=`🔮 HOLOGRAM REQUEST DATA 🔮\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
+    let sub="New Hologram Request",isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),mailto=`mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
+    isMobile?window.location.href=mailto:window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`,'_blank');
+    let fs=document.getElementById("formStatus");fs.innerHTML='<div class="status-success">Opening Gmail...</div>';setTimeout(()=>fs.innerHTML='',3000);
+    resetAutoLogout();
+}
+
+window.onload=function(){
+    let defaultPic=document.getElementById('avatarImg').src;
+    if(defaultPic && defaultPic!=='YOUR_THREE_LINE_PROFILE_PICTURE_LINK'){
+        updateAvatar(defaultPic);
+    }
+};
 </script>
 </body>
 </html>
