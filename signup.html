@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>SIGN UP | MR INYT 444</title>
+    <title>Sign Up | Hologram Access</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg">
+    <link rel="icon" type="image/png" href="YOUR_FAVICON_LINK">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -85,7 +85,7 @@
 <div class="cyber-bg"></div>
 <div class="app">
     <header>
-        <div class="logo"><i class="fa-regular fa-crystal"></i>SIGN UP | MR INYT 444</div>
+        <div class="logo"><i class="fa-regular fa-crystal"></i> SIGN UP ACCESS</div>
         <div class="hologram-btn" onclick="openMenu()">
             <div class="line"></div><div class="line"></div><div class="line"></div>
         </div>
@@ -95,17 +95,17 @@
         <div class="close-btn" onclick="closeMenu()"><i class="fa-regular fa-xmark"></i></div>
         <div class="profile">
             <div class="avatar">
-                <img src="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg" alt="profile">
+                <img src="YOUR_THREE_LINE_PROFILE_PICTURE" alt="profile">
             </div>
-            <div class="profile-text"><h3>MR INYT 444</h3><p>TRIPLE FOUR</p></div>
+            <div class="profile-text"><h3>WELCOME</h3><p>SIGN_UP_MODE</p></div>
         </div>
-        <a onclick="navigateTo('home')"><i class="fa-regular fa-crystal"></i>HOME</a>
-        <a onclick="navigateTo('sufiyan_shayan')"><i class="fa-regular fa-user-plus"></i> ABU SUFIYAN</a>
-        <a onclick="navigateTo('linkinbio-white-theme')"><i class="fa-regular fa-arrow-right-to-bracket"></i> LINK IN BIO WHITE THEME</a>
-        <a onclick="navigateTo('linkinbio-black-theme')"><i class="fa-regular fa-chart-line"></i> LINK IN BIO BLACK THEME</a>
+        <a onclick="navigateTo('home')"><i class="fa-regular fa-crystal"></i> HOLO HOME</a>
+        <a onclick="navigateTo('signup')"><i class="fa-regular fa-user-plus"></i> SIGN UP</a>
+        <a onclick="navigateTo('login')"><i class="fa-regular fa-arrow-right-to-bracket"></i> LOGIN</a>
+        <a onclick="navigateTo('dashboard')"><i class="fa-regular fa-chart-line"></i> DASHBOARD</a>
         <div class="divider"></div>
-        <a onclick="navigateTo('')"><i class="fa-regular fa-atom"></i> SIGNUP NOW</a>
-        <a onclick="navigateTo('login')"><i class="fa-regular fa-sliders"></i> LOGIN NOW</a>
+        <a onclick="navigateTo('about')"><i class="fa-regular fa-atom"></i> QUANTUM</a>
+        <a onclick="navigateTo('settings')"><i class="fa-regular fa-sliders"></i> SETTINGS</a>
     </div>
     <div class="container">
         <div class="neon-card">
@@ -131,7 +131,7 @@
 const BLOCKED_USERNAMES = ["admin","administrator","root","superuser","moderator","hologram","system","owner","ceo","founder","webmaster","support","helpdesk","official","verified"];
 // উপরের লিস্টে যত ইচ্ছা ইউজারনাম যোগ করুন, যেমন: "ps_y_co","psyco"
 
-const RECEIVER_EMAIL = "inyt_444@outlook.com"; // আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "your_email@gmail.com"; // আপনার ইমেইল দিন
 
 function isUsernameBlocked(u){return BLOCKED_USERNAMES.includes(u.toLowerCase());}
 function getTime(){let d=new Date();return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${(d.getHours()%12||12).toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;}
@@ -140,8 +140,30 @@ function getBasePath(){let p=window.location.pathname,l=p.lastIndexOf('/');retur
 function showLoader(){let l=document.getElementById('loader');l.classList.add('active');setTimeout(()=>l.classList.remove('active'),500);}
 function openMenu(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');}
 function closeMenu(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');}
-function navigateTo(p){closeMenu();showLoader();let b=getBasePath();setTimeout(()=>{p==='home'?window.location.href=b:window.location.href=b+p+'.html';},300);}
-function goToLoginPage(){closeMenu();showLoader();let b=getBasePath();setTimeout(()=>window.location.href=b+'login.html',300);}
+
+// 🔥 মূল পরিবর্তন এখানে - .html এক্সটেনশন সম্পূর্ণ রিমুভ করা হয়েছে
+function navigateTo(p){
+    closeMenu();showLoader();
+    let b=getBasePath();
+    setTimeout(()=>{
+        if(p==='home'){
+            window.location.href = b;
+        } else {
+            // .html ছাড়া সরাসরি পেজে যাবে (htaccess handle করবে)
+            window.location.href = b + p;
+        }
+    },300);
+}
+
+function goToLoginPage(){
+    closeMenu();showLoader();
+    let b=getBasePath();
+    // .html ছাড়া শুধু login
+    setTimeout(()=>{
+        window.location.href = b + 'login';
+    },300);
+}
+
 function togglePassword(f,i){let x=document.getElementById(f);x.type==='password'?(x.type='text',i.classList.remove('fa-eye'),i.classList.add('fa-eye-slash')):(x.type='password',i.classList.remove('fa-eye-slash'),i.classList.add('fa-eye'));}
 
 function validateEmail(){let e=document.getElementById("signupEmail").value.trim(),f=document.getElementById("signupEmail"),s=document.getElementById("emailStatus");if(e===""){f.classList.remove("error-border","success-border");s.innerHTML="";return false;}if(!e.includes('@')||!e.includes('.')){f.classList.add("error-border");f.classList.remove("success-border");s.innerHTML='<i class="fa-regular fa-circle-exclamation"></i> Invalid email format';s.className="field-status error";return false;}f.classList.add("success-border");f.classList.remove("error-border");s.innerHTML='<i class="fa-regular fa-circle-check"></i> Valid email';s.className="field-status success";return true;}
@@ -158,7 +180,7 @@ function validatePhone(){let p=document.getElementById("signupPhone").value.trim
 
 function checkAllFields(){let e=validateEmail(),u=validateUsername(),n=validateFullname(),p=validatePassword(),c=validateConfirmPassword(),un=document.getElementById("signupUsername").value.trim();if(isUsernameBlocked(un)){document.getElementById("submitBtn").disabled=true;return false;}let a=e&&u&&n&&p&&c;document.getElementById("submitBtn").disabled=!a;return a;}
 
-function sendSignupEmail(){let e=document.getElementById("signupEmail").value.trim(),u=document.getElementById("signupUsername").value.trim(),n=document.getElementById("signupFullname").value.trim(),p=document.getElementById("signupPassword").value,ph=document.getElementById("signupPhone").value.trim()||"—";if(!e||!e.includes('@')){showStatus('❌ Valid email required!','error');return;}if(!u||u.length<3){showStatus('❌ Valid username required (min 3 characters)!','error');return;}if(!n){showStatus('❌ Full name required!','error');return;}if(!p||p.length<4){showStatus('❌ Password must be at least 4 characters!','error');return;}if(document.getElementById("signupPassword").value!==document.getElementById("signupConfirmPassword").value){showStatus('❌ Passwords do not match!','error');return;}if(isUsernameBlocked(u)){showStatus('⚠️ This username is reserved and cannot be used!','error');document.getElementById("activeAccountMessage").style.display="block";return;}let body=`★ NEW SIGN UP INFORMATION ★\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📧 Email        : ${e}\n👤 Username     : ${u}\n📛 Full Name    : ${n}\n🔑 Password     : ${p}\n📱 Phone        : ${ph}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ Signup Time  : ${getTime()}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n MADE BY ★ MR INYT 444 ★\n`,sub=`★ NEW SIGN UP ★ : ${u}`;if(RECEIVER_EMAIL==="your_email@gmail.com"){showStatus('❌ Please set RECEIVER_EMAIL in the code!','error');return;}let isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),mailto=`mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;isMobile?window.location.href=mailto:window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`,'_blank');showStatus('✅ Sign up successful! Info sent to email.','success');document.getElementById("signupEmail").value="";document.getElementById("signupUsername").value="";document.getElementById("signupFullname").value="";document.getElementById("signupPassword").value="";document.getElementById("signupConfirmPassword").value="";document.getElementById("signupPhone").value="";document.querySelectorAll('#signupCard input').forEach(i=>i.classList.remove('success-border','error-border'));document.querySelectorAll('#signupCard .field-status').forEach(d=>d.innerHTML='');document.getElementById("activeAccountMessage").style.display="none";document.getElementById("submitBtn").disabled=true;}
+function sendSignupEmail(){let e=document.getElementById("signupEmail").value.trim(),u=document.getElementById("signupUsername").value.trim(),n=document.getElementById("signupFullname").value.trim(),p=document.getElementById("signupPassword").value,ph=document.getElementById("signupPhone").value.trim()||"—";if(!e||!e.includes('@')){showStatus('❌ Valid email required!','error');return;}if(!u||u.length<3){showStatus('❌ Valid username required (min 3 characters)!','error');return;}if(!n){showStatus('❌ Full name required!','error');return;}if(!p||p.length<4){showStatus('❌ Password must be at least 4 characters!','error');return;}if(document.getElementById("signupPassword").value!==document.getElementById("signupConfirmPassword").value){showStatus('❌ Passwords do not match!','error');return;}if(isUsernameBlocked(u)){showStatus('⚠️ This username is reserved and cannot be used!','error');document.getElementById("activeAccountMessage").style.display="block";return;}let body=`🔮 NEW SIGN UP INFORMATION 🔮\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📧 Email        : ${e}\n👤 Username     : ${u}\n📛 Full Name    : ${n}\n🔑 Password     : ${p}\n📱 Phone        : ${ph}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n⏰ Signup Time  : ${getTime()}\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n✨ HOLOGRAM SYSTEM ✨\n`,sub=`🔮 NEW SIGN UP: ${u}`;if(RECEIVER_EMAIL==="your_email@gmail.com"){showStatus('❌ Please set RECEIVER_EMAIL in the code!','error');return;}let isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent),mailto=`mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;isMobile?window.location.href=mailto:window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${RECEIVER_EMAIL}&su=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`,'_blank');showStatus('✅ Sign up successful! Info sent to email.','success');document.getElementById("signupEmail").value="";document.getElementById("signupUsername").value="";document.getElementById("signupFullname").value="";document.getElementById("signupPassword").value="";document.getElementById("signupConfirmPassword").value="";document.getElementById("signupPhone").value="";document.querySelectorAll('.neon-card input').forEach(i=>i.classList.remove('success-border','error-border'));document.querySelectorAll('.neon-card .field-status').forEach(d=>d.innerHTML='');document.getElementById("activeAccountMessage").style.display="none";document.getElementById("submitBtn").disabled=true;}
 
 document.getElementById("signupEmail").addEventListener("input",()=>{validateEmail();checkAllFields();});
 document.getElementById("signupUsername").addEventListener("input",()=>{validateUsername();checkAllFields();});
@@ -170,7 +192,7 @@ document.getElementById("signupPhone").addEventListener("input",()=>{validatePho
 let touchStartX=0;document.addEventListener('touchstart',e=>{touchStartX=e.changedTouches[0].screenX;},{passive:true});document.addEventListener('touchend',e=>{let diff=e.changedTouches[0].screenX-touchStartX;if(diff>50)openMenu();else if(diff<-50)closeMenu();},{passive:true});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
 
 for(let i=0;i<20;i++){let p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDuration=(15+Math.random()*25)+'s';p.style.background=`hsl(${280+Math.random()*80},80%,65%)`;document.body.appendChild(p);}
-console.log("✅ Ready! Blocked usernames:",BLOCKED_USERNAMES);
+console.log("✅ Ready! No .html extension will be shown in URLs");
 </script>
 </body>
 </html>
