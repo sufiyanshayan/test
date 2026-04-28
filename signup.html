@@ -131,7 +131,7 @@
 const BLOCKED_USERNAMES = ["admin","administrator","root","superuser","moderator","hologram","system","owner","ceo","founder","webmaster","support","helpdesk","official","verified"];
 // উপরের লিস্টে যত ইচ্ছা ইউজারনাম যোগ করুন, যেমন: "ps_y_co","psyco"
 
-const RECEIVER_EMAIL = "your_email@gmail.com"; // আপনার ইমেইল দিন
+const RECEIVER_EMAIL = "inyt_444@outlook.com"; // আপনার ইমেইল দিন
 
 function isUsernameBlocked(u){return BLOCKED_USERNAMES.includes(u.toLowerCase());}
 function getTime(){let d=new Date();return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${(d.getHours()%12||12).toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}:${d.getSeconds().toString().padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;}
