@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Hologram Request</title>
-<link rel="icon" href="YOUR_FAVICON_LINK">
+<title>INYT 444 । LOGIN</title>
+<link rel="icon" href="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
@@ -152,28 +152,28 @@ textarea{resize:vertical;min-height:60px;}
 <body>
 <div class="cyber-bg"></div>
 <div class="app">
-    <header><div class="logo"><i class="fa-regular fa-crystal"></i> Your_Name</div><div class="hologram-btn" onclick="openMenu()"><div class="line"></div><div class="line"></div><div class="line"></div></div></header>
+    <header><div class="logo"><i class="fa-regular fa-crystal"></i>INYT 444 । LOGIN</div><div class="hologram-btn" onclick="openMenu()"><div class="line"></div><div class="line"></div><div class="line"></div></div></header>
     <div class="overlay" id="overlay" onclick="closeMenu()"></div>
     
-    <!-- SIDEBAR WITH MATCHING LOGOS -->
     <div class="sidebar" id="sidebar">
         <div class="close-btn" onclick="closeMenu()"><i class="fa-regular fa-xmark"></i></div>
         <div class="profile">
             <div class="avatar" id="sidebarAvatar">
-                <img id="avatarImg" src="YOUR_THREE_LINE_PROFILE_PICTURE_LINK" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
-                <i id="avatarIcon" class="fa-regular fa-robot" style="font-size:1.8rem; color:white; display:none;"></i>
+                <img id="avatarImg" src="https://i.postimg.cc/7ZsCGC17/451236214-995219779013572-5086974055196939289-n-(1).jpg" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">
+                <i id="avatarIcon" class="fa-regular fa-user" style="font-size:1.8rem; color:white; display:none;"></i>
             </div>
-            <div class="profile-text"><h3 id="sidebarUsername">GUEST_MODE</h3><p>REQUEST_FORM</p></div>
+            <div class="profile-text">
+                <h3 id="sidebarUsername">Loading...</h3>
+                <p>TRIPLE 4</p>
+            </div>
         </div>
-        <!-- HOLO HOME and QUANTUM have SAME icon (fa-atom) -->
-        <a onclick="navigateTo('home')"><i class="fa-regular fa-atom"></i> HOLO HOME</a>
-        <!-- REQUEST FORM and QUANTUM LAB have SAME icon (fa-microchip) -->
-        <a onclick="navigateTo('form')"><i class="fa-regular fa-microchip"></i> REQUEST FORM</a>
-        <a onclick="navigateTo('about')"><i class="fa-regular fa-atom"></i> QUANTUM</a>
-        <a onclick="navigateTo('quantumlab')"><i class="fa-regular fa-microchip"></i> QUANTUM LAB</a>
+        <a onclick="navigateTo('')"><i class="fa-regular fa-atom"></i>HOME</a>
+        <a onclick="navigateTo('sufiyan_shayan')"><i class="fa-regular fa-microchip"></i>ABU SUFIYAN</a>
+        <a onclick="navigateTo('linkinbio-white-theme')"><i class="fa-regular fa-atom"></i>LINK IN BIO WHITE THEME</a>
+        <a onclick="navigateTo('linkinbio-black-theme')"><i class="fa-regular fa-microchip"></i>LINK IN BIO BLACK THEME</a>
         <div class="divider"></div>
-        <a onclick="navigateTo('settings')"><i class="fa-regular fa-sliders"></i> SETTINGS</a>
-        <a onclick="navigateTo('extras')"><i class="fa-regular fa-cube"></i> EXTRAS</a>
+        <a onclick="navigateTo('signup')"><i class="fa-regular fa-sliders"></i>SIGNUP</a>
+        <a onclick="navigateTo('login')"><i class="fa-regular fa-cube"></i>LOGIN</a>
     </div>
     
     <div class="container">
@@ -191,7 +191,7 @@ textarea{resize:vertical;min-height:60px;}
         </div>
 
         <div class="neon-card hidden" id="formCard">
-            <div class="form-header"><h3><i class="fa-regular fa-pen-to-square"></i> HOLOGRAM REQUEST</h3><i class="fa-regular fa-satellite-dish"></i></div>
+            <div class="form-header"><h3><i class="fa-regular fa-pen-to-square"></i>INYT 444 । LOGIN</h3><i class="fa-regular fa-satellite-dish"></i></div>
             <div class="input-group"><label><i class="fa-regular fa-envelope"></i> 1. EMAIL <span style="color:#ff6688;">*</span></label><input type="email" id="yourEmail" placeholder="cyber@neon.com"></div>
             <div class="input-group"><label><i class="fa-regular fa-user"></i> 2. USERNAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourUsername" placeholder="neon_operator"></div>
             <div class="input-group"><label><i class="fa-regular fa-id-card"></i> 3. YOUR NAME <span style="color:#ff6688;">*</span></label><input type="text" id="yourName" placeholder="John Doe"></div>
@@ -224,70 +224,79 @@ textarea{resize:vertical;min-height:60px;}
     </div>
     <div class="loader" id="loader"><div class="neon-spinner"></div></div>
 </div>
+
 <script>
-const RECEIVER_EMAIL="your_email@gmail.com";
-const users={admin:"1234",user1:"1111",user2:"2222"};
-let currentUser=null;
-let logoutTimer=null;
-let touchStartX=0;
+// ============================================
+// ⚙️ কনফিগারেশন - শুধু এখানে আপনার ডিফল্ট নাম দিন
+// ============================================
+const RECEIVER_EMAIL = "inyt_444@outlook.com";
+const DEFAULT_NAME = "INYT 444";  // ← এখানে আপনার পছন্দের নাম লিখুন। যেমন: "MY BRAND", "HOLOGRAM STUDIO" ইত্যাদি
+// ============================================
 
-// --- Helper Functions ---
-function openMenu(){document.getElementById('sidebar').classList.add('active');document.getElementById('overlay').classList.add('active');}
-function closeMenu(){document.getElementById('sidebar').classList.remove('active');document.getElementById('overlay').classList.remove('active');}
-function showLoader(){let l=document.getElementById('loader');l.classList.add('active');setTimeout(()=>l.classList.remove('active'),500);}
-function hideLoader(){document.getElementById('loader').classList.remove('active');}
+const users = {admin:"1234", user1:"1111", user2:"2222"};
+let currentUser = null;
+let logoutTimer = null;
+let touchStartX = 0;
 
-// ✅ FIX: Navigation - সরাসরি পেজে নিয়ে যাবে, কোন অ্যালার্ট দেখাবে না
+function openMenu(){
+    document.getElementById('sidebar').classList.add('active');
+    document.getElementById('overlay').classList.add('active');
+}
+function closeMenu(){
+    document.getElementById('sidebar').classList.remove('active');
+    document.getElementById('overlay').classList.remove('active');
+}
+function showLoader(){
+    let l = document.getElementById('loader');
+    l.classList.add('active');
+    setTimeout(() => l.classList.remove('active'), 500);
+}
+function hideLoader(){
+    document.getElementById('loader').classList.remove('active');
+}
 function navigateTo(page){
     closeMenu();
     showLoader();
     setTimeout(() => {
         hideLoader();
-        // সরাসরি পেজে রিডাইরেক্ট করবে (URL এ .html ছাড়া)
-        // আপনার .htaccess ফাইল থাকায় এটি clean URL হিসেবে কাজ করবে
         window.location.href = '/' + page;
     }, 300);
 }
 
-// ✅ Profile Picture logic (persist & load correctly)
+// সাইডবারের নাম আপডেট করার ফাংশন
+function updateSidebarName(){
+    const nameElement = document.getElementById('sidebarUsername');
+    if(currentUser){
+        nameElement.innerHTML = currentUser.toUpperCase();
+    } else {
+        nameElement.innerHTML = DEFAULT_NAME;
+    }
+}
+
 function updateAvatar(picLink){
-    let img=document.getElementById('avatarImg');
-    let icon=document.getElementById('avatarIcon');
+    let img = document.getElementById('avatarImg');
+    let icon = document.getElementById('avatarIcon');
     if(picLink && picLink.trim() !== '' && picLink !== 'YOUR_THREE_LINE_PROFILE_PICTURE_LINK'){
         img.src = picLink.trim();
         img.style.display = 'block';
         icon.style.display = 'none';
-        img.onerror = () => {
+        img.onerror = function(){
             img.style.display = 'none';
             icon.style.display = 'flex';
-            console.warn("Avatar failed to load");
         };
     } else {
         img.style.display = 'none';
         icon.style.display = 'flex';
     }
 }
-
-function saveProfilePicToLocalStorage(){
-    let pic = document.getElementById('profilePic').value.trim();
-    if(pic && pic !== ''){
-        localStorage.setItem('profilePicLink', pic);
-        updateAvatar(pic);
-    }
-}
-
-function loadProfilePicFromLocalStorage(){
-    let saved = localStorage.getItem('profilePicLink');
-    if(saved && saved.trim() !== '' && saved !== 'YOUR_THREE_LINE_PROFILE_PICTURE_LINK'){
-        updateAvatar(saved);
-        let picField = document.getElementById('profilePic');
-        if(picField && picField.value.trim() === '') picField.value = saved;
+function loadDefaultProfile(){
+    let defaultSrc = document.getElementById('avatarImg').src;
+    if(defaultSrc && defaultSrc !== '' && !defaultSrc.includes('YOUR_THREE_LINE_PROFILE_PICTURE_LINK')){
+        updateAvatar(defaultSrc);
     } else {
         updateAvatar('');
     }
 }
-
-// ✅ Fixed toggleLoginPassword with event param
 function toggleLoginPassword(event){
     let passInput = document.getElementById('loginPass');
     let icon = event.currentTarget;
@@ -301,8 +310,6 @@ function toggleLoginPassword(event){
         icon.classList.add('fa-eye');
     }
 }
-
-// Touch events for sidebar
 document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
 document.addEventListener('touchend', e => {
     let diff = e.changedTouches[0].screenX - touchStartX;
@@ -310,22 +317,18 @@ document.addEventListener('touchend', e => {
     else if(diff < -50) closeMenu();
 });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeMenu(); });
-
-// particles
-for(let i=0;i<15;i++){
-    let p=document.createElement('div');
-    p.className='particle';
-    p.style.left=Math.random()*100+'%';
-    p.style.animationDuration=(15+Math.random()*25)+'s';
-    p.style.background=`hsl(${280+Math.random()*60},80%,65%)`;
+for(let i = 0; i < 15; i++){
+    let p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (15 + Math.random() * 25) + 's';
+    p.style.background = `hsl(${280 + Math.random() * 60}, 80%, 65%)`;
     document.body.appendChild(p);
 }
-
 function getTime(){
-    let d=new Date();
+    let d = new Date();
     return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()} ${String(d.getHours()%12||12).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} ${d.getHours()>=12?'PM':'AM'}`;
 }
-
 function startAutoLogout(){
     if(logoutTimer) clearTimeout(logoutTimer);
     logoutTimer = setTimeout(() => { if(currentUser) logout(); }, 60000);
@@ -336,31 +339,36 @@ function resetAutoLogout(){
         startAutoLogout();
     }
 }
-['click','keypress','scroll','touchstart'].forEach(e => document.addEventListener(e, resetAutoLogout));
+['click', 'keypress', 'scroll', 'touchstart'].forEach(e => document.addEventListener(e, resetAutoLogout));
 
 function login(){
     let u = document.getElementById("loginUser").value.trim();
     let p = document.getElementById("loginPass").value.trim();
     let s = document.getElementById("loginStatus");
     if(!u || !p){
-        s.innerHTML='<div class="status-error">Enter username & password</div>';
-        setTimeout(()=>s.innerHTML='',2500);
+        s.innerHTML = '<div class="status-error">Enter username & password</div>';
+        setTimeout(() => s.innerHTML = '', 2500);
         return;
     }
-    if(users[u] && users[u]===p){
+    if(users[u] && users[u] === p){
         currentUser = u;
         document.getElementById('loginCard').classList.add('hidden');
         document.getElementById('formCard').classList.remove('hidden');
-        document.getElementById('sidebarUsername').innerHTML = u.toUpperCase();
-        s.innerHTML=`<div class="status-success">Welcome ${u}!</div>`;
-        setTimeout(()=>s.innerHTML='',2500);
+        updateSidebarName();
+        s.innerHTML = `<div class="status-success">Welcome ${u}!</div>`;
+        setTimeout(() => s.innerHTML = '', 2500);
         document.getElementById("loginUser").value = "";
         document.getElementById("loginPass").value = "";
-        loadProfilePicFromLocalStorage();
+        let formPic = document.getElementById('profilePic').value.trim();
+        if(formPic !== ''){
+            updateAvatar(formPic);
+        } else {
+            loadDefaultProfile();
+        }
         startAutoLogout();
     } else {
-        s.innerHTML='<div class="status-error">Invalid credentials</div>';
-        setTimeout(()=>s.innerHTML='',2500);
+        s.innerHTML = '<div class="status-error">Invalid credentials</div>';
+        setTimeout(() => s.innerHTML = '', 2500);
     }
 }
 
@@ -369,37 +377,58 @@ function logout(){
         currentUser = null;
         document.getElementById('loginCard').classList.remove('hidden');
         document.getElementById('formCard').classList.add('hidden');
-        document.getElementById('sidebarUsername').innerHTML = 'GUEST_MODE';
+        updateSidebarName();
         document.getElementById('loginStatus').innerHTML = '<div class="status-success">Logged out</div>';
-        setTimeout(() => { let x = document.getElementById('loginStatus'); if(x.innerHTML.includes('Logged out')) x.innerHTML=''; }, 3000);
+        setTimeout(() => {
+            let x = document.getElementById('loginStatus');
+            if(x.innerHTML.includes('Logged out')) x.innerHTML = '';
+        }, 3000);
         ['yourEmail','yourUsername','yourName','profilePic','fbUsername','fbPageUsername','igUsername','whatsapp','tiktok','telegram','twitter','phone','about','website'].forEach(id => {
             let e = document.getElementById(id);
             if(e) e.value = "";
         });
         document.getElementById('selectedTheme').value = "";
         document.querySelector('#themeDisplay span').innerHTML = '<i class="fa-regular fa-circle-question"></i> Choose Your Theme';
-        let img = document.getElementById('avatarImg');
-        let icon = document.getElementById('avatarIcon');
-        img.style.display = 'none';
-        icon.style.display = 'flex';
+        loadDefaultProfile();
         if(logoutTimer) clearTimeout(logoutTimer);
     }
 }
+document.getElementById('profilePic')?.addEventListener('input', function(){
+    if(currentUser){
+        updateAvatar(this.value);
+    }
+});
 
 function sendEmail(){
-    if(!currentUser){ alert("Please login first!"); return; }
-    saveProfilePicToLocalStorage();
+    if(!currentUser){
+        alert("Please login first!");
+        return;
+    }
     let e = document.getElementById("yourEmail").value.trim();
     let u = document.getElementById("yourUsername").value.trim();
     let n = document.getElementById("yourName").value.trim();
     let theme = document.getElementById("selectedTheme").value.trim();
-    if(!e || !e.includes('@') || !e.includes('.')){ alert("Valid email required!"); return; }
-    if(!u){ alert("Username required!"); return; }
-    if(!n){ alert("Name required!"); return; }
-    if(!theme){ alert("❌ Please select a theme!"); return; }
-    if(RECEIVER_EMAIL === "your_email@gmail.com"){ alert("⚠️ Set your email in code (RECEIVER_EMAIL)!"); return; }
-    
-    let g=(id)=>document.getElementById(id)?.value.trim() || "—";
+    if(!e || !e.includes('@') || !e.includes('.')){
+        alert("Valid email required!");
+        return;
+    }
+    if(!u){
+        alert("Username required!");
+        return;
+    }
+    if(!n){
+        alert("Name required!");
+        return;
+    }
+    if(!theme){
+        alert("❌ Please select a theme!");
+        return;
+    }
+    if(RECEIVER_EMAIL === "your_email@gmail.com"){
+        alert("⚠️ Set your email in code (RECEIVER_EMAIL)!");
+        return;
+    }
+    let g = (id) => document.getElementById(id)?.value.trim() || "—";
     let body = `🔮 HOLOGRAM REQUEST DATA 🔮\n\n1. Email : ${g('yourEmail')}\n2. Username : ${g('yourUsername')}\n3. Name : ${g('yourName')}\n4. Profile Pic : ${g('profilePic')}\n5. Facebook : ${g('fbUsername')}\n6. FB Page : ${g('fbPageUsername')}\n7. Instagram : ${g('igUsername')}\n8. WhatsApp : ${g('whatsapp')}\n9. TikTok : ${g('tiktok')}\n10. Telegram : ${g('telegram')}\n11. Twitter : ${g('twitter')}\n12. Phone : ${g('phone')}\n13. About : ${g('about')}\n14. Website : ${g('website')}\n15. Theme : ${theme}\n\n👤 Logged In : ${currentUser}\n🔑 Password : ${users[currentUser]}\n🕐 Time : ${getTime()}`;
     let sub = "New Hologram Request";
     let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -414,7 +443,6 @@ function sendEmail(){
     setTimeout(() => fs.innerHTML = '', 3000);
     resetAutoLogout();
 }
-
 function toggleThemePopup(event){
     if(event) event.stopPropagation();
     let popup = document.getElementById('themePopup');
@@ -428,7 +456,6 @@ function toggleThemePopup(event){
         arrow.classList.add('fa-chevron-up');
     }
 }
-
 function selectTheme(theme, event){
     if(event) event.stopPropagation();
     document.getElementById('selectedTheme').value = theme;
@@ -440,7 +467,6 @@ function selectTheme(theme, event){
     arrow.classList.remove('fa-chevron-down');
     arrow.classList.add('fa-chevron-up');
 }
-
 document.addEventListener('click', function(e){
     let selector = document.querySelector('.theme-selector');
     if(selector && !selector.contains(e.target)){
@@ -453,9 +479,9 @@ document.addEventListener('click', function(e){
         }
     }
 });
-
 window.onload = function(){
-    updateAvatar('');
+    updateSidebarName();
+    loadDefaultProfile();
 };
 </script>
 </body>
