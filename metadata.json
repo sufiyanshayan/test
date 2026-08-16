@@ -1,0 +1,6 @@
+{
+  "name": "Instagram Unfollow Manager",
+  "description": "A secure, professional dashboard to monitor following lists and manage unfollow batches, built in strict compliance with official Meta/Instagram APIs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
