@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f5f5f2">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Free, unlimited disposable email. Generate a secure temp address in one tap.">
+  <title>FFX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    :root {
+      --a: #2455ff;
+      --ag: rgba(36, 85, 255, 0.55);
+      --ad: rgba(36, 85, 255, 0.08);
+      --ab: rgba(36, 85, 255, 0.22);
+      --bg0: #f5f5f2;
+      --bg1: #ffffff;
+      --bg2: #ffffff;
+      --brd: #e7e7e1;
+      --brda: rgba(36, 85, 255, 0.25);
+      --txt: #14161b;
+      --txm: #6b6e76;
+      --txd: #b3b5bd;
+      --ok: #00795c;
+      --okd: rgba(0, 121, 92, 0.08);
+      --okb: rgba(0, 121, 92, 0.3);
+      --danger: #d1263f;
+      --dangerd: rgba(209, 38, 63, 0.08);
+      --dangerb: rgba(209, 38, 63, 0.28);
+      --ease: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --shadow-sm: 0 1px 2px rgba(20, 22, 27, 0.05);
+      --shadow-md: 0 8px 24px rgba(20, 22, 27, 0.08);
+      --shadow-lg: 0 16px 48px rgba(20, 22, 27, 0.14);
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg0);
+      color: var(--txt);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; background: none; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg0); }
+    ::-webkit-scrollbar-thumb { background: var(--brd); border-radius: 4px; }
+    ::selection { background: var(--a); color: #fff; }
+    :focus-visible { outline: 2px solid var(--a); outline-offset: 2px; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(ellipse 80% 45% at 50% 0%, var(--ad) 0%, transparent 60%);
+      z-index: 0;
+      pointer-events: none;
+      transition: background-image 0.5s;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(var(--grid-line, rgba(20, 22, 27, 0.035)) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line, rgba(20, 22, 27, 0.035)) 1px, transparent 1px);
+      background-size: 46px 46px;
+      -webkit-mask-image: linear-gradient(to bottom, black, transparent 380px);
+      mask-image: linear-gradient(to bottom, black, transparent 380px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    #pCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; }
+
+    #preloader {
+      position: fixed; inset: 0; background: var(--bg0); z-index: 99999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.7s ease, visibility 0.7s;
+    }
+    #preloader.out { opacity: 0; visibility: hidden; }
+    .pl-badge {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.5px;
+      color: var(--txm); margin-bottom: 22px;
+    }
+    .pl-logo {
+      font-family: 'Space Grotesk', sans-serif; font-size: 2.6rem; font-weight: 700; letter-spacing: 1px;
+      color: var(--txt); display: flex; align-items: baseline; gap: 2px;
+    }
+    .pl-logo .r { color: var(--a); }
+    .pl-track { width: 200px; height: 3px; background: var(--brd); margin-top: 28px; overflow: hidden; border-radius: 3px; }
+    .pl-fill {
+      height: 100%; width: 0%; background: var(--a);
+      animation: plFill 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      border-radius: 3px;
+    }
+    @keyframes plFill { to { width: 100% } }
+    .pl-pct { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--txd); margin-top: 14px; }
+
+    .mob-theme-btn {
+      position: fixed; right: 16px; bottom: 88px; width: 46px; height: 46px; border-radius: 14px;
+      background: var(--bg1);
+      border: 1px solid var(--brd);
+      display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 500; cursor: pointer;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s var(--ease);
+    }
+    .mob-theme-btn:hover { border-color: var(--brda); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .mob-theme-btn:active { transform: scale(0.94); }
+    .mob-theme-btn .btn-ring { display: none; }
+    .mob-theme-panel {
+      position: fixed; right: 70px; bottom: 80px; background: var(--bg1);
+      border: 1px solid var(--brd); border-radius: 20px; padding: 14px 12px;
+      display: none; flex-direction: column; gap: 10px; z-index: 500;
+      box-shadow: var(--shadow-lg);
+      min-width: 50px; align-items: center;
+    }
+    .mob-theme-panel::before {
+      content: 'Color'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.42rem; letter-spacing: 1px; color: var(--txm);
+      background: var(--bg1); padding: 2px 8px; border-radius: 4px; border: 1px solid var(--brd);
+    }
+    .mob-theme-panel.open { display: flex; }
+    .thDot {
+      width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer;
+      transition: all 0.3s var(--ease); flex-shrink: 0; position: relative; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    .thDot::after {
+      content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid currentColor;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .thDot:hover { transform: scale(1.2); }
+    .thDot:hover::after { opacity: 0.4; }
+    .thDot:active { transform: scale(1.35); }
+    .thDot.on { border-color: var(--txt); }
+    .thDot.on::after { opacity: 0.6; }
+    .th-divider { width: 1px; height: 16px; background: var(--brd); margin: 2px 0; }
+
+    #musicNotif {
+      position: fixed; bottom: 84px; left: 12px; right: 12px; z-index: 8000; pointer-events: none;
+      transform: translateY(calc(100% + 30px)) scale(0.94); opacity: 0;
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+      will-change: transform, opacity;
+    }
+    #musicNotif.show { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+    #musicNotif.hide { transform: translateY(calc(100% + 30px)) scale(0.96); opacity: 0; pointer-events: none; transition: transform 0.4s cubic-bezier(0.55, 0, 1, 0.45), opacity 0.35s ease; }
+    .music-notif-inner {
+      background: var(--bg1); border: 1px solid var(--brd); border-radius: 20px;
+      padding: 13px 14px 13px 13px; display: flex; align-items: center; gap: 11px;
+      box-shadow: var(--shadow-lg);
+      position: relative; overflow: hidden; touch-action: pan-y;
+    }
+    .mn-album {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0; position: relative; overflow: hidden;
+      background: var(--a); display: flex; align-items: center; justify-content: center;
+    }
+    .mn-album img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mn-text { flex: 1; min-width: 0; cursor: pointer; }
+    .mn-app-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.48rem; letter-spacing: 1px; color: var(--txd); text-transform: uppercase; margin-bottom: 2px; }
+    .mn-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--txt); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mn-marquee-wrap { overflow: hidden; width: 100%; }
+    .mn-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; color: var(--txm); white-space: nowrap; display: inline-block; }
+    .mn-actions { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+    .mn-close-btn {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--bg0);
+      border: 1px solid var(--brd); color: var(--txm);
+      display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; transition: all 0.2s;
+    }
+    .mn-close-btn:active { transform: scale(0.85); }
+    .mn-swipe-hint { position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 34px; height: 3px; background: var(--brd); border-radius: 3px; }
+
+    .wrap { width: 100%; max-width: 430px; margin: 0 auto; padding: 20px 16px 100px; position: relative; z-index: 2; }
+    .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; padding: 0 2px; }
+    .logo-row { display: flex; align-items: center; gap: 10px; }
+    .logo-icon {
+      width: 36px; height: 36px; background: var(--txt); border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 18px;
+      overflow: hidden;
+    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; display: none; }
+    .logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.5px; color: var(--txt); }
+    .logo-text .logo-char.r { color: var(--a); }
+
+    .icon-btn {
+      background: var(--bg1); border: 1px solid var(--brd); color: var(--txt);
+      width: 38px; height: 38px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 18px; transition: 0.2s; box-shadow: var(--shadow-sm);
+    }
+    .icon-btn:hover { border-color: var(--brda); color: var(--a); }
+
+    .card { background: var(--bg1); border: 1px solid var(--brd); border-radius: 18px; padding: 22px 18px; margin-bottom: 12px; position: relative; box-shadow: var(--shadow-sm); }
+    .hero-eyebrow { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--a); flex-shrink: 0; position: relative; }
+    .pulse-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1.5px solid var(--a); opacity: 0.5; animation: pulse 2s ease-out infinite; }
+    @keyframes pulse { 0% { transform: scale(0.6); opacity: 0.6 } 100% { transform: scale(1.8); opacity: 0 } }
+    .eyebrow-text { font-family: 'Inter', sans-serif; font-size: 0.8rem; color: var(--txm); font-weight: 500; }
+    .hero-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.7rem; font-weight: 700; color: var(--txt); line-height: 1.15; margin-bottom: 10px; }
+    .hero-title span { color: var(--a); }
+    .hero-sub { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--txm); margin-bottom: 22px; line-height: 1.6; font-weight: 400; }
+    .hero-sub b { color: var(--txt); font-weight: 600; }
+
+    .input-wrap { position: relative; margin-bottom: 14px; }
+    .url-input {
+      width: 100%; padding: 15px 140px 15px 46px; border: 1.5px solid var(--brd); border-radius: 14px;
+      background: var(--bg0); color: var(--txt); font-size: 0.9rem; font-family: 'IBM Plex Mono', monospace;
+      font-weight: 500; outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    .url-input::placeholder { color: var(--txd); font-family: 'Inter', sans-serif; }
+    .url-input:focus { border-color: var(--a); box-shadow: 0 0 0 3px var(--ad); }
+    .input-left-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--a); font-size: 17px; pointer-events: none; }
+    .paste-btn {
+      position: absolute; top: 50%; transform: translateY(-50%); background: var(--bg1); color: var(--txt);
+      border: 1px solid var(--brd); border-radius: 8px; padding: 7px 11px; font-size: 0.62rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 4px;
+      letter-spacing: 0.2px; transition: background .2s, border-color .2s;
+    }
+    .paste-btn:hover { border-color: var(--brda); color: var(--a); }
+    .paste-btn:active { transform: translateY(-50%) scale(0.95); }
+    .paste-btn.ghost { right: 78px; }
+    #copyBtn { right: 8px; background: var(--txt); color: #fff; border-color: var(--txt); }
+    #copyBtn:hover { background: var(--a); border-color: var(--a); color: #fff; }
+
+    .mailbox-meta { display: flex; align-items: center; gap: 16px; margin: 0 0 14px; flex-wrap: wrap; }
+    .mailbox-meta-item { display: flex; align-items: center; gap: 5px; font-family: 'Inter', sans-serif; font-size: 0.72rem; color: var(--txm); font-weight: 500; }
+    .mailbox-meta-item i { color: var(--a); font-size: 14px; }
+
+    .btn-row { display: flex; gap: 10px; }
+    .dl-btn {
+      width: 100%; padding: 13px; border-radius: 12px; background: var(--bg0); color: var(--txt);
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; border: 1.5px solid var(--brd);
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.25s var(--ease);
+    }
+    .dl-btn:hover { background: var(--txt); border-color: var(--txt); color: #fff; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+    .dl-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; color: var(--txd); background: var(--bg0); }
+    .dl-btn:not(:disabled):active { transform: scale(0.98) translateY(0); }
+
+    .status-box { display: none; margin-top: 12px; padding: 12px 14px; border-radius: 10px; align-items: center; gap: 10px; font-size: 0.85rem; font-family: 'Inter', sans-serif; }
+    .status-box.loading { background: var(--bg0); color: var(--txm); border: 1px solid var(--brd); }
+    .status-box.error { background: var(--dangerd); color: var(--danger); border: 1px solid var(--dangerb); }
+    .spinner { width: 15px; height: 15px; border: 2px solid var(--ad); border-top-color: var(--a); border-radius: 50%; animation: spin .7s linear infinite; flex-shrink: 0; }
+    @keyframes spin { to { transform: rotate(360deg) } }
+
+    .search-wrap { position: relative; margin-bottom: 14px; }
+    .search-input {
+      width: 100%; padding: 11px 14px 11px 38px; border-radius: 11px; background: var(--bg0);
+      border: 1px solid var(--brd); color: var(--txt); font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none;
+      transition: border-color .2s;
+    }
+    .search-input:focus { border-color: var(--brda); }
+    .search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--txd); font-size: 15px; }
+
+    .inbox-item {
+      background: var(--bg1); border: 1px solid var(--brd); padding: 12px; border-radius: 14px;
+      cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 13px; overflow: hidden; position: relative;
+    }
+    .inbox-item:hover { border-color: var(--brda); box-shadow: var(--shadow-sm); }
+    .inbox-item .thumb { width: 40px; height: 40px; border-radius: 11px; object-fit: cover; flex-shrink: 0; background: var(--bg0); }
+    .inbox-item .body { flex: 1; min-width: 0; }
+    .inbox-item .subj { font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--txt); margin-bottom: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+    .inbox-item .from { font-family: 'IBM Plex Mono', monospace; font-size: 0.63rem; color: var(--txm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .inbox-item .chev { color: var(--txd); font-size: 16px; flex-shrink: 0; }
+    .unread-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--a); flex-shrink: 0; }
+    .empty-inbox { text-align: center; padding: 40px 20px; color: var(--txm); font-family: 'Inter', sans-serif; font-size: 0.85rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+
+    .action-btn {
+      width: 104px; justify-content: center; padding: 9px 0; border-radius: 24px; font-family: 'Inter', sans-serif;
+      font-size: 0.72rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .action-btn.ghost { background: var(--bg0); border: 1px solid var(--brd); color: var(--txt); }
+    .action-btn.ghost:hover { border-color: var(--txd); }
+    .action-btn.accent { background: var(--okd); border: 1px solid var(--okb); color: var(--ok); }
+    .action-btn.accent:hover { background: rgba(0,121,92,0.15); }
+
+    .attachments { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; }
+    .attachment-chip {
+      display: flex; align-items: center; gap: 7px; background: var(--bg0); border: 1px solid var(--brd);
+      border-radius: 9px; padding: 7px 10px; font-family: 'Inter', sans-serif; font-size: 0.68rem; color: var(--txt);
+      cursor: pointer; transition: 0.2s; max-width: 100%; font-weight: 500;
+    }
+    .attachment-chip:hover { border-color: var(--brda); background: var(--ad); }
+    .attachment-chip i { color: var(--a); font-size: 14px; flex-shrink: 0; }
+    .attachment-chip .fname { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 140px; }
+    .attachment-chip .fsize { color: var(--txd); flex-shrink: 0; }
+
+    .faq-list { display: flex; flex-direction: column; gap: 8px; }
+    .faq-item { background: var(--bg1); border: 1px solid var(--brd); border-radius: 12px; overflow: hidden; transition: 0.3s; }
+    .faq-item.open { border-color: var(--brda); }
+    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; cursor: pointer; gap: 10px; }
+    .faq-q-txt { font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--txt); line-height: 1.3; }
+    .faq-arr { font-size: 14px; color: var(--txd); transition: 0.3s; flex-shrink: 0; }
+    .faq-item.open .faq-arr { transform: rotate(180deg); color: var(--a); }
+    .faq-a { display: none; padding: 0 16px 14px; font-family: 'Inter', sans-serif; font-size: 0.87rem; color: var(--txm); line-height: 1.6; font-weight: 400; }
+    .faq-item.open .faq-a { display: block; }
+
+    .section-label { font-family: 'Space Grotesk', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--txt); margin-bottom: 8px; }
+
+    .bnav {
+      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(245, 245, 242, 0.9); border-top: 1px solid var(--brd);
+      display: flex; justify-content: space-around; align-items: center; padding: 10px 0 14px; z-index: 200; backdrop-filter: blur(20px);
+    }
+    .bnav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 0 16px; transition: 0.2s; }
+    .bnav-btn:active { transform: scale(0.9); }
+    .bnav-icon { font-size: 20px; color: var(--txd); transition: 0.2s; }
+    .bnav-lbl { font-family: 'Inter', sans-serif; font-size: 0.6rem; font-weight: 600; color: var(--txd); transition: 0.2s; }
+    .bnav-btn.active .bnav-icon, .bnav-btn.active .bnav-lbl { color: var(--a); }
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
+    .s-div { height: 1px; background: var(--brd); margin: 4px 0 14px; }
+    .footer { text-align: center; font-family: 'Inter', sans-serif; font-size: 0.7rem; color: var(--txd); margin-top: 18px; padding-bottom: 10px; }
+    .footer span { color: var(--txm); font-weight: 500; }
+
+    .settings-row { display:flex; align-items:center; justify-content:space-between; padding:14px; background:var(--bg0); border:1px solid var(--brd); border-radius:12px; margin-bottom:10px; }
+    .settings-row .settings-label { font-family:'Inter',sans-serif; font-size:0.92rem; font-weight:600; color:var(--txt); }
+    .settings-row .settings-sub { font-family:'Inter', sans-serif; font-size:0.72rem; color:var(--txm); margin-top:3px; }
+
+    #toastBox { position: fixed; bottom: 72px; left: 12px; right: 12px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+    .toast {
+      background: var(--txt); border-left: 3px solid var(--a); border-radius: 10px;
+      padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 500; color: #fff;
+      display: flex; align-items: center; gap: 10px; transform: translateY(80px); opacity: 0;
+      transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: var(--shadow-lg);
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.err { border-left-color: var(--danger); }
+    .toast i { font-size: 15px; color: #4ade80; }
+    .toast.err i { color: #ff8080; }
+
+    #checkboxInput, #autoRefreshInput { display: none; }
+    .toggleSwitch {
+      display: flex; align-items: center; justify-content: center; position: relative; width: 46px; height: 26px;
+      background-color: var(--brd); border-radius: 40px; cursor: pointer; transition-duration: .3s; flex-shrink: 0;
+    }
+    .toggleSwitch::after {
+      content: ""; position: absolute; height: 20px; width: 20px; left: 3px;
+      background: #fff; border-radius: 50%; transition-duration: .3s; box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    #checkboxInput:checked + .toggleSwitch::after, #autoRefreshInput:checked + .toggleSwitch::after { transform: translateX(20px); }
+    #checkboxInput:checked + .toggleSwitch, #autoRefreshInput:checked + .toggleSwitch { background-color: var(--a); }
+
+    .wait-loader { width: 34px; height: 34px; margin: 0 auto 15px auto; position: relative; }
+    .wait-loader::before {
+      content: ""; box-sizing: border-box; position: absolute; top: 0; left: 0; width: 34px; height: 34px; border-radius: 50%;
+      border-top: 2.5px solid var(--a); border-right: 2.5px solid transparent; animation: spinner8217 0.8s linear infinite;
+    }
+    @keyframes spinner8217 { to { transform: rotate(360deg); } }
+
+    /* modals */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(20,22,27,0.35); z-index: 9999;
+      align-items: center; justify-content: center; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s ease;
+    }
+    .modal-overlay.bottom { align-items: flex-end; }
+    .modal-box {
+      background: var(--bg2); border: 1px solid var(--brd); border-radius: 20px; padding: 25px; width: 90%; max-width: 380px;
+      box-shadow: var(--shadow-lg); font-family: 'Inter', sans-serif;
+      transform: scale(0.92); transition: transform 0.3s var(--ease);
+    }
+    .modal-box.sheet { border-radius: 20px 20px 0 0; width: 100%; max-width: 430px; max-height: 80vh; overflow-y: auto; transform: translateY(100%); }
+    .modal-title { margin: 0 0 15px 0; color: var(--txt); font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; }
+    .modal-title.center { text-align: center; }
+    .modal-sub { color: var(--txm); font-size: 0.85rem; margin-bottom: 20px; text-align: center; }
+    .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; }
+    .modal-close { background:none; border:none; color:var(--txm); font-size:20px; cursor:pointer; }
+    .modal-input {
+      width: 100%; background: var(--bg0); border: 1.5px solid var(--brd); border-radius: 10px; padding: 12px 15px;
+      color: var(--txt); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none; transition: 0.3s; margin-bottom: 20px;
+    }
+    .modal-input:focus { border-color: var(--a); }
+    .modal-input.mono { font-family: 'IBM Plex Mono', monospace; }
+    .modal-input-wrap { position: relative; margin-bottom: 20px; }
+    .modal-input-wrap .modal-input { margin-bottom: 0; padding-left: 40px; }
+    .modal-btn-row { display: flex; gap: 10px; }
+    .modal-btn {
+      flex: 1; padding: 11px; border-radius: 11px; cursor: pointer; font-family: 'Inter', sans-serif;
+      font-weight: 600; font-size: 0.8rem; transition: 0.2s; display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .modal-btn.ghost { background: var(--bg0); border: 1px solid var(--brd); color: var(--txt); }
+    .modal-btn.ghost:hover { border-color: var(--txd); }
+    .modal-btn.primary { background: var(--txt); border: 1px solid var(--txt); color: #fff; }
+    .modal-btn.primary:hover { background: var(--a); border-color: var(--a); }
+    .modal-btn.ok { background: var(--okd); border: 1px solid var(--okb); color: var(--ok); }
+    .modal-btn.ok:hover { background: rgba(0,121,92,0.16); }
+    .modal-btn.danger { background: var(--dangerd); border: 1px solid var(--dangerb); color: var(--danger); }
+    .modal-btn.danger:hover { background: rgba(209,38,63,0.16); }
+    .modal-btn.full { width: 100%; padding: 13px; }
+
+    .hist-item {
+      background: var(--bg0); border: 1px solid var(--brd); padding: 15px; border-radius: 14px;
+      cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; margin-bottom: 10px;
+    }
+    .hist-item:hover { border-color: var(--brda); }
+    .hist-item.active { border-color: var(--a); background: var(--ad); }
+    .hist-item-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+    .hist-custom { font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--a); margin-bottom: 5px; }
+    .hist-addr { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; font-weight: 600; color: var(--txt); margin-bottom: 5px; word-break: break-all; }
+    .hist-date { font-family: 'Inter', sans-serif; font-size: 0.68rem; color: var(--txm); }
+    .hist-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .hist-actions button { padding: 8px; border-radius: 9px; cursor: pointer; border: none; transition: 0.2s; }
+    .hist-actions .edit-a { background: var(--okd); color: var(--ok); }
+    .hist-actions .del-a { background: var(--dangerd); color: var(--danger); }
+  </style>
+</head>
+<body>
+  <canvas id="pCanvas"></canvas>
+
+  <div id="preloader">
+    <div class="pl-badge">Setting up your secure inbox</div>
+    <div class="pl-logo" id="pl-logo-text"></div>
+    <div class="pl-track"><div class="pl-fill"></div></div>
+    <div class="pl-pct" id="plPct">0%</div>
+  </div>
+
+  <div class="mob-theme-btn" id="mobThemeBtn" onclick="UI.toggleThemePanel()">
+    <div class="btn-ring"></div>
+    <div style="width:14px; height:14px; border-radius:50%; background:var(--a);"></div>
+  </div>
+  <div class="mob-theme-panel" id="mobThemePanel">
+    <div class="thDot on" style="background:#2455ff;color:#2455ff" data-c="#2455ff" onclick="UI.setTheme('#2455ff')"></div>
+    <div class="thDot" style="background:#00795c;color:#00795c" data-c="#00795c" onclick="UI.setTheme('#00795c')"></div>
+    <div class="thDot" style="background:#d1263f;color:#d1263f" data-c="#d1263f" onclick="UI.setTheme('#d1263f')"></div>
+    <div class="th-divider"></div>
+    <div class="thDot" style="background:#8b2fd6;color:#8b2fd6" data-c="#8b2fd6" onclick="UI.setTheme('#8b2fd6')"></div>
+    <div class="thDot" style="background:#e07b00;color:#e07b00" data-c="#e07b00" onclick="UI.setTheme('#e07b00')"></div>
+    <div class="thDot" style="background:#0891b2;color:#0891b2" data-c="#0891b2" onclick="UI.setTheme('#0891b2')"></div>
+  </div>
+
+  <div id="musicNotif">
+    <div class="music-notif-inner" id="mnInner">
+      <div class="mn-album" id="mnAlbum"><i class="ti ti-mail" style="color:#fff; font-size:22px;"></i></div>
+      <div class="mn-text" onclick="Mail.openNotifMessage()">
+        <div class="mn-app-label">New message</div>
+        <div class="mn-title" id="mnTitle">No Subject</div>
+        <div class="mn-marquee-wrap"><div class="mn-sub" id="mnSubText">From: sender</div></div>
+      </div>
+      <div class="mn-actions"><button class="mn-close-btn" onclick="Mail.notifClose()"><i class="ti ti-x"></i></button></div>
+      <div class="mn-swipe-hint"></div>
+    </div>
+  </div>
+
+  <!-- Edit prefix modal -->
+  <div id="edit-modal" class="modal-overlay">
+    <div class="modal-box" id="edit-modal-content">
+      <h3 class="modal-title center">Edit email prefix</h3>
+      <p class="modal-sub">Choose the part before the @ sign</p>
+      <div class="modal-input-wrap">
+        <i class="ti ti-pencil input-left-icon"></i>
+        <input type="text" id="custom-prefix-input" placeholder="e.g. john.doe" class="modal-input" maxlength="30">
+      </div>
+      <div class="modal-btn-row">
+        <button class="modal-btn ghost" onclick="Mail.closeEditModal()"><i class="ti ti-x"></i> Cancel</button>
+        <button class="modal-btn primary" onclick="Mail.submitEditModal()"><i class="ti ti-check"></i> Generate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History modal -->
+  <div id="history-modal" class="modal-overlay bottom">
+    <div class="modal-box sheet" id="history-modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" style="margin:0;">Email history</h3>
+        <button class="modal-close" onclick="Mail.closeHistoryModal()"><i class="ti ti-x"></i></button>
+      </div>
+      <div id="history-list" style="margin-bottom: 16px;"></div>
+      <button class="modal-btn danger full" onclick="Mail.clearHistory()"><i class="ti ti-trash"></i> Clear history</button>
+    </div>
+  </div>
+
+  <!-- Confirm modal -->
+  <div id="custom-confirm-modal" class="modal-overlay" style="z-index:10000;">
+    <div class="modal-box" id="custom-confirm-content" style="max-width:350px; text-align:center;">
+      <h3 class="modal-title" id="custom-confirm-title">Title</h3>
+      <p class="modal-sub" id="custom-confirm-text">Text</p>
+      <div class="modal-btn-row">
+        <button id="custom-confirm-cancel" class="modal-btn ghost"><i class="ti ti-x"></i> Cancel</button>
+        <button id="custom-confirm-ok" class="modal-btn danger"><i class="ti ti-check"></i> OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt modal -->
+  <div id="custom-prompt-modal" class="modal-overlay" style="z-index:10000;">
+    <div class="modal-box" id="custom-prompt-content" style="max-width:350px;">
+      <h3 class="modal-title center" id="custom-prompt-title">Title</h3>
+      <input type="text" id="custom-prompt-input" placeholder="e.g. Netflix, Gaming..." class="modal-input mono">
+      <div class="modal-btn-row">
+        <button id="custom-prompt-cancel" class="modal-btn ghost"><i class="ti ti-x"></i> Cancel</button>
+        <button id="custom-prompt-ok" class="modal-btn ok"><i class="ti ti-device-floppy"></i> Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastBox"></div>
+
+  <nav class="bnav">
+    <div class="bnav-btn active" onclick="UI.showTab('home', this)">
+      <i class="ti ti-home bnav-icon"></i>
+      <span class="bnav-lbl">Home</span>
+    </div>
+    <div class="bnav-btn" onclick="UI.showTab('faq', this)">
+      <i class="ti ti-settings bnav-icon"></i>
+      <span class="bnav-lbl">Settings</span>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="top-bar">
+      <div class="logo-row">
+        <div class="logo-icon"><img id="header-logo-img" src="" alt="logo"></div>
+        <span class="logo-text" id="header-logo-text"></span>
+      </div>
+      <button class="icon-btn" onclick="Mail.openHistoryModal()" aria-label="Email history"><i class="ti ti-history"></i></button>
+    </div>
+
+    <div class="tab-section active" id="tab-home">
+      <div class="card">
+        <div class="hero-eyebrow">
+          <span class="pulse-dot"></span>
+          <span class="eyebrow-text">Temp mail · unlimited · free</span>
+        </div>
+        <div class="hero-title"><span>Temp</span> Mail</div>
+        <p class="hero-sub">Get a secure, temporary email address instantly. Perfect for <b>protecting your privacy</b>, avoiding spam, and keeping your personal inbox clean.</p>
+
+        <div class="input-wrap">
+          <i class="ti ti-mail input-left-icon"></i>
+          <input class="url-input" type="text" id="email-address" readonly placeholder="Generating email...">
+          <button class="paste-btn ghost" id="editBtn" onclick="Mail.promptCustomUsername()"><i class="ti ti-pencil" style="font-size:11px"></i> Edit</button>
+          <button class="paste-btn" id="copyBtn" onclick="Mail.copyEmail()"><i class="ti ti-copy" style="font-size:11px"></i> Copy</button>
+        </div>
+
+        <div class="mailbox-meta" id="mailbox-meta" style="display:none;">
+          <div class="mailbox-meta-item"><i class="ti ti-clock"></i><span id="meta-age">just now</span></div>
+          <div class="mailbox-meta-item"><i class="ti ti-inbox"></i><span id="meta-count">0 messages</span></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="dl-btn" id="generate-btn" onclick="Mail.generateEmail()"><i class="ti ti-refresh"></i> Generate new</button>
+          <button class="dl-btn" id="share-btn" onclick="Mail.shareMailbox()"><i class="ti ti-share"></i> Share inbox</button>
+        </div>
+
+        <div class="status-box loading" id="loader" style="display:flex;">
+          <div class="spinner"></div>
+          <span id="status-text">Generating new email address...</span>
+        </div>
+        <div class="status-box error" id="error-box">
+          <i class="ti ti-alert-circle"></i>
+          <span id="error-msg">Something went wrong.</span>
+        </div>
+      </div>
+
+      <div class="card" id="inbox-section">
+        <div class="hero-eyebrow" style="margin-bottom:15px;">
+          <span class="pulse-dot"></span>
+          <span class="eyebrow-text" id="inbox-eyebrow">Inbox — waiting for emails</span>
+        </div>
+
+        <div class="search-wrap" id="inbox-search-wrap" style="display:none;">
+          <i class="ti ti-search"></i>
+          <input class="search-input" id="inbox-search" placeholder="Search by subject or sender" oninput="Mail.filterInbox(this.value)">
+        </div>
+
+        <div id="email-list" style="display:flex; flex-direction:column; gap:10px;"></div>
+
+        <div id="email-content" style="display:none; margin-top:15px; border-top:1px solid var(--brd); padding-top:15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <button class="action-btn ghost" onclick="Mail.closeEmail()"><i class="ti ti-arrow-left" style="font-size:13px;"></i> Back</button>
+            <button class="action-btn accent" onclick="Mail.copyOTP()"><i class="ti ti-copy" style="font-size:13px;"></i> Copy code</button>
+          </div>
+          <div id="email-subject" style="font-family:'Space Grotesk', sans-serif; font-size:1.05rem; font-weight:700; color:var(--txt); margin-bottom:10px;"></div>
+          <div id="email-sender" style="font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:var(--txm); margin-bottom:15px;"></div>
+          <div id="email-attachments" class="attachments"></div>
+          <div id="email-body" style="font-family:'Inter', sans-serif; font-size:0.9rem; color:var(--txt); background:var(--bg0); padding:5px; border-radius:12px; border:1px solid var(--brd); overflow-x:auto; width: 100%; box-sizing: border-box; -webkit-overflow-scrolling: touch;"></div>
+        </div>
+      </div>
+
+      <p class="footer">© 2026 <span class="site-name-dynamic"></span> · For personal use only</p>
+    </div>
+
+    <div class="tab-section" id="tab-faq">
+      <div class="card">
+        <div class="section-label">Settings</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Show loading screen</div>
+            <div class="settings-sub">Display the boot animation on startup</div>
+          </div>
+          <div>
+            <input type="checkbox" id="checkboxInput" onchange="UI.togglePreloaderSetting()">
+            <label for="checkboxInput" class="toggleSwitch"></label>
+          </div>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Auto-refresh inbox</div>
+            <div class="settings-sub">Check for new mail every few seconds</div>
+          </div>
+          <div>
+            <input type="checkbox" id="autoRefreshInput" onchange="Mail.toggleAutoRefresh()">
+            <label for="autoRefreshInput" class="toggleSwitch"></label>
+          </div>
+        </div>
+        <div class="section-label" style="margin-top:14px;">FAQ</div>
+        <div class="s-div"></div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q" onclick="UI.toggleFaq(this)">
+              <span class="faq-q-txt">Is <span class="site-name-dyn-text"></span> completely free to use?</span>
+              <i class="ti ti-chevron-down faq-arr"></i>
+            </div>
+            <div class="faq-a">Yes. <span class="site-name-dyn-text"></span> is 100% free, with no registration, subscription, or hidden fees. Generate an email and start using it right away.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="UI.toggleFaq(this)">
+              <span class="faq-q-txt">Is it safe for social media & premium sites?</span>
+              <i class="ti ti-chevron-down faq-arr"></i>
+            </div>
+            <div class="faq-a">Yes. The service uses domains chosen to pass most spam filters, so you can sign up almost anywhere without revealing your real address.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="UI.toggleFaq(this)">
+              <span class="faq-q-txt">Will I lose my email if I close the tab?</span>
+              <i class="ti ti-chevron-down faq-arr"></i>
+            </div>
+            <div class="faq-a">No. Your active address and recent sessions are saved on this device. Reopen any of them from the History panel until you clear them.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="UI.toggleFaq(this)">
+              <span class="faq-q-txt">Is there a limit to how many emails I can receive?</span>
+              <i class="ti ti-chevron-down faq-arr"></i>
+            </div>
+            <div class="faq-a">No limits. Receive as many verification codes, links, and messages as you need, for free.</div>
+          </div>
+        </div>
+      </div>
+      <p class="footer">© 2026 <span class="site-name-dynamic"></span> · For personal use only</p>
+    </div>
+  </div>
+
+<script>
+/* =========================================================
+   Branding: reads the page <title> and any THEME_COLOR /
+   PROFILE_PIC comments in <head> to style the logo.
+========================================================= */
+(function Branding() {
+  const name = document.title || 'FFX';
+  function styleName(n) {
+    if (!n) return n;
+    if (n.length === 1) return `<span class="logo-char r">${n}</span>`;
+    const mid = Math.floor(n.length / 2);
+    return n.split('').map((ch, i) => `<span class="logo-char${i === mid ? ' r' : ''}">${ch}</span>`).join('');
+  }
+  const plEl = document.getElementById('pl-logo-text');
+  const hdEl = document.getElementById('header-logo-text');
+  if (plEl) plEl.innerHTML = styleName(name);
+  if (hdEl) hdEl.innerHTML = styleName(name);
+  document.querySelectorAll('.site-name-dynamic, .site-name-dyn-text').forEach(el => { el.textContent = name; });
+
+  for (const node of document.head.childNodes) {
+    if (node.nodeType !== 8) continue;
+    const txt = node.textContent.trim();
+    if (txt.startsWith('THEME_COLOR:')) {
+      let col = txt.replace('THEME_COLOR:', '').trim();
+      if (col.includes(',')) col = '#' + col.split(',').map(x => parseInt(x.trim()).toString(16).padStart(2, '0')).join('');
+      window._initialThemeColor = col;
+    }
+    if (txt.startsWith('PROFILE_PIC:')) {
+      const pic = txt.replace('PROFILE_PIC:', '').trim();
+      const logoImg = document.getElementById('header-logo-img');
+      if (logoImg && pic) { logoImg.src = pic; logoImg.style.display = 'block'; }
+    }
+  }
+})();
+
+/* =========================================================
+   UI: preloader, particle field, theming, tabs, toasts
+========================================================= */
+const UI = (function () {
+  const storageKey = (document.title || 'FFX') + '_theme';
+
+  function initPreloader() {
+    const chk = document.getElementById('checkboxInput');
+    const hide = localStorage.getItem('ffx_hide_preloader') === 'true';
+    if (chk) chk.checked = !hide;
+    if (hide) { document.getElementById('preloader').style.display = 'none'; return; }
+    let p = 0;
+    const pct = document.getElementById('plPct');
+    const iv = setInterval(() => {
+      p += Math.random() * 18 + 5;
+      if (p >= 100) {
+        p = 100;
+        clearInterval(iv);
+        setTimeout(() => document.getElementById('preloader').classList.add('out'), 300);
+      }
+      pct.textContent = Math.floor(p) + '%';
+    }, 100);
+  }
+
+  function togglePreloaderSetting() {
+    const chk = document.getElementById('checkboxInput');
+    if (chk.checked) localStorage.removeItem('ffx_hide_preloader');
+    else localStorage.setItem('ffx_hide_preloader', 'true');
+  }
+
+  function initParticles() {
+    const c = document.getElementById('pCanvas');
+    const ctx = c.getContext('2d');
+    let W, H;
+    function resize() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    let accentColor = '#2455ff';
+    window._updateParticleColor = (col) => { accentColor = col; };
+    const pts = Array.from({ length: 40 }, () => ({
+      x: Math.random() * 1400, y: Math.random() * 900,
+      r: Math.random() * 1.6 + 0.4, dx: (Math.random() - .5) * .25, dy: (Math.random() - .5) * .25,
+      a: Math.random() * .3 + .08
+    }));
+    let running = true;
+    document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) draw(); });
+    function draw() {
+      if (!running) return;
+      ctx.clearRect(0, 0, W, H);
+      for (const p of pts) {
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = accentColor; ctx.globalAlpha = p.a; ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      }
+      ctx.globalAlpha = 1;
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const a = pts[i], b = pts[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 80) {
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = accentColor; ctx.globalAlpha = (1 - d / 80) * .07; ctx.lineWidth = .5; ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  function applyTheme(c, save) {
+    const r = parseInt(c.slice(1, 3), 16), g = parseInt(c.slice(3, 5), 16), b = parseInt(c.slice(5, 7), 16);
+    const root = document.documentElement;
+    root.style.setProperty('--a', c);
+    root.style.setProperty('--ag', `rgba(${r},${g},${b},0.55)`);
+    root.style.setProperty('--ad', `rgba(${r},${g},${b},0.08)`);
+    root.style.setProperty('--ab', `rgba(${r},${g},${b},0.22)`);
+    root.style.setProperty('--brda', `rgba(${r},${g},${b},0.25)`);
+    root.style.setProperty('--grid-line', `rgba(${r},${g},${b},0.05)`);
+    const tm = document.querySelector('meta[name="theme-color"]');
+    if (tm) tm.content = '#f5f5f2';
+    if (window._updateParticleColor) window._updateParticleColor(c);
+    document.querySelectorAll('.thDot').forEach(d => d.classList.toggle('on', d.getAttribute('data-c') === c));
+    if (save) localStorage.setItem(storageKey, c);
+  }
+
+  function setTheme(c) {
+    applyTheme(c, true);
+    toggleThemePanel();
+    toast('Theme saved!');
+  }
+
+  function toggleThemePanel() { document.getElementById('mobThemePanel').classList.toggle('open'); }
+
+  function showTab(id, btn) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelectorAll('.bnav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function toast(msg, isErr = false) {
+    const box = document.getElementById('toastBox');
+    const t = document.createElement('div');
+    t.className = 'toast' + (isErr ? ' err' : '');
+    t.innerHTML = `<i class="ti ${isErr ? 'ti-alert-circle' : 'ti-circle-check'}"></i><span>${escapeHtml(msg)}</span>`;
+    box.appendChild(t);
+    requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('show')));
+    setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 500); }, 3000);
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function copyText(text, successMsg) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => toast(successMsg)).catch(() => legacyCopy(text, successMsg));
+    } else {
+      legacyCopy(text, successMsg);
+    }
+  }
+  function legacyCopy(text, successMsg) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try { document.execCommand('copy'); toast(successMsg); }
+    catch (e) { toast('Failed to copy', true); }
+    document.body.removeChild(ta);
+  }
+
+  function fadeInModal(overlay, box) { overlay.style.display = 'flex'; requestAnimationFrame(() => { overlay.style.opacity = '1'; box.style.transform = box.classList.contains('sheet') ? 'translateY(0)' : 'scale(1)'; }); }
+  function fadeOutModal(overlay, box, closedTransform) { overlay.style.opacity = '0'; box.style.transform = closedTransform; setTimeout(() => { overlay.style.display = 'none'; }, 300); }
+
+  (function initTheme() {
+    const saved = localStorage.getItem(storageKey);
+    if (saved) applyTheme(saved, false);
+    else if (window._initialThemeColor) applyTheme(window._initialThemeColor, false);
+    else applyTheme('#2455ff', false);
+  })();
+
+  return {
+    initPreloader, togglePreloaderSetting, initParticles, applyTheme, setTheme,
+    toggleThemePanel, showTab, toggleFaq, toast, escapeHtml, copyText,
+    fadeInModal, fadeOutModal
+  };
+})();
+
+/* =========================================================
+   Mail: everything about the mail.gw powered mailbox
+========================================================= */
+const Mail = (function () {
+  const API = 'https://api.mail.gw';
+  const POLL_MS = 8000;
+
+  let account = null;
+  let token = null;
+  let pollTimer = null;
+  let seenIds = new Set();
+  let messagesCache = [];
+  let currentNotifMsgId = null;
+  let createdAt = null;
+  let ageTimer = null;
+  let autoRefreshOn = true;
+
+  const els = {};
+  function cacheEls() {
+    ['loader', 'status-text', 'error-box', 'error-msg', 'email-address', 'generate-btn',
+     'email-list', 'email-content', 'email-subject', 'email-sender', 'email-body', 'email-attachments',
+     'mailbox-meta', 'meta-age', 'meta-count', 'inbox-eyebrow', 'inbox-search-wrap', 'inbox-search',
+     'autoRefreshInput'].forEach(id => els[id] = document.getElementById(id));
+  }
+
+  function genPassword() { return Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8); }
+
+  async function getDomain() {
+    const res = await fetch(`${API}/domains`);
+    if (!res.ok) throw new Error('Could not reach the mail service');
+    const data = await res.json();
+    const d = data['hydra:member'] && data['hydra:member'][0];
+    if (!d) throw new Error('No domains available right now');
+    return d.domain;
+  }
+
+  function resetInboxState() {
+    clearInterval(pollTimer);
+    clearInterval(ageTimer);
+    els['email-list'].innerHTML = '';
+    closeEmail();
+    seenIds.clear();
+    messagesCache = [];
+    els['error-box'].style.display = 'none';
+    els['inbox-search-wrap'].style.display = 'none';
+    els['inbox-search'].value = '';
+    els['mailbox-meta'].style.display = 'none';
+  }
+
+  async function generateEmail(customPrefix = null) {
+    resetInboxState();
+    els['loader'].style.display = 'flex';
+    els['generate-btn'].disabled = true;
+    els['email-address'].value = 'Generating...';
+    els['status-text'].innerText = 'Connecting to secure API...';
+    try {
+      const domain = await getDomain();
+      let prefix = customPrefix ? customPrefix.toLowerCase().replace(/[^a-z0-9._-]/g, '') : Math.random().toString(36).slice(-10);
+      if (prefix.length < 3) prefix = ('mail' + prefix).slice(0, 20);
+      const address = `${prefix}@${domain}`;
+      const password = genPassword();
+
+      els['status-text'].innerText = 'Creating mailbox...';
+      const accRes = await fetch(`${API}/accounts`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, password })
+      });
+      if (!accRes.ok) throw new Error(accRes.status === 422 ? 'That name is taken, try another' : 'Prefix unavailable or API error');
+
+      const tokenRes = await fetch(`${API}/token`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address, password })
+      });
+      if (!tokenRes.ok) throw new Error('Failed to authorize the new mailbox');
+      const tokenData = await tokenRes.json();
+
+      account = address; token = tokenData.token; createdAt = Date.now();
+      els['email-address'].value = account;
+      els['loader'].style.display = 'none';
+      els['generate-btn'].disabled = false;
+      UI.toast('Mailbox created successfully!');
+      saveSession(account, token, createdAt);
+      startPolling();
+    } catch (e) {
+      els['loader'].style.display = 'none';
+      els['generate-btn'].disabled = false;
+      els['error-msg'].innerText = e.message || 'Error generating email.';
+      els['error-box'].style.display = 'flex';
+      els['email-address'].value = '';
+    }
+  }
+
+  function startPolling() {
+    clearInterval(pollTimer);
+    clearInterval(ageTimer);
+    checkMessages();
+    updateAgeDisplay();
+    if (autoRefreshOn) pollTimer = setInterval(checkMessages, POLL_MS);
+    ageTimer = setInterval(updateAgeDisplay, 30000);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+  }
+
+  function onVisibilityChange() {
+    if (!account) return;
+    if (document.hidden) { clearInterval(pollTimer); }
+    else if (autoRefreshOn) { checkMessages(); pollTimer = setInterval(checkMessages, POLL_MS); }
+  }
+
+  function toggleAutoRefresh() {
+    autoRefreshOn = els['autoRefreshInput'].checked;
+    localStorage.setItem('ffx_auto_refresh', autoRefreshOn ? 'on' : 'off');
+    clearInterval(pollTimer);
+    if (autoRefreshOn && account) pollTimer = setInterval(checkMessages, POLL_MS);
+    UI.toast(autoRefreshOn ? 'Auto-refresh enabled' : 'Auto-refresh paused');
+  }
+
+  function updateAgeDisplay() {
+    if (!createdAt) return;
+    els['mailbox-meta'].style.display = 'flex';
+    const mins = Math.floor((Date.now() - createdAt) / 60000);
+    els['meta-age'].textContent = mins < 1 ? 'created just now' : mins < 60 ? `created ${mins}m ago` : `created ${Math.floor(mins / 60)}h ago`;
+  }
+
+  function timeAgo(iso) {
+    const diff = Math.max(0, Date.now() - new Date(iso).getTime());
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    return `${Math.floor(h / 24)}d ago`;
+  }
+
+  function getCompanyLogoUrl(senderEmail, senderName, subject) {
+    const str = (senderEmail + ' ' + (senderName || '') + ' ' + (subject || '')).toLowerCase();
+    const map = [
+      ['facebook', 'facebook.com'], ['meta', 'facebook.com'], ['instagram', 'instagram.com'],
+      ['netflix', 'netflix.com'], ['google', 'google.com'], ['youtube', 'google.com'],
+      ['apple', 'apple.com'], ['amazon', 'amazon.com'], ['twitter', 'x.com'],
+      ['discord', 'discord.com'], ['spotify', 'spotify.com'], ['paypal', 'paypal.com'],
+      ['steam', 'steampowered.com'], ['epic', 'epicgames.com'], ['microsoft', 'microsoft.com'],
+      ['xbox', 'microsoft.com'], ['github', 'github.com'], ['chatgpt', 'openai.com'],
+      ['openai', 'openai.com'], ['linkedin', 'linkedin.com'], ['roblox', 'roblox.com'],
+      ['uber', 'uber.com'], ['tiktok', 'tiktok.com'], ['telegram', 'telegram.org']
+    ];
+    for (const [needle, domain] of map) if (str.includes(needle)) return `https://logo.clearbit.com/${domain}?size=64`;
+    const parts = senderEmail.split('@');
+    if (parts.length === 2 && !/mail|reply|bounce/.test(parts[1])) return `https://logo.clearbit.com/${parts[1]}?size=64`;
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(senderName || parts[0] || 'A')}&background=random&color=fff&rounded=true&bold=true`;
+  }
+
+  async function checkMessages() {
+    if (!token) return;
+    try {
+      const res = await fetch(`${API}/messages?page=1`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) {
+        if (res.status === 401) { clearInterval(pollTimer); generateEmail(); }
+        return;
+      }
+      const data = await res.json();
+      messagesCache = data['hydra:member'] || [];
+      els['meta-count'].textContent = `${messagesCache.length} message${messagesCache.length === 1 ? '' : 's'}`;
+      messagesCache.forEach(msg => {
+        if (!seenIds.has(msg.id)) {
+          seenIds.add(msg.id);
+          showEmailNotif({ id: msg.id, subject: msg.subject, from: { address: msg.from.address } });
+        }
+      });
+      els['inbox-search-wrap'].style.display = messagesCache.length ? 'block' : 'none';
+      renderInbox(messagesCache);
+    } catch (e) { console.error('checkMessages error:', e); }
+  }
+
+  function renderInbox(list) {
+    const listEl = els['email-list'];
+    if (!messagesCache.length) {
+      listEl.innerHTML = `<div class="empty-inbox"><div class="wait-loader"></div>Waiting for incoming emails...</div>`;
+      return;
+    }
+    if (!list.length) {
+      listEl.innerHTML = `<div class="empty-inbox"><i class="ti ti-mail-off" style="font-size:22px;margin-bottom:4px;"></i>No messages match your search</div>`;
+      return;
+    }
+    listEl.innerHTML = '';
+    list.forEach(msg => {
+      const sender = msg.from.address;
+      const logoUrl = getCompanyLogoUrl(sender, msg.from.name, msg.subject);
+      const item = document.createElement('div');
+      item.className = 'inbox-item';
+      item.onclick = () => viewMessage(msg.id);
+      item.innerHTML = `
+        <img class="thumb" src="${logoUrl}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(sender.split('@')[0] || 'M')}&background=random&color=fff&rounded=true&bold=true'">
+        <div class="body">
+          <div class="subj">${msg.seen ? '' : '<span class=\"unread-dot\"></span>'}${UI.escapeHtml(msg.subject || 'No Subject')}</div>
+          <div class="from">From: ${UI.escapeHtml(sender)} · ${timeAgo(msg.createdAt)}</div>
+        </div>
+        <div class="chev"><i class="ti ti-chevron-right"></i></div>`;
+      listEl.appendChild(item);
+    });
+  }
+
+  function filterInbox(query) {
+    const q = query.trim().toLowerCase();
+    if (!q) return renderInbox(messagesCache);
+    renderInbox(messagesCache.filter(m =>
+      (m.subject || '').toLowerCase().includes(q) || (m.from.address || '').toLowerCase().includes(q)
+    ));
+  }
+
+  function formatBytes(n) {
+    if (!n) return '';
+    if (n < 1024) return n + ' B';
+    if (n < 1024 * 1024) return Math.round(n / 1024) + ' KB';
+    return (n / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
+  async function downloadAttachment(msgId, att) {
+    try {
+      const url = `${API}${att.downloadUrl}`;
+      const fileRes = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+      if (!fileRes.ok) throw new Error('Download failed');
+      const blob = await fileRes.blob();
+      const objUrl = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = objUrl; a.download = att.filename || 'attachment';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(objUrl), 4000);
+    } catch (e) {
+      UI.toast(e.message || 'Could not download attachment', true);
+    }
+  }
+
+  async function viewMessage(id) {
+    if (!token) return;
+    els['loader'].style.display = 'flex';
+    els['status-text'].innerText = 'Loading message...';
+    try {
+      const res = await fetch(`${API}/messages/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error('Failed to load message');
+      const msg = await res.json();
+
+      // mark as seen so the unread dot clears next refresh
+      fetch(`${API}/messages/${id}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/merge-patch+json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ seen: true })
+      }).catch(() => {});
+
+      els['email-list'].style.display = 'none';
+      els['inbox-search-wrap'].style.display = 'none';
+      els['email-content'].style.display = 'block';
+      els['email-subject'].innerText = msg.subject || 'No Subject';
+      els['email-sender'].innerText = `From: ${msg.from.address} | Date: ${new Date(msg.createdAt).toLocaleString()}`;
+
+      const attWrap = els['email-attachments'];
+      attWrap.innerHTML = '';
+      if (msg.attachments && msg.attachments.length) {
+        msg.attachments.forEach(att => {
+          const chip = document.createElement('div');
+          chip.className = 'attachment-chip';
+          chip.innerHTML = `<i class="ti ti-paperclip"></i><span class="fname">${UI.escapeHtml(att.filename || 'file')}</span><span class="fsize">${formatBytes(att.size)}</span>`;
+          chip.onclick = () => downloadAttachment(id, att);
+          attWrap.appendChild(chip);
+        });
+      }
+
+      const bodyEl = els['email-body'];
+      bodyEl.innerHTML = '';
+      const contentHtml = msg.html && msg.html.length ? msg.html[0]
+        : (msg.text ? `<pre style="white-space:pre-wrap;font-family:inherit;">${UI.escapeHtml(msg.text)}</pre>` : 'Empty message.');
+
+      if (msg.html && msg.html.length) {
+        const iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width:100%;min-height:300px;border:none;background:#fff;border-radius:8px;transition:height .3s ease;';
+        iframe.setAttribute('sandbox', 'allow-same-origin allow-popups');
+        bodyEl.appendChild(iframe);
+        const emailStyle = `
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <base target="_blank">
+          <style>
+            body { margin:0; padding:15px; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; background:#fff !important; color:#222 !important; zoom:min(1, calc(100vw / 650)); }
+            img { max-width:100%; height:auto; }
+          </style>`;
+        iframe.contentWindow.document.open();
+        iframe.contentWindow.document.write(emailStyle + contentHtml);
+        iframe.contentWindow.document.close();
+        const adjustHeight = () => {
+          try {
+            const h = iframe.contentWindow.document.documentElement.scrollHeight;
+            if (h > 50) iframe.style.height = h + 'px';
+          } catch (e) {}
+        };
+        iframe.onload = () => { adjustHeight(); setTimeout(adjustHeight, 1000); setTimeout(adjustHeight, 3000); };
+      } else {
+        bodyEl.innerHTML = contentHtml;
+      }
+    } catch (e) {
+      UI.toast('Failed to load message', true);
+    }
+    els['loader'].style.display = 'none';
+  }
+
+  function closeEmail() {
+    els['email-list'].style.display = 'flex';
+    els['email-content'].style.display = 'none';
+    if (messagesCache.length) els['inbox-search-wrap'].style.display = 'block';
+  }
+
+  function copyEmail() {
+    if (!account) { UI.toast('No email to copy!', true); return; }
+    UI.copyText(account, 'Email copied to clipboard!');
+  }
+
+  function copyOTP() {
+    const bodyEl = els['email-body'];
+    let text = '';
+    const iframe = bodyEl.querySelector('iframe');
+    if (iframe) { try { text = iframe.contentWindow.document.body.innerText; } catch (e) { text = ''; } }
+    else text = bodyEl.innerText;
+    if (!text.trim()) { UI.toast('No content to copy!', true); return; }
+    const fbMatch = text.match(/FB-\d{5,8}/i);
+    const digitMatch = text.match(/\b\d{4,8}\b/);
+    const code = fbMatch ? fbMatch[0] : (digitMatch ? digitMatch[0] : null);
+    if (code) UI.copyText(code, `Code ${code} copied!`);
+    else UI.copyText(text, 'Full message copied!');
+  }
+
+  function promptCustomUsername() {
+    const modal = document.getElementById('edit-modal');
+    const box = document.getElementById('edit-modal-content');
+    const input = document.getElementById('custom-prefix-input');
+    input.value = '';
+    UI.fadeInModal(modal, box);
+    setTimeout(() => input.focus(), 300);
+  }
+  function closeEditModal() {
+    UI.fadeOutModal(document.getElementById('edit-modal'), document.getElementById('edit-modal-content'), 'scale(0.92)');
+  }
+  function submitEditModal() {
+    const name = document.getElementById('custom-prefix-input').value.trim();
+    if (!name) { UI.toast('Prefix cannot be empty!', true); return; }
+    closeEditModal();
+    generateEmail(name);
+  }
+
+  function shareMailbox() {
+    if (!account || !token) { UI.toast('No mailbox active!', true); return; }
+    const shareData = btoa(account + '||' + token);
+    const shareUrl = `${window.location.origin}${window.location.pathname}#mail=${shareData}`;
+    UI.copyText(shareUrl, 'Share link copied to clipboard!');
+  }
+
+  async function loginToMailbox(address, tok) {
+    resetInboxState();
+    els['loader'].style.display = 'flex';
+    els['generate-btn'].disabled = true;
+    els['email-address'].value = 'Connecting...';
+    els['status-text'].innerText = 'Connecting to shared mailbox...';
+    try {
+      account = address; token = tok;
+      els['email-address'].value = address;
+      const res = await fetch(`${API}/messages?page=1`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) throw new Error('Shared link expired or invalid');
+      createdAt = Date.now();
+      els['loader'].style.display = 'none';
+      els['generate-btn'].disabled = false;
+      UI.toast('Connected to shared mailbox!');
+      saveSession(address, token, createdAt);
+      startPolling();
+    } catch (e) {
+      UI.toast(e.message, true);
+      setTimeout(() => generateEmail(), 1500);
+    }
+  }
+
+  function saveSession(address, tok, ts) {
+    const data = { address, token: tok, timestamp: ts || Date.now() };
+    localStorage.setItem('ffx_saved_mail', JSON.stringify(data));
+    let history = JSON.parse(localStorage.getItem('ffx_mail_history') || '[]');
+    history = history.filter(item => item.address !== address);
+    history.unshift(data);
+    if (history.length > 20) history.pop();
+    localStorage.setItem('ffx_mail_history', JSON.stringify(history));
+  }
+
+  async function restoreSessionData(data) {
+    resetInboxState();
+    account = data.address; token = data.token;
+    els['email-address'].value = data.address;
+    try {
+      const res = await fetch(`${API}/messages?page=1`, { headers: { Authorization: `Bearer ${token}` } });
+      if (!res.ok) { generateEmail(); return; }
+    } catch (e) {}
+    createdAt = data.timestamp || Date.now();
+    els['loader'].style.display = 'none';
+    els['generate-btn'].disabled = false;
+    UI.toast('Session restored!');
+    saveSession(account, token, createdAt);
+    startPolling();
+  }
+
+  function openHistoryModal() {
+    const modal = document.getElementById('history-modal');
+    const box = document.getElementById('history-modal-content');
+    const listEl = document.getElementById('history-list');
+    const history = JSON.parse(localStorage.getItem('ffx_mail_history') || '[]');
+    listEl.innerHTML = '';
+    if (!history.length) {
+      listEl.innerHTML = '<div class="empty-inbox">No history found.</div>';
+    } else {
+      history.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'hist-item' + (account === item.address ? ' active' : '');
+        div.onclick = (e) => {
+          if (e.target.closest('.hist-actions')) return;
+          closeHistoryModal();
+          if (account !== item.address) restoreSessionData(item);
+        };
+        const dateStr = new Date(item.timestamp).toLocaleString();
+        const customNameHTML = item.customName ? `<div class="hist-custom">${UI.escapeHtml(item.customName)}</div>` : '';
+        div.innerHTML = `
+          <div class="hist-item-row">
+            <div>
+              ${customNameHTML}
+              <div class="hist-addr">${UI.escapeHtml(item.address)}</div>
+              <div class="hist-date">Last used: ${dateStr}</div>
+            </div>
+            <div class="hist-actions">
+              <button class="edit-a" data-addr="${UI.escapeHtml(item.address)}"><i class="ti ti-pencil"></i></button>
+              <button class="del-a" data-addr="${UI.escapeHtml(item.address)}"><i class="ti ti-trash"></i></button>
+            </div>
+          </div>`;
+        div.querySelector('.edit-a').onclick = () => renameHistoryItem(item.address);
+        div.querySelector('.del-a').onclick = () => deleteHistoryItem(item.address);
+        listEl.appendChild(div);
+      });
+    }
+    UI.fadeInModal(modal, box);
+  }
+  function closeHistoryModal() {
+    UI.fadeOutModal(document.getElementById('history-modal'), document.getElementById('history-modal-content'), 'translateY(100%)');
+  }
+
+  function showConfirmModal(title, text, onOk) {
+    const m = document.getElementById('custom-confirm-modal');
+    const c = document.getElementById('custom-confirm-content');
+    document.getElementById('custom-confirm-title').innerText = title;
+    document.getElementById('custom-confirm-text').innerText = text;
+    document.getElementById('custom-confirm-ok').onclick = () => { closeConfirmModal(); onOk(); };
+    document.getElementById('custom-confirm-cancel').onclick = closeConfirmModal;
+    UI.fadeInModal(m, c);
+  }
+  function closeConfirmModal() { UI.fadeOutModal(document.getElementById('custom-confirm-modal'), document.getElementById('custom-confirm-content'), 'scale(0.92)'); }
+
+  function showPromptModal(title, defaultVal, onOk) {
+    const m = document.getElementById('custom-prompt-modal');
+    const c = document.getElementById('custom-prompt-content');
+    const input = document.getElementById('custom-prompt-input');
+    document.getElementById('custom-prompt-title').innerText = title;
+    input.value = defaultVal || '';
+    document.getElementById('custom-prompt-ok').onclick = () => { closePromptModal(); onOk(input.value); };
+    document.getElementById('custom-prompt-cancel').onclick = closePromptModal;
+    UI.fadeInModal(m, c);
+    setTimeout(() => input.focus(), 300);
+  }
+  function closePromptModal() { UI.fadeOutModal(document.getElementById('custom-prompt-modal'), document.getElementById('custom-prompt-content'), 'scale(0.92)'); }
+
+  function clearHistory() {
+    showConfirmModal('Clear history?', 'This removes every saved address from this device. This cannot be undone.', () => {
+      localStorage.removeItem('ffx_mail_history');
+      localStorage.removeItem('ffx_saved_mail');
+      openHistoryModal();
+      UI.toast('History cleared!');
+    });
+  }
+  function deleteHistoryItem(address) {
+    showConfirmModal('Delete email?', 'Remove this address from your history?', () => {
+      let history = JSON.parse(localStorage.getItem('ffx_mail_history') || '[]');
+      history = history.filter(item => item.address !== address);
+      localStorage.setItem('ffx_mail_history', JSON.stringify(history));
+      if (account === address) localStorage.removeItem('ffx_saved_mail');
+      openHistoryModal();
+      UI.toast('Email deleted!');
+    });
+  }
+  function renameHistoryItem(address) {
+    const history = JSON.parse(localStorage.getItem('ffx_mail_history') || '[]');
+    const item = history.find(i => i.address === address);
+    if (!item) return;
+    showPromptModal('Name this email', item.customName || '', (newName) => {
+      item.customName = newName.trim();
+      localStorage.setItem('ffx_mail_history', JSON.stringify(history));
+      const saved = JSON.parse(localStorage.getItem('ffx_saved_mail') || '{}');
+      if (saved.address === address) { saved.customName = item.customName; localStorage.setItem('ffx_saved_mail', JSON.stringify(saved)); }
+      openHistoryModal();
+      UI.toast('Name saved!');
+    });
+  }
+
+  // notification popup for new mail
+  let notifTimer = null;
+  function showEmailNotif(msg) {
+    document.getElementById('mnTitle').innerText = msg.subject || 'No Subject';
+    document.getElementById('mnSubText').innerText = `From: ${msg.from.address}`;
+    currentNotifMsgId = msg.id;
+    const notif = document.getElementById('musicNotif');
+    notif.classList.remove('hide');
+    notif.classList.add('show');
+    clearTimeout(notifTimer);
+    notifTimer = setTimeout(notifClose, 5000);
+  }
+  function openNotifMessage() { if (currentNotifMsgId) { viewMessage(currentNotifMsgId); notifClose(); } }
+  function notifClose() {
+    clearTimeout(notifTimer);
+    const notif = document.getElementById('musicNotif');
+    notif.classList.remove('show');
+    notif.classList.add('hide');
+  }
+  function initNotifSwipe() {
+    const notif = document.getElementById('musicNotif');
+    const inner = document.getElementById('mnInner');
+    let startY = 0;
+    inner.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, { passive: true });
+    inner.addEventListener('touchmove', e => {
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 20) { notif.style.transform = `translateY(${dy}px)`; notif.style.transition = 'none'; }
+    }, { passive: true });
+    inner.addEventListener('touchend', e => {
+      const dy = e.changedTouches[0].clientY - startY;
+      notif.style.transition = '';
+      if (dy > 60) notifClose(); else notif.style.transform = '';
+    });
+  }
+
+  function init() {
+    cacheEls();
+    initNotifSwipe();
+    autoRefreshOn = localStorage.getItem('ffx_auto_refresh') !== 'off';
+    els['autoRefreshInput'].checked = autoRefreshOn;
+
+    if (window.location.hash.startsWith('#mail=')) {
+      try {
+        const shareData = atob(window.location.hash.replace('#mail=', ''));
+        const parts = shareData.split('||');
+        if (parts.length === 2 && parts[0].includes('@')) { loginToMailbox(parts[0], parts[1]); return; }
+      } catch (e) {}
+    }
+    const saved = localStorage.getItem('ffx_saved_mail');
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        if (data.address && data.token) { setTimeout(() => restoreSessionData(data), 300); return; }
+      } catch (e) {}
+    }
+    setTimeout(() => generateEmail(), 800);
+  }
+
+  return {
+    init, generateEmail, copyEmail, copyOTP, closeEmail, shareMailbox,
+    promptCustomUsername, closeEditModal, submitEditModal,
+    openHistoryModal, closeHistoryModal, clearHistory, deleteHistoryItem, renameHistoryItem,
+    showEmailNotif, openNotifMessage, notifClose, filterInbox, toggleAutoRefresh
+  };
+})();
+
+UI.initPreloader();
+UI.initParticles();
+window.addEventListener('DOMContentLoaded', () => Mail.init());
+</script>
+</body>
+</html>
